@@ -1,4 +1,4 @@
-# Micro1 STEM AI Agent Research Portfolio
+# STEM AI Agent Research Portfolio
 
 ## Purpose
 
