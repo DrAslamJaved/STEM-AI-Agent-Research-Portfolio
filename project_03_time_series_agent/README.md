@@ -64,11 +64,17 @@ Completed:
 - reusable CSV data loader;
 - explicit date, hour, and target parsing;
 - construction of the canonical hourly timestamp;
-- automated loader error-handling tests.
+- automated loader error-handling tests;
+- structured time-series validation agent;
+- duplicate, missing, irregular, and disordered timestamp checks;
+- missing, negative, and zero target checks;
+- documented-closure consistency checks;
+- machine-readable JSON validation report;
+- human-readable Markdown validation report.
 
 Not yet completed:
 
-- structured validation-report generator;
+
 - preprocessing pipeline;
 - exploratory analysis;
 - forecasting models;
