@@ -77,3 +77,24 @@ deviation across folds.
 
 The number of folds won by each model according to MAE is also reported.
 This prevents model selection from relying only on one average value.
+
+## 12. Holt-Winters forecasting
+
+An additive Holt-Winters model is implemented using:
+
+- additive level;
+- additive damped trend;
+- additive daily seasonality;
+- seasonal period 24.
+
+Additive seasonality is used because the target contains documented zero
+values. Multiplicative seasonal models are not appropriate when observed
+values can equal zero.
+
+The model requires at least two complete seasonal cycles. Fitting
+produces residuals, SSE, AIC, BIC, residual mean, residual standard
+deviation, and lag-1 residual autocorrelation.
+
+The next-24-hour forecast is an unevaluated preview. Model comparison
+will use the same chronological and expanding-window design as the
+baseline evaluation.

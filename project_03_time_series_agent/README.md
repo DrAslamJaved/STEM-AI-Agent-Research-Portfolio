@@ -96,7 +96,12 @@ Completed:
 - non-overlapping weekly test periods;
 - fold-level and aggregate accuracy results;
 - performance-variability reporting;
-- fold-win counts and mean-MAE ranking.
+- fold-win counts and mean-MAE ranking;
+- additive Holt-Winters forecasting;
+- damped additive trend;
+- daily seasonal period of 24 hours;
+- residual and information-criterion diagnostics;
+- reproducible next-24-hour Holt-Winters preview.
 
 Not yet completed:
 
