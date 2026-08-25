@@ -31,3 +31,10 @@ class PreprocessingError(TimeSeriesAgentError):
 
 class ExplorationError(TimeSeriesAgentError):
     """Raised when exploratory time-series analysis cannot proceed."""
+
+class ForecastingError(TimeSeriesAgentError):
+    """Raised when a forecasting operation is invalid."""
+
+
+class ModelNotFittedError(ForecastingError):
+    """Raised when prediction is requested before model fitting."""

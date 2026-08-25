@@ -25,3 +25,23 @@ The canonical timestamp is constructed as:
 
 ```text
 timestamp = parsed Date + Hour
+
+## 9. Baseline forecasting models
+
+Four baseline models are implemented:
+
+1. training-mean forecast;
+2. last-value naïve forecast;
+3. daily seasonal-naïve forecast with period 24;
+4. weekly seasonal-naïve forecast with period 168.
+
+All models require a chronologically ordered, regularly spaced
+DatetimeIndex. They reject missing targets, temporal gaps, invalid
+horizons, and prediction before fitting.
+
+The baseline models are fitted using training observations only.
+The generated next-24-hour preview is not an accuracy evaluation because
+observed future values are unavailable.
+
+Formal comparison will use chronological holdout and expanding-window
+validation.

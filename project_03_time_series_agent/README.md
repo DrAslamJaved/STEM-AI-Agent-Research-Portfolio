@@ -81,14 +81,22 @@ Completed:
 - rolling-mean and rolling-variability analysis;
 - hourly demand profile;
 - ACF and PACF figures;
-- additive daily-seasonal decomposition.
+- additive daily-seasonal decomposition;
+- consistent baseline-model interface;
+- mean and last-value forecasts;
+- daily seasonal-naïve forecasting;
+- weekly seasonal-naïve forecasting;
+- validation of regular training timestamps;
+- reproducible next-24-hour forecast preview.
 
 Not yet completed:
 
 
 - forecasting models;
 - anomaly detection;
-- model recommendation
+- model recommendation;
+- chronological baseline evaluation;
+- expanding-window cross-validation;
 
 No forecasting models have yet been trained, and no forecast-accuracy
 results are currently reported.

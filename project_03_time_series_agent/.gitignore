@@ -49,3 +49,4 @@ reports/metrics/*
 # Track reproducible research figures and metric summaries
 !reports/figures/*.png
 !reports/metrics/*.json
+!reports/metrics/*.csv
