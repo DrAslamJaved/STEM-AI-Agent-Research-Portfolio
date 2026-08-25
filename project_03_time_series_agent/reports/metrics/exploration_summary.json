@@ -1,0 +1,20 @@
+{
+  "row_count": 8760,
+  "start_timestamp": "2017-12-01 00:00:00",
+  "end_timestamp": "2018-11-30 23:00:00",
+  "target_minimum": 0.0,
+  "target_maximum": 3556.0,
+  "target_mean": 704.6020547945205,
+  "target_median": 504.5,
+  "target_standard_deviation": 644.9974677392156,
+  "target_first_quartile": 191.0,
+  "target_third_quartile": 1065.25,
+  "zero_target_count": 295,
+  "autocorrelation_lag_1": 0.9034540281367919,
+  "autocorrelation_lag_24": 0.6818522197732932,
+  "autocorrelation_lag_168": 0.660724992220002,
+  "adf_statistic": -6.94697088797581,
+  "adf_p_value": 9.914782088249435e-10,
+  "adf_used_lags": 37,
+  "adf_observations": 8722
+}

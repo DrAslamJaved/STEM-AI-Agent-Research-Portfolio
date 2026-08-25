@@ -45,3 +45,7 @@ reports/metrics/*
 # Preserve report directories
 !reports/figures/.gitkeep
 !reports/metrics/.gitkeep
+
+# Track reproducible research figures and metric summaries
+!reports/figures/*.png
+!reports/metrics/*.json
