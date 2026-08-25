@@ -27,3 +27,7 @@ class DataParsingError(DataLoadError):
 
 class PreprocessingError(TimeSeriesAgentError):
     """Raised when time-series preprocessing cannot proceed safely."""
+
+
+class ExplorationError(TimeSeriesAgentError):
+    """Raised when exploratory time-series analysis cannot proceed."""

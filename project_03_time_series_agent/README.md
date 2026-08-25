@@ -74,12 +74,18 @@ Completed:
 - leakage-safe preprocessing module;
 - chronological sorting without row deletion;
 - structural-zero and closure preservation;
-- processed-data and preprocessing-summary generation.
+- processed-data and preprocessing-summary generation;
+- descriptive time-series statistics;
+- daily and weekly autocorrelation diagnostics;
+- Augmented Dickey–Fuller stationarity test;
+- rolling-mean and rolling-variability analysis;
+- hourly demand profile;
+- ACF and PACF figures;
+- additive daily-seasonal decomposition.
 
 Not yet completed:
 
 
-- exploratory analysis;
 - forecasting models;
 - anomaly detection;
 - model recommendation
