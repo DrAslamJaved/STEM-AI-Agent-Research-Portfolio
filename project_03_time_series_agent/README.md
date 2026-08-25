@@ -59,17 +59,21 @@ Completed:
 - dataset provenance and licence documentation;
 - raw-file integrity verification;
 - initial structural data audit;
-- automated dataset tests.
+- automated dataset tests;
+- reusable YAML data-configuration loader;
+- reusable CSV data loader;
+- explicit date, hour, and target parsing;
+- construction of the canonical hourly timestamp;
+- automated loader error-handling tests.
 
 Not yet completed:
 
-- reusable data-loading module;
 - structured validation-report generator;
 - preprocessing pipeline;
 - exploratory analysis;
 - forecasting models;
 - anomaly detection;
-- model recommendation.
+- model recommendation
 
 No forecasting models have yet been trained, and no forecast-accuracy
 results are currently reported.
