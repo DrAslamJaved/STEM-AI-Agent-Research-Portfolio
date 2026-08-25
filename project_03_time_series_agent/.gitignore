@@ -1,0 +1,47 @@
+# Python virtual environments
+.venv/
+venv/
+env/
+
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Package and build files
+build/
+dist/
+*.egg-info/
+
+# Testing and coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Jupyter temporary files
+.ipynb_checkpoints/
+
+# IDE and operating-system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Generated datasets
+data/interim/*
+data/processed/*
+
+# Preserve directory structure
+!data/interim/.gitkeep
+!data/processed/.gitkeep
+
+# Generated reports
+reports/figures/*
+reports/metrics/*
+
+# Preserve report directories
+!reports/figures/.gitkeep
+!reports/metrics/.gitkeep

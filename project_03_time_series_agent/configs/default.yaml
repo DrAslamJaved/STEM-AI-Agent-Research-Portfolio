@@ -1,0 +1,26 @@
+project:
+  name: "Project 03 — Time-Series Forecasting Agent"
+  random_seed: 42
+
+data:
+  file_path: "data/raw/time_series.csv"
+  timestamp_column: "timestamp"
+  target_column: "value"
+  frequency: null
+
+validation:
+  allow_duplicate_timestamps: false
+  allow_missing_target_values: false
+
+forecasting:
+  forecast_horizon: 12
+  seasonal_period: null
+
+anomaly_detection:
+  method: "mad"
+  threshold: 3.5
+
+output:
+  validation_directory: "reports/validation"
+  figures_directory: "reports/figures"
+  metrics_directory: "reports/metrics"

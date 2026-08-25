@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="0" skipped="0" tests="1" time="0.035" timestamp="2026-08-25T21:23:41.843992+05:00" hostname="UCP-FOST-MAS"><testcase classname="tests.test_package" name="test_package_has_expected_version" time="0.001" /></testsuite></testsuites>
