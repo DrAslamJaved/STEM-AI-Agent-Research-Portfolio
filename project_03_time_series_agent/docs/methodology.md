@@ -61,3 +61,19 @@ Ordinary MAPE is not reported because the target includes zero values.
 
 Results from this single holdout are provisional. Expanding-window
 validation is required before making a model recommendation.
+
+## 11. Expanding-window validation
+
+Baseline models are evaluated across 12 consecutive weekly test folds.
+
+The first fold uses 6,744 training observations and 168 future test
+observations. After every fold, the training window expands by 168
+observations. Test observations always occur strictly after training
+observations.
+
+MAE, RMSE, sMAPE, and MASE are calculated separately for every
+model-fold pair. Results are summarized using the mean and standard
+deviation across folds.
+
+The number of folds won by each model according to MAE is also reported.
+This prevents model selection from relying only on one average value.

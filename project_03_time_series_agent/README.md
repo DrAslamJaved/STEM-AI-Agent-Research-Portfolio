@@ -91,7 +91,12 @@ Completed:
 - one-week chronological holdout evaluation;
 - MAE, RMSE, sMAPE, and MASE implementation;
 - leakage-safe MASE scaling from training data;
-- baseline holdout comparison figure.
+- baseline holdout comparison figure;
+- 12-fold expanding-window validation;
+- non-overlapping weekly test periods;
+- fold-level and aggregate accuracy results;
+- performance-variability reporting;
+- fold-win counts and mean-MAE ranking.
 
 Not yet completed:
 
@@ -99,9 +104,7 @@ Not yet completed:
 - forecasting models;
 - anomaly detection;
 - model recommendation;
-- chronological baseline evaluation;
-- expanding-window cross-validation;
-- final baseline recommendation.
+- chronological baseline evaluation.
 
 No forecasting models have yet been trained, and no forecast-accuracy
 results are currently reported.

@@ -330,3 +330,306 @@ def create_holdout_comparison_plot(
         bbox_inches="tight",
     )
     plt.close(figure)
+
+def expanding_window_splits(
+    series: pd.Series,
+    initial_train_size: int,
+    horizon: int,
+    step: int,
+) -> tuple[tuple[int, pd.Series, pd.Series], ...]:
+    """Create non-random expanding-window temporal splits."""
+    validated = _validate_evaluation_series(series)
+
+    parameters = {
+        "initial_train_size": initial_train_size,
+        "horizon": horizon,
+        "step": step,
+    }
+
+    for parameter_name, value in parameters.items():
+        if (
+            not isinstance(value, int)
+            or isinstance(value, bool)
+            or value <= 0
+        ):
+            raise EvaluationError(
+                f"'{parameter_name}' must be a positive integer."
+            )
+
+    if initial_train_size + horizon > len(validated):
+        raise EvaluationError(
+            "Initial training size plus horizon exceeds "
+            "the available series length."
+        )
+
+    splits: list[tuple[int, pd.Series, pd.Series]] = []
+    fold_number = 1
+    training_end = initial_train_size
+
+    while training_end + horizon <= len(validated):
+        training = validated.iloc[:training_end].copy()
+        test = validated.iloc[
+            training_end:training_end + horizon
+        ].copy()
+
+        if training.index.max() >= test.index.min():
+            raise EvaluationError(
+                "Expanding-window split contains temporal leakage."
+            )
+
+        splits.append(
+            (
+                fold_number,
+                training,
+                test,
+            )
+        )
+
+        fold_number += 1
+        training_end += step
+
+    return tuple(splits)
+
+
+def evaluate_models_expanding_window(
+    series: pd.Series,
+    model_factories: Mapping[str, ModelFactory],
+    initial_train_size: int,
+    horizon: int,
+    step: int,
+    mase_period: int,
+) -> pd.DataFrame:
+    """Evaluate models across multiple expanding temporal windows."""
+    if not model_factories:
+        raise EvaluationError(
+            "At least one model factory is required."
+        )
+
+    splits = expanding_window_splits(
+        series=series,
+        initial_train_size=initial_train_size,
+        horizon=horizon,
+        step=step,
+    )
+
+    result_rows: list[dict[str, Any]] = []
+
+    for fold_number, training, test in splits:
+        for model_name, factory in model_factories.items():
+            model = factory()
+            forecast = model.fit(training).predict(horizon)
+
+            metrics = compute_forecast_metrics(
+                actual=test,
+                forecast=forecast,
+                training_series=training,
+                mase_period=mase_period,
+            )
+
+            result_rows.append(
+                {
+                    "fold": fold_number,
+                    "model": model_name,
+                    "training_start": str(
+                        training.index.min()
+                    ),
+                    "training_end": str(
+                        training.index.max()
+                    ),
+                    "test_start": str(test.index.min()),
+                    "test_end": str(test.index.max()),
+                    "training_rows": len(training),
+                    "test_rows": len(test),
+                    **metrics.to_dict(),
+                }
+            )
+
+    return pd.DataFrame(result_rows)
+
+
+def summarize_expanding_window_results(
+    fold_results: pd.DataFrame,
+) -> pd.DataFrame:
+    """Aggregate accuracy and variability across folds."""
+    required_columns = {
+        "fold",
+        "model",
+        "mae",
+        "rmse",
+        "smape",
+        "mase",
+    }
+    missing_columns = required_columns.difference(
+        fold_results.columns
+    )
+
+    if missing_columns:
+        missing_text = ", ".join(sorted(missing_columns))
+        raise EvaluationError(
+            f"Cross-validation results are missing: {missing_text}"
+        )
+
+    if fold_results.empty:
+        raise EvaluationError(
+            "Cross-validation results must not be empty."
+        )
+
+    summary = (
+        fold_results.groupby("model", as_index=False)
+        .agg(
+            folds=("fold", "nunique"),
+            mean_mae=("mae", "mean"),
+            std_mae=("mae", "std"),
+            mean_rmse=("rmse", "mean"),
+            std_rmse=("rmse", "std"),
+            mean_smape=("smape", "mean"),
+            std_smape=("smape", "std"),
+            mean_mase=("mase", "mean"),
+            std_mase=("mase", "std"),
+        )
+    )
+
+    standard_deviation_columns = [
+        "std_mae",
+        "std_rmse",
+        "std_smape",
+        "std_mase",
+    ]
+    summary[standard_deviation_columns] = summary[
+        standard_deviation_columns
+    ].fillna(0.0)
+
+    winning_rows = fold_results.loc[
+        fold_results.groupby("fold")["mae"].idxmin()
+    ]
+    fold_wins = winning_rows.groupby("model").size()
+
+    summary["mae_fold_wins"] = (
+        summary["model"]
+        .map(fold_wins)
+        .fillna(0)
+        .astype(int)
+    )
+
+    summary["mae_rank"] = (
+        summary["mean_mae"]
+        .rank(method="min", ascending=True)
+        .astype(int)
+    )
+
+    return summary.sort_values(
+        by=["mae_rank", "mean_rmse"],
+        ascending=True,
+    ).reset_index(drop=True)
+
+
+def save_expanding_window_results(
+    fold_results: pd.DataFrame,
+    summary: pd.DataFrame,
+    fold_results_path: str | Path,
+    summary_path: str | Path,
+) -> None:
+    """Save fold-level and aggregate cross-validation results."""
+    fold_output = Path(fold_results_path)
+    summary_output = Path(summary_path)
+
+    fold_output.parent.mkdir(parents=True, exist_ok=True)
+    summary_output.parent.mkdir(parents=True, exist_ok=True)
+
+    fold_results.to_csv(
+        fold_output,
+        index=False,
+        encoding="utf-8",
+    )
+    summary.to_csv(
+        summary_output,
+        index=False,
+        encoding="utf-8",
+    )
+
+
+def create_expanding_window_plots(
+    fold_results: pd.DataFrame,
+    summary: pd.DataFrame,
+    output_directory: str | Path,
+) -> tuple[Path, Path]:
+    """Create fold-level and aggregate MAE comparison plots."""
+    output_path = Path(output_directory)
+    output_path.mkdir(parents=True, exist_ok=True)
+
+    fold_figure_path = (
+        output_path / "07_expanding_window_mae_by_fold.png"
+    )
+    summary_figure_path = (
+        output_path / "08_expanding_window_mean_mae.png"
+    )
+
+    figure, axis = plt.subplots(figsize=(13, 6))
+
+    for model_name, model_results in fold_results.groupby(
+        "model"
+    ):
+        ordered = model_results.sort_values("fold")
+
+        axis.plot(
+            ordered["fold"],
+            ordered["mae"],
+            marker="o",
+            linewidth=1.5,
+            markersize=4,
+            label=model_name,
+        )
+
+    axis.set_title("Baseline MAE across expanding weekly folds")
+    axis.set_xlabel("Fold")
+    axis.set_ylabel("Mean absolute error")
+    axis.set_xticks(
+        sorted(fold_results["fold"].unique())
+    )
+    axis.legend(ncol=2)
+    axis.grid(alpha=0.25)
+
+    figure.tight_layout()
+    figure.savefig(
+        fold_figure_path,
+        dpi=160,
+        bbox_inches="tight",
+    )
+    plt.close(figure)
+
+    ordered_summary = summary.sort_values(
+        "mean_mae",
+        ascending=True,
+    )
+
+    figure, axis = plt.subplots(figsize=(11, 6))
+    axis.bar(
+        ordered_summary["model"],
+        ordered_summary["mean_mae"],
+        yerr=ordered_summary["std_mae"],
+        capsize=5,
+        color="#2A9D8F",
+    )
+    axis.set_title(
+        "Mean baseline MAE across expanding weekly folds"
+    )
+    axis.set_xlabel("Model")
+    axis.set_ylabel("Mean absolute error")
+    axis.tick_params(
+        axis="x",
+        rotation=20,
+    )
+    axis.grid(
+        axis="y",
+        alpha=0.25,
+    )
+
+    figure.tight_layout()
+    figure.savefig(
+        summary_figure_path,
+        dpi=160,
+        bbox_inches="tight",
+    )
+    plt.close(figure)
+
+    return fold_figure_path, summary_figure_path
