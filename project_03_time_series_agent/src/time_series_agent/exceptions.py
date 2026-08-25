@@ -23,3 +23,7 @@ class MissingColumnsError(DataLoadError):
 
 class DataParsingError(DataLoadError):
     """Raised when dates, hours, or target values cannot be parsed."""
+
+
+class PreprocessingError(TimeSeriesAgentError):
+    """Raised when time-series preprocessing cannot proceed safely."""

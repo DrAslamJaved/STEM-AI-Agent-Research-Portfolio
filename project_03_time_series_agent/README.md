@@ -70,12 +70,15 @@ Completed:
 - missing, negative, and zero target checks;
 - documented-closure consistency checks;
 - machine-readable JSON validation report;
-- human-readable Markdown validation report.
+- human-readable Markdown validation report;
+- leakage-safe preprocessing module;
+- chronological sorting without row deletion;
+- structural-zero and closure preservation;
+- processed-data and preprocessing-summary generation.
 
 Not yet completed:
 
 
-- preprocessing pipeline;
 - exploratory analysis;
 - forecasting models;
 - anomaly detection;

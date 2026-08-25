@@ -4,6 +4,7 @@ project:
 
 data:
   raw_file_path: "data/raw/SeoulBikeData.csv"
+  processed_file_path: "data/processed/seoul_bike_hourly.csv"
   encoding: "latin-1"
   date_column: "Date"
   hour_column: "Hour"

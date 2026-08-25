@@ -20,6 +20,9 @@ def test_load_actual_data_config() -> None:
     assert config.raw_file_path == Path(
         "data/raw/SeoulBikeData.csv"
     )
+    assert config.processed_file_path == Path(
+        "data/processed/seoul_bike_hourly.csv"
+    )
     assert config.encoding == "latin-1"
     assert config.date_column == "Date"
     assert config.hour_column == "Hour"

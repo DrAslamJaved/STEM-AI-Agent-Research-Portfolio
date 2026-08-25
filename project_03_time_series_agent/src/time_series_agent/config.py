@@ -22,6 +22,7 @@ class DataConfig:
     date_format: str
     expected_frequency: str | None = None
     expected_rows: int | None = None
+    processed_file_path: Path | None = None
 
 
 REQUIRED_DATA_KEYS = {
@@ -63,6 +64,11 @@ def _build_data_config(values: Mapping[str, Any]) -> DataConfig:
         date_format=str(values["date_format"]),
         expected_frequency=values.get("expected_frequency"),
         expected_rows=expected_rows,
+        processed_file_path=(
+            Path(str(values["processed_file_path"]))
+            if values.get("processed_file_path") is not None
+            else None
+        ),
     )
 
 

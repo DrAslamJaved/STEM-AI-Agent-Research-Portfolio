@@ -1,0 +1,13 @@
+{
+  "validation_status": "valid",
+  "input_rows": 8760,
+  "output_rows": 8760,
+  "row_count_preserved": true,
+  "timestamps_were_sorted": true,
+  "timestamps_sorted_after_processing": true,
+  "closure_indicator_column": "is_known_closure",
+  "known_closure_count": 295,
+  "zero_target_count": 295,
+  "missing_target_count": 0,
+  "duplicate_timestamp_count": 0
+}
