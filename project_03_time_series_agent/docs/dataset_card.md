@@ -2,75 +2,153 @@
 
 ## Dataset identification
 
-- **Dataset name:** To be selected
-- **Source organization:** To be determined
-- **Source URL:** To be determined
-- **Licence:** To be verified
-- **Date accessed:** To be recorded
-- **Local raw-data path:** `data/raw/`
+- **Dataset name:** Seoul Bike Sharing Demand
+- **Repository:** UCI Machine Learning Repository
+- **UCI dataset identifier:** 560
+- **Source URL:** https://archive.ics.uci.edu/dataset/560/seoul%2Bbike%2Bsharing%2Bdemand
+- **DOI:** https://doi.org/10.24432/C5F62R
+- **Licence:** Creative Commons Attribution 4.0 International
+- **Date accessed:** 25 August 2026
+- **Local raw-data path:** `data/raw/SeoulBikeData.csv`
+- **File size:** 604,166 bytes
+- **File encoding:** Latin-1
+- **SHA-256:** `373339B71A8935D69E9AF0ABF26A70744632119862EEB3919EFB389A7B749C60`
 
 ## Intended use
 
-The dataset will be used to evaluate time-series forecasting,
-time-aware model validation, and residual-based anomaly detection.
+The dataset will be used to develop and evaluate a reproducible
+time-series forecasting and residual-based anomaly-detection agent.
+
+The principal forecasting target is the hourly number of rented bicycles.
 
 ## Unit of observation
 
-To be determined after dataset selection.
+Each row represents one hour in the Seoul Bike Sharing System.
 
 ## Time information
 
-- **Timestamp column:** To be determined
-- **Start date:** To be determined
-- **End date:** To be determined
-- **Nominal frequency:** To be determined
-- **Number of observations:** To be determined
-- **Timezone:** To be determined, if relevant
+- **Raw date column:** `Date`
+- **Raw hour column:** `Hour`
+- **Constructed timestamp column:** `timestamp`
+- **Date format:** `DD/MM/YYYY`
+- **First timestamp:** `2017-12-01 00:00:00`
+- **Last timestamp:** `2018-11-30 23:00:00`
+- **Nominal frequency:** Hourly
+- **Observed rows:** 8,760
+- **Expected hourly timestamps:** 8,760
+- **Missing hourly timestamps:** 0
+- **Duplicate timestamps:** 0
+- **Timezone:** Not specified in the source documentation
+
+The modelling timestamp will be constructed by combining `Date` and
+`Hour`.
 
 ## Target variable
 
-- **Target column:** To be determined
-- **Definition:** To be determined
-- **Unit of measurement:** To be determined
-- **Expected range:** To be investigated
+- **Column:** `Rented Bike Count`
+- **Definition:** Number of bicycles rented during the hour
+- **Type:** Nonnegative integer count
+- **Minimum:** 0
+- **Maximum:** 3,556
+- **Mean:** 704.602
+- **Median:** 504.500
+- **Missing values:** 0
+- **Negative values:** 0
+- **Zero values:** 295
+
+All 295 zero target values occur when `Functioning Day` is `No`.
+Consequently, these values are interpreted as documented service-closure
+or nonfunctioning periods rather than ordinary missing observations.
+
+They will not automatically be labelled as anomalies.
 
 ## Additional variables
 
-To be documented after inspecting the dataset.
+| Variable | Description |
+|---|---|
+| `Temperature(°C)` | Hourly air temperature |
+| `Humidity(%)` | Relative humidity |
+| `Wind speed (m/s)` | Wind speed |
+| `Visibility (10m)` | Visibility measurement |
+| `Dew point temperature(°C)` | Dew-point temperature |
+| `Solar Radiation (MJ/m2)` | Solar-radiation measurement |
+| `Rainfall(mm)` | Rainfall |
+| `Snowfall (cm)` | Snowfall |
+| `Seasons` | Winter, Spring, Summer, or Autumn |
+| `Holiday` | Holiday indicator |
+| `Functioning Day` | Whether the bike system was functioning |
 
-## Data-quality assessment
+## Data-quality audit
 
-The following checks will be performed:
+The initial audit found:
 
-- timestamp parsing;
-- chronological ordering;
-- duplicate timestamps;
-- missing timestamps;
-- missing target values;
-- nonnumeric target values;
-- irregular frequency;
-- extreme observations;
-- implausible values.
+- 8,760 rows and 14 columns;
+- no missing cells;
+- no duplicate complete rows;
+- no invalid dates;
+- no invalid or out-of-range hours;
+- no duplicate timestamps;
+- no missing hourly timestamps;
+- no invalid or negative target values;
+- complete chronological ordering;
+- an exact hourly interval throughout the dataset.
 
-## Preprocessing
+The audit evidence is stored in:
 
-No preprocessing decisions have yet been made. All transformations will
-be documented after the raw data has been inspected.
+`reports/validation/phase_02_raw_data_audit.txt`
+
+## Preprocessing decisions
+
+No observations have been deleted or imputed.
+
+Planned preprocessing includes:
+
+1. parsing `Date` using the explicit `%d/%m/%Y` format;
+2. validating that `Hour` lies between 0 and 23;
+3. combining `Date` and `Hour` into `timestamp`;
+4. sorting chronologically;
+5. preserving the original raw file unchanged;
+6. distinguishing known nonfunctioning periods from unexplained
+   anomalous observations.
+
+Preprocessing parameters will be fitted using training data only where
+the operation can produce temporal leakage.
 
 ## Licence and attribution
 
-The dataset licence and attribution requirements must be verified before
-the dataset is included in the repository or distributed.
+The dataset is distributed through the UCI Machine Learning Repository
+under the Creative Commons Attribution 4.0 International licence.
+
+Suggested dataset citation:
+
+> Seoul Bike Sharing Demand. (2020). UCI Machine Learning Repository.
+> https://doi.org/10.24432/C5F62R
+
+The dataset may be shared and adapted provided appropriate attribution
+is supplied.
 
 ## Ethical and privacy considerations
 
-Potential privacy, consent, ownership, representation, and misuse issues
-will be assessed after dataset selection.
+The dataset contains aggregated hourly bicycle-rental counts and
+weather-related variables. The supplied file does not contain direct
+personal identifiers.
+
+Results should not be interpreted as individual-level travel behaviour.
 
 ## Known limitations
 
-To be completed after dataset inspection.
+- The observations cover one city.
+- The observations cover approximately one year.
+- The source does not specify a timezone in its repository description.
+- Rental counts measure completed rentals, not unconstrained demand.
+- Availability of bicycles may limit observed counts.
+- Service-closure periods generate structural zero values.
+- Historical relationships may not generalize to other cities or years.
+- Unrecorded public events may influence unusually high or low demand.
+- A large forecast residual is not automatically a confirmed real-world
+  anomaly.
 
 ## Current status
 
-This is a template. No dataset has yet been selected or validated.
+Dataset acquisition and initial structural validation are complete.
+Forecasting models have not yet been trained.

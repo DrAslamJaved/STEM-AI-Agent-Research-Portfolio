@@ -28,24 +28,51 @@ The full research question is documented in
 
 ## Current status
 
+## Dataset
+
+This project uses the Seoul Bike Sharing Demand dataset from the
+UCI Machine Learning Repository.
+
+The dataset contains 8,760 consecutive hourly observations from
+1 December 2017 through 30 November 2018. The forecasting target is
+`Rented Bike Count`.
+
+The raw data contains:
+
+- no missing cells;
+- no duplicate timestamps;
+- no missing hourly timestamps;
+- no negative target values;
+- 295 documented service-closure observations with zero rentals.
+
+See [`docs/dataset_card.md`](docs/dataset_card.md) for provenance,
+licensing, integrity information, variables, and limitations.
+
+## Current status
+
 Completed:
 
-- initial repository structure;
+- reproducible repository foundation;
 - Python package configuration;
-- research-question document;
-- dataset-card template;
-- initial package test.
+- research-question documentation;
+- dataset selection and acquisition;
+- dataset provenance and licence documentation;
+- raw-file integrity verification;
+- initial structural data audit;
+- automated dataset tests.
 
 Not yet completed:
 
-- dataset selection;
-- data loading and validation;
+- reusable data-loading module;
+- structured validation-report generator;
+- preprocessing pipeline;
 - exploratory analysis;
 - forecasting models;
 - anomaly detection;
 - model recommendation.
 
-No empirical results are currently reported.
+No forecasting models have yet been trained, and no forecast-accuracy
+results are currently reported.
 
 ## Repository structure
 

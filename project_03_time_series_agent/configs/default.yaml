@@ -3,22 +3,35 @@ project:
   random_seed: 42
 
 data:
-  file_path: "data/raw/time_series.csv"
+  raw_file_path: "data/raw/SeoulBikeData.csv"
+  encoding: "latin-1"
+  date_column: "Date"
+  hour_column: "Hour"
   timestamp_column: "timestamp"
-  target_column: "value"
-  frequency: null
+  target_column: "Rented Bike Count"
+  date_format: "%d/%m/%Y"
+  expected_frequency: "h"
+  expected_rows: 8760
 
 validation:
+  required_columns:
+    - "Date"
+    - "Hour"
+    - "Rented Bike Count"
   allow_duplicate_timestamps: false
   allow_missing_target_values: false
+  minimum_target_value: 0
 
 forecasting:
-  forecast_horizon: 12
-  seasonal_period: null
+  forecast_horizon: 24
+  primary_seasonal_period: 24
+  secondary_seasonal_period: 168
 
 anomaly_detection:
   method: "mad"
   threshold: 3.5
+  known_closure_column: "Functioning Day"
+  known_closure_value: "No"
 
 output:
   validation_directory: "reports/validation"
