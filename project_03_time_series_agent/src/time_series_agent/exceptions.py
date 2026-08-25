@@ -38,3 +38,6 @@ class ForecastingError(TimeSeriesAgentError):
 
 class ModelNotFittedError(ForecastingError):
     """Raised when prediction is requested before model fitting."""
+
+class EvaluationError(TimeSeriesAgentError):
+    """Raised when forecast evaluation cannot proceed safely."""

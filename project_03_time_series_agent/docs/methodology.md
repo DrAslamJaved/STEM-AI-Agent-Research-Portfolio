@@ -45,3 +45,19 @@ observed future values are unavailable.
 
 Formal comparison will use chronological holdout and expanding-window
 validation.
+
+## 10. Chronological holdout evaluation
+
+The final 168 hourly observations are reserved as a one-week test set.
+All preceding observations form the training set.
+
+Four baselines are fitted using training data only. Forecast accuracy is
+measured using MAE, RMSE, sMAPE, and MASE.
+
+The MASE denominator is calculated exclusively from training data using
+a daily seasonal period of 24 hours.
+
+Ordinary MAPE is not reported because the target includes zero values.
+
+Results from this single holdout are provisional. Expanding-window
+validation is required before making a model recommendation.

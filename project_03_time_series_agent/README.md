@@ -87,7 +87,11 @@ Completed:
 - daily seasonal-naïve forecasting;
 - weekly seasonal-naïve forecasting;
 - validation of regular training timestamps;
-- reproducible next-24-hour forecast preview.
+- reproducible next-24-hour forecast preview;
+- one-week chronological holdout evaluation;
+- MAE, RMSE, sMAPE, and MASE implementation;
+- leakage-safe MASE scaling from training data;
+- baseline holdout comparison figure.
 
 Not yet completed:
 
@@ -97,6 +101,7 @@ Not yet completed:
 - model recommendation;
 - chronological baseline evaluation;
 - expanding-window cross-validation;
+- final baseline recommendation.
 
 No forecasting models have yet been trained, and no forecast-accuracy
 results are currently reported.
