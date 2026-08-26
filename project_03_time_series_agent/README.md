@@ -144,7 +144,17 @@ Completed:
 - ranked contextual anomaly evidence;
 - anomaly timeline and threshold figures;
 - daily anomaly-count visualization;
-- reproducible human-readable anomaly report.
+- reproducible human-readable anomaly report;
+- transparent evidence-based model recommendation policy;
+- minimum MAE-improvement decision gate;
+- nondegradation RMSE decision gate;
+- equal-fold comparability requirement;
+- automatic preferred-model and fallback-model selection;
+- model-complexity and raw-negative forecast reporting;
+- explicit model-selection cautions;
+- machine-readable model-recommendation JSON;
+- human-readable model-recommendation report;
+- operational forecasting and fallback policy.
 
 Not yet completed:
 
@@ -230,6 +240,45 @@ a recursive forecast-floor and model-recovery failure.
 These findings distinguish unusual observed demand from unusual
 forecasting behavior. They are candidate alerts requiring contextual or
 domain review because the dataset contains no verified anomaly labels.
+
+## Model recommendation
+
+The recommendation agent uses a transparent operational policy rather
+than selecting a model from rank alone.
+
+Recursive Gradient Boosting can replace the weekly seasonal-naive
+benchmark only when:
+
+1. its mean-MAE improvement is at least 2%;
+2. its mean RMSE is no worse than the benchmark;
+3. both models were evaluated over the same chronological folds.
+
+All three checks passed:
+
+| Decision check | Required | Observed | Result |
+|---|---:|---:|---|
+| Mean-MAE improvement | At least 2.00% | 3.77% | Pass |
+| Mean-RMSE degradation | None | 11.95% improvement | Pass |
+| Comparable validation | Same folds | 12 folds each | Pass |
+
+The agent therefore recommends:
+
+- preferred model: `gradient_boosting_recursive`;
+- fallback model: `seasonal_naive_168`;
+- decision status: `candidate_selected`.
+
+The preferred model has high implementation complexity, while the
+fallback has low complexity.
+
+The recommendation records three cautions:
+
+- Gradient Boosting has slightly greater fold-to-fold MAE variability;
+- it wins fewer individual folds than the weekly benchmark;
+- 9.87% of its raw predictions are negative before clipping.
+
+The weekly seasonal-naive model remains the operational fallback because
+it is simple, stable, naturally nonnegative, and does not suffer from
+recursive forecast-floor failures.
 
 
 ## Repository structure

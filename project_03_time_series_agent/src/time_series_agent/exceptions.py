@@ -51,3 +51,7 @@ class FeatureEngineeringError(TimeSeriesAgentError):
 
 class AnomalyDetectionError(TimeSeriesAgentError):
     """Raised when residual anomaly detection cannot proceed safely."""
+
+
+class RecommendationError(TimeSeriesAgentError):
+    """Raised when model recommendation cannot proceed safely."""

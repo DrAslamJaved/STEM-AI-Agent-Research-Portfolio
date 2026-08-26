@@ -1,0 +1,34 @@
+{
+  "selected_model": "gradient_boosting_recursive",
+  "fallback_model": "seasonal_naive_168",
+  "benchmark_model": "seasonal_naive_168",
+  "best_accuracy_candidate": "gradient_boosting_recursive",
+  "selection_status": "candidate_selected",
+  "primary_metric": "mean_mae",
+  "minimum_required_mae_improvement_percentage": 2.0,
+  "observed_mae_improvement_percentage": 3.7666052146774023,
+  "observed_rmse_improvement_percentage": 11.95415867620249,
+  "candidate_mean_mae": 404.7196615512687,
+  "benchmark_mean_mae": 420.5605158730159,
+  "candidate_mean_rmse": 544.5428220722847,
+  "benchmark_mean_rmse": 618.4764821198917,
+  "candidate_mae_standard_deviation": 230.6125598524787,
+  "benchmark_mae_standard_deviation": 223.2360302227413,
+  "candidate_fold_wins": 3,
+  "benchmark_fold_wins": 4,
+  "candidate_total_raw_negative_forecasts": 199,
+  "candidate_raw_negative_rate_percentage": 9.871031746031745,
+  "decision_checks": {
+    "candidate_meets_mae_improvement_rule": true,
+    "candidate_meets_rmse_rule": true,
+    "candidate_evaluated_on_same_folds": true
+  },
+  "selected_model_complexity": "high",
+  "fallback_model_complexity": "low",
+  "warnings": [
+    "The best-MAE candidate has greater fold-to-fold MAE variability than the benchmark.",
+    "The best-MAE candidate wins fewer folds than the benchmark.",
+    "The best-MAE candidate produces raw negative count forecasts and requires nonnegative clipping."
+  ],
+  "reason": "gradient_boosting_recursive improves mean MAE by 3.77% and does not worsen mean RMSE relative to the benchmark."
+}

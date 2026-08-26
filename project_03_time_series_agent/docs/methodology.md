@@ -472,3 +472,94 @@ Because the dataset contains no externally verified anomaly labels,
 precision, recall, and F1 score cannot be estimated. All detected
 episodes must therefore be interpreted as candidates requiring
 contextual or domain review.
+
+
+## 20. Evidence-based model recommendation
+
+The model-recommendation agent converts evaluation evidence into a
+transparent operational decision.
+
+The weekly seasonal-naive model with period 168 is the benchmark. It is
+used because it was the strongest baseline across the expanding-window
+evaluation and provides a simple, naturally nonnegative forecast.
+
+Mean MAE is the primary selection metric. A more complex model replaces
+the benchmark only when all of the following conditions hold:
+
+1. the candidate has the lowest mean MAE;
+2. its relative mean-MAE improvement is at least 2%;
+3. its mean RMSE is no worse than the benchmark;
+4. candidate and benchmark were evaluated on the same number of folds.
+
+The relative MAE improvement is:
+
+\[
+I_{\mathrm{MAE}}
+=
+100
+\frac{
+\operatorname{MAE}_{\mathrm{benchmark}}
+-
+\operatorname{MAE}_{\mathrm{candidate}}
+}{
+\operatorname{MAE}_{\mathrm{benchmark}}
+}.
+\]
+
+For recursive Gradient Boosting:
+
+\[
+I_{\mathrm{MAE}}
+=
+3.77\%.
+\]
+
+The relative RMSE improvement is:
+
+\[
+I_{\mathrm{RMSE}}
+=
+100
+\frac{
+\operatorname{RMSE}_{\mathrm{benchmark}}
+-
+\operatorname{RMSE}_{\mathrm{candidate}}
+}{
+\operatorname{RMSE}_{\mathrm{benchmark}}
+}
+=
+11.95\%.
+\]
+
+Both improvements are calculated from the same 12 expanding weekly
+folds and 2,016 out-of-sample predictions per model.
+
+Recursive Gradient Boosting passes all selection gates and is chosen as
+the preferred forecasting model. Weekly seasonal naive is retained as
+the fallback.
+
+The recommendation agent also records evidence that does not reverse
+the decision but remains operationally important:
+
+- candidate MAE standard deviation: 230.61;
+- benchmark MAE standard deviation: 223.24;
+- candidate MAE fold wins: 3;
+- benchmark MAE fold wins: 4;
+- raw negative candidate forecasts: 199;
+- raw negative candidate forecast rate: 9.87%;
+- candidate complexity: high;
+- fallback complexity: low.
+
+The operational policy is:
+
+1. use recursive Gradient Boosting for preferred forecasts;
+2. constrain and report negative count forecasts;
+3. monitor raw-negative and forecast-floor behavior;
+4. use weekly seasonal naive if the preferred model fails to fit,
+   predict, or satisfy diagnostics;
+5. keep documented closures separate from unexpected alerts;
+6. treat detected anomalies as candidates requiring contextual review.
+
+The 2% improvement requirement is an explicit project policy. It is not
+presented as a universal statistical threshold. No formal paired-error
+significance test is used in the present project.
