@@ -9,6 +9,11 @@ from time_series_agent.anomalies import (
     save_anomaly_results,
 )
 
+from time_series_agent.anomalies import (
+    detect_residual_anomalies,
+    save_anomaly_results,
+    select_top_anomaly_candidates,
+)
 
 RESIDUAL_PATH = (
     "reports/metrics/"
@@ -52,8 +57,11 @@ def main() -> None:
     )
 
     top_anomalies = (
-        labeled.loc[
-            labeled["is_actionable_anomaly"],
+        select_top_anomaly_candidates(
+            labeled_anomalies=labeled,
+            limit=10,
+        )
+        [
             [
                 "timestamp",
                 "actual",
@@ -62,13 +70,8 @@ def main() -> None:
                 "modified_z_score",
                 "anomaly_type",
                 "anomaly_severity",
-            ],
+            ]
         ]
-        .sort_values(
-            "absolute_modified_z_score",
-            ascending=False,
-        )
-        .head(10)
     )
 
     print("Anomaly-detection summary:")

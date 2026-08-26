@@ -55,3 +55,7 @@ class AnomalyDetectionError(TimeSeriesAgentError):
 
 class RecommendationError(TimeSeriesAgentError):
     """Raised when model recommendation cannot proceed safely."""
+
+
+class CliExecutionError(TimeSeriesAgentError):
+    """Raised when a command-line workflow cannot complete."""

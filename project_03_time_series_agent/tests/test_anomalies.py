@@ -9,6 +9,7 @@ import pytest
 from time_series_agent.anomalies import (
     detect_residual_anomalies,
     save_anomaly_results,
+    select_top_anomaly_candidates,
 )
 from time_series_agent.exceptions import (
     AnomalyDetectionError,
@@ -246,3 +247,41 @@ def test_anomaly_results_can_be_saved(
         ]
         == "no"
     )
+
+def test_top_candidates_are_sorted_before_columns_are_selected() -> None:
+    """Top candidates should be ranked by absolute score."""
+    labeled, _ = detect_residual_anomalies(
+        make_residual_frame()
+    )
+
+    selected = select_top_anomaly_candidates(
+        labeled_anomalies=labeled,
+        limit=10,
+    )
+
+    assert len(selected) == 2
+    assert selected[
+        "absolute_modified_z_score"
+    ].is_monotonic_decreasing
+    assert selected[
+        "is_actionable_anomaly"
+    ].all()
+    assert not selected[
+        "is_known_closure"
+    ].any()
+
+
+def test_invalid_top_candidate_limit_is_rejected() -> None:
+    """Candidate-selection limit must be positive."""
+    labeled, _ = detect_residual_anomalies(
+        make_residual_frame()
+    )
+
+    with pytest.raises(
+        AnomalyDetectionError,
+        match="limit",
+    ):
+        select_top_anomaly_candidates(
+            labeled_anomalies=labeled,
+            limit=0,
+        )

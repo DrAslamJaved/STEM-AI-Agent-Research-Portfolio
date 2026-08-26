@@ -397,6 +397,59 @@ def detect_residual_anomalies(
 
     return labeled, summary
 
+def select_top_anomaly_candidates(
+    labeled_anomalies: pd.DataFrame,
+    limit: int = 10,
+) -> pd.DataFrame:
+    """Select actionable candidates by absolute score."""
+    if not isinstance(
+        labeled_anomalies,
+        pd.DataFrame,
+    ):
+        raise AnomalyDetectionError(
+            "'labeled_anomalies' must be a DataFrame."
+        )
+
+    required_columns = {
+        "is_actionable_anomaly",
+        "absolute_modified_z_score",
+    }
+
+    missing_columns = sorted(
+        required_columns
+        - set(labeled_anomalies.columns)
+    )
+
+    if missing_columns:
+        raise AnomalyDetectionError(
+            "Anomaly table is missing selection columns: "
+            + ", ".join(missing_columns)
+        )
+
+    if (
+        not isinstance(limit, int)
+        or isinstance(limit, bool)
+        or limit <= 0
+    ):
+        raise AnomalyDetectionError(
+            "'limit' must be a positive integer."
+        )
+
+    selected = (
+        labeled_anomalies.loc[
+            labeled_anomalies[
+                "is_actionable_anomaly"
+            ]
+        ]
+        .sort_values(
+            "absolute_modified_z_score",
+            ascending=False,
+        )
+        .head(limit)
+        .copy()
+    )
+
+    return selected.reset_index(drop=True)
 
 def save_anomaly_results(
     labeled_anomalies: pd.DataFrame,
