@@ -1,0 +1,22 @@
+{
+  "evaluation_folds": 12,
+  "forecast_horizon_per_fold": 168,
+  "total_candidate_test_predictions": 2016,
+  "baseline_model": "seasonal_naive_168",
+  "baseline_mean_mae": 420.5605158730159,
+  "classical_model": "holt_winters_24",
+  "classical_mean_mae": 516.686380404634,
+  "candidate_model": "gradient_boosting_recursive",
+  "candidate_mean_mae": 404.7196615512687,
+  "candidate_mae_difference_from_baseline": -15.840854321747202,
+  "candidate_mae_improvement_percentage": 3.7666052146774023,
+  "candidate_mae_degradation_percentage": -3.7666052146774023,
+  "candidate_beats_baseline": true,
+  "candidate_beats_holt_winters": true,
+  "candidate_mae_rank": 1,
+  "candidate_mae_fold_wins": 3,
+  "candidate_total_raw_negative_forecasts": 199,
+  "best_model": "gradient_boosting_recursive",
+  "best_mean_mae": 404.7196615512687,
+  "candidate_is_best_model": true
+}

@@ -25,15 +25,84 @@ The canonical timestamp is constructed as:
 
 ```text
 timestamp = parsed Date + Hour
+```
+
+Dates are parsed using the documented day-first format. Hours must be
+integers from 0 through 23. Invalid dates, hours, targets, or required
+columns produce explicit exceptions rather than silent corrections.
+
+## 4. Time-series validation
+
+The validation agent checks row count, timestamp validity, chronological
+order, duplicate timestamps, missing hourly observations, irregular
+intervals, missing targets, negative targets, and structural zeros.
+
+Validation produces both JSON and Markdown reports. A dataset receives
+valid status only when all essential structural and target checks pass.
+
+The 295 zero-demand observations coincide with documented
+non-functioning days. They are retained because they represent genuine
+service closures rather than missing measurements.
+
+## 5. Leakage-safe preprocessing
+
+Preprocessing creates a deep copy of the loaded data, sorts observations
+chronologically, and adds an explicit known-closure indicator.
+
+No row is deleted merely because its target is zero. The raw dataset is
+never overwritten, and processed outputs are stored separately.
+
+All preprocessing decisions are summarized in a machine-readable report.
+
+## 6. Exploratory time-series analysis
+
+Exploration includes descriptive statistics, rolling summaries, hourly
+demand profiles, autocorrelation, partial autocorrelation, additive
+daily-seasonal decomposition, and the Augmented Dickey-Fuller test.
+
+The target exhibits strong short-term, daily, and weekly dependence.
+Observed autocorrelations are approximately 0.903 at lag 1, 0.682 at
+lag 24, and 0.661 at lag 168.
+
+The Augmented Dickey-Fuller p-value is below 0.001. This rejects the
+unit-root null hypothesis but does not imply that daily and weekly
+seasonality are absent.
+
+## 7. Forecast-accuracy measures
+
+Forecasts are evaluated using:
+
+- mean absolute error (MAE);
+- root mean squared error (RMSE);
+- symmetric mean absolute percentage error (sMAPE);
+- mean absolute scaled error (MASE).
+
+Ordinary MAPE is excluded because the series contains legitimate zeros.
+
+The MASE scale is computed only from training observations using a
+daily seasonal period of 24 hours. Test observations never contribute
+to metric scaling or model fitting.
+
+## 8. Temporal evaluation safeguards
+
+Random train-test splitting is not used. Every test observation occurs
+strictly after its corresponding training observations.
+
+Models are compared on identical chronological folds. A new model
+instance is fitted separately in every fold, preventing fitted state
+from leaking between evaluations.
+
+Model selection considers average error, variability between folds,
+fold wins, physically impossible forecasts, and model complexity.
 
 ## 9. Baseline forecasting models
 
 Four baseline models are implemented:
 
 1. training-mean forecast;
-2. last-value naïve forecast;
-3. daily seasonal-naïve forecast with period 24;
-4. weekly seasonal-naïve forecast with period 168.
+2. last-value naive forecast;
+3. daily seasonal-naive forecast with period 24;
+4. weekly seasonal-naive forecast with period 168.
 
 All models require a chronologically ordered, regularly spaced
 DatetimeIndex. They reject missing targets, temporal gaps, invalid
@@ -122,7 +191,7 @@ negative predictions is recorded separately for each fold before
 clipping.
 
 Model comparison considers mean error, error variability, fold wins,
-and improvement relative to the weekly seasonal-naïve benchmark.
+and improvement relative to the weekly seasonal-naive benchmark.
 
 ## 14. Leakage-safe feature engineering
 
@@ -150,3 +219,46 @@ excluded because their future values are not assumed known.
 
 The implementation uses a fixed random seed of 42 and constrains
 predicted counts to nonnegative values.
+
+## 16. Gradient Boosting expanding-window evaluation
+
+Recursive Gradient Boosting is evaluated on the same 12 expanding
+weekly folds used for the baseline and Holt-Winters models.
+
+For each fold, feature construction and model fitting use only the
+training period. The model then produces a recursive 168-hour forecast.
+Previously predicted values may enter later lag and rolling features,
+but hidden test targets are never used.
+
+The six-model results are:
+
+| Rank | Model | Mean MAE | MAE standard deviation | Mean RMSE | Fold wins |
+|---:|---|---:|---:|---:|---:|
+| 1 | Recursive Gradient Boosting | 404.72 | 230.61 | 544.54 | 3 |
+| 2 | Weekly seasonal naive | 420.56 | 223.24 | 618.48 | 4 |
+| 3 | Daily seasonal naive | 444.04 | 270.58 | 621.37 | 3 |
+| 4 | Holt-Winters | 516.69 | 200.79 | 641.29 | 0 |
+| 5 | Training mean | 523.50 | 145.92 | 632.75 | 1 |
+| 6 | Last-value naive | 566.23 | 181.07 | 703.82 | 1 |
+
+Gradient Boosting improves mean MAE over the weekly seasonal-naive
+benchmark by 15.84 bikes, corresponding to 3.77%. It also produces the
+lowest mean RMSE.
+
+This advantage is not uniform across folds. Gradient Boosting wins 3
+folds compared with 4 wins for the weekly benchmark, and its MAE
+standard deviation is slightly larger.
+
+The unconstrained Gradient Boosting forecasts include 199 negative
+values among 2,016 test predictions. These values are recorded before
+being constrained to zero. This corresponds to approximately 9.87% of
+its raw forecasts.
+
+The evidence supports Gradient Boosting as the preferred model according
+to average predictive accuracy. Weekly seasonal naive is retained as a
+strong fallback because it is simple, interpretable, competitive, and
+naturally nonnegative.
+
+Feature importance describes how the fitted model distributes predictive
+importance; it must not be interpreted as evidence of a causal
+relationship.
