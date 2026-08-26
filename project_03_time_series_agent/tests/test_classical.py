@@ -10,6 +10,10 @@ from time_series_agent.exceptions import (
     ModelNotFittedError,
 )
 
+from time_series_agent.classical import (
+    HoltWintersForecaster,
+    enforce_nonnegative_forecast,
+)
 
 def make_seasonal_series(
     observations: int = 240,
@@ -49,6 +53,7 @@ def test_holt_winters_produces_finite_forecast() -> None:
 
     assert len(forecast) == 24
     assert np.isfinite(forecast).all()
+    assert forecast.ge(0).all()
     assert forecast.index[0] == (
         training.index[-1] + pd.Timedelta(1, unit="h")
     )
@@ -150,3 +155,17 @@ def test_unfitted_diagnostics_are_rejected() -> None:
         match="must be fitted",
     ):
         model.diagnostics()
+
+def test_nonnegative_constraint_clips_and_counts() -> None:
+    """Impossible negative count forecasts should become zero."""
+    raw_forecast = np.array(
+        [-5.0, 0.0, 12.0, -0.5],
+        dtype="float64",
+    )
+
+    constrained, negative_count = (
+        enforce_nonnegative_forecast(raw_forecast)
+    )
+
+    assert constrained.tolist() == [0.0, 0.0, 12.0, 0.0]
+    assert negative_count == 2

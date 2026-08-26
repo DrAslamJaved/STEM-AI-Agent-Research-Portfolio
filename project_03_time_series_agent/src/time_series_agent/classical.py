@@ -31,6 +31,24 @@ class HoltWintersDiagnostics:
         """Return a serializable diagnostics dictionary."""
         return asdict(self)
 
+def enforce_nonnegative_forecast(
+    values: np.ndarray,
+) -> tuple[np.ndarray, int]:
+    """Clip negative forecasts to zero and report their count."""
+    forecast = np.asarray(
+        values,
+        dtype="float64",
+    )
+
+    if not np.isfinite(forecast).all():
+        raise ForecastingError(
+            "Forecast constraint received nonfinite values."
+        )
+
+    negative_count = int((forecast < 0).sum())
+    constrained = np.maximum(forecast, 0.0)
+
+    return constrained, negative_count
 
 class HoltWintersForecaster(BaseForecaster):
     """Additive Holt-Winters model with damped additive trend."""
@@ -41,6 +59,7 @@ class HoltWintersForecaster(BaseForecaster):
         self,
         seasonal_period: int = 24,
         damped_trend: bool = True,
+        clip_nonnegative: bool = True,
         frequency: str = "h",
     ) -> None:
         """Initialize an unfitted Holt-Winters model."""
@@ -58,11 +77,18 @@ class HoltWintersForecaster(BaseForecaster):
             raise ForecastingError(
                 "'damped_trend' must be Boolean."
             )
-
+        
+        if not isinstance(clip_nonnegative, bool):
+            raise ForecastingError(
+                "'clip_nonnegative' must be Boolean."
+            )
+        
         super().__init__(frequency=frequency)
 
         self.seasonal_period = seasonal_period
         self.damped_trend = damped_trend
+        self.clip_nonnegative = clip_nonnegative
+        self._last_raw_negative_forecast_count: int | None = None
         self._fitted_result: Any | None = None
         self._training_index: pd.DatetimeIndex | None = None
 
@@ -113,24 +139,43 @@ class HoltWintersForecaster(BaseForecaster):
         self._training_index = training_series.index.copy()
 
     def _forecast_values(self, horizon: int) -> np.ndarray:
-        """Generate future values from the fitted model."""
+        """Generate future values and enforce count constraints."""
         if self._fitted_result is None:
             raise ModelNotFittedError(
                 "Holt-Winters must be fitted before forecasting."
             )
 
-        forecast = np.asarray(
+        raw_forecast = np.asarray(
             self._fitted_result.forecast(horizon),
             dtype="float64",
         )
 
-        if not np.isfinite(forecast).all():
+        if not np.isfinite(raw_forecast).all():
             raise ForecastingError(
                 "Holt-Winters produced nonfinite forecasts."
             )
 
-        return forecast
+        negative_count = int((raw_forecast < 0).sum())
+        self._last_raw_negative_forecast_count = negative_count
 
+        if self.clip_nonnegative:
+            constrained, _ = enforce_nonnegative_forecast(
+                raw_forecast
+            )
+            return constrained
+
+        return raw_forecast
+
+    def last_raw_negative_forecast_count(self) -> int:
+        """Return the number of negatives before constraint."""
+        if self._last_raw_negative_forecast_count is None:
+            raise ModelNotFittedError(
+                "A forecast must be generated before its "
+                "constraint diagnostics are requested."
+            )
+
+        return self._last_raw_negative_forecast_count
+    
     def residuals(self) -> pd.Series:
         """Return fitted in-sample residuals."""
         if (

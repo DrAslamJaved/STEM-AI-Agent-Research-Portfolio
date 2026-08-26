@@ -98,3 +98,15 @@ deviation, and lag-1 residual autocorrelation.
 The next-24-hour forecast is an unevaluated preview. Model comparison
 will use the same chronological and expanding-window design as the
 baseline evaluation.
+
+Holt-Winters can produce mathematically valid but physically impossible
+negative forecasts for count data. The implementation therefore applies
+a transparent nonnegative constraint:
+
+\[
+\hat y_t^* = \max(0,\hat y_t).
+\]
+
+The number of raw negative forecasts is recorded before clipping. This
+constraint is applied identically during holdout and expanding-window
+evaluation.

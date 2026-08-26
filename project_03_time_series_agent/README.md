@@ -101,7 +101,9 @@ Completed:
 - damped additive trend;
 - daily seasonal period of 24 hours;
 - residual and information-criterion diagnostics;
-- reproducible next-24-hour Holt-Winters preview.
+- reproducible next-24-hour Holt-Winters preview;
+- transparent nonnegative count-forecast constraint;
+- reporting of raw negative forecasts before clipping.
 
 Not yet completed:
 

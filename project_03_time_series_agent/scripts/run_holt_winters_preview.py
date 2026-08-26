@@ -51,12 +51,49 @@ def main() -> None:
         encoding="utf-8",
     )
 
-    diagnostics = model.diagnostics()
+    fit_diagnostics = model.diagnostics()
+
+    diagnostics_payload = {
+        "fit": fit_diagnostics.to_dict(),
+        "forecast": {
+            "horizon": len(forecast),
+            "nonnegative_constraint": (
+                model.clip_nonnegative
+            ),
+            "raw_negative_forecast_count": (
+                model.last_raw_negative_forecast_count()
+            ),
+            "constrained_minimum": float(
+                forecast.min()
+            ),
+            "constrained_maximum": float(
+                forecast.max()
+            ),
+        },
+    }
 
     diagnostics_output = Path(DIAGNOSTICS_PATH)
     diagnostics_output.parent.mkdir(
         parents=True,
         exist_ok=True,
+    )
+    diagnostics_output.write_text(
+        json.dumps(
+            diagnostics_payload,
+            indent=2,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+    print(forecast)
+    print()
+    print("Holt-Winters diagnostics:")
+    print(
+        json.dumps(
+            diagnostics_payload,
+            indent=2,
+        )
     )
     diagnostics_output.write_text(
         json.dumps(

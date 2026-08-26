@@ -1,10 +1,19 @@
 {
-  "training_rows": 8760,
-  "seasonal_period": 24,
-  "sum_squared_errors": 410871707.77115303,
-  "aic": 94279.16184495753,
-  "bic": 94484.42242929152,
-  "residual_mean": -0.022150570637091544,
-  "residual_standard_deviation": 216.583742119545,
-  "residual_lag_1_autocorrelation": 0.3034161930619478
+  "fit": {
+    "training_rows": 8760,
+    "seasonal_period": 24,
+    "sum_squared_errors": 410871707.77115303,
+    "aic": 94279.16184495753,
+    "bic": 94484.42242929152,
+    "residual_mean": -0.022150570637091544,
+    "residual_standard_deviation": 216.583742119545,
+    "residual_lag_1_autocorrelation": 0.3034161930619478
+  },
+  "forecast": {
+    "horizon": 24,
+    "nonnegative_constraint": true,
+    "raw_negative_forecast_count": 5,
+    "constrained_minimum": 0.0,
+    "constrained_maximum": 1511.6292534014597
+  }
 }
