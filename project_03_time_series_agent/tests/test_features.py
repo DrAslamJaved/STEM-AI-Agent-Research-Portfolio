@@ -213,7 +213,10 @@ def test_feature_summary_can_be_saved(
     saved = json.loads(
         output_path.read_text(encoding="utf-8")
     )
-
+    assert saved["input_rows"] == 240
+    assert saved["output_rows"] == 72
+    assert saved["dropped_rows"] == 168
+    assert saved["feature_count"] == 12
 def test_recursive_row_uses_only_supplied_history() -> None:
     """A future feature row should contain no future actuals."""
     data = make_data(observations=240)
@@ -245,10 +248,7 @@ def test_recursive_row_uses_only_supplied_history() -> None:
     ] == pytest.approx(
         np.mean(np.arange(72, 240))
     )
-    assert saved["input_rows"] == 240
-    assert saved["output_rows"] == 72
-    assert saved["dropped_rows"] == 168
-    assert saved["feature_count"] == 12
+
 
 def test_recursive_row_uses_only_supplied_history() -> None:
     """A future feature row should contain no future actuals."""
