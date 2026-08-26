@@ -41,3 +41,6 @@ class ModelNotFittedError(ForecastingError):
 
 class EvaluationError(TimeSeriesAgentError):
     """Raised when forecast evaluation cannot proceed safely."""
+
+class FeatureEngineeringError(TimeSeriesAgentError):
+    """Raised when leakage-safe features cannot be constructed."""

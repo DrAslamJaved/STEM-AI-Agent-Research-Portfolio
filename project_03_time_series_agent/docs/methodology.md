@@ -123,3 +123,15 @@ clipping.
 
 Model comparison considers mean error, error variability, fold wins,
 and improvement relative to the weekly seasonal-naïve benchmark.
+
+## 14. Leakage-safe feature engineering
+
+Machine-learning features include target lags 1, 24, and 168; rolling
+means and standard deviations over the preceding 24 and 168 hours;
+cyclical hour and weekday encodings; and a deterministic trend index.
+
+Every target-derived feature for time t uses observations no later than
+time t-1. The current target is excluded from its own feature row.
+
+Future weather measurements are not used because they would be unknown
+unless separately forecast or provided as reliable external forecasts.

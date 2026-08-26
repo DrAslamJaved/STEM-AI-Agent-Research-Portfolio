@@ -5,6 +5,7 @@
   "baseline_mean_mae": 420.5605158730159,
   "candidate_model": "holt_winters_24",
   "candidate_mean_mae": 516.686380404634,
+  "candidate_mae_degradation_percentage": 22.85660705263218,
   "candidate_mae_improvement_percentage": -22.85660705263218,
   "candidate_beats_baseline": false,
   "candidate_mae_rank": 3,

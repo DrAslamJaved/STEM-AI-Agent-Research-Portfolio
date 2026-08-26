@@ -107,7 +107,12 @@ Completed:
 - 12-fold Holt-Winters evaluation;
 - direct comparison with the weekly seasonal-naïve benchmark;
 - fold-level reporting of constrained negative forecasts;
-- mean-error improvement and fold-win evidence.
+- mean-error improvement and fold-win evidence;
+- leakage-safe lag features;
+- shifted rolling statistics;
+- cyclical hour and weekday features;
+- explicit current-target leakage tests;
+- machine-readable feature summary.
 
 Not yet completed:
 

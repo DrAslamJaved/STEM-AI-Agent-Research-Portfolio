@@ -141,6 +141,11 @@ def main() -> None:
         "baseline_mean_mae": baseline_mae,
         "candidate_model": "holt_winters_24",
         "candidate_mean_mae": candidate_mae,
+        "candidate_mae_degradation_percentage": float(
+            100
+            * (candidate_mae - baseline_mae)
+            / baseline_mae
+        ),
         "candidate_mae_improvement_percentage": (
             improvement_percentage
         ),
