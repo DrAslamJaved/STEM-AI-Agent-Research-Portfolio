@@ -110,3 +110,16 @@ a transparent nonnegative constraint:
 The number of raw negative forecasts is recorded before clipping. This
 constraint is applied identically during holdout and expanding-window
 evaluation.
+
+## 13. Holt-Winters expanding-window evaluation
+
+Holt-Winters is evaluated using the same 12 expanding weekly folds used
+for the four baselines. Every fold fits a new model using only the
+training observations available at that time.
+
+Forecasts are constrained to nonnegative counts. The number of raw
+negative predictions is recorded separately for each fold before
+clipping.
+
+Model comparison considers mean error, error variability, fold wins,
+and improvement relative to the weekly seasonal-naïve benchmark.

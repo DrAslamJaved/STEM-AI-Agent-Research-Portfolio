@@ -1,0 +1,13 @@
+{
+  "evaluation_folds": 12,
+  "forecast_horizon_per_fold": 168,
+  "baseline_model": "seasonal_naive_168",
+  "baseline_mean_mae": 420.5605158730159,
+  "candidate_model": "holt_winters_24",
+  "candidate_mean_mae": 516.686380404634,
+  "candidate_mae_improvement_percentage": -22.85660705263218,
+  "candidate_beats_baseline": false,
+  "candidate_mae_rank": 3,
+  "candidate_mae_fold_wins": 0,
+  "candidate_total_raw_negative_forecasts": 224
+}

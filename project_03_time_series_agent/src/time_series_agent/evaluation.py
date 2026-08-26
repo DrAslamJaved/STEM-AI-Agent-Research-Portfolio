@@ -33,6 +33,37 @@ class ForecastMetrics:
 
 ModelFactory = Callable[[], BaseForecaster]
 
+def _raw_negative_forecast_count(
+    model: BaseForecaster,
+) -> int:
+    """Read optional negative-forecast diagnostics from a model."""
+    diagnostic_method = getattr(
+        model,
+        "last_raw_negative_forecast_count",
+        None,
+    )
+
+    if diagnostic_method is None:
+        return 0
+
+    if not callable(diagnostic_method):
+        raise EvaluationError(
+            "Negative-forecast diagnostic must be callable."
+        )
+
+    count = diagnostic_method()
+
+    if (
+        not isinstance(count, int)
+        or isinstance(count, bool)
+        or count < 0
+    ):
+        raise EvaluationError(
+            "Negative-forecast count must be a "
+            "nonnegative integer."
+        )
+
+    return count
 
 def _validate_evaluation_series(
     series: pd.Series,
@@ -218,7 +249,10 @@ def evaluate_models_on_holdout(
     for model_name, factory in model_factories.items():
         model = factory()
         forecast = model.fit(training).predict(horizon)
-
+        raw_negative_count = (
+            _raw_negative_forecast_count(model)
+        )
+               
         metrics = compute_forecast_metrics(
             actual=test,
             forecast=forecast,
@@ -237,6 +271,9 @@ def evaluate_models_on_holdout(
                 "test_end": str(test.index.max()),
                 "training_rows": len(training),
                 "test_rows": len(test),
+                "raw_negative_forecast_count": (
+                    raw_negative_count
+                ),
                 **metrics.to_dict(),
             }
         )
@@ -418,7 +455,9 @@ def evaluate_models_expanding_window(
         for model_name, factory in model_factories.items():
             model = factory()
             forecast = model.fit(training).predict(horizon)
-
+            raw_negative_count = (
+                _raw_negative_forecast_count(model)
+            )
             metrics = compute_forecast_metrics(
                 actual=test,
                 forecast=forecast,
@@ -440,6 +479,9 @@ def evaluate_models_expanding_window(
                     "test_end": str(test.index.max()),
                     "training_rows": len(training),
                     "test_rows": len(test),
+                    "raw_negative_forecast_count": (
+                        raw_negative_count
+                    ),
                     **metrics.to_dict(),
                 }
             )
@@ -488,7 +530,29 @@ def summarize_expanding_window_results(
             std_mase=("mase", "std"),
         )
     )
+    if "raw_negative_forecast_count" in fold_results.columns:
+        negative_counts = (
+            fold_results.groupby(
+                "model",
+                as_index=False,
+            )["raw_negative_forecast_count"]
+            .sum()
+            .rename(
+                columns={
+                    "raw_negative_forecast_count": (
+                        "total_raw_negative_forecasts"
+                    )
+                }
+            )
+        )
 
+        summary = summary.merge(
+            negative_counts,
+            on="model",
+            how="left",
+        )
+    else:
+        summary["total_raw_negative_forecasts"] = 0
     standard_deviation_columns = [
         "std_mae",
         "std_rmse",
@@ -552,17 +616,20 @@ def create_expanding_window_plots(
     fold_results: pd.DataFrame,
     summary: pd.DataFrame,
     output_directory: str | Path,
+    fold_filename: str = (
+        "07_expanding_window_mae_by_fold.png"
+    ),
+    summary_filename: str = (
+        "08_expanding_window_mean_mae.png"
+    ),
+    title_prefix: str = "Baseline",
 ) -> tuple[Path, Path]:
     """Create fold-level and aggregate MAE comparison plots."""
     output_path = Path(output_directory)
     output_path.mkdir(parents=True, exist_ok=True)
 
-    fold_figure_path = (
-        output_path / "07_expanding_window_mae_by_fold.png"
-    )
-    summary_figure_path = (
-        output_path / "08_expanding_window_mean_mae.png"
-    )
+    fold_figure_path = output_path / fold_filename
+    summary_figure_path = output_path / summary_filename
 
     figure, axis = plt.subplots(figsize=(13, 6))
 
@@ -580,7 +647,9 @@ def create_expanding_window_plots(
             label=model_name,
         )
 
-    axis.set_title("Baseline MAE across expanding weekly folds")
+    axis.set_title(
+        f"Mean {title_prefix.lower()} MAE across weekly folds"
+    )
     axis.set_xlabel("Fold")
     axis.set_ylabel("Mean absolute error")
     axis.set_xticks(

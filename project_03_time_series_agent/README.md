@@ -103,7 +103,11 @@ Completed:
 - residual and information-criterion diagnostics;
 - reproducible next-24-hour Holt-Winters preview;
 - transparent nonnegative count-forecast constraint;
-- reporting of raw negative forecasts before clipping.
+- reporting of raw negative forecasts before clipping;
+- 12-fold Holt-Winters evaluation;
+- direct comparison with the weekly seasonal-naïve benchmark;
+- fold-level reporting of constrained negative forecasts;
+- mean-error improvement and fold-win evidence.
 
 Not yet completed:
 
