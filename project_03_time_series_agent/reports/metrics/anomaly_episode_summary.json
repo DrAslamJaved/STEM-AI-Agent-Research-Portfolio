@@ -1,0 +1,22 @@
+{
+  "maximum_gap_hours": 1,
+  "forecast_floor_threshold": 50.0,
+  "actionable_anomaly_hours": 115,
+  "episode_count": 37,
+  "episode_context_counts": {
+    "other_residual_episode": 20,
+    "forecast_floor_positive_episode": 12,
+    "rain_coincident_negative_episode": 5
+  },
+  "episode_context_anomaly_hours": {
+    "forecast_floor_positive_episode": 62,
+    "other_residual_episode": 31,
+    "rain_coincident_negative_episode": 22
+  },
+  "longest_episode_hours": 12,
+  "largest_episode_anomaly_hours": 12,
+  "top_ten_dates_anomaly_hours": 93,
+  "top_ten_dates_share_percent": 80.8695652173913,
+  "strongest_episode_id": 7,
+  "maximum_episode_score": 10.299451522339217
+}

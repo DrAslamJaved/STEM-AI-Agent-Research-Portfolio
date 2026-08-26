@@ -328,3 +328,147 @@ the normal residual distribution.
 Fold-level raw-negative counts are repeated for traceability in the
 timestamp-level CSV. When aggregating them, one count is taken per fold
 rather than summing the repeated row values.
+
+
+## 18. Robust residual anomaly detection
+
+Anomaly detection uses only out-of-sample residuals from the selected
+recursive Gradient Boosting model.
+
+For each timestamp t, the signed residual is:
+
+\[
+e_t = y_t - \hat y_t.
+\]
+
+The detector first constructs a reference set containing nonclosure
+residuals only. Documented service closures remain in the output but do
+not influence the calibration center or scale.
+
+Let the robust residual center be:
+
+\[
+\tilde e = \operatorname{median}(e_t),
+\]
+
+and let the median absolute deviation be:
+
+\[
+\operatorname{MAD}
+=
+\operatorname{median}
+\left(
+|e_t-\tilde e|
+\right).
+\]
+
+The modified z-score is:
+
+\[
+z_t^*
+=
+0.67448975
+\frac{e_t-\tilde e}
+{\operatorname{MAD}}.
+\]
+
+A timestamp is a statistical anomaly when:
+
+\[
+|z_t^*| \geq 3.5.
+\]
+
+A statistical anomaly becomes actionable only when it is not a
+documented closure.
+
+Positive modified z-scores represent unexpectedly high observed demand.
+Negative modified z-scores represent unexpectedly low observed demand.
+
+Severity is assigned according to absolute modified z-score:
+
+- moderate: 3.5 to less than 5.0;
+- high: 5.0 to less than 7.5;
+- extreme: 7.5 or greater.
+
+The nonclosure reference set contains 1,769 residuals. Its median
+residual is -13.34 rentals and its MAD is 211.06 rentals.
+
+The detector identifies:
+
+- 182 statistical anomalies;
+- 115 actionable nonclosure anomaly hours;
+- 87 positive demand surprises;
+- 28 negative demand surprises;
+- 67 closure observations that cross the statistical threshold but
+  remain nonactionable.
+
+The actionable anomaly rate is 6.50% of nonclosure observations.
+
+These labels represent residual-based candidate alerts. They are not
+ground-truth anomaly labels.
+
+## 19. Contextual anomaly episodes and reporting
+
+Consecutive actionable anomaly hours are grouped into one episode when
+the time gap between adjacent alerts is no more than one hour.
+
+For each episode, the agent records:
+
+- starting and ending timestamps;
+- duration and anomalous-hour count;
+- positive, negative, or mixed direction;
+- strongest modified z-score;
+- peak timestamp and severity;
+- actual and forecast totals;
+- total residual;
+- minimum forecast;
+- rainfall and humidity context;
+- temperature context;
+- holiday and functioning-day status.
+
+Three transparent contextual labels are used.
+
+### Forecast-floor positive episode
+
+A positive episode receives this label when its minimum forecast is no
+greater than 50 rentals. These episodes usually indicate that recursive
+predictions approached zero and could not recover when observed demand
+returned to ordinary or high levels.
+
+### Rain-coincident negative episode
+
+A negative episode receives this label when rainfall occurs during its
+anomalous hours. The label records temporal association and does not
+claim that rainfall caused the demand reduction.
+
+### Other residual episode
+
+All remaining episodes receive this label. They require further review
+and may represent unmodeled events, changing behavior, weather effects,
+or ordinary forecasting error.
+
+The 115 actionable hours form 37 episodes:
+
+- 12 forecast-floor positive episodes covering 62 hours;
+- 5 rain-coincident negative episodes covering 22 hours;
+- 20 other residual episodes covering 31 hours.
+
+The longest episode contains 12 consecutive anomalous hours. The ten
+most concentrated dates contain 80.87% of all actionable hours.
+
+The final reporting layer produces:
+
+1. a full out-of-sample actual-versus-forecast timeline;
+2. a modified-z-score timeline with upper and lower thresholds;
+3. daily positive and negative anomaly counts;
+4. a ranked top-anomaly table;
+5. an episode-level contextual table;
+6. a human-readable Markdown anomaly report.
+
+The figures preserve the complete hourly and daily time ranges rather
+than displaying only selected anomaly examples.
+
+Because the dataset contains no externally verified anomaly labels,
+precision, recall, and F1 score cannot be estimated. All detected
+episodes must therefore be interpreted as candidates requiring
+contextual or domain review.

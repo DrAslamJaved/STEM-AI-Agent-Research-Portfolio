@@ -1,0 +1,19 @@
+{
+  "method": "median_mad_modified_z_score",
+  "residual_definition": "actual_minus_forecast",
+  "known_closures_used_for_calibration": "no",
+  "row_count": 2016,
+  "reference_row_count": 1769,
+  "known_closure_count": 247,
+  "residual_center": -13.342082352884006,
+  "residual_mad": 211.0563407246246,
+  "modified_z_threshold": 3.5,
+  "statistical_anomaly_count": 182,
+  "actionable_anomaly_count": 115,
+  "positive_anomaly_count": 87,
+  "negative_anomaly_count": 28,
+  "closure_statistical_anomaly_count": 67,
+  "normal_nonclosure_count": 1654,
+  "actionable_anomaly_rate_percent": 6.500847936687394,
+  "maximum_absolute_modified_z_score": 10.299451522339217
+}

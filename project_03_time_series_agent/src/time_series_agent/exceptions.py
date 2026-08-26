@@ -32,6 +32,7 @@ class PreprocessingError(TimeSeriesAgentError):
 class ExplorationError(TimeSeriesAgentError):
     """Raised when exploratory time-series analysis cannot proceed."""
 
+
 class ForecastingError(TimeSeriesAgentError):
     """Raised when a forecasting operation is invalid."""
 
@@ -39,8 +40,14 @@ class ForecastingError(TimeSeriesAgentError):
 class ModelNotFittedError(ForecastingError):
     """Raised when prediction is requested before model fitting."""
 
+
 class EvaluationError(TimeSeriesAgentError):
     """Raised when forecast evaluation cannot proceed safely."""
 
+
 class FeatureEngineeringError(TimeSeriesAgentError):
     """Raised when leakage-safe features cannot be constructed."""
+
+
+class AnomalyDetectionError(TimeSeriesAgentError):
+    """Raised when residual anomaly detection cannot proceed safely."""

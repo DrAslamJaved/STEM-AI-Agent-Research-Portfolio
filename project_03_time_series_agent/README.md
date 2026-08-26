@@ -130,7 +130,21 @@ Completed:
 - closure-status attachment to forecast residuals;
 - preservation of fold-level raw-negative forecast counts;
 - machine-readable residual-collection summary;
-- verification that residual MAE reproduces evaluation MAE.
+- verification that residual MAE reproduces evaluation MAE;
+- robust median-and-MAD residual anomaly detection;
+- modified-z-score anomaly thresholding;
+- exclusion of known closures from anomaly calibration;
+- separation of statistical and actionable alerts;
+- positive-spike and negative-drop classification;
+- moderate, high, and extreme anomaly severity;
+- contextual weather and operating-day enrichment;
+- consecutive-hour anomaly episode construction;
+- rain-coincident demand-drop identification;
+- recursive forecast-floor failure identification;
+- ranked contextual anomaly evidence;
+- anomaly timeline and threshold figures;
+- daily anomaly-count visualization;
+- reproducible human-readable anomaly report.
 
 Not yet completed:
 
@@ -171,6 +185,52 @@ constrained to zero.
 Gradient Boosting is therefore the preferred accuracy model at the
 current stage. Weekly seasonal naive remains the transparent,
 naturally nonnegative fallback model.
+
+## Residual anomaly results
+
+Anomaly detection uses 2,016 out-of-sample residuals from the selected
+recursive Gradient Boosting forecaster.
+
+The robust reference distribution excludes 247 documented service
+closures. A modified-z-score threshold of 3.5 identifies unusually large
+forecast residuals.
+
+| Measure | Result |
+|---|---:|
+| Out-of-sample residuals | 2,016 |
+| Nonclosure calibration rows | 1,769 |
+| Known closures | 247 |
+| Statistical anomalies | 182 |
+| Actionable candidate hours | 115 |
+| Positive demand surprises | 87 |
+| Negative demand surprises | 28 |
+| Actionable candidate rate | 6.50% |
+| Consecutive anomaly episodes | 37 |
+
+The 115 actionable hours were grouped into consecutive episodes:
+
+| Episode context | Episodes | Anomalous hours |
+|---|---:|---:|
+| Forecast-floor positive episode | 12 | 62 |
+| Rain-coincident negative episode | 5 | 22 |
+| Other residual episode | 20 | 31 |
+
+The ten most concentrated dates contain 93 of the 115 actionable hours,
+or 80.87%. This shows that alerts occur mainly in connected episodes
+rather than as independent isolated points.
+
+The 5 October 2018 rain episode contained 12 consecutive negative
+anomaly hours. During these hours, observed demand totaled 396 rentals
+against a forecast of 20,521, while accumulated rainfall was 31 mm.
+
+The strongest positive episode occurred on 17 September 2018. The
+forecast approached zero while actual demand remained high, indicating
+a recursive forecast-floor and model-recovery failure.
+
+These findings distinguish unusual observed demand from unusual
+forecasting behavior. They are candidate alerts requiring contextual or
+domain review because the dataset contains no verified anomaly labels.
+
 
 ## Repository structure
 
