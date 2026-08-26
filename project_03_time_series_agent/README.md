@@ -112,7 +112,12 @@ Completed:
 - shifted rolling statistics;
 - cyclical hour and weekday features;
 - explicit current-target leakage tests;
-- machine-readable feature summary.
+- machine-readable feature summary;
+- deterministic Gradient Boosting forecaster;
+- recursive multi-step prediction;
+- training and future-feature alignment;
+- feature-importance diagnostics;
+- nonnegative machine-learning forecasts.
 
 Not yet completed:
 

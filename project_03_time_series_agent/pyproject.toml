@@ -16,7 +16,8 @@ dependencies = [
     "pandas>=2.2,<3.0",
     "PyYAML>=6.0,<7.0",
     "matplotlib>=3.11.1,<4.0",
-    "statsmodels>=0.14.6,<0.15"
+    "statsmodels>=0.14.6,<0.15",
+    "scikit-learn>=1.9,<2.0"
 ]
 
 [project.optional-dependencies]

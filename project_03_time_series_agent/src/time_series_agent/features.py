@@ -219,6 +219,132 @@ def build_lag_feature_set(
         dropped_rows=int((~valid_rows).sum()),
     )
 
+def build_recursive_feature_row(
+    history: pd.Series,
+    forecast_timestamp: pd.Timestamp,
+    trend_index: int,
+    lags: tuple[int, ...] = (1, 24, 168),
+    rolling_windows: tuple[int, ...] = (24, 168),
+) -> pd.DataFrame:
+    """Build one future feature row from past history only."""
+    validated_lags = _validate_periods(
+        lags,
+        "lag",
+    )
+    validated_windows = _validate_periods(
+        rolling_windows,
+        "rolling window",
+    )
+
+    if not isinstance(history, pd.Series):
+        raise FeatureEngineeringError(
+            "Recursive history must be a pandas Series."
+        )
+
+    if not isinstance(history.index, pd.DatetimeIndex):
+        raise FeatureEngineeringError(
+            "Recursive history must use a DatetimeIndex."
+        )
+
+    if history.empty:
+        raise FeatureEngineeringError(
+            "Recursive history must not be empty."
+        )
+
+    if history.index.has_duplicates:
+        raise FeatureEngineeringError(
+            "Recursive history timestamps must be unique."
+        )
+
+    if not history.index.is_monotonic_increasing:
+        raise FeatureEngineeringError(
+            "Recursive history must be chronologically ordered."
+        )
+
+    numeric_history = pd.to_numeric(
+        history,
+        errors="coerce",
+    )
+
+    if (
+        numeric_history.isna().any()
+        or not np.isfinite(
+            numeric_history.to_numpy()
+        ).all()
+    ):
+        raise FeatureEngineeringError(
+            "Recursive history contains invalid values."
+        )
+
+    timestamp = pd.Timestamp(forecast_timestamp)
+
+    if timestamp <= history.index[-1]:
+        raise FeatureEngineeringError(
+            "Forecast timestamp must occur after history."
+        )
+
+    if (
+        not isinstance(trend_index, int)
+        or isinstance(trend_index, bool)
+        or trend_index < 0
+    ):
+        raise FeatureEngineeringError(
+            "Trend index must be a nonnegative integer."
+        )
+
+    required_history = max(
+        max(validated_lags),
+        max(validated_windows),
+    )
+
+    if len(numeric_history) < required_history:
+        raise FeatureEngineeringError(
+            f"Recursive forecasting requires at least "
+            f"{required_history} historical observations."
+        )
+
+    feature_data: dict[str, float] = {}
+
+    for lag in validated_lags:
+        feature_data[f"lag_{lag}"] = float(
+            numeric_history.iloc[-lag]
+        )
+
+    for window in validated_windows:
+        window_values = numeric_history.iloc[-window:]
+
+        feature_data[f"rolling_mean_{window}"] = float(
+            window_values.mean()
+        )
+        feature_data[f"rolling_std_{window}"] = float(
+            window_values.std(ddof=0)
+        )
+
+    hour_angle = (
+        2 * np.pi * timestamp.hour / 24
+    )
+    weekday_angle = (
+        2 * np.pi * timestamp.dayofweek / 7
+    )
+
+    feature_data["hour_sin"] = float(
+        np.sin(hour_angle)
+    )
+    feature_data["hour_cos"] = float(
+        np.cos(hour_angle)
+    )
+    feature_data["day_of_week_sin"] = float(
+        np.sin(weekday_angle)
+    )
+    feature_data["day_of_week_cos"] = float(
+        np.cos(weekday_angle)
+    )
+    feature_data["trend_index"] = float(trend_index)
+
+    return pd.DataFrame(
+        [feature_data],
+        index=pd.DatetimeIndex([timestamp]),
+    )
 
 def create_feature_summary(
     feature_set: FeatureSet,

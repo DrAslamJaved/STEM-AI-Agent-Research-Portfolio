@@ -135,3 +135,18 @@ time t-1. The current target is excluded from its own feature row.
 
 Future weather measurements are not used because they would be unknown
 unless separately forecast or provided as reliable external forecasts.
+
+## 15. Recursive Gradient Boosting
+
+A Gradient Boosting regressor is trained using lagged targets, shifted
+rolling statistics, cyclical calendar features, and a trend index.
+
+Multi-step forecasting is recursive. After each future hour is
+predicted, that prediction is appended to the available history and may
+be used in later lag and rolling features.
+
+The model never uses hidden future targets. Weather measurements are
+excluded because their future values are not assumed known.
+
+The implementation uses a fixed random seed of 42 and constrains
+predicted counts to nonnegative values.

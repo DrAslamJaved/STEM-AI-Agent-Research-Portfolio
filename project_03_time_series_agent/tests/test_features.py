@@ -14,6 +14,12 @@ from time_series_agent.features import (
     save_feature_summary,
 )
 
+from time_series_agent.features import (
+    build_lag_feature_set,
+    build_recursive_feature_row,
+    create_feature_summary,
+    save_feature_summary,
+)
 
 def make_data(
     observations: int = 240,
@@ -208,7 +214,70 @@ def test_feature_summary_can_be_saved(
         output_path.read_text(encoding="utf-8")
     )
 
+def test_recursive_row_uses_only_supplied_history() -> None:
+    """A future feature row should contain no future actuals."""
+    data = make_data(observations=240)
+    history = data.set_index("timestamp")["target"]
+
+    future_timestamp = (
+        history.index[-1]
+        + pd.Timedelta(1, unit="h")
+    )
+
+    row = build_recursive_feature_row(
+        history=history,
+        forecast_timestamp=future_timestamp,
+        trend_index=len(history),
+    )
+
+    assert row.iloc[0]["lag_1"] == 239
+    assert row.iloc[0]["lag_24"] == 216
+    assert row.iloc[0]["lag_168"] == 72
+
+    assert row.iloc[0][
+        "rolling_mean_24"
+    ] == pytest.approx(
+        np.mean(np.arange(216, 240))
+    )
+
+    assert row.iloc[0][
+        "rolling_mean_168"
+    ] == pytest.approx(
+        np.mean(np.arange(72, 240))
+    )
     assert saved["input_rows"] == 240
     assert saved["output_rows"] == 72
     assert saved["dropped_rows"] == 168
     assert saved["feature_count"] == 12
+
+def test_recursive_row_uses_only_supplied_history() -> None:
+    """A future feature row should contain no future actuals."""
+    data = make_data(observations=240)
+    history = data.set_index("timestamp")["target"]
+
+    future_timestamp = (
+        history.index[-1]
+        + pd.Timedelta(1, unit="h")
+    )
+
+    row = build_recursive_feature_row(
+        history=history,
+        forecast_timestamp=future_timestamp,
+        trend_index=len(history),
+    )
+
+    assert row.iloc[0]["lag_1"] == 239
+    assert row.iloc[0]["lag_24"] == 216
+    assert row.iloc[0]["lag_168"] == 72
+
+    assert row.iloc[0][
+        "rolling_mean_24"
+    ] == pytest.approx(
+        np.mean(np.arange(216, 240))
+    )
+
+    assert row.iloc[0][
+        "rolling_mean_168"
+    ] == pytest.approx(
+        np.mean(np.arange(72, 240))
+    )

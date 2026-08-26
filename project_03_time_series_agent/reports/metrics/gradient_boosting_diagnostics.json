@@ -1,0 +1,48 @@
+{
+  "fit": {
+    "input_training_rows": 8760,
+    "usable_training_rows": 8592,
+    "dropped_training_rows": 168,
+    "feature_count": 12,
+    "feature_names": [
+      "lag_1",
+      "lag_24",
+      "lag_168",
+      "rolling_mean_24",
+      "rolling_std_24",
+      "rolling_mean_168",
+      "rolling_std_168",
+      "hour_sin",
+      "hour_cos",
+      "day_of_week_sin",
+      "day_of_week_cos",
+      "trend_index"
+    ],
+    "training_mae": 77.71007010831374,
+    "residual_mean": 4.445853989113476e-14,
+    "residual_standard_deviation": 126.30131631722413,
+    "feature_importances": {
+      "lag_1": 0.8287713120562579,
+      "hour_sin": 0.05508232132241804,
+      "lag_24": 0.04540404410582874,
+      "lag_168": 0.03760927929215362,
+      "hour_cos": 0.02387348120974986,
+      "day_of_week_sin": 0.004884361824758024,
+      "trend_index": 0.00140892674282318,
+      "rolling_std_168": 0.0012974129047992132,
+      "rolling_std_24": 0.0006345717790747629,
+      "rolling_mean_24": 0.0004294457769022086,
+      "rolling_mean_168": 0.0003092978798425995,
+      "day_of_week_cos": 0.0002955451053919355
+    },
+    "random_state": 42
+  },
+  "forecast": {
+    "horizon": 24,
+    "recursive_strategy": true,
+    "nonnegative_constraint": true,
+    "raw_negative_forecast_count": 0,
+    "constrained_minimum": 107.85659903497579,
+    "constrained_maximum": 1114.64173443956
+  }
+}
