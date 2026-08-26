@@ -95,24 +95,8 @@ def main() -> None:
             indent=2,
         )
     )
-    diagnostics_output.write_text(
-        json.dumps(
-            diagnostics.to_dict(),
-            indent=2,
-        )
-        + "\n",
-        encoding="utf-8",
-    )
+    
 
-    print(forecast)
-    print()
-    print("Holt-Winters diagnostics:")
-    print(
-        json.dumps(
-            diagnostics.to_dict(),
-            indent=2,
-        )
-    )
     print()
     print(
         "Important: the next-24-hour preview is not "
