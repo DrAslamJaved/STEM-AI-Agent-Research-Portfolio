@@ -563,3 +563,17 @@ The operational policy is:
 The 2% improvement requirement is an explicit project policy. It is not
 presented as a universal statistical threshold. No formal paired-error
 significance test is used in the present project.
+
+## 21. Unified command-line orchestration
+
+The project exposes a unified command-line interface through both `time-series-agent` and `python -m time_series_agent`.
+
+Named workflows organize the existing project scripts by purpose. The complete `run-all` workflow executes 17 scripts in dependency order, beginning with raw-data inspection and ending with the evidence-based model recommendation.
+
+Each workflow script is launched with `sys.executable`. This preserves the active Python interpreter and virtual environment. Scripts execute from the project root.
+
+The interface validates script availability, prints numbered progress information, and stops immediately when a child script returns a nonzero exit code. The `--dry-run` option displays the execution plan without running its scripts.
+
+Real smoke tests verified the forecast, anomaly, and recommendation workflows. During validation, the anomaly workflow exposed a candidate-ranking defect: presentation columns were selected before sorting by `absolute_modified_z_score`. Candidate selection was moved into a tested package function so ranking occurs before presentation columns are removed.
+
+The completed interface was validated with 151 automated tests, 90% package coverage, compilation checks, and deprecation warnings treated as errors.

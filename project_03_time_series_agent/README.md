@@ -294,6 +294,56 @@ reports/                 Figures, metrics, and validation evidence
 src/time_series_agent/   Python source code
 tests/                   Automated tests
 scripts/                 Reproducible execution scripts
-```text
-...
 ```
+
+## Command-line interface
+
+Install the project in editable mode:
+
+```powershell
+python -m pip install -e ".[dev]"
+```
+
+View the available workflows:
+
+```powershell
+time-series-agent --help
+```
+
+Common commands include:
+
+```powershell
+time-series-agent forecast
+time-series-agent anomalies
+time-series-agent recommend
+time-series-agent run-all --dry-run
+```
+
+The equivalent Python-module form is:
+
+```powershell
+python -m time_series_agent forecast
+```
+
+The CLI validates script availability, uses the active Python environment, executes dependent scripts in order, and stops immediately when a step fails.
+
+See `docs/cli_guide.md` for complete usage instructions.
+
+## Project status
+
+The following major components are complete:
+
+- reproducible data loading and validation;
+- leakage-safe preprocessing and feature engineering;
+- baseline, classical, and machine-learning forecasting;
+- chronological holdout and expanding-window evaluation;
+- residual-based anomaly detection and episode reporting;
+- evidence-based model recommendation;
+- unified command-line workflows;
+- 151 automated tests with 90% package coverage.
+
+Remaining work:
+
+- continuous-integration workflow;
+- final end-to-end project report and portfolio audit.
+
