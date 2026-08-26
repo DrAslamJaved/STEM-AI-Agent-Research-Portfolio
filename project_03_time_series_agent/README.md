@@ -123,7 +123,14 @@ Completed:
 - fold-level machine-learning accuracy results;
 - machine-learning model-ranking figures;
 - direct Gradient Boosting comparison with the weekly benchmark;
-- evidence-based selection of the preferred forecasting model.
+- evidence-based selection of the preferred forecasting model;
+- reusable expanding-window residual collection;
+- timestamp-level out-of-sample actual and forecast records;
+- explicit residual and absolute-residual calculation;
+- closure-status attachment to forecast residuals;
+- preservation of fold-level raw-negative forecast counts;
+- machine-readable residual-collection summary;
+- verification that residual MAE reproduces evaluation MAE.
 
 Not yet completed:
 

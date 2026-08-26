@@ -262,3 +262,69 @@ naturally nonnegative.
 Feature importance describes how the fitted model distributes predictive
 importance; it must not be interpreted as evidence of a causal
 relationship.
+
+## 17. Out-of-sample residual collection
+
+Anomaly detection is based on out-of-sample forecasting errors rather
+than training residuals. Training residuals would produce an
+unrealistically optimistic description of model error because the model
+has already learned from those observations.
+
+The selected recursive Gradient Boosting model is refitted independently
+for each of the 12 expanding weekly folds. For timestamp t, the residual
+is defined as:
+
+\[
+e_t = y_t - \hat y_t,
+\]
+
+where \(y_t\) is observed bike demand and \(\hat y_t\) is the
+nonnegative out-of-sample forecast.
+
+Positive residuals mean that observed demand exceeded the forecast.
+Negative residuals mean that the model overforecast demand.
+
+The residual table contains:
+
+- fold number;
+- model name;
+- training-period boundaries;
+- test-period boundaries;
+- forecast timestamp;
+- observed demand;
+- forecast demand;
+- signed residual;
+- absolute residual;
+- known-closure status;
+- fold-level raw-negative forecast count.
+
+The 12 nonoverlapping weekly folds produce 2,016 unique hourly
+out-of-sample residuals covering 8 September 2018 through
+30 November 2018.
+
+The residual evidence has the following properties:
+
+- mean residual: -39.50 rentals;
+- median residual: -45.32 rentals;
+- residual standard deviation: 610.62 rentals;
+- mean absolute residual: 404.72 rentals;
+- median absolute residual: 233.35 rentals;
+- maximum absolute residual: 3,209.49 rentals;
+- known closures: 247 observations;
+- zero actual-demand observations: 247;
+- raw negative forecasts before clipping: 199;
+- negative forecasts after clipping: 0.
+
+The mean absolute residual equals the previously reported expanding-
+window Gradient Boosting MAE. This verifies consistency between the
+model-evaluation and residual-collection pipelines.
+
+All 247 zero-demand observations in the out-of-sample period correspond
+to documented closures. These observations are preserved and reported,
+but they will be excluded when estimating the statistical threshold for
+unexpected anomalies. Otherwise, known service shutdowns could distort
+the normal residual distribution.
+
+Fold-level raw-negative counts are repeated for traceability in the
+timestamp-level CSV. When aggregating them, one count is taken per fold
+rather than summing the repeated row values.
