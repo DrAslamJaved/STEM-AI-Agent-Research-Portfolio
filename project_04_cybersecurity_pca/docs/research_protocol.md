@@ -1,11 +1,3 @@
-
-Save the file.
-
-# 5.3 Write `docs/research_protocol.md`
-
-Paste:
-
-```markdown
 # Research Protocol
 
 ## 1. Research question

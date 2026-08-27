@@ -658,3 +658,51 @@ normalization, and the edited trace was saved without a final newline.
 
 Correction: the trace was given a final newline and checked again by the
 documentation regression test.
+
+## Markdown-wide documentation validation
+
+A GitHub inspection found that the initial README-specific regression test did
+not cover all Markdown files.
+
+The generalized Markdown validation initially failed because
+docs/research_protocol.md contained an accidental editing wrapper and an
+unmatched opening fence.
+
+Corrections performed:
+
+- closed the unmatched fence in prompts/phase_01_foundation.md;
+- removed the accidental editing instructions from docs/research_protocol.md;
+- changed the README-only fence test to validate all Project 4 Markdown files.
+
+Focused documentation recheck:
+
+- tests collected: 5;
+- tests passed: 5;
+- failures: 0;
+- exit code: 0.
+
+No PCA mathematics or runtime behaviour was changed.
+
+## Final Markdown repair validation
+
+After the documentation evidence was appended, the first trace recheck
+detected that agent_trace/phase_01.md lacked a final newline.
+
+Observed result:
+
+- tests collected: 5;
+- tests passed: 4;
+- tests failed: 1;
+- failure: missing final newline in agent_trace/phase_01.md;
+- exit code: 1.
+
+The missing newline was restored and the focused package suite was rerun.
+
+Final validation results:
+
+- focused package tests: 5 passed;
+- complete test suite: 60 passed;
+- total coverage: 93.26%;
+- required coverage: 90%;
+- coverage exit code: 0;
+- compilation exit code: 0.

@@ -71,7 +71,25 @@ def test_required_phase_one_documents_exist() -> None:
         assert required_path.is_file()
         assert required_path.stat().st_size > 0
 
-def test_readme_code_fences_are_closed() -> None:
+def test_markdown_code_fences_are_closed() -> None:
+    markdown_paths = [
+        Path("README.md"),
+        *Path("docs").rglob("*.md"),
+        *Path("prompts").rglob("*.md"),
+        *Path("agent_trace").rglob("*.md"),
+    ]
+
+    for markdown_path in markdown_paths:
+        markdown_text = markdown_path.read_text(
+            encoding="utf-8"
+        )
+        fence_count = markdown_text.count("```")
+
+        assert fence_count % 2 == 0, (
+            "Unbalanced fenced code block: "
+            f"{markdown_path} ({fence_count} fences)"
+        )
+
     readme_text = Path("README.md").read_text(
         encoding="utf-8"
     )
@@ -89,7 +107,6 @@ def test_readme_code_fences_are_closed() -> None:
         "These results validate"
         in readme_text
     )
-
 
 def test_text_artifacts_end_with_newline() -> None:
     text_paths = [
