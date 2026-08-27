@@ -70,3 +70,41 @@ def test_required_phase_one_documents_exist() -> None:
     for required_path in required_paths:
         assert required_path.is_file()
         assert required_path.stat().st_size > 0
+
+def test_readme_code_fences_are_closed() -> None:
+    readme_text = Path("README.md").read_text(
+        encoding="utf-8"
+    )
+
+    assert readme_text.count("```") == 4
+
+    assert (
+        "AI agent reasoning assessment\n```\n\n"
+        "## Phase 1 verification evidence"
+        in readme_text
+    )
+
+    assert (
+        "agent_trace/phase_01.md\n```\n\n"
+        "These results validate"
+        in readme_text
+    )
+
+
+def test_text_artifacts_end_with_newline() -> None:
+    text_paths = [
+        Path(".gitignore"),
+        Path("README.md"),
+        Path("pyproject.toml"),
+        *Path("configs").rglob("*.yaml"),
+        *Path("docs").rglob("*.md"),
+        *Path("prompts").rglob("*.md"),
+        *Path("agent_trace").rglob("*.md"),
+        *Path("src").rglob("*.py"),
+        *Path("tests").rglob("*.py"),
+    ]
+
+    for text_path in text_paths:
+        assert text_path.read_bytes().endswith(
+            b"\n"
+        ), f"Missing final newline: {text_path}"

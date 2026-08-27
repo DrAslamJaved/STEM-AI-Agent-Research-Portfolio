@@ -606,3 +606,55 @@ Exit code: 0
 
 No Project 2 file, virtual environment, cache, compiled Python file, or package
 build artifact was intentionally staged.
+
+## GitHub remote verification and documentation repair
+
+The GitHub connector independently verified:
+
+```text
+Remote branch: feature/project-04-cyber-pca
+Remote commit: 851a56b4098e7d4f37fb3b966efd830379990786
+Commit title: Implement validated PCA foundation for Project 4
+```
+
+Remote README inspection identified two missing Markdown closing fences. This
+caused later README sections to render inside code blocks. The remote commit
+also showed that several text files lacked final newlines.
+
+Repair actions:
+
+- closed the workflow code block;
+- closed the validation-evidence code block;
+- restored the Phase 1 interpretation paragraph;
+- added final newlines to 18 text files;
+- added a README fence regression test;
+- added a final-newline regression test.
+
+Repair validation:
+
+```text
+Documentation tests: 5 passed
+Complete suite: 60 passed in 20.78s
+Total coverage: 93.26%
+Required coverage: 90%
+Coverage gate: passed
+Exit code: 0
+```
+
+No PCA mathematics or runtime behaviour was changed by this repair.
+
+## Post-repair documentation recheck correction
+
+The first post-repair documentation recheck reported:
+
+```text
+1 failed, 4 passed
+Missing final newline: agent_trace/phase_01.md
+Exit code: 1
+```
+
+Cause: the GitHub repair evidence was appended after the earlier newline
+normalization, and the edited trace was saved without a final newline.
+
+Correction: the trace was given a final newline and checked again by the
+documentation regression test.

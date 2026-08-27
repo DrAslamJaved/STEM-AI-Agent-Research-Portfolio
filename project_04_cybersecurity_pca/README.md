@@ -60,12 +60,13 @@ Anomaly prediction
 Evaluation
 ↓
 AI agent reasoning assessment
+```
 
 ## Phase 1 verification evidence
 
 The verified Phase 1 execution produced:
 
-- 58 passing tests;
+- 60 passing tests;
 - 93.26% total coverage;
 - seven passing independent mathematical checks;
 - deterministic JSON validation output;
@@ -79,6 +80,10 @@ reports/validation/math_validation.json
 reports/validation/phase_01_final_pytest.xml
 reports/validation/phase_01_final_coverage.xml
 agent_trace/phase_01.md
+```
+
+These results validate the mathematical and software foundation. They do not
+represent cybersecurity anomaly-detection performance.
 
 ## Current implementation status
 
