@@ -1,0 +1,36 @@
+project:
+  name: "Agentic Cybersecurity Anomaly Detection Using PCA and Eigenvalue Analysis"
+  random_seed: 42
+  anomaly_label: 1
+  normal_label: 0
+
+pca:
+  explained_variance_target: 0.95
+  eigenvalue_tolerance: 1.0e-12
+  covariance_denominator: "n_minus_1"
+  eigensolver: "numpy.linalg.eigh"
+  reconstruction_space: "standardized"
+  reconstruction_error: "mean_squared_error"
+
+threshold:
+  fitting_class: "normal_only"
+  calibration_class: "normal_only"
+  method: "quantile"
+  quantile: 0.99
+  comparison: "strictly_greater_than"
+
+data:
+  development_dataset: "deterministic_synthetic_network_flows"
+  final_dataset: "UNSW-NB15"
+  raw_data_immutable: true
+  test_labels_hidden_until_evaluation: true
+
+evaluation:
+  positive_class: "anomaly"
+  metrics:
+    - "precision"
+    - "recall"
+    - "f1"
+    - "confusion_matrix"
+    - "false_positive_rate"
+    - "false_negative_rate"

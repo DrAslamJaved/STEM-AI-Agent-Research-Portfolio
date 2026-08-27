@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools>=75", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cyber-pca"
+dynamic = ["version"]
+description = "Agentic cybersecurity anomaly detection using PCA and eigenvalue analysis"
+requires-python = ">=3.12,<3.13"
+authors = [
+    { name = "Dr. Muhammad Aslam Javed" }
+]
+dependencies = [
+    "numpy>=2.0,<3.0",
+    "pandas>=2.2,<3.0",
+    "scikit-learn>=1.5,<2.0",
+    "matplotlib>=3.9,<4.0",
+    "seaborn>=0.13,<1.0",
+    "PyYAML>=6.0,<7.0",
+    "joblib>=1.4,<2.0"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0,<10.0",
+    "pytest-cov>=6.0,<8.0"
+]
+
+[project.scripts]
+cyber-pca = "cyber_pca.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.dynamic]
+version = { attr = "cyber_pca.__version__" }
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+addopts = [
+    "-ra",
+    "--strict-config",
+    "--strict-markers"
+]
+
+[tool.coverage.run]
+branch = true
+source = ["cyber_pca"]
+
+[tool.coverage.report]
+fail_under = 90
+show_missing = true
+skip_covered = false
