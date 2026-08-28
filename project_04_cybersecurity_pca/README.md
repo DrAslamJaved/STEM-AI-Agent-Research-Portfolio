@@ -118,6 +118,48 @@ Evidence files:
 These results validate deterministic synthetic-data generation. They do not
 represent real-world cybersecurity anomaly-detection performance.
 
+## Phase 3 verification evidence
+
+Phase 3 implemented deterministic, leakage-safe normal fitting, calibration,
+and evaluation partitions together with normal-fitting-only feature
+standardization.
+
+Verified evidence:
+
+- normal fitting observations: 2,400;
+- normal calibration observations: 800;
+- normal test observations: 800;
+- attack test observations: 1,000;
+- complete test observations: 1,800;
+- focused preprocessing tests: 38 passed;
+- complete regression suite: 122 passed;
+- total coverage: 91.46%;
+- overlapping split identifiers: 0;
+- identifier union complete: true;
+- maximum absolute standardized fitting mean:
+  `4.100423704282245e-16`;
+- maximum population-standard-deviation error:
+  `2.220446049250313e-16`;
+- same-seed fitting partitions matched;
+- different-seed fitting partitions differed.
+
+The seed-42 fitting-identifier SHA-256 is
+`fd9763c2e230cdc89f1319b79e3d4a113f6fce28a47f7af03aedf9c85863e6c9`.
+
+The fitted-scaler SHA-256 is
+`0db3e4facfc81ced3acc5fdec3e1d859118837c8e24aa0566139fbbd0996f0be`.
+
+The scaler uses only normal fitting features. Calibration observations, test
+observations, scenario labels, anomaly labels, and flow identifiers do not
+influence its fitted means or scales.
+
+Evidence files:
+
+- `docs/preprocessing_contract.md`;
+- `tests/test_preprocessing.py`;
+- `reports/validation/phase_03_pytest.xml`;
+- `reports/validation/phase_03_coverage.xml`;
+- `agent_trace/phase_03.md`.
 
 ## Current implementation status
 
@@ -132,7 +174,8 @@ represent real-world cybersecurity anomaly-detection performance.
 | Mathematical tests | Completed |
 | Mathematical validation CLI | Completed |
 | Synthetic cybersecurity data | Completed |
-| Leakage-safe splitting and standardization | Next phase |
+| Leakage-safe splitting and standardization | Completed |
+| Normal-only PCA fitting and component selection | Next phase |
 | Anomaly detector | To be implemented |
 | UNSW-NB15 experiment | To be implemented |
 | Agent reasoning evaluation | To be implemented |

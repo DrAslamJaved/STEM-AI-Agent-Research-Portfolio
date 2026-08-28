@@ -10,6 +10,13 @@ from cyber_pca.synthetic_data import (
     generate_synthetic_network_data,
 )
 
+from cyber_pca.preprocessing import (
+    RawDataSplits,
+    StandardizedDataSplits,
+    split_normal_calibration_test,
+    standardize_splits,
+)
+
 __version__ = "0.1.0"
 
 __all__ = [
@@ -20,4 +27,8 @@ __all__ = [
     "FEATURE_COLUMNS",
     "OUTPUT_COLUMNS",
     "generate_synthetic_network_data",
+    "RawDataSplits",
+    "StandardizedDataSplits",
+    "split_normal_calibration_test",
+    "standardize_splits",
 ]

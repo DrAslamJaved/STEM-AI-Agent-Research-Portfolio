@@ -14,6 +14,10 @@ from cyber_pca import (
     __version__,
     generate_synthetic_network_data,
     run_math_validation,
+    RawDataSplits,
+    StandardizedDataSplits,
+    split_normal_calibration_test,
+    standardize_splits,
 )
 
 
@@ -32,6 +36,19 @@ def test_public_package_exports() -> None:
 
     assert len(OUTPUT_COLUMNS) == 13
     assert callable(generate_synthetic_network_data)
+    assert RawDataSplits.__name__ == (
+        "RawDataSplits"
+    )
+
+    assert StandardizedDataSplits.__name__ == (
+        "StandardizedDataSplits"
+    )
+
+    assert callable(
+        split_normal_calibration_test
+    )
+
+    assert callable(standardize_splits)
 
 def test_baseline_configuration_contract() -> None:
     configuration_path = Path(
@@ -123,9 +140,81 @@ def test_baseline_configuration_contract() -> None:
         == "flow_id"
     )
 
+    preprocessing_configuration = configuration[
+        "preprocessing"
+    ]
+
+    assert (
+        preprocessing_configuration[
+            "normal_fit_fraction"
+        ]
+        == 0.60
+    )
+
+    assert (
+        preprocessing_configuration[
+            "normal_calibration_fraction"
+        ]
+        == 0.20
+    )
+
+    assert (
+        preprocessing_configuration[
+            "normal_test_fraction"
+        ]
+        == 0.20
+    )
+
+    assert (
+        preprocessing_configuration["random_seed"]
+        == 42
+    )
+
+    assert (
+        preprocessing_configuration[
+            "attack_assignment"
+        ]
+        == "test_only"
+    )
+
+    assert (
+        preprocessing_configuration[
+            "scaler_fit_split"
+        ]
+        == "normal_fit_only"
+    )
+
+    assert (
+        preprocessing_configuration["standardizer"]
+        == "sklearn.preprocessing.StandardScaler"
+    )
+
+    assert (
+        preprocessing_configuration[
+            "scaler_variance_ddof"
+        ]
+        == 0
+    )
+
+    assert preprocessing_configuration[
+        "excluded_columns"
+    ] == [
+        "flow_id",
+        "is_anomaly",
+        "scenario",
+    ]
+
+    assert (
+        preprocessing_configuration[
+            "reject_zero_variance"
+        ]
+        is True
+    )
+
 def test_required_project_documents_exist() -> None:
     required_paths = [
         Path("README.md"),
+        Path("docs/preprocessing_contract.md"),
         Path("docs/synthetic_data_contract.md"),
         Path("prompts/phase_02_synthetic_data.md"),
         Path("agent_trace/phase_02.md"),
@@ -135,6 +224,8 @@ def test_required_project_documents_exist() -> None:
         Path("docs/critical_reasoning.md"),
         Path("prompts/phase_01_foundation.md"),
         Path("agent_trace/phase_01.md"),
+        Path("prompts/phase_03_preprocessing.md"),
+        Path("agent_trace/phase_03.md"),
     ]
 
     for required_path in required_paths:

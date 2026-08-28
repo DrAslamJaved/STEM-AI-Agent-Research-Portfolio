@@ -59,3 +59,22 @@ synthetic_data:
     - "connection_rate"
     - "unique_dest_ports"
     - "failed_logins"
+
+preprocessing:
+  normal_fit_fraction: 0.60
+  normal_calibration_fraction: 0.20
+  normal_test_fraction: 0.20
+  random_seed: 42
+  fitting_class: "normal_only"
+  calibration_class: "normal_only"
+  attack_assignment: "test_only"
+  shuffle_test_split: true
+  standardizer: "sklearn.preprocessing.StandardScaler"
+  scaler_fit_split: "normal_fit_only"
+  scaler_variance_ddof: 0
+  excluded_columns:
+    - "flow_id"
+    - "is_anomaly"
+    - "scenario"
+  reject_zero_variance: true
+  preserve_flow_ids: true
