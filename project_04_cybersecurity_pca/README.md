@@ -161,6 +161,56 @@ Evidence files:
 - `reports/validation/phase_03_coverage.xml`;
 - `agent_trace/phase_03.md`.
 
+## Phase 4 verification evidence
+
+Phase 4 integrated the manual PCA implementation with the leakage-safe
+standardized partitions. PCA is fitted only on normal fitting observations,
+and the minimum component count satisfying the configured explained-variance
+target is retained.
+
+Verified evidence:
+
+- PCA fitting observations: 2,400 normal observations;
+- explained-variance target: 0.95;
+- selected principal components: 5;
+- achieved explained variance: `0.95811145295726`;
+- cumulative variance with four components: `0.92599114`;
+- cumulative variance with five components: `0.95811145`;
+- fit-score shape: `(2400, 5)`;
+- calibration-score shape: `(800, 5)`;
+- test-score shape: `(1800, 5)`;
+- covariance symmetry error: `0.0`;
+- maximum eigenpair residual:
+  `1.915134717478395e-15`;
+- eigenvector orthonormality error:
+  `1.3322676295501878e-15`;
+- maximum absolute PCA fitting mean:
+  `4.100423704282245e-16`;
+- focused PCA-workflow tests: 42 passed;
+- complete regression suite: 165 passed;
+- failures, errors, and skipped tests: 0;
+- line coverage: 94.88%;
+- branch coverage: 87.89%;
+- combined coverage: 93.17%.
+
+Changing calibration or test values does not change the fitted PCA model.
+Calibration observations, test observations, attack labels, scenario labels,
+and flow identifiers do not influence PCA fitting or component selection.
+
+Evidence files:
+
+- `docs/pca_fitting_contract.md`;
+- `tests/test_pca_workflow.py`;
+- `tests/test_pca_workflow_validation.py`;
+- `reports/validation/phase_04_pytest.xml`;
+- `reports/validation/phase_04_coverage.xml`;
+- `agent_trace/phase_04.md`.
+
+These results validate normal-only PCA fitting and dimensionality reduction on
+the deterministic synthetic dataset. Reconstruction-error thresholding,
+anomaly classification, and real-world UNSW-NB15 evaluation remain to be
+implemented.
+
 ## Current implementation status
 
 | Component | Status |
@@ -175,8 +225,8 @@ Evidence files:
 | Mathematical validation CLI | Completed |
 | Synthetic cybersecurity data | Completed |
 | Leakage-safe splitting and standardization | Completed |
-| Normal-only PCA fitting and component selection | Next phase |
-| Anomaly detector | To be implemented |
+| Normal-only PCA fitting and component selection | Completed |
+| Reconstruction-error anomaly detector | Next phase |
 | UNSW-NB15 experiment | To be implemented |
 | Agent reasoning evaluation | To be implemented |
 | Continuous integration | To be implemented |

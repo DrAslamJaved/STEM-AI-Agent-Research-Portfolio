@@ -18,7 +18,20 @@ from cyber_pca import (
     StandardizedDataSplits,
     split_normal_calibration_test,
     standardize_splits,
+    PCAFitResult,
+    PCAScoreSplits,
+    fit_normal_pca,
+    select_n_components,
+    transform_pca_splits,
 )
+
+def test_pca_workflow_public_interface() -> None:
+    assert PCAFitResult.__module__ == "cyber_pca.pca_workflow"
+    assert PCAScoreSplits.__module__ == "cyber_pca.pca_workflow"
+
+    assert callable(select_n_components)
+    assert callable(fit_normal_pca)
+    assert callable(transform_pca_splits)
 
 
 def test_public_package_exports() -> None:
@@ -211,9 +224,44 @@ def test_baseline_configuration_contract() -> None:
         is True
     )
 
+    assert (
+        configuration["pca"]["fitting_split"]
+        == "normal_fit_only"
+    )
+
+    assert (
+        configuration["pca"][
+            "component_selection_rule"
+        ]
+        == "minimum_cumulative_explained_variance"
+    )
+
+    assert (
+        configuration["pca"]["refit_selected_model"]
+        is True
+    )
+
+    assert configuration["pca"][
+        "score_splits"
+    ] == [
+        "normal_fit",
+        "normal_calibration",
+        "test",
+    ]
+
+    assert configuration["pca"][
+        "excluded_columns"
+    ] == [
+        "flow_id",
+        "is_anomaly",
+        "scenario",
+    ]
 def test_required_project_documents_exist() -> None:
     required_paths = [
         Path("README.md"),
+        Path("prompts/phase_04_pca_fitting.md"),
+        Path("agent_trace/phase_04.md"),
+        Path("docs/pca_fitting_contract.md"),
         Path("docs/preprocessing_contract.md"),
         Path("docs/synthetic_data_contract.md"),
         Path("prompts/phase_02_synthetic_data.md"),

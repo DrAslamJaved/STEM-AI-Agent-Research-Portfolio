@@ -11,6 +11,17 @@ pca:
   eigensolver: "numpy.linalg.eigh"
   reconstruction_space: "standardized"
   reconstruction_error: "mean_squared_error"
+  fitting_split: "normal_fit_only"
+  component_selection_rule: "minimum_cumulative_explained_variance"
+  refit_selected_model: true
+  score_splits:
+    - "normal_fit"
+    - "normal_calibration"
+    - "test"
+  excluded_columns:
+    - "flow_id"
+    - "is_anomaly"
+    - "scenario"
 
 threshold:
   fitting_class: "normal_only"
