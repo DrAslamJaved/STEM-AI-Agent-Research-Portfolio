@@ -34,3 +34,28 @@ evaluation:
     - "confusion_matrix"
     - "false_positive_rate"
     - "false_negative_rate"
+
+synthetic_data:
+  normal_observations: 4000
+  attack_observations_per_type: 250
+  attack_types:
+    - "port_scan"
+    - "dos"
+    - "brute_force"
+    - "exfiltration"
+  shuffle: true
+  output_dtype: "float64"
+  id_column: "flow_id"
+  label_column: "is_anomaly"
+  scenario_column: "scenario"
+  feature_columns:
+    - "duration_ms"
+    - "packets_in"
+    - "packets_out"
+    - "bytes_in"
+    - "bytes_out"
+    - "syn_count"
+    - "ack_count"
+    - "connection_rate"
+    - "unique_dest_ports"
+    - "failed_logins"

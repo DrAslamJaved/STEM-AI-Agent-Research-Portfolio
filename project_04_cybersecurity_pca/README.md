@@ -85,6 +85,40 @@ agent_trace/phase_01.md
 These results validate the mathematical and software foundation. They do not
 represent cybersecurity anomaly-detection performance.
 
+## Phase 2 verification evidence
+
+Phase 2 implemented a deterministic synthetic network-flow dataset containing
+normal traffic and four interpretable attack scenarios.
+
+Verified evidence:
+
+- default dataset size: 5,000 observations;
+- model features: 10;
+- attack scenarios: port scan, denial of service, brute force, and exfiltration;
+- focused synthetic-data tests: 24 passed;
+- complete regression suite: 84 passed;
+- total coverage: 94.82%;
+- duplicate flow identifiers: 0;
+- missing values: 0;
+- all model features use float64;
+- same-seed dataset hashes matched;
+- different-seed dataset hashes differed.
+
+The verified seed-42 dataset SHA-256 is
+`35005389b137bd472e44b44c987597b1b7e13b8fa88a4c099c110c50986e1561`.
+
+Evidence files:
+
+- `docs/synthetic_data_contract.md`;
+- `tests/test_synthetic_data.py`;
+- `reports/validation/phase_02_pytest.xml`;
+- `reports/validation/phase_02_coverage.xml`;
+- `agent_trace/phase_02.md`.
+
+These results validate deterministic synthetic-data generation. They do not
+represent real-world cybersecurity anomaly-detection performance.
+
+
 ## Current implementation status
 
 | Component | Status |
@@ -97,7 +131,8 @@ represent cybersecurity anomaly-detection performance.
 | Manual PCA implementation | Completed |
 | Mathematical tests | Completed |
 | Mathematical validation CLI | Completed |
-| Synthetic cybersecurity data | Next phase |
+| Synthetic cybersecurity data | Completed |
+| Leakage-safe splitting and standardization | Next phase |
 | Anomaly detector | To be implemented |
 | UNSW-NB15 experiment | To be implemented |
 | Agent reasoning evaluation | To be implemented |

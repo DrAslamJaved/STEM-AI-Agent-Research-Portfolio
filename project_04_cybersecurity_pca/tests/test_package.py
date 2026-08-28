@@ -7,8 +7,12 @@ from pathlib import Path
 import yaml
 
 from cyber_pca import (
+    ATTACK_TYPES,
+    FEATURE_COLUMNS,
+    OUTPUT_COLUMNS,
     ManualPCA,
     __version__,
+    generate_synthetic_network_data,
     run_math_validation,
 )
 
@@ -17,7 +21,17 @@ def test_public_package_exports() -> None:
     assert ManualPCA.__name__ == "ManualPCA"
     assert callable(run_math_validation)
     assert __version__ == "0.1.0"
+    assert len(FEATURE_COLUMNS) == 10
 
+    assert ATTACK_TYPES == (
+        "port_scan",
+        "dos",
+        "brute_force",
+        "exfiltration",
+    )
+
+    assert len(OUTPUT_COLUMNS) == 13
+    assert callable(generate_synthetic_network_data)
 
 def test_baseline_configuration_contract() -> None:
     configuration_path = Path(
@@ -56,10 +70,66 @@ def test_baseline_configuration_contract() -> None:
         is True
     )
 
+    synthetic_configuration = configuration[
+        "synthetic_data"
+    ]
 
-def test_required_phase_one_documents_exist() -> None:
+    assert (
+        synthetic_configuration["normal_observations"]
+        == 4000
+    )
+
+    assert (
+        synthetic_configuration[
+            "attack_observations_per_type"
+        ]
+        == 250
+    )
+
+    assert synthetic_configuration["attack_types"] == [
+        "port_scan",
+        "dos",
+        "brute_force",
+        "exfiltration",
+    ]
+
+    assert synthetic_configuration["shuffle"] is True
+
+    assert synthetic_configuration["feature_columns"] == [
+        "duration_ms",
+        "packets_in",
+        "packets_out",
+        "bytes_in",
+        "bytes_out",
+        "syn_count",
+        "ack_count",
+        "connection_rate",
+        "unique_dest_ports",
+        "failed_logins",
+    ]
+
+    assert (
+        synthetic_configuration["label_column"]
+        == "is_anomaly"
+    )
+
+    assert (
+        synthetic_configuration["scenario_column"]
+        == "scenario"
+    )
+
+    assert (
+        synthetic_configuration["id_column"]
+        == "flow_id"
+    )
+
+def test_required_project_documents_exist() -> None:
     required_paths = [
         Path("README.md"),
+        Path("docs/synthetic_data_contract.md"),
+        Path("prompts/phase_02_synthetic_data.md"),
+        Path("agent_trace/phase_02.md"),
+        Path("docs/synthetic_data_contract.md"),
         Path("docs/research_protocol.md"),
         Path("docs/mathematical_foundation.md"),
         Path("docs/critical_reasoning.md"),
