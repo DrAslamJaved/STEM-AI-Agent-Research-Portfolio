@@ -1,7 +1,7 @@
 """Tests for package exports and reproducibility artifacts."""
 
 from __future__ import annotations
-
+from dataclasses import is_dataclass
 from pathlib import Path
 
 import yaml
@@ -23,6 +23,11 @@ from cyber_pca import (
     fit_normal_pca,
     select_n_components,
     transform_pca_splits,
+    AnomalyThresholdResult,
+    ReconstructionErrorSplits,
+    calibrate_anomaly_threshold,
+    compute_reconstruction_errors,
+    predict_anomalies,
 )
 
 def test_pca_workflow_public_interface() -> None:
@@ -33,6 +38,13 @@ def test_pca_workflow_public_interface() -> None:
     assert callable(fit_normal_pca)
     assert callable(transform_pca_splits)
 
+def test_detector_public_interface() -> None:
+    assert is_dataclass(ReconstructionErrorSplits)
+    assert is_dataclass(AnomalyThresholdResult)
+
+    assert callable(compute_reconstruction_errors)
+    assert callable(calibrate_anomaly_threshold)
+    assert callable(predict_anomalies)
 
 def test_public_package_exports() -> None:
     assert ManualPCA.__name__ == "ManualPCA"
@@ -256,9 +268,18 @@ def test_baseline_configuration_contract() -> None:
         "is_anomaly",
         "scenario",
     ]
+
+    assert (
+        configuration["threshold"]["quantile_method"]
+        == "linear"
+    )
+
 def test_required_project_documents_exist() -> None:
     required_paths = [
         Path("README.md"),
+        Path("prompts/phase_05_detector.md"),
+        Path("agent_trace/phase_05.md"),
+        Path("docs/reconstruction_error_contract.md"),
         Path("prompts/phase_04_pca_fitting.md"),
         Path("agent_trace/phase_04.md"),
         Path("docs/pca_fitting_contract.md"),
@@ -279,6 +300,36 @@ def test_required_project_documents_exist() -> None:
     for required_path in required_paths:
         assert required_path.is_file()
         assert required_path.stat().st_size > 0
+
+def test_phase_five_readme_evidence() -> None:
+    readme_text = Path("README.md").read_text(
+        encoding="utf-8"
+    )
+
+    required_fragments = (
+        "## Phase 5 verification evidence",
+        "complete regression suite: 238 passed",
+        "combined coverage: 93.09%",
+        (
+            "calibrated threshold: "
+            "`0.19016111759041537`"
+        ),
+        (
+            "test observations predicted "
+            "anomalous: 1,003"
+        ),
+        (
+            "| Reconstruction-error detector "
+            "| Completed |"
+        ),
+        (
+            "| Synthetic evaluation and reporting "
+            "| Next phase |"
+        ),
+    )
+
+    for required_fragment in required_fragments:
+        assert required_fragment in readme_text
 
 def test_markdown_code_fences_are_closed() -> None:
     markdown_paths = [

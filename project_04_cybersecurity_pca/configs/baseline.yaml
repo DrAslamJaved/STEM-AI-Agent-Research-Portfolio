@@ -28,6 +28,7 @@ threshold:
   calibration_class: "normal_only"
   method: "quantile"
   quantile: 0.99
+  quantile_method: "linear"
   comparison: "strictly_greater_than"
 
 data:

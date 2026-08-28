@@ -17,12 +17,28 @@ from cyber_pca.preprocessing import (
     standardize_splits,
 )
 
+from cyber_pca.detector import (
+    AnomalyThresholdResult,
+    ReconstructionErrorSplits,
+    calibrate_anomaly_threshold,
+    compute_reconstruction_errors,
+    predict_anomalies,
+)
+
 from .pca_workflow import (
     PCAFitResult,
     PCAScoreSplits,
     fit_normal_pca,
     select_n_components,
     transform_pca_splits,
+)
+
+from .detector import (
+    AnomalyThresholdResult,
+    ReconstructionErrorSplits,
+    calibrate_anomaly_threshold,
+    compute_reconstruction_errors,
+    predict_anomalies,
 )
 
 __version__ = "0.1.0"
@@ -39,4 +55,9 @@ __all__ = [
     "StandardizedDataSplits",
     "split_normal_calibration_test",
     "standardize_splits",
+    "AnomalyThresholdResult",
+    "ReconstructionErrorSplits",
+    "calibrate_anomaly_threshold",
+    "compute_reconstruction_errors",
+    "predict_anomalies",
 ]

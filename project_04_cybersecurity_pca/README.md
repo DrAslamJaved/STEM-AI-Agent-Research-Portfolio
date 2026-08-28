@@ -211,6 +211,51 @@ the deterministic synthetic dataset. Reconstruction-error thresholding,
 anomaly classification, and real-world UNSW-NB15 evaluation remain to be
 implemented.
 
+## Phase 5 verification evidence
+
+Phase 5 implemented standardized-space PCA reconstruction errors,
+normal-calibration-only threshold selection, and strict binary anomaly
+prediction.
+
+Verified evidence:
+
+- selected PCA components: 5;
+- achieved explained variance: `0.95811145295725997`;
+- normal fitting reconstruction errors: 2,400;
+- normal calibration reconstruction errors: 800;
+- test reconstruction errors: 1,800;
+- calibrated threshold: `0.19016111759041537`;
+- threshold quantile: 0.99;
+- quantile method: linear;
+- calibration errors strictly above threshold: 8;
+- calibration errors equal to threshold: 0;
+- test observations predicted normal: 797;
+- test observations predicted anomalous: 1,003;
+- complete regression suite: 238 passed;
+- line coverage: 94.79%;
+- branch coverage: 88.40%;
+- combined coverage: 93.09%;
+- failures, errors, and skipped tests: 0;
+- full-component reconstruction: approximately exact;
+- complete detector execution: deterministic.
+
+Evidence files:
+
+- `docs/reconstruction_error_contract.md`;
+- `tests/test_detector.py`;
+- `tests/test_detector_validation.py`;
+- `tests/test_detector_integration.py`;
+- `reports/validation/phase_05_pytest.xml`;
+- `reports/validation/phase_05_coverage.xml`;
+- `agent_trace/phase_05.md`.
+
+The PCA model uses only normal fitting observations. The anomaly threshold uses
+only normal calibration reconstruction errors. Test errors, anomaly labels, and
+scenario labels do not influence either fitted object.
+
+These results validate reconstruction-error computation and calibration-only
+thresholding. They do not represent final anomaly-detection performance.
+
 ## Current implementation status
 
 | Component | Status |
@@ -226,7 +271,8 @@ implemented.
 | Synthetic cybersecurity data | Completed |
 | Leakage-safe splitting and standardization | Completed |
 | Normal-only PCA fitting and component selection | Completed |
-| Reconstruction-error anomaly detector | Next phase |
+| Reconstruction-error detector | Completed |
+| Synthetic evaluation and reporting | Next phase |
 | UNSW-NB15 experiment | To be implemented |
 | Agent reasoning evaluation | To be implemented |
 | Continuous integration | To be implemented |
