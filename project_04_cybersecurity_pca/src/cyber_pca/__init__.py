@@ -41,6 +41,20 @@ from .detector import (
     predict_anomalies,
 )
 
+from .evaluation import (
+    BinaryEvaluationResult,
+    align_evaluation_data,
+    evaluate_binary_predictions,
+    evaluate_scenarios,
+)
+
+from .reporting import (
+    SyntheticEvaluationArtifacts,
+    build_synthetic_evaluation_summary,
+    resolve_synthetic_evaluation_artifacts,
+    write_synthetic_evaluation_artifacts,
+)
+
 __version__ = "0.1.0"
 
 __all__ = [
@@ -60,4 +74,12 @@ __all__ = [
     "calibrate_anomaly_threshold",
     "compute_reconstruction_errors",
     "predict_anomalies",
+    "BinaryEvaluationResult",
+    "align_evaluation_data",
+    "evaluate_binary_predictions",
+    "evaluate_scenarios",
+    "SyntheticEvaluationArtifacts",
+    "build_synthetic_evaluation_summary",
+    "resolve_synthetic_evaluation_artifacts",
+    "write_synthetic_evaluation_artifacts",
 ]

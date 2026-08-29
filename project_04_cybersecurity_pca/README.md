@@ -256,6 +256,67 @@ scenario labels do not influence either fitted object.
 These results validate reconstruction-error computation and calibration-only
 thresholding. They do not represent final anomaly-detection performance.
 
+## Phase 6 verification evidence
+
+Phase 6 evaluated the frozen synthetic PCA detector using hidden test labels
+accessed only after anomaly prediction. It also produced deterministic JSON,
+CSV, PNG, and command-line evidence.
+
+Verified evidence:
+
+- 311 passing tests;
+- failures, errors, and skipped tests: 0;
+- line coverage: 93.27%;
+- branch coverage: 83.97%;
+- 90.71% combined coverage;
+- selected principal components: 5;
+- achieved explained variance: `0.95811145295725997`;
+- frozen threshold: `0.19016111759041537`;
+- true negatives: 797;
+- false positives: 3;
+- false negatives: 0;
+- true positives: 1,000;
+- confusion matrix: `((797, 3), (0, 1000))`;
+- precision: `0.9970089730807578`;
+- recall: `1.0`;
+- F1: `0.9985022466300548`;
+- accuracy: `0.9983333333333333`;
+- false-positive rate: `0.00375`;
+- false-negative rate: `0.0`;
+- all four synthetic attack scenarios detected at 250 of 250;
+- reporting module coverage: 100%;
+- deterministic module and console CLI execution;
+- dry-run created no files;
+- eight regenerated artifacts matched permanent evidence by SHA-256.
+
+Evidence files:
+
+- `docs/evaluation_reporting_contract.md`;
+- `tests/test_evaluation.py`;
+- `tests/test_evaluation_validation.py`;
+- `tests/test_evaluation_integration.py`;
+- `tests/test_reporting.py`;
+- `tests/test_reporting_validation.py`;
+- `tests/test_cli_evaluation.py`;
+- `tests/test_cli_evaluation_inprocess.py`;
+- `results/synthetic_evaluation.json`;
+- `results/synthetic_predictions.csv`;
+- `reports/tables/synthetic_metrics.csv`;
+- `reports/tables/synthetic_scenario_metrics.csv`;
+- `reports/figures/synthetic_confusion_matrix.png`;
+- `reports/figures/synthetic_reconstruction_errors.png`;
+- `reports/figures/synthetic_scree_plot.png`;
+- `reports/figures/synthetic_scenario_rates.png`;
+- `reports/validation/phase_06_pytest.xml`;
+- `reports/validation/phase_06_coverage.xml`;
+- `agent_trace/phase_06.md`.
+
+The fitted scaler, PCA model, retained components, calibrated threshold,
+reconstruction errors, predictions, and raw test observations remained
+unchanged during evaluation.
+
+These synthetic results do not represent real-world cybersecurity performance.
+
 ## Current implementation status
 
 | Component | Status |
@@ -272,7 +333,7 @@ thresholding. They do not represent final anomaly-detection performance.
 | Leakage-safe splitting and standardization | Completed |
 | Normal-only PCA fitting and component selection | Completed |
 | Reconstruction-error detector | Completed |
-| Synthetic evaluation and reporting | Next phase |
-| UNSW-NB15 experiment | To be implemented |
+| Synthetic evaluation and reporting | Completed |
+| UNSW-NB15 experiment | Next phase |
 | Agent reasoning evaluation | To be implemented |
 | Continuous integration | To be implemented |

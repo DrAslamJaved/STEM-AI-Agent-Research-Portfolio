@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 from dataclasses import is_dataclass
+from dataclasses import fields, is_dataclass
 from pathlib import Path
 
 import yaml
@@ -28,6 +29,14 @@ from cyber_pca import (
     calibrate_anomaly_threshold,
     compute_reconstruction_errors,
     predict_anomalies,
+    BinaryEvaluationResult,
+    align_evaluation_data,
+    evaluate_binary_predictions,
+    evaluate_scenarios,
+    SyntheticEvaluationArtifacts,
+    build_synthetic_evaluation_summary,
+    resolve_synthetic_evaluation_artifacts,
+    write_synthetic_evaluation_artifacts,
 )
 
 def test_pca_workflow_public_interface() -> None:
@@ -74,6 +83,35 @@ def test_public_package_exports() -> None:
     )
 
     assert callable(standardize_splits)
+
+def test_evaluation_public_interface() -> None:
+    assert is_dataclass(BinaryEvaluationResult)
+
+    assert [
+        field.name
+        for field in fields(BinaryEvaluationResult)
+    ] == [
+        "total",
+        "normal_support",
+        "anomaly_support",
+        "predicted_normal",
+        "predicted_anomaly",
+        "true_negatives",
+        "false_positives",
+        "false_negatives",
+        "true_positives",
+        "precision",
+        "recall",
+        "f1",
+        "accuracy",
+        "false_positive_rate",
+        "false_negative_rate",
+        "confusion_matrix",
+    ]
+
+    assert callable(align_evaluation_data)
+    assert callable(evaluate_binary_predictions)
+    assert callable(evaluate_scenarios)
 
 def test_baseline_configuration_contract() -> None:
     configuration_path = Path(
@@ -274,9 +312,96 @@ def test_baseline_configuration_contract() -> None:
         == "linear"
     )
 
+    evaluation_configuration = configuration[
+        "evaluation"
+    ]
+
+    assert (
+        evaluation_configuration["positive_class"]
+        == "anomaly"
+    )
+    assert evaluation_configuration["positive_label"] == 1
+    assert evaluation_configuration["negative_label"] == 0
+    assert (
+        evaluation_configuration["zero_division"]
+        == 0
+    )
+    assert (
+        evaluation_configuration[
+            "confusion_matrix_labels"
+        ]
+        == [0, 1]
+    )
+    assert (
+        evaluation_configuration["label_column"]
+        == "is_anomaly"
+    )
+    assert (
+        evaluation_configuration["scenario_column"]
+        == "scenario"
+    )
+    assert (
+        evaluation_configuration[
+            "prediction_column"
+        ]
+        == "predicted_anomaly"
+    )
+
+    reporting_configuration = configuration[
+        "reporting"
+    ]
+
+    assert reporting_configuration["figure_dpi"] == 150
+    assert (
+        reporting_configuration["figure_format"]
+        == "png"
+    )
+    assert (
+        reporting_configuration["table_format"]
+        == "csv"
+    )
+
+    expected_output_paths = {
+        "summary_json": (
+            "results/synthetic_evaluation.json"
+        ),
+        "predictions_csv": (
+            "results/synthetic_predictions.csv"
+        ),
+        "metrics_csv": (
+            "reports/tables/synthetic_metrics.csv"
+        ),
+        "scenario_metrics_csv": (
+            "reports/tables/"
+            "synthetic_scenario_metrics.csv"
+        ),
+        "confusion_matrix_figure": (
+            "reports/figures/"
+            "synthetic_confusion_matrix.png"
+        ),
+        "reconstruction_error_figure": (
+            "reports/figures/"
+            "synthetic_reconstruction_errors.png"
+        ),
+        "scree_plot_figure": (
+            "reports/figures/"
+            "synthetic_scree_plot.png"
+        ),
+        "scenario_rates_figure": (
+            "reports/figures/"
+            "synthetic_scenario_rates.png"
+        ),
+    }
+
+    assert (
+        reporting_configuration["output_paths"]
+        == expected_output_paths
+    )
+
 def test_required_project_documents_exist() -> None:
     required_paths = [
         Path("README.md"),
+        Path("docs/evaluation_reporting_contract.md"),
         Path("prompts/phase_05_detector.md"),
         Path("agent_trace/phase_05.md"),
         Path("docs/reconstruction_error_contract.md"),
@@ -324,7 +449,7 @@ def test_phase_five_readme_evidence() -> None:
         ),
         (
             "| Synthetic evaluation and reporting "
-            "| Next phase |"
+            "| Completed |"
         ),
     )
 
@@ -385,3 +510,93 @@ def test_text_artifacts_end_with_newline() -> None:
         assert text_path.read_bytes().endswith(
             b"\n"
         ), f"Missing final newline: {text_path}"
+
+def test_reporting_package_interface() -> None:
+    assert is_dataclass(
+        SyntheticEvaluationArtifacts
+    )
+
+    assert [
+        field.name
+        for field in fields(
+            SyntheticEvaluationArtifacts
+        )
+    ] == [
+        "summary_json",
+        "predictions_csv",
+        "metrics_csv",
+        "scenario_metrics_csv",
+        "confusion_matrix_figure",
+        "reconstruction_errors_figure",
+        "scree_plot_figure",
+        "scenario_rates_figure",
+    ]
+
+    assert callable(
+        build_synthetic_evaluation_summary
+    )
+
+    assert callable(
+        resolve_synthetic_evaluation_artifacts
+    )
+
+    assert callable(
+        write_synthetic_evaluation_artifacts
+    )
+
+def test_phase_six_documentation_evidence() -> None:
+    required_paths = (
+        Path("docs/evaluation_reporting_contract.md"),
+        Path("prompts/phase_06_evaluation_reporting.md"),
+        Path("agent_trace/phase_06.md"),
+        Path("reports/validation/phase_06_pytest.xml"),
+        Path("reports/validation/phase_06_coverage.xml"),
+        Path("results/synthetic_evaluation.json"),
+        Path("results/synthetic_predictions.csv"),
+        Path("reports/tables/synthetic_metrics.csv"),
+        Path(
+            "reports/tables/"
+            "synthetic_scenario_metrics.csv"
+        ),
+        Path(
+            "reports/figures/"
+            "synthetic_confusion_matrix.png"
+        ),
+        Path(
+            "reports/figures/"
+            "synthetic_reconstruction_errors.png"
+        ),
+        Path(
+            "reports/figures/"
+            "synthetic_scree_plot.png"
+        ),
+        Path(
+            "reports/figures/"
+            "synthetic_scenario_rates.png"
+        ),
+    )
+
+    for required_path in required_paths:
+        assert required_path.is_file(), (
+            f"Missing Phase 6 artifact: {required_path}"
+        )
+        assert required_path.stat().st_size > 0
+
+    readme_text = Path("README.md").read_text(
+        encoding="utf-8"
+    )
+
+    required_fragments = (
+        "## Phase 6 verification evidence",
+        "311 passing tests",
+        "90.71% combined coverage",
+        "((797, 3), (0, 1000))",
+        "Synthetic evaluation and reporting | Completed",
+        (
+            "These synthetic results do not represent "
+            "real-world cybersecurity performance."
+        ),
+    )
+
+    for required_fragment in required_fragments:
+        assert required_fragment in readme_text

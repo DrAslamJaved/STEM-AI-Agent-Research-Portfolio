@@ -9,6 +9,29 @@ from typing import Sequence
 
 import numpy as np
 
+from cyber_pca.detector import (
+    calibrate_anomaly_threshold,
+    compute_reconstruction_errors,
+    predict_anomalies,
+)
+from cyber_pca.evaluation import (
+    align_evaluation_data,
+    evaluate_binary_predictions,
+    evaluate_scenarios,
+)
+from cyber_pca.pca_workflow import fit_normal_pca
+from cyber_pca.preprocessing import (
+    split_normal_calibration_test,
+    standardize_splits,
+)
+from cyber_pca.reporting import (
+    resolve_synthetic_evaluation_artifacts,
+    write_synthetic_evaluation_artifacts,
+)
+from cyber_pca.synthetic_data import (
+    generate_synthetic_network_data,
+)
+
 from cyber_pca.validation import run_math_validation
 
 
@@ -72,6 +95,43 @@ def build_parser() -> argparse.ArgumentParser:
         help=(
             "JSON output path "
             f"(default: {DEFAULT_VALIDATION_OUTPUT})"
+        ),
+    )
+
+    evaluation_parser = subparsers.add_parser(
+        "evaluate-synthetic",
+        help=(
+            "execute the frozen synthetic PCA "
+            "evaluation workflow"
+        ),
+    )
+
+    evaluation_parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help=(
+            "print ordered operations without "
+            "writing evaluation artifacts"
+        ),
+    )
+
+    evaluation_parser.add_argument(
+        "--output-root",
+        type=Path,
+        default=Path("."),
+        help=(
+            "root directory for results and "
+            "reports (default: current directory)"
+        ),
+    )
+
+    evaluation_parser.add_argument(
+        "--dpi",
+        type=int,
+        default=150,
+        help=(
+            "PNG resolution in dots per inch "
+            "(default: 150)"
         ),
     )
 
@@ -147,6 +207,192 @@ def _execute_validation(output: Path) -> int:
         else 1
     )
 
+def _print_synthetic_evaluation_dry_run(
+    output_root: Path,
+    dpi: int,
+) -> None:
+    """Print the synthetic evaluation plan."""
+
+    artifacts = (
+        resolve_synthetic_evaluation_artifacts(
+            output_root
+        )
+    )
+
+    operations = (
+        "generate deterministic synthetic traffic",
+        (
+            "create normal fitting, normal "
+            "calibration, and hidden-label test splits"
+        ),
+        (
+            "fit StandardScaler using normal "
+            "fitting traffic only"
+        ),
+        (
+            "fit PCA using normal fitting "
+            "traffic only"
+        ),
+        (
+            "select the minimum component count "
+            "meeting the 0.95 variance target"
+        ),
+        (
+            "compute standardized-space "
+            "reconstruction errors"
+        ),
+        (
+            "calibrate the 0.99 quantile threshold "
+            "using normal calibration traffic only"
+        ),
+        (
+            "predict test anomalies before "
+            "accessing test labels"
+        ),
+        (
+            "align hidden labels by flow_id and "
+            "calculate binary and scenario metrics"
+        ),
+        (
+            "write deterministic JSON, CSV, and "
+            f"PNG artifacts at {dpi} DPI"
+        ),
+    )
+
+    print("DRY RUN - no files will be written")
+
+    for index, operation in enumerate(
+        operations,
+        start=1,
+    ):
+        print(f"{index}. {operation}")
+
+    print("Planned artifacts:")
+
+    planned_paths = (
+        artifacts.summary_json,
+        artifacts.predictions_csv,
+        artifacts.metrics_csv,
+        artifacts.scenario_metrics_csv,
+        artifacts.confusion_matrix_figure,
+        artifacts.reconstruction_errors_figure,
+        artifacts.scree_plot_figure,
+        artifacts.scenario_rates_figure,
+    )
+
+    for path in planned_paths:
+        print(f"- {path}")
+
+
+def _execute_synthetic_evaluation(
+    output_root: Path,
+    dpi: int,
+) -> int:
+    """Execute the frozen synthetic evaluation."""
+
+    dataset = generate_synthetic_network_data()
+
+    raw_splits = split_normal_calibration_test(
+        dataset
+    )
+
+    standardized_splits = standardize_splits(
+        raw_splits
+    )
+
+    fit_result = fit_normal_pca(
+        standardized_splits
+    )
+
+    error_splits = compute_reconstruction_errors(
+        standardized_splits,
+        fit_result,
+    )
+
+    threshold_result = (
+        calibrate_anomaly_threshold(
+            error_splits
+        )
+    )
+
+    # Predictions are frozen before test labels
+    # enter evaluation.
+    predictions = predict_anomalies(
+        error_splits.test,
+        threshold_result,
+    )
+
+    evaluation_data = align_evaluation_data(
+        raw_splits.test,
+        error_splits.test,
+        predictions,
+    )
+
+    binary_result = (
+        evaluate_binary_predictions(
+            evaluation_data
+        )
+    )
+
+    scenario_result = evaluate_scenarios(
+        evaluation_data
+    )
+
+    artifacts = (
+        write_synthetic_evaluation_artifacts(
+            evaluation_data,
+            fit_result,
+            threshold_result,
+            binary_result,
+            scenario_result,
+            output_root=output_root,
+            dpi=dpi,
+        )
+    )
+
+    print("Synthetic evaluation: PASSED")
+    print(
+        "- selected components: "
+        f"{fit_result.n_components}"
+    )
+    print(
+        "- achieved explained variance: "
+        f"{fit_result.achieved_explained_variance:.17g}"
+    )
+    print(
+        "- frozen threshold: "
+        f"{threshold_result.threshold:.17g}"
+    )
+    print(
+        "- confusion matrix: "
+        f"{binary_result.confusion_matrix}"
+    )
+    print(
+        "- precision: "
+        f"{binary_result.precision:.17g}"
+    )
+    print(
+        "- recall: "
+        f"{binary_result.recall:.17g}"
+    )
+    print(
+        "- f1: "
+        f"{binary_result.f1:.17g}"
+    )
+    print(
+        "- false positive rate: "
+        f"{binary_result.false_positive_rate:.17g}"
+    )
+    print(
+        "- false negative rate: "
+        f"{binary_result.false_negative_rate:.17g}"
+    )
+    print(
+        "Evaluation report: "
+        f"{artifacts.summary_json}"
+    )
+
+    return 0
 
 def main(
     argv: Sequence[str] | None = None,
@@ -167,6 +413,19 @@ def main(
 
         return _execute_validation(
             arguments.output
+        )
+
+    if arguments.command == "evaluate-synthetic":
+        if arguments.dry_run:
+            _print_synthetic_evaluation_dry_run(
+                arguments.output_root,
+                arguments.dpi,
+            )
+            return 0
+
+        return _execute_synthetic_evaluation(
+            arguments.output_root,
+            arguments.dpi,
         )
 
     parser.error(

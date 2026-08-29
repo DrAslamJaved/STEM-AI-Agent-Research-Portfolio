@@ -39,6 +39,15 @@ data:
 
 evaluation:
   positive_class: "anomaly"
+  positive_label: 1
+  negative_label: 0
+  zero_division: 0
+  confusion_matrix_labels:
+    - 0
+    - 1
+  label_column: "is_anomaly"
+  scenario_column: "scenario"
+  prediction_column: "predicted_anomaly"
   metrics:
     - "precision"
     - "recall"
@@ -90,3 +99,17 @@ preprocessing:
     - "scenario"
   reject_zero_variance: true
   preserve_flow_ids: true
+
+reporting:
+  figure_dpi: 150
+  figure_format: "png"
+  table_format: "csv"
+  output_paths:
+    summary_json: "results/synthetic_evaluation.json"
+    predictions_csv: "results/synthetic_predictions.csv"
+    metrics_csv: "reports/tables/synthetic_metrics.csv"
+    scenario_metrics_csv: "reports/tables/synthetic_scenario_metrics.csv"
+    confusion_matrix_figure: "reports/figures/synthetic_confusion_matrix.png"
+    reconstruction_error_figure: "reports/figures/synthetic_reconstruction_errors.png"
+    scree_plot_figure: "reports/figures/synthetic_scree_plot.png"
+    scenario_rates_figure: "reports/figures/synthetic_scenario_rates.png"
