@@ -113,3 +113,54 @@ reporting:
     reconstruction_error_figure: "reports/figures/synthetic_reconstruction_errors.png"
     scree_plot_figure: "reports/figures/synthetic_scree_plot.png"
     scenario_rates_figure: "reports/figures/synthetic_scenario_rates.png"
+unsw_nb15:
+  dataset_name: "UNSW-NB15"
+  source_page: "https://research.unsw.edu.au/projects/unsw-nb15-dataset"
+  acquisition_method: "manual_official_download"
+  academic_use: true
+  raw_directory: "data/raw"
+  training_file: "UNSW_NB15_training-set.csv"
+  testing_file: "UNSW_NB15_testing-set.csv"
+  features_file: "NUSW-NB15_features.csv"
+  curated_file_encoding: "utf-8"
+  feature_description_encoding: "cp1252"
+  expected_curated_columns: 45
+  expected_feature_description_rows: 49
+  expected_training_rows: 175341
+  expected_testing_rows: 82332
+  identifier_column: "id"
+  identifier_scope: "partition_local"
+  record_key:
+    - "source_partition"
+    - "id"
+  categorical_encoder: "sklearn.preprocessing.OneHotEncoder"
+  categorical_encoder_fit_split: "normal_fit_only"
+  categorical_unknown_policy: "ignore"
+  categorical_sparse_output: false
+  standardizer: "sklearn.preprocessing.StandardScaler"
+  standardizer_fit_split: "normal_fit_only"
+  expected_numeric_features: 39
+  expected_encoded_categorical_features: 25
+  expected_model_features: 64
+  zero_variance_policy: "reject"
+  training_attack_usage: "excluded"
+  test_label_access: "evaluation_only"
+  label_column: "label"
+  attack_category_column: "attack_cat"
+  categorical_columns:
+    - "proto"
+    - "service"
+    - "state"
+  excluded_model_columns:
+    - "id"
+    - "label"
+    - "attack_cat"
+  training_usage: "normal_fit_and_calibration_only"
+  testing_usage: "hidden_label_evaluation_only"
+  normal_fit_fraction: 0.75
+  normal_calibration_fraction: 0.25
+  random_seed: 42
+  raw_files_immutable: true
+  hash_algorithm: "sha256"
+  manifest_path: "reports/validation/phase_07_unsw_nb15_manifest.json"
+  preprocessing_evidence_path: "reports/validation/phase_07_unsw_nb15_preprocessing.json"

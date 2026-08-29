@@ -1,0 +1,45 @@
+{
+  "dataset": "UNSW-NB15",
+  "features": {
+    "categorical_inputs": 3,
+    "encoded_categorical": 25,
+    "encoder_domain_sha256": "f54d775fb4b8fdee822680fcd9d823698562031b22a75696c8029773c6f34ea8",
+    "feature_name_sha256": "f47ce5e1981c3a4eae3d51cd45c20f50d02f764714a57f3ec57a15c7b4c62bad",
+    "model_features": 64,
+    "numeric": 39
+  },
+  "guards": {
+    "encoder_fit_normal_only": true,
+    "pca_fitted": false,
+    "scaler_fit_normal_only": true,
+    "test_labels_used_for_fitting": false,
+    "threshold_calibrated": false,
+    "training_attacks_excluded": true
+  },
+  "partitions": {
+    "normal_calibration": {
+      "id_sha256": "3d6fdd600b74bcd0599838a016290a07315fc52cfdba2f8b2cae6fd2614a6d73",
+      "observations": 14000
+    },
+    "normal_fit": {
+      "id_sha256": "b8ec94affc717d98f1c5d2db12e1d8304f82f9e761590ec66c2b18a3c827cc68",
+      "observations": 42000
+    },
+    "test": {
+      "id_sha256": "e0ba957c470ff374011d87e4214e304b85b85dde050198e5b4da146c5c885039",
+      "observations": 82332
+    }
+  },
+  "phase": 7,
+  "standardization": {
+    "all_values_finite": true,
+    "fit_sample_count": 42000,
+    "maximum_absolute_fitting_mean": 2.6744790509220754e-13,
+    "maximum_fitting_std_error": 1.0685896612017132e-12,
+    "normal_calibration_sha256": "1c35e0f30bf46bf21bc77160ddadea6db22b2f086182dc79344fa04ecaaf79b7",
+    "normal_fit_sha256": "cb5a43a816f2ac080b9669a147690309b601872b9fe2e63b6973b095ca552d4b",
+    "scaler_state_sha256": "610ea7a2e37f669878a10a34d18e63b93b36fa4a0251e92399b5d680ab841685",
+    "test_sha256": "eeaf451bba6b4c0907f62c28dff28fb9acfc7660bd0f8ae7baa689ef76de8b47"
+  },
+  "status": "passed"
+}

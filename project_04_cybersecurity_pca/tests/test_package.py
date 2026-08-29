@@ -1,7 +1,6 @@
 """Tests for package exports and reproducibility artifacts."""
 
 from __future__ import annotations
-from dataclasses import is_dataclass
 from dataclasses import fields, is_dataclass
 from pathlib import Path
 
@@ -37,6 +36,22 @@ from cyber_pca import (
     build_synthetic_evaluation_summary,
     resolve_synthetic_evaluation_artifacts,
     write_synthetic_evaluation_artifacts,
+    UNSWNB15Data,
+    UNSWNB15Paths,
+    UNSW_CATEGORICAL_COLUMNS,
+    UNSW_CURATED_COLUMNS,
+    build_unsw_nb15_manifest,
+    load_unsw_nb15,
+    resolve_unsw_nb15_paths,
+    validate_unsw_nb15,
+    write_unsw_nb15_manifest,
+    UNSWPreprocessor,
+    UNSWRawDataSplits,
+    UNSWStandardizedDataSplits,
+    build_unsw_preprocessing_evidence,
+    split_unsw_normal_calibration_test,
+    standardize_unsw_splits,
+    write_unsw_preprocessing_evidence,
 )
 
 def test_pca_workflow_public_interface() -> None:
@@ -401,6 +416,25 @@ def test_baseline_configuration_contract() -> None:
 def test_required_project_documents_exist() -> None:
     required_paths = [
         Path("README.md"),
+        Path("docs/unsw_nb15_data_contract.md"),
+        Path("prompts/phase_07_unsw_nb15.md"),
+        Path("agent_trace/phase_07.md"),
+        Path(
+            "reports/validation/"
+            "phase_07_unsw_nb15_manifest.json"
+        ),
+        Path(
+            "reports/validation/"
+            "phase_07_unsw_nb15_preprocessing.json"
+        ),
+        Path(
+            "reports/validation/"
+            "phase_07_coverage.xml"
+        ),
+        Path(
+            "reports/validation/"
+            "phase_07_pytest.xml"
+        ),
         Path("docs/evaluation_reporting_contract.md"),
         Path("prompts/phase_05_detector.md"),
         Path("agent_trace/phase_05.md"),
@@ -595,6 +629,301 @@ def test_phase_six_documentation_evidence() -> None:
         (
             "These synthetic results do not represent "
             "real-world cybersecurity performance."
+        ),
+    )
+
+    for required_fragment in required_fragments:
+        assert required_fragment in readme_text
+
+def test_phase_seven_unsw_configuration_contract() -> None:
+    configuration = yaml.safe_load(
+        Path("configs/baseline.yaml").read_text(
+            encoding="utf-8"
+        )
+    )
+
+    unsw_configuration = configuration[
+        "unsw_nb15"
+    ]
+
+    assert unsw_configuration["dataset_name"] == (
+        "UNSW-NB15"
+    )
+    assert unsw_configuration["source_page"] == (
+        "https://research.unsw.edu.au/"
+        "projects/unsw-nb15-dataset"
+    )
+    assert (
+        unsw_configuration["acquisition_method"]
+        == "manual_official_download"
+    )
+    assert unsw_configuration["academic_use"] is True
+    assert (
+        unsw_configuration["raw_directory"]
+        == "data/raw"
+    )
+    assert unsw_configuration["training_file"] == (
+        "UNSW_NB15_training-set.csv"
+    )
+    assert unsw_configuration["testing_file"] == (
+        "UNSW_NB15_testing-set.csv"
+    )
+    assert unsw_configuration["features_file"] == (
+        "NUSW-NB15_features.csv"
+    )
+    assert (
+        unsw_configuration["curated_file_encoding"]
+        == "utf-8"
+    )
+    assert (
+        unsw_configuration[
+            "feature_description_encoding"
+        ]
+        == "cp1252"
+    )
+    assert (
+        unsw_configuration[
+            "expected_curated_columns"
+        ]
+        == 45
+    )
+    assert (
+        unsw_configuration[
+            "expected_feature_description_rows"
+        ]
+        == 49
+    )
+    assert (
+        unsw_configuration["identifier_scope"]
+        == "partition_local"
+    )
+    assert unsw_configuration["record_key"] == [
+        "source_partition",
+        "id",
+    ]
+    assert (
+        unsw_configuration[
+            "categorical_encoder"
+        ]
+        == "sklearn.preprocessing.OneHotEncoder"
+    )
+    assert (
+        unsw_configuration[
+            "categorical_encoder_fit_split"
+        ]
+        == "normal_fit_only"
+    )
+    assert (
+        unsw_configuration[
+            "categorical_unknown_policy"
+        ]
+        == "ignore"
+    )
+    assert (
+        unsw_configuration[
+            "categorical_sparse_output"
+        ]
+        is False
+    )
+    assert (
+        unsw_configuration["standardizer"]
+        == "sklearn.preprocessing.StandardScaler"
+    )
+    assert (
+        unsw_configuration[
+            "standardizer_fit_split"
+        ]
+        == "normal_fit_only"
+    )
+    assert (
+        unsw_configuration[
+            "expected_numeric_features"
+        ]
+        == 39
+    )
+    assert (
+        unsw_configuration[
+            "expected_encoded_categorical_features"
+        ]
+        == 25
+    )
+    assert (
+        unsw_configuration[
+            "expected_model_features"
+        ]
+        == 64
+    )
+    assert (
+        unsw_configuration[
+            "zero_variance_policy"
+        ]
+        == "reject"
+    )
+    assert (
+        unsw_configuration[
+            "training_attack_usage"
+        ]
+        == "excluded"
+    )
+    assert (
+        unsw_configuration[
+            "test_label_access"
+        ]
+        == "evaluation_only"
+    )
+    assert (
+        unsw_configuration["expected_training_rows"]
+        == 175341
+    )
+    assert (
+        unsw_configuration["expected_testing_rows"]
+        == 82332
+    )
+    assert (
+        unsw_configuration["identifier_column"]
+        == "id"
+    )
+    assert (
+        unsw_configuration["label_column"]
+        == "label"
+    )
+    assert (
+        unsw_configuration[
+            "attack_category_column"
+        ]
+        == "attack_cat"
+    )
+    assert unsw_configuration[
+        "categorical_columns"
+    ] == [
+        "proto",
+        "service",
+        "state",
+    ]
+    assert unsw_configuration[
+        "excluded_model_columns"
+    ] == [
+        "id",
+        "label",
+        "attack_cat",
+    ]
+    assert (
+        unsw_configuration["training_usage"]
+        == "normal_fit_and_calibration_only"
+    )
+    assert (
+        unsw_configuration["testing_usage"]
+        == "hidden_label_evaluation_only"
+    )
+    assert (
+        unsw_configuration[
+            "normal_fit_fraction"
+        ]
+        == 0.75
+    )
+    assert (
+        unsw_configuration[
+            "normal_calibration_fraction"
+        ]
+        == 0.25
+    )
+    assert (
+        unsw_configuration["random_seed"]
+        == 42
+    )
+
+    manifest_path = Path(
+        unsw_configuration["manifest_path"]
+    )
+
+    assert manifest_path == Path(
+        "reports/validation/"
+        "phase_07_unsw_nb15_manifest.json"
+    )
+    assert not manifest_path.is_relative_to(
+        Path("data/raw")
+    )
+    assert manifest_path.is_file()
+
+    preprocessing_evidence_path = Path(
+        unsw_configuration[
+            "preprocessing_evidence_path"
+        ]
+    )
+
+    assert preprocessing_evidence_path == Path(
+        "reports/validation/"
+        "phase_07_unsw_nb15_preprocessing.json"
+    )
+    assert not (
+        preprocessing_evidence_path.is_relative_to(
+            Path("data/raw")
+        )
+    )
+    assert preprocessing_evidence_path.is_file()
+
+    assert Path(
+        "docs/unsw_nb15_data_contract.md"
+    ).is_file()
+
+def test_unsw_public_package_exports() -> None:
+    assert is_dataclass(UNSWNB15Paths)
+    assert is_dataclass(UNSWNB15Data)
+    assert is_dataclass(UNSWRawDataSplits)
+    assert is_dataclass(UNSWPreprocessor)
+    assert is_dataclass(
+        UNSWStandardizedDataSplits
+    )
+
+    assert len(UNSW_CURATED_COLUMNS) == 45
+    assert UNSW_CATEGORICAL_COLUMNS == (
+        "proto",
+        "service",
+        "state",
+    )
+
+    assert callable(resolve_unsw_nb15_paths)
+    assert callable(load_unsw_nb15)
+    assert callable(validate_unsw_nb15)
+    assert callable(build_unsw_nb15_manifest)
+    assert callable(write_unsw_nb15_manifest)
+
+    assert callable(
+        split_unsw_normal_calibration_test
+    )
+    assert callable(standardize_unsw_splits)
+    assert callable(
+        build_unsw_preprocessing_evidence
+    )
+    assert callable(
+        write_unsw_preprocessing_evidence
+    )
+
+def test_phase_seven_readme_evidence() -> None:
+    readme_text = Path("README.md").read_text(
+        encoding="utf-8"
+    )
+
+    required_fragments = (
+        "## Phase 7 verification evidence",
+        "400 passing tests",
+        "92.71% combined coverage",
+        "175,341 training observations",
+        "82,332 testing observations",
+        "42,000 normal fitting observations",
+        "14,000 normal calibration observations",
+        (
+            "| UNSW-NB15 acquisition and "
+            "preprocessing | Completed |"
+        ),
+        "| UNSW-NB15 experiment | Next phase |",
+        (
+            "These results validate acquisition, "
+            "schema, provenance, and preprocessing"
+        ),
+        (
+            "They do not represent UNSW-NB15 "
+            "anomaly-detection performance"
         ),
     )
 

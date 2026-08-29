@@ -317,6 +317,70 @@ unchanged during evaluation.
 
 These synthetic results do not represent real-world cybersecurity performance.
 
+## Phase 7 verification evidence
+
+Phase 7 acquired and validated the official curated UNSW-NB15 files, recorded
+immutable provenance, and produced deterministic leakage-safe real-data model
+matrices without fitting PCA or evaluating anomaly-detection performance.
+
+Verified evidence:
+
+- 175,341 training observations;
+- 82,332 testing observations;
+- 45 identical curated columns in both partitions;
+- 49 feature-description rows;
+- training labels: 56,000 normal and 119,341 attack;
+- testing labels: 37,000 normal and 45,332 attack;
+- duplicate rows, duplicate partition-local IDs, and missing values: 0;
+- 42,000 normal fitting observations;
+- 14,000 normal calibration observations;
+- training attack observations used for development: 0;
+- numeric model inputs: 39;
+- normal-fit one-hot columns: 25;
+- standardized model features: 64;
+- maximum absolute standardized fitting mean:
+  `2.6744790509220754e-13`;
+- maximum population-standard-deviation error:
+  `1.0685896612017132e-12`;
+- 400 passing tests;
+- failures, errors, and skipped tests: 0;
+- line coverage: 94.73%;
+- branch coverage: 87.41%;
+- 92.71% combined coverage;
+- `unsw_data.py` coverage: 100%;
+- `unsw_preprocessing.py` coverage: 100%.
+
+Raw-file SHA-256 values:
+
+- training:
+  `bec7dd5ec88dc2a0ccc7a07879d338395ed7421750f675fd0339e07dfe0648fa`;
+- testing:
+  `734fe6642edf758f7c94d7d9149426b49d202fe8e7bf0bef47392489c3c0a559`;
+- feature descriptions:
+  `c55f19cceebb6360dc50f44f8a5f246ccefbcf8a6c604ac1ad46e643869cafce`.
+
+The raw files remain immutable and Git-ignored. The encoder and scaler use only
+normal fitting traffic. Training attacks are excluded, unknown categorical
+values are ignored safely, and official test labels do not influence fitting.
+
+Evidence files:
+
+- `docs/unsw_nb15_data_contract.md`;
+- `prompts/phase_07_unsw_nb15.md`;
+- `agent_trace/phase_07.md`;
+- `reports/validation/phase_07_unsw_nb15_manifest.json`;
+- `reports/validation/phase_07_unsw_nb15_preprocessing.json`;
+- `reports/validation/phase_07_pytest.xml`;
+- `reports/validation/phase_07_coverage.xml`;
+- `tests/test_unsw_data.py`;
+- `tests/test_unsw_data_validation.py`;
+- `tests/test_unsw_preprocessing.py`;
+- `tests/test_unsw_preprocessing_validation.py`;
+- `tests/test_unsw_integration.py`.
+
+These results validate acquisition, schema, provenance, and preprocessing for
+the official curated dataset. They do not represent UNSW-NB15 anomaly-detection performance.
+
 ## Current implementation status
 
 | Component | Status |
@@ -334,6 +398,7 @@ These synthetic results do not represent real-world cybersecurity performance.
 | Normal-only PCA fitting and component selection | Completed |
 | Reconstruction-error detector | Completed |
 | Synthetic evaluation and reporting | Completed |
+| UNSW-NB15 acquisition and preprocessing | Completed |
 | UNSW-NB15 experiment | Next phase |
 | Agent reasoning evaluation | To be implemented |
 | Continuous integration | To be implemented |
