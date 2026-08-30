@@ -1,0 +1,1018 @@
+{
+  "feature_representation_audit": {
+    "audit_scope": "unsupervised_raw_and_feature_representation_only",
+    "drug": {
+      "distinct_raw_feature_collision_pair_count": 0,
+      "entity_count": 68,
+      "exact_feature_collision_group_count": 0,
+      "raw_duplicate_group_count": 0
+    },
+    "interpretation_limits": [
+      "Equal raw representations may reflect the benchmark mapping and are not automatically errors.",
+      "Exact feature collisions show information lost by this transparent representation, not biological equivalence.",
+      "Nearest descriptor pairs are a quality diagnostic only; they are not chemical similarity, sequence homology, or causal evidence.",
+      "The audit includes raw representations for all benchmark entities, including outer-holdout entities, but uses no outcomes. It is documentation only and must not guide retrospective model changes."
+    ],
+    "model_predictions_used": false,
+    "outcome_values_used": false,
+    "target": {
+      "distinct_raw_feature_collision_pair_count": 0,
+      "entity_count": 442,
+      "exact_feature_collision_group_count": 18,
+      "raw_duplicate_group_count": 18
+    }
+  },
+  "leakage_aware_design": {
+    "cold_drug_holdout": {
+      "drug_overlap_count": 0,
+      "fold_index": 4,
+      "policy": "cold_drug",
+      "random_state": 20260830,
+      "splitter_name": "StratifiedGroupKFold",
+      "target_overlap_count": 442,
+      "test_drug_count": 14,
+      "test_pair_count": 6188,
+      "test_positive_rate": 0.18487394957983194,
+      "train_drug_count": 54,
+      "train_pair_count": 23868,
+      "train_positive_rate": 0.18505949388302328
+    },
+    "inner_cross_validation": {
+      "cv_scope": "frozen_outer_training_partition_only",
+      "group_column": "drug_id",
+      "input_drug_count": 54,
+      "input_feature_count": 36,
+      "input_pair_count": 23868,
+      "label_column": "interaction_kd_le_1000_nM",
+      "n_splits": 5,
+      "outer_policy": "cold_drug",
+      "outer_test_partition_used": false,
+      "primary_comparison_metric": "average_precision",
+      "random_state": 20260830
+    },
+    "outer_holdout_disclosure": "The final synthesis reads only inner-CV and sensitivity artefacts that record outer_test_partition_used=false. Earlier model-specific outer-holdout results remain part of the development history; therefore, the outer holdout must not be presented as a newly blind confirmatory test for any decision made after it was inspected.",
+    "random_pair_warning": "Random pair splitting reuses related drugs and targets in both partitions and can overestimate unseen-entity generalisation."
+  },
+  "primary_model_comparison": {
+    "label_column": "interaction_kd_le_1000_nM",
+    "models": [
+      {
+        "fold_metrics": {
+          "accuracy": {
+            "maximum": 0.8445084327437269,
+            "mean": 0.8137679967091731,
+            "minimum": 0.7748868778280543,
+            "standard_deviation": 0.027456821745084712
+          },
+          "average_precision": {
+            "maximum": 0.2251131221719457,
+            "mean": 0.18623200329082681,
+            "minimum": 0.15549156725627314,
+            "standard_deviation": 0.027456821745084722
+          },
+          "f1": {
+            "maximum": 0.0,
+            "mean": 0.0,
+            "minimum": 0.0,
+            "standard_deviation": 0.0
+          },
+          "precision": {
+            "maximum": 0.0,
+            "mean": 0.0,
+            "minimum": 0.0,
+            "standard_deviation": 0.0
+          },
+          "recall": {
+            "maximum": 0.0,
+            "mean": 0.0,
+            "minimum": 0.0,
+            "standard_deviation": 0.0
+          },
+          "roc_auc": {
+            "maximum": 0.5,
+            "mean": 0.5,
+            "minimum": 0.5,
+            "standard_deviation": 0.0
+          }
+        },
+        "model_id": "dummy_prior",
+        "model_name": "DummyClassifier",
+        "model_parameters": {
+          "random_state_rule": "base_random_state + fold_index",
+          "strategy": "prior"
+        },
+        "oof_prediction_count": 23868,
+        "pooled_oof_metrics_descriptive_only": {
+          "accuracy": 0.8149405061169767,
+          "average_precision": 0.170469336952757,
+          "confusion_matrix": {
+            "false_negative": 4417,
+            "false_positive": 0,
+            "true_negative": 19451,
+            "true_positive": 0
+          },
+          "decision_threshold": 0.5,
+          "f1": 0.0,
+          "positive_rate": 0.18505949388302328,
+          "precision": 0.0,
+          "recall": 0.0,
+          "roc_auc": 0.4559183606293411,
+          "sample_count": 23868
+        }
+      },
+      {
+        "fold_metrics": {
+          "accuracy": {
+            "maximum": 0.7355203619909503,
+            "mean": 0.6343486905251612,
+            "minimum": 0.4603044014808721,
+            "standard_deviation": 0.1150350301656898
+          },
+          "average_precision": {
+            "maximum": 0.5370237228314754,
+            "mean": 0.3229375521363367,
+            "minimum": 0.14336237850028305,
+            "standard_deviation": 0.17847861888799904
+          },
+          "f1": {
+            "maximum": 0.5222721700040867,
+            "mean": 0.3616760489773972,
+            "minimum": 0.2637889688249401,
+            "standard_deviation": 0.11272630694084863
+          },
+          "precision": {
+            "maximum": 0.4111969111969112,
+            "mean": 0.2820964482820331,
+            "minimum": 0.1718200983836964,
+            "standard_deviation": 0.10260173438480491
+          },
+          "recall": {
+            "maximum": 0.7155655095184771,
+            "mean": 0.5516353543046564,
+            "minimum": 0.291932059447983,
+            "standard_deviation": 0.16160482007407745
+          },
+          "roc_auc": {
+            "maximum": 0.7904036403225667,
+            "mean": 0.6332599396095424,
+            "minimum": 0.5075761822291291,
+            "standard_deviation": 0.10963803750315725
+          }
+        },
+        "model_id": "logistic_regression_balanced",
+        "model_name": "LogisticRegression",
+        "model_parameters": {
+          "C": 1.0,
+          "class_weight": "balanced",
+          "l1_ratio": 0.0,
+          "max_iter": 1000,
+          "random_state_rule": "base_random_state + fold_index",
+          "regularization": "L2",
+          "solver": "liblinear",
+          "standardization": "StandardScaler"
+        },
+        "oof_prediction_count": 23868,
+        "pooled_oof_metrics_descriptive_only": {
+          "accuracy": 0.6328557063851181,
+          "average_precision": 0.24789341192809877,
+          "confusion_matrix": {
+            "false_negative": 2010,
+            "false_positive": 6753,
+            "true_negative": 12698,
+            "true_positive": 2407
+          },
+          "decision_threshold": 0.5,
+          "f1": 0.354570229063858,
+          "positive_rate": 0.18505949388302328,
+          "precision": 0.26277292576419214,
+          "recall": 0.5449400045279602,
+          "roc_auc": 0.6237765839139717,
+          "sample_count": 23868
+        }
+      },
+      {
+        "fold_metrics": {
+          "accuracy": {
+            "maximum": 0.8271116138763197,
+            "mean": 0.7937069792952146,
+            "minimum": 0.7377828054298643,
+            "standard_deviation": 0.03711766485684427
+          },
+          "average_precision": {
+            "maximum": 0.5199393254481792,
+            "mean": 0.3959141635283666,
+            "minimum": 0.3268934674241339,
+            "standard_deviation": 0.08145154270501223
+          },
+          "f1": {
+            "maximum": 0.4892613933996857,
+            "mean": 0.37802859371209835,
+            "minimum": 0.29169675090252706,
+            "standard_deviation": 0.07667238927520047
+          },
+          "precision": {
+            "maximum": 0.5200642054574639,
+            "mean": 0.43096449794445923,
+            "minimum": 0.36462093862815886,
+            "standard_deviation": 0.06127975569498069
+          },
+          "recall": {
+            "maximum": 0.522956326987682,
+            "mean": 0.34370680569737433,
+            "minimum": 0.2430806257521059,
+            "standard_deviation": 0.10708321483163144
+          },
+          "roc_auc": {
+            "maximum": 0.8009884395247541,
+            "mean": 0.7109296524522016,
+            "minimum": 0.6479593588379855,
+            "standard_deviation": 0.056694442470945364
+          }
+        },
+        "model_id": "random_forest_balanced",
+        "model_name": "RandomForestClassifier",
+        "model_parameters": {
+          "class_weight": "balanced",
+          "max_depth": 12,
+          "max_features": "sqrt",
+          "min_samples_leaf": 5,
+          "n_estimators": 300,
+          "n_jobs": 1,
+          "random_state_rule": "base_random_state + fold_index",
+          "zero_variance_selector": "VarianceThreshold(threshold=0.0)"
+        },
+        "oof_prediction_count": 23868,
+        "pooled_oof_metrics_descriptive_only": {
+          "accuracy": 0.7956259426847662,
+          "average_precision": 0.39659362641460116,
+          "confusion_matrix": {
+            "false_negative": 2895,
+            "false_positive": 1983,
+            "true_negative": 17468,
+            "true_positive": 1522
+          },
+          "decision_threshold": 0.5,
+          "f1": 0.3842464024236304,
+          "positive_rate": 0.18505949388302328,
+          "precision": 0.43423680456490726,
+          "recall": 0.3445777677156441,
+          "roc_auc": 0.7124285662257588,
+          "sample_count": 23868
+        }
+      },
+      {
+        "fold_metrics": {
+          "accuracy": {
+            "maximum": 0.7818627450980392,
+            "mean": 0.7366563828328534,
+            "minimum": 0.6977375565610859,
+            "standard_deviation": 0.040418373236638876
+          },
+          "average_precision": {
+            "maximum": 0.5284645650810622,
+            "mean": 0.38970709935924536,
+            "minimum": 0.2426284643713686,
+            "standard_deviation": 0.12548855795443256
+          },
+          "f1": {
+            "maximum": 0.5136741973840666,
+            "mean": 0.4119293659617374,
+            "minimum": 0.3042008691453404,
+            "standard_deviation": 0.09756225641909916
+          },
+          "precision": {
+            "maximum": 0.40128558310376494,
+            "mean": 0.35056978992822574,
+            "minimum": 0.2540322580645161,
+            "standard_deviation": 0.06786180067042713
+          },
+          "recall": {
+            "maximum": 0.7256438969764838,
+            "mean": 0.5113807679208747,
+            "minimum": 0.33201058201058203,
+            "standard_deviation": 0.17236644700627776
+          },
+          "roc_auc": {
+            "maximum": 0.7975283296889679,
+            "mean": 0.6908803076616826,
+            "minimum": 0.5950579757779734,
+            "standard_deviation": 0.07374764989410496
+          }
+        },
+        "model_id": "hist_gradient_boosting_balanced",
+        "model_name": "HistGradientBoostingClassifier",
+        "model_parameters": {
+          "class_weight": "balanced",
+          "early_stopping": false,
+          "l2_regularization": 1.0,
+          "learning_rate": 0.05,
+          "max_depth": 3,
+          "max_features": 0.8,
+          "max_iter": 200,
+          "max_leaf_nodes": 15,
+          "min_samples_leaf": 20,
+          "random_state_rule": "base_random_state + fold_index",
+          "zero_variance_selector": "VarianceThreshold(threshold=0.0)"
+        },
+        "oof_prediction_count": 23868,
+        "pooled_oof_metrics_descriptive_only": {
+          "accuracy": 0.7384782973018267,
+          "average_precision": 0.40133205933696575,
+          "confusion_matrix": {
+            "false_negative": 2113,
+            "false_positive": 4129,
+            "true_negative": 15322,
+            "true_positive": 2304
+          },
+          "decision_threshold": 0.5,
+          "f1": 0.4247004608294931,
+          "positive_rate": 0.18505949388302328,
+          "precision": 0.35815327219026893,
+          "recall": 0.5216210097351144,
+          "roc_auc": 0.6991744416610883,
+          "sample_count": 23868
+        }
+      }
+    ],
+    "positive_definition": "Kd less than or equal to 1,000 nM (pKd greater than or equal to 6)",
+    "pre_specified_selection": {
+      "interpretation": "This is a descriptive ranking under five frozen inner cold-drug folds, not a formal statistical superiority result.",
+      "mean_average_precision_margin": 0.006207064169121257,
+      "runner_up_model_id": "hist_gradient_boosting_balanced",
+      "selected_model_id": "random_forest_balanced"
+    },
+    "principal_metric": "unweighted mean inner-fold average precision"
+  },
+  "reproducibility": {
+    "input_artifacts": [
+      {
+        "name": "inner_cv_report",
+        "path": "reports/davis_inner_cold_drug_cv.json",
+        "sha256": "e442412d5389ba13ca48e60abcafbe6e0ff42283569d4527f02dd9783caa06b1"
+      },
+      {
+        "name": "threshold_sensitivity_report",
+        "path": "reports/davis_threshold_sensitivity.json",
+        "sha256": "1e1322461a24fd24a1a67567ad3cdd00d59544292ccf19d91bdfdec9f834e243"
+      },
+      {
+        "name": "split_audit_report",
+        "path": "reports/davis_split_audit.json",
+        "sha256": "7301b20b7b04dc62fb47bc9e604ff883db19d9e6d3c9b65bd8f79e80014252f7"
+      },
+      {
+        "name": "collision_audit_report",
+        "path": "reports/davis_feature_collision_audit.json",
+        "sha256": "ac98d806e9bbe0eb39c396d91a2f2f1c53399b3b25e869835f84ec135ba1f9e5"
+      },
+      {
+        "name": "dataset_provenance",
+        "path": "validation/dataset_provenance.md",
+        "sha256": "b8f9262eb32fabe937679d2ce4864b21af3c59a94f97cf829fee0ba79fdf594c"
+      },
+      {
+        "name": "requirements_file",
+        "path": "requirements.txt",
+        "sha256": "570fa3458a36846cefa33472442524b313bc717647eb1794ea65e7064d1c9107"
+      }
+    ],
+    "platform": "Windows-10-10.0.19045-SP0",
+    "python_implementation": "cpython",
+    "python_version": "3.12.8",
+    "requirements": [
+      "colorama==0.4.6",
+      "iniconfig==2.3.0",
+      "joblib==1.5.3",
+      "narwhals==2.25.0",
+      "numpy==2.5.2",
+      "packaging==26.3",
+      "pandas==3.0.5",
+      "pluggy==1.6.0",
+      "Pygments==2.21.0",
+      "pytest==9.1.1",
+      "python-dateutil==2.9.0.post0",
+      "scikit-learn==1.9.0",
+      "scipy==1.18.1",
+      "six==1.17.0",
+      "threadpoolctl==3.6.0",
+      "tzdata==2026.3"
+    ]
+  },
+  "schema_version": 1,
+  "scientific_claim_boundaries": {
+    "biological_interpretation": [
+      "The benchmark labels are measured affinities, but computational predictions do not validate binding experimentally.",
+      "Target representation collisions and coarse transparent descriptors limit entity-level biological interpretation; identical benchmark sequences do not establish biological equivalence."
+    ],
+    "causal_claims": [
+      "No association, feature importance, prediction, or threshold-sensitivity result establishes a biological mechanism, therapeutic effect, clinical utility, or causal drug-target relationship."
+    ],
+    "predictive_performance": [
+      "The reported values estimate ranking and thresholded classification performance for this Davis benchmark under the stated cold-drug inner-CV design.",
+      "Average precision is the principal imbalance-aware comparison metric; ROC-AUC is secondary, while accuracy, precision, recall, F1, and confusion matrices describe the fixed 0.5 operating point."
+    ],
+    "statistical_evidence": [
+      "Fold means, standard deviations, and pooled OOF summaries are descriptive. Five grouped folds do not by themselves establish statistical superiority or provide a p-value.",
+      "The small primary average-precision difference between the selected random forest and the histogram gradient booster must be interpreted with fold variability in view."
+    ]
+  },
+  "study": {
+    "dataset_representation": "DeepDTA-format Davis benchmark",
+    "dataset_source_commit": "a546a8433a6822e958f36171c4356ad6f414d623",
+    "name": "Davis binary drug-target interaction prediction",
+    "source_git_commit": "3523d35b445353e254c90135cf356481f6807914"
+  },
+  "threshold_sensitivity": {
+    "analysis_scope": "frozen_outer_training_partition_fixed_inner_cold_drug_folds",
+    "model_selection": {
+      "hyperparameter_tuning_performed": false,
+      "interpretation": "Threshold results are descriptive robustness evidence, not a new model ranking or selection decision.",
+      "primary_selected_model_id": "random_forest_balanced",
+      "selection_metric": "average_precision",
+      "selection_reopened": false
+    },
+    "n_splits": 5,
+    "outer_policy": "cold_drug",
+    "outer_test_outcomes_selected": false,
+    "outer_test_partition_used": false,
+    "random_state": 20260830,
+    "variants": [
+      {
+        "kd_threshold_nM": 1000.0,
+        "label_column": "interaction_kd_le_1000_nM",
+        "model_results": [
+          {
+            "fold_metrics": {
+              "accuracy": {
+                "maximum": 0.8445084327437269,
+                "mean": 0.8137679967091731,
+                "minimum": 0.7748868778280543,
+                "standard_deviation": 0.027456821745084712
+              },
+              "average_precision": {
+                "maximum": 0.2251131221719457,
+                "mean": 0.18623200329082681,
+                "minimum": 0.15549156725627314,
+                "standard_deviation": 0.027456821745084722
+              },
+              "f1": {
+                "maximum": 0.0,
+                "mean": 0.0,
+                "minimum": 0.0,
+                "standard_deviation": 0.0
+              },
+              "precision": {
+                "maximum": 0.0,
+                "mean": 0.0,
+                "minimum": 0.0,
+                "standard_deviation": 0.0
+              },
+              "recall": {
+                "maximum": 0.0,
+                "mean": 0.0,
+                "minimum": 0.0,
+                "standard_deviation": 0.0
+              },
+              "roc_auc": {
+                "maximum": 0.5,
+                "mean": 0.5,
+                "minimum": 0.5,
+                "standard_deviation": 0.0
+              }
+            },
+            "model_id": "dummy_prior",
+            "model_name": "DummyClassifier",
+            "model_parameters": {
+              "random_state_rule": "base_random_state + frozen_fold_index",
+              "strategy": "prior"
+            },
+            "oof_prediction_count": 23868,
+            "pooled_oof_metrics_descriptive_only": {
+              "accuracy": 0.8149405061169767,
+              "average_precision": 0.170469336952757,
+              "confusion_matrix": {
+                "false_negative": 4417,
+                "false_positive": 0,
+                "true_negative": 19451,
+                "true_positive": 0
+              },
+              "decision_threshold": 0.5,
+              "f1": 0.0,
+              "positive_rate": 0.18505949388302328,
+              "precision": 0.0,
+              "recall": 0.0,
+              "roc_auc": 0.4559183606293411,
+              "sample_count": 23868
+            }
+          },
+          {
+            "fold_metrics": {
+              "accuracy": {
+                "maximum": 0.7355203619909503,
+                "mean": 0.6343486905251612,
+                "minimum": 0.4603044014808721,
+                "standard_deviation": 0.1150350301656898
+              },
+              "average_precision": {
+                "maximum": 0.5370237228314754,
+                "mean": 0.3229375521363367,
+                "minimum": 0.14336237850028305,
+                "standard_deviation": 0.17847861888799904
+              },
+              "f1": {
+                "maximum": 0.5222721700040867,
+                "mean": 0.3616760489773972,
+                "minimum": 0.2637889688249401,
+                "standard_deviation": 0.11272630694084863
+              },
+              "precision": {
+                "maximum": 0.4111969111969112,
+                "mean": 0.2820964482820331,
+                "minimum": 0.1718200983836964,
+                "standard_deviation": 0.10260173438480491
+              },
+              "recall": {
+                "maximum": 0.7155655095184771,
+                "mean": 0.5516353543046564,
+                "minimum": 0.291932059447983,
+                "standard_deviation": 0.16160482007407745
+              },
+              "roc_auc": {
+                "maximum": 0.7904036403225667,
+                "mean": 0.6332599396095424,
+                "minimum": 0.5075761822291291,
+                "standard_deviation": 0.10963803750315725
+              }
+            },
+            "model_id": "logistic_regression_balanced",
+            "model_name": "LogisticRegression",
+            "model_parameters": {
+              "C": 1.0,
+              "class_weight": "balanced",
+              "l1_ratio": 0.0,
+              "max_iter": 1000,
+              "random_state_rule": "base_random_state + frozen_fold_index",
+              "regularization": "L2",
+              "solver": "liblinear",
+              "standardization": "StandardScaler"
+            },
+            "oof_prediction_count": 23868,
+            "pooled_oof_metrics_descriptive_only": {
+              "accuracy": 0.6328557063851181,
+              "average_precision": 0.24789341192809877,
+              "confusion_matrix": {
+                "false_negative": 2010,
+                "false_positive": 6753,
+                "true_negative": 12698,
+                "true_positive": 2407
+              },
+              "decision_threshold": 0.5,
+              "f1": 0.354570229063858,
+              "positive_rate": 0.18505949388302328,
+              "precision": 0.26277292576419214,
+              "recall": 0.5449400045279602,
+              "roc_auc": 0.6237765839139717,
+              "sample_count": 23868
+            }
+          },
+          {
+            "fold_metrics": {
+              "accuracy": {
+                "maximum": 0.8271116138763197,
+                "mean": 0.7937069792952146,
+                "minimum": 0.7377828054298643,
+                "standard_deviation": 0.03711766485684427
+              },
+              "average_precision": {
+                "maximum": 0.5199393254481792,
+                "mean": 0.3959141635283666,
+                "minimum": 0.3268934674241339,
+                "standard_deviation": 0.08145154270501223
+              },
+              "f1": {
+                "maximum": 0.4892613933996857,
+                "mean": 0.37802859371209835,
+                "minimum": 0.29169675090252706,
+                "standard_deviation": 0.07667238927520047
+              },
+              "precision": {
+                "maximum": 0.5200642054574639,
+                "mean": 0.43096449794445923,
+                "minimum": 0.36462093862815886,
+                "standard_deviation": 0.06127975569498069
+              },
+              "recall": {
+                "maximum": 0.522956326987682,
+                "mean": 0.34370680569737433,
+                "minimum": 0.2430806257521059,
+                "standard_deviation": 0.10708321483163144
+              },
+              "roc_auc": {
+                "maximum": 0.8009884395247541,
+                "mean": 0.7109296524522016,
+                "minimum": 0.6479593588379855,
+                "standard_deviation": 0.056694442470945364
+              }
+            },
+            "model_id": "random_forest_balanced",
+            "model_name": "RandomForestClassifier",
+            "model_parameters": {
+              "class_weight": "balanced",
+              "max_depth": 12,
+              "max_features": "sqrt",
+              "min_samples_leaf": 5,
+              "n_estimators": 300,
+              "n_jobs": 1,
+              "random_state_rule": "base_random_state + frozen_fold_index",
+              "zero_variance_selector": "VarianceThreshold(threshold=0.0)"
+            },
+            "oof_prediction_count": 23868,
+            "pooled_oof_metrics_descriptive_only": {
+              "accuracy": 0.7956259426847662,
+              "average_precision": 0.39659362641460116,
+              "confusion_matrix": {
+                "false_negative": 2895,
+                "false_positive": 1983,
+                "true_negative": 17468,
+                "true_positive": 1522
+              },
+              "decision_threshold": 0.5,
+              "f1": 0.3842464024236304,
+              "positive_rate": 0.18505949388302328,
+              "precision": 0.43423680456490726,
+              "recall": 0.3445777677156441,
+              "roc_auc": 0.7124285662257588,
+              "sample_count": 23868
+            }
+          },
+          {
+            "fold_metrics": {
+              "accuracy": {
+                "maximum": 0.7818627450980392,
+                "mean": 0.7366563828328534,
+                "minimum": 0.6977375565610859,
+                "standard_deviation": 0.040418373236638876
+              },
+              "average_precision": {
+                "maximum": 0.5284645650810622,
+                "mean": 0.38970709935924536,
+                "minimum": 0.2426284643713686,
+                "standard_deviation": 0.12548855795443256
+              },
+              "f1": {
+                "maximum": 0.5136741973840666,
+                "mean": 0.4119293659617374,
+                "minimum": 0.3042008691453404,
+                "standard_deviation": 0.09756225641909916
+              },
+              "precision": {
+                "maximum": 0.40128558310376494,
+                "mean": 0.35056978992822574,
+                "minimum": 0.2540322580645161,
+                "standard_deviation": 0.06786180067042713
+              },
+              "recall": {
+                "maximum": 0.7256438969764838,
+                "mean": 0.5113807679208747,
+                "minimum": 0.33201058201058203,
+                "standard_deviation": 0.17236644700627776
+              },
+              "roc_auc": {
+                "maximum": 0.7975283296889679,
+                "mean": 0.6908803076616826,
+                "minimum": 0.5950579757779734,
+                "standard_deviation": 0.07374764989410496
+              }
+            },
+            "model_id": "hist_gradient_boosting_balanced",
+            "model_name": "HistGradientBoostingClassifier",
+            "model_parameters": {
+              "class_weight": "balanced",
+              "early_stopping": false,
+              "l2_regularization": 1.0,
+              "learning_rate": 0.05,
+              "max_depth": 3,
+              "max_features": 0.8,
+              "max_iter": 200,
+              "max_leaf_nodes": 15,
+              "min_samples_leaf": 20,
+              "random_state_rule": "base_random_state + frozen_fold_index",
+              "zero_variance_selector": "VarianceThreshold(threshold=0.0)"
+            },
+            "oof_prediction_count": 23868,
+            "pooled_oof_metrics_descriptive_only": {
+              "accuracy": 0.7384782973018267,
+              "average_precision": 0.40133205933696575,
+              "confusion_matrix": {
+                "false_negative": 2113,
+                "false_positive": 4129,
+                "true_negative": 15322,
+                "true_positive": 2304
+              },
+              "decision_threshold": 0.5,
+              "f1": 0.4247004608294931,
+              "positive_rate": 0.18505949388302328,
+              "precision": 0.35815327219026893,
+              "recall": 0.5216210097351144,
+              "roc_auc": 0.6991744416610883,
+              "sample_count": 23868
+            }
+          }
+        ],
+        "negative_count": 19451,
+        "pKd_threshold": 6.0,
+        "positive_count": 4417,
+        "positive_rate": 0.18505949388302328,
+        "variant_id": "primary_kd_le_1000_nM"
+      },
+      {
+        "kd_threshold_nM": 100.0,
+        "label_column": "interaction_kd_le_100_nM",
+        "model_results": [
+          {
+            "fold_metrics": {
+              "accuracy": {
+                "maximum": 0.9306869600987248,
+                "mean": 0.9141574112162347,
+                "minimum": 0.8929864253393666,
+                "standard_deviation": 0.01880455620947702
+              },
+              "average_precision": {
+                "maximum": 0.10701357466063348,
+                "mean": 0.08584258878376526,
+                "minimum": 0.0693130399012752,
+                "standard_deviation": 0.018804556209477036
+              },
+              "f1": {
+                "maximum": 0.0,
+                "mean": 0.0,
+                "minimum": 0.0,
+                "standard_deviation": 0.0
+              },
+              "precision": {
+                "maximum": 0.0,
+                "mean": 0.0,
+                "minimum": 0.0,
+                "standard_deviation": 0.0
+              },
+              "recall": {
+                "maximum": 0.0,
+                "mean": 0.0,
+                "minimum": 0.0,
+                "standard_deviation": 0.0
+              },
+              "roc_auc": {
+                "maximum": 0.5,
+                "mean": 0.5,
+                "minimum": 0.5,
+                "standard_deviation": 0.0
+              }
+            },
+            "model_id": "dummy_prior",
+            "model_name": "DummyClassifier",
+            "model_parameters": {
+              "random_state_rule": "base_random_state + frozen_fold_index",
+              "strategy": "prior"
+            },
+            "oof_prediction_count": 23868,
+            "pooled_oof_metrics_descriptive_only": {
+              "accuracy": 0.915158371040724,
+              "average_precision": 0.07621943253706957,
+              "confusion_matrix": {
+                "false_negative": 2025,
+                "false_positive": 0,
+                "true_negative": 21843,
+                "true_positive": 0
+              },
+              "decision_threshold": 0.5,
+              "f1": 0.0,
+              "positive_rate": 0.08484162895927602,
+              "precision": 0.0,
+              "recall": 0.0,
+              "roc_auc": 0.4455645026827252,
+              "sample_count": 23868
+            }
+          },
+          {
+            "fold_metrics": {
+              "accuracy": {
+                "maximum": 0.7873303167420814,
+                "mean": 0.6652776635129577,
+                "minimum": 0.4769642122583299,
+                "standard_deviation": 0.11869305744347887
+              },
+              "average_precision": {
+                "maximum": 0.380501665387094,
+                "mean": 0.21135764075736674,
+                "minimum": 0.0828693783391859,
+                "standard_deviation": 0.13159624092115532
+              },
+              "f1": {
+                "maximum": 0.35941443715295307,
+                "mean": 0.24172203726874592,
+                "minimum": 0.16759410801963995,
+                "standard_deviation": 0.09576041227681754
+              },
+              "precision": {
+                "maximum": 0.23607427055702918,
+                "mean": 0.15555925739181511,
+                "minimum": 0.094186902133922,
+                "standard_deviation": 0.06759385905916311
+              },
+              "recall": {
+                "maximum": 0.7596439169139466,
+                "mean": 0.6033621156770825,
+                "minimum": 0.3005181347150259,
+                "standard_deviation": 0.19180914327853724
+              },
+              "roc_auc": {
+                "maximum": 0.7758337078338728,
+                "mean": 0.6829127989542988,
+                "minimum": 0.6048090889715888,
+                "standard_deviation": 0.07882257098563034
+              }
+            },
+            "model_id": "logistic_regression_balanced",
+            "model_name": "LogisticRegression",
+            "model_parameters": {
+              "C": 1.0,
+              "class_weight": "balanced",
+              "l1_ratio": 0.0,
+              "max_iter": 1000,
+              "random_state_rule": "base_random_state + frozen_fold_index",
+              "regularization": "L2",
+              "solver": "liblinear",
+              "standardization": "StandardScaler"
+            },
+            "oof_prediction_count": 23868,
+            "pooled_oof_metrics_descriptive_only": {
+              "accuracy": 0.6657030333500922,
+              "average_precision": 0.181028528869985,
+              "confusion_matrix": {
+                "false_negative": 791,
+                "false_positive": 7188,
+                "true_negative": 14655,
+                "true_positive": 1234
+              },
+              "decision_threshold": 0.5,
+              "f1": 0.236240068919307,
+              "positive_rate": 0.08484162895927602,
+              "precision": 0.14652101638565662,
+              "recall": 0.6093827160493828,
+              "roc_auc": 0.6833656571616864,
+              "sample_count": 23868
+            }
+          },
+          {
+            "fold_metrics": {
+              "accuracy": {
+                "maximum": 0.9142156862745098,
+                "mean": 0.876952557246675,
+                "minimum": 0.8192307692307692,
+                "standard_deviation": 0.04219458528564937
+              },
+              "average_precision": {
+                "maximum": 0.30248348371406547,
+                "mean": 0.24772663962913502,
+                "minimum": 0.18514016157183025,
+                "standard_deviation": 0.04287224023772598
+              },
+              "f1": {
+                "maximum": 0.38596491228070173,
+                "mean": 0.28754873990928853,
+                "minimum": 0.1894353369763206,
+                "standard_deviation": 0.09019259728476324
+              },
+              "precision": {
+                "maximum": 0.4028169014084507,
+                "mean": 0.295700584639693,
+                "minimum": 0.23658536585365852,
+                "standard_deviation": 0.06411610830704154
+              },
+              "recall": {
+                "maximum": 0.5137420718816068,
+                "mean": 0.29993170737955566,
+                "minimum": 0.143646408839779,
+                "standard_deviation": 0.14569183186118523
+              },
+              "roc_auc": {
+                "maximum": 0.7993259668508288,
+                "mean": 0.7570055510750574,
+                "minimum": 0.7210620194435792,
+                "standard_deviation": 0.03369826649798179
+              }
+            },
+            "model_id": "random_forest_balanced",
+            "model_name": "RandomForestClassifier",
+            "model_parameters": {
+              "class_weight": "balanced",
+              "max_depth": 12,
+              "max_features": "sqrt",
+              "min_samples_leaf": 5,
+              "n_estimators": 300,
+              "n_jobs": 1,
+              "random_state_rule": "base_random_state + frozen_fold_index",
+              "zero_variance_selector": "VarianceThreshold(threshold=0.0)"
+            },
+            "oof_prediction_count": 23868,
+            "pooled_oof_metrics_descriptive_only": {
+              "accuracy": 0.8792944528238645,
+              "average_precision": 0.23269240625704363,
+              "confusion_matrix": {
+                "false_negative": 1401,
+                "false_positive": 1480,
+                "true_negative": 20363,
+                "true_positive": 624
+              },
+              "decision_threshold": 0.5,
+              "f1": 0.302252361346573,
+              "positive_rate": 0.08484162895927602,
+              "precision": 0.2965779467680608,
+              "recall": 0.30814814814814817,
+              "roc_auc": 0.758720046482106,
+              "sample_count": 23868
+            }
+          },
+          {
+            "fold_metrics": {
+              "accuracy": {
+                "maximum": 0.867338543809132,
+                "mean": 0.8124694912930206,
+                "minimum": 0.7246606334841629,
+                "standard_deviation": 0.058841804429530936
+              },
+              "average_precision": {
+                "maximum": 0.44977065436551744,
+                "mean": 0.2915019204644148,
+                "minimum": 0.13266262969435097,
+                "standard_deviation": 0.12322514121167695
+              },
+              "f1": {
+                "maximum": 0.41566265060240964,
+                "mean": 0.3143644998090382,
+                "minimum": 0.16342412451361868,
+                "standard_deviation": 0.09398973476922474
+              },
+              "precision": {
+                "maximum": 0.28918692372170995,
+                "mean": 0.22844159823864946,
+                "minimum": 0.14516129032258066,
+                "standard_deviation": 0.05290039713249693
+              },
+              "recall": {
+                "maximum": 0.7387580299785867,
+                "mean": 0.5233601987029095,
+                "minimum": 0.18694362017804153,
+                "standard_deviation": 0.21825114787578562
+              },
+              "roc_auc": {
+                "maximum": 0.832267093379327,
+                "mean": 0.7438042439073096,
+                "minimum": 0.6771995344033314,
+                "standard_deviation": 0.06224186451295158
+              }
+            },
+            "model_id": "hist_gradient_boosting_balanced",
+            "model_name": "HistGradientBoostingClassifier",
+            "model_parameters": {
+              "class_weight": "balanced",
+              "early_stopping": false,
+              "l2_regularization": 1.0,
+              "learning_rate": 0.05,
+              "max_depth": 3,
+              "max_features": 0.8,
+              "max_iter": 200,
+              "max_leaf_nodes": 15,
+              "min_samples_leaf": 20,
+              "random_state_rule": "base_random_state + frozen_fold_index",
+              "zero_variance_selector": "VarianceThreshold(threshold=0.0)"
+            },
+            "oof_prediction_count": 23868,
+            "pooled_oof_metrics_descriptive_only": {
+              "accuracy": 0.8153175800234623,
+              "average_precision": 0.2842653552153624,
+              "confusion_matrix": {
+                "false_negative": 916,
+                "false_positive": 3492,
+                "true_negative": 18351,
+                "true_positive": 1109
+              },
+              "decision_threshold": 0.5,
+              "f1": 0.334741925747057,
+              "positive_rate": 0.08484162895927602,
+              "precision": 0.24103455770484677,
+              "recall": 0.5476543209876543,
+              "roc_auc": 0.7478405659241625,
+              "sample_count": 23868
+            }
+          }
+        ],
+        "negative_count": 21843,
+        "pKd_threshold": 7.0,
+        "positive_count": 2025,
+        "positive_rate": 0.08484162895927602,
+        "variant_id": "sensitivity_kd_le_100_nM"
+      }
+    ]
+  }
+}
