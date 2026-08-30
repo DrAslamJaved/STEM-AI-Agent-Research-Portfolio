@@ -203,3 +203,45 @@ unsw_evaluation:
     reconstruction_error_figure: "reports/figures/unsw_nb15_reconstruction_errors.png"
     scree_plot_figure: "reports/figures/unsw_nb15_scree_plot.png"
     attack_category_rates_figure: "reports/figures/unsw_nb15_attack_category_rates.png"
+
+agent_reasoning_evaluation:
+  phase: 9
+  rubric_version: "1.0.0"
+  evaluation_subject: "phase_08_unsw_nb15_reasoning_response"
+  response_path: "results/phase_09_agent_reasoning_response.md"
+  annotation_path: "results/phase_09_agent_reasoning_annotations.json"
+  source_standard_path: "docs/critical_reasoning.md"
+  automated_free_text_scoring: false
+  human_review_required: true
+  frozen_phase_08_commit: "c3867c45ee910d68648329ee8090d990169a60f4"
+  evidence_paths:
+    - "results/unsw_nb15_evaluation.json"
+    - "reports/tables/unsw_nb15_metrics.csv"
+    - "reports/tables/unsw_nb15_attack_category_metrics.csv"
+    - "agent_trace/phase_08.md"
+  score_levels:
+    missing_or_incorrect: 0
+    partial: 1
+    complete_and_evidence_grounded: 2
+  criteria:
+    - "subspace_geometry"
+    - "anomaly_not_attack_proof"
+    - "normal_fit_assumption"
+    - "leakage_and_contamination"
+    - "scaling_and_threshold"
+    - "error_consequences"
+    - "empirical_validation"
+  minimum_total_score: 12
+  maximum_total_score: 14
+  require_no_zero_scores: true
+  hard_failure_rules:
+    - "anomaly_claimed_as_attack_proof"
+    - "test_leakage_accepted"
+    - "frozen_metrics_misreported"
+    - "post_evaluation_tuning_claimed"
+    - "operational_deployment_recommended"
+  expected_operational_recommendation: "not_recommended"
+  output_paths:
+    summary_json: "results/agent_reasoning_evaluation.json"
+    rubric_csv: "reports/tables/agent_reasoning_rubric.csv"
+    scores_figure: "reports/figures/agent_reasoning_scores.png"
