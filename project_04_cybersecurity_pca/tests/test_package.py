@@ -1070,7 +1070,7 @@ def test_phase_ten_reproducibility_audit() -> None:
         "626 passed, 1 skipped",
         "95.10%",
         "project-04-validation-python-3.12",
-        "Official ignored UNSW-NB15 raw files",
+        "official ignored UNSW-NB15 raw files",
         "not recommended for operational",
     )
 
