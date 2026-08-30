@@ -1,0 +1,141 @@
+{
+  "data": {
+    "anomaly_observations": 1000,
+    "normal_observations": 800,
+    "test_observations": 1800
+  },
+  "limitations": "Synthetic evaluation evidence does not represent real-world cybersecurity performance.",
+  "metrics": {
+    "accuracy": 0.9983333333333333,
+    "anomaly_support": 1000,
+    "confusion_matrix": [
+      [
+        797,
+        3
+      ],
+      [
+        0,
+        1000
+      ]
+    ],
+    "f1": 0.9985022466300548,
+    "false_negative_rate": 0.0,
+    "false_negatives": 0,
+    "false_positive_rate": 0.00375,
+    "false_positives": 3,
+    "normal_support": 800,
+    "precision": 0.9970089730807578,
+    "predicted_anomaly": 1003,
+    "predicted_normal": 797,
+    "recall": 1.0,
+    "total": 1800,
+    "true_negatives": 797,
+    "true_positives": 1000
+  },
+  "pca": {
+    "achieved_explained_variance": 0.95811145295726,
+    "explained_variance_target": 0.95,
+    "full_cumulative_explained_variance": [
+      0.6822603113339718,
+      0.7825780654231945,
+      0.8822607478426567,
+      0.9259911353223864,
+      0.95811145295726,
+      0.9756909948381862,
+      0.9854512168469346,
+      0.9932191894313054,
+      0.9971219490463656,
+      1.0
+    ],
+    "full_explained_variance": [
+      6.825447049610391,
+      1.0035957057696314,
+      0.9972423418370545,
+      0.43748616069758745,
+      0.3213370667932328,
+      0.17586869743319322,
+      0.09764290463107979,
+      0.07771210588782729,
+      0.03904386442744718,
+      0.028792506414017156
+    ],
+    "full_explained_variance_ratios": [
+      0.6822603113339718,
+      0.10031775408922272,
+      0.09968268241946221,
+      0.04373038747972967,
+      0.03212031763487355,
+      0.017579541880926267,
+      0.009760222008748348,
+      0.007767972584370734,
+      0.00390275961506024,
+      0.002878050953634464
+    ],
+    "selected_components": 5
+  },
+  "scenarios": [
+    {
+      "maximum_reconstruction_error": 0.2063139107556172,
+      "mean_reconstruction_error": 0.039237936871058234,
+      "median_reconstruction_error": 0.031190128113154914,
+      "observations": 800,
+      "predicted_anomaly": 3,
+      "predicted_anomaly_rate": 0.00375,
+      "predicted_normal": 797,
+      "scenario": "normal",
+      "true_label": 0
+    },
+    {
+      "maximum_reconstruction_error": 63.76620374393862,
+      "mean_reconstruction_error": 10.354994220021373,
+      "median_reconstruction_error": 7.190216226285906,
+      "observations": 250,
+      "predicted_anomaly": 250,
+      "predicted_anomaly_rate": 1.0,
+      "predicted_normal": 0,
+      "scenario": "brute_force",
+      "true_label": 1
+    },
+    {
+      "maximum_reconstruction_error": 988.8569760848122,
+      "mean_reconstruction_error": 122.20776048900186,
+      "median_reconstruction_error": 94.71948468200466,
+      "observations": 250,
+      "predicted_anomaly": 250,
+      "predicted_anomaly_rate": 1.0,
+      "predicted_normal": 0,
+      "scenario": "dos",
+      "true_label": 1
+    },
+    {
+      "maximum_reconstruction_error": 245.21658871785127,
+      "mean_reconstruction_error": 18.288151011467853,
+      "median_reconstruction_error": 10.89964450215254,
+      "observations": 250,
+      "predicted_anomaly": 250,
+      "predicted_anomaly_rate": 1.0,
+      "predicted_normal": 0,
+      "scenario": "exfiltration",
+      "true_label": 1
+    },
+    {
+      "maximum_reconstruction_error": 235.1430106025062,
+      "mean_reconstruction_error": 80.26821071875575,
+      "median_reconstruction_error": 70.37821504881518,
+      "observations": 250,
+      "predicted_anomaly": 250,
+      "predicted_anomaly_rate": 1.0,
+      "predicted_normal": 0,
+      "scenario": "port_scan",
+      "true_label": 1
+    }
+  ],
+  "status": "passed",
+  "threshold": {
+    "calibration_count": 800,
+    "comparison": "strictly_greater_than",
+    "quantile": 0.99,
+    "quantile_method": "linear",
+    "value": 0.19016111759041537
+  }
+}

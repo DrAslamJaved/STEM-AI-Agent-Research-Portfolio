@@ -1,0 +1,41 @@
+# Project-specific virtual environment
+.venv/
+
+# Python-generated files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Testing and coverage caches
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# Python packaging artifacts
+*.egg-info/
+build/
+dist/
+
+# Notebook-generated files
+.ipynb_checkpoints/
+
+# Editor and operating-system files
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Raw datasets must never be committed
+data/raw/*
+!data/raw/.gitkeep
+
+# Derived datasets are reproducible and not committed
+data/interim/*
+!data/interim/.gitkeep
+
+data/processed/*
+!data/processed/.gitkeep
+
+# Temporary model artifacts
+*.joblib
+*.pkl

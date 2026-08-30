@@ -1,0 +1,2 @@
+total,normal_support,anomaly_support,predicted_normal,predicted_anomaly,true_negatives,false_positives,false_negatives,true_positives,precision,recall,f1,accuracy,false_positive_rate,false_negative_rate,confusion_matrix
+1800,800,1000,797,1003,797,3,0,1000,0.99700897308075775,1,0.99850224663005482,0.99833333333333329,0.0037499999999999999,0,"[[797,3],[0,1000]]"

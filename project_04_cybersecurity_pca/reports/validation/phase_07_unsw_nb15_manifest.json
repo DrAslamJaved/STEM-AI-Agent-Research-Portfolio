@@ -1,0 +1,78 @@
+{
+  "dataset": {
+    "academic_use": true,
+    "acquisition_method": "manual_official_download",
+    "name": "UNSW-NB15",
+    "raw_files_immutable": true,
+    "source_page": "https://research.unsw.edu.au/projects/unsw-nb15-dataset"
+  },
+  "files": {
+    "feature_descriptions": {
+      "bytes": 4044,
+      "columns": 4,
+      "encoding": "cp1252",
+      "filename": "NUSW-NB15_features.csv",
+      "rows": 49,
+      "sha256": "c55f19cceebb6360dc50f44f8a5f246ccefbcf8a6c604ac1ad46e643869cafce"
+    },
+    "testing": {
+      "attack_category_counts": {
+        "Analysis": 677,
+        "Backdoor": 583,
+        "DoS": 4089,
+        "Exploits": 11132,
+        "Fuzzers": 6062,
+        "Generic": 18871,
+        "Normal": 37000,
+        "Reconnaissance": 3496,
+        "Shellcode": 378,
+        "Worms": 44
+      },
+      "bytes": 15380800,
+      "columns": 45,
+      "encoding": "utf-8",
+      "filename": "UNSW_NB15_testing-set.csv",
+      "label_counts": {
+        "0": 37000,
+        "1": 45332
+      },
+      "rows": 82332,
+      "sha256": "734fe6642edf758f7c94d7d9149426b49d202fe8e7bf0bef47392489c3c0a559"
+    },
+    "training": {
+      "attack_category_counts": {
+        "Analysis": 2000,
+        "Backdoor": 1746,
+        "DoS": 12264,
+        "Exploits": 33393,
+        "Fuzzers": 18184,
+        "Generic": 40000,
+        "Normal": 56000,
+        "Reconnaissance": 10491,
+        "Shellcode": 1133,
+        "Worms": 130
+      },
+      "bytes": 32293018,
+      "columns": 45,
+      "encoding": "utf-8",
+      "filename": "UNSW_NB15_training-set.csv",
+      "label_counts": {
+        "0": 56000,
+        "1": 119341
+      },
+      "rows": 175341,
+      "sha256": "bec7dd5ec88dc2a0ccc7a07879d338395ed7421750f675fd0339e07dfe0648fa"
+    }
+  },
+  "hash_algorithm": "sha256",
+  "validation": {
+    "curated_schema_columns": 45,
+    "feature_description_rows": 49,
+    "identifier_scope": "partition_local",
+    "record_key": [
+      "source_partition",
+      "id"
+    ],
+    "status": "passed"
+  }
+}

@@ -1,0 +1,247 @@
+project:
+  name: "Agentic Cybersecurity Anomaly Detection Using PCA and Eigenvalue Analysis"
+  random_seed: 42
+  anomaly_label: 1
+  normal_label: 0
+
+pca:
+  explained_variance_target: 0.95
+  eigenvalue_tolerance: 1.0e-12
+  covariance_denominator: "n_minus_1"
+  eigensolver: "numpy.linalg.eigh"
+  reconstruction_space: "standardized"
+  reconstruction_error: "mean_squared_error"
+  fitting_split: "normal_fit_only"
+  component_selection_rule: "minimum_cumulative_explained_variance"
+  refit_selected_model: true
+  score_splits:
+    - "normal_fit"
+    - "normal_calibration"
+    - "test"
+  excluded_columns:
+    - "flow_id"
+    - "is_anomaly"
+    - "scenario"
+
+threshold:
+  fitting_class: "normal_only"
+  calibration_class: "normal_only"
+  method: "quantile"
+  quantile: 0.99
+  quantile_method: "linear"
+  comparison: "strictly_greater_than"
+
+data:
+  development_dataset: "deterministic_synthetic_network_flows"
+  final_dataset: "UNSW-NB15"
+  raw_data_immutable: true
+  test_labels_hidden_until_evaluation: true
+
+evaluation:
+  positive_class: "anomaly"
+  positive_label: 1
+  negative_label: 0
+  zero_division: 0
+  confusion_matrix_labels:
+    - 0
+    - 1
+  label_column: "is_anomaly"
+  scenario_column: "scenario"
+  prediction_column: "predicted_anomaly"
+  metrics:
+    - "precision"
+    - "recall"
+    - "f1"
+    - "confusion_matrix"
+    - "false_positive_rate"
+    - "false_negative_rate"
+
+synthetic_data:
+  normal_observations: 4000
+  attack_observations_per_type: 250
+  attack_types:
+    - "port_scan"
+    - "dos"
+    - "brute_force"
+    - "exfiltration"
+  shuffle: true
+  output_dtype: "float64"
+  id_column: "flow_id"
+  label_column: "is_anomaly"
+  scenario_column: "scenario"
+  feature_columns:
+    - "duration_ms"
+    - "packets_in"
+    - "packets_out"
+    - "bytes_in"
+    - "bytes_out"
+    - "syn_count"
+    - "ack_count"
+    - "connection_rate"
+    - "unique_dest_ports"
+    - "failed_logins"
+
+preprocessing:
+  normal_fit_fraction: 0.60
+  normal_calibration_fraction: 0.20
+  normal_test_fraction: 0.20
+  random_seed: 42
+  fitting_class: "normal_only"
+  calibration_class: "normal_only"
+  attack_assignment: "test_only"
+  shuffle_test_split: true
+  standardizer: "sklearn.preprocessing.StandardScaler"
+  scaler_fit_split: "normal_fit_only"
+  scaler_variance_ddof: 0
+  excluded_columns:
+    - "flow_id"
+    - "is_anomaly"
+    - "scenario"
+  reject_zero_variance: true
+  preserve_flow_ids: true
+
+reporting:
+  figure_dpi: 150
+  figure_format: "png"
+  table_format: "csv"
+  output_paths:
+    summary_json: "results/synthetic_evaluation.json"
+    predictions_csv: "results/synthetic_predictions.csv"
+    metrics_csv: "reports/tables/synthetic_metrics.csv"
+    scenario_metrics_csv: "reports/tables/synthetic_scenario_metrics.csv"
+    confusion_matrix_figure: "reports/figures/synthetic_confusion_matrix.png"
+    reconstruction_error_figure: "reports/figures/synthetic_reconstruction_errors.png"
+    scree_plot_figure: "reports/figures/synthetic_scree_plot.png"
+    scenario_rates_figure: "reports/figures/synthetic_scenario_rates.png"
+unsw_nb15:
+  dataset_name: "UNSW-NB15"
+  source_page: "https://research.unsw.edu.au/projects/unsw-nb15-dataset"
+  acquisition_method: "manual_official_download"
+  academic_use: true
+  raw_directory: "data/raw"
+  training_file: "UNSW_NB15_training-set.csv"
+  testing_file: "UNSW_NB15_testing-set.csv"
+  features_file: "NUSW-NB15_features.csv"
+  curated_file_encoding: "utf-8"
+  feature_description_encoding: "cp1252"
+  expected_curated_columns: 45
+  expected_feature_description_rows: 49
+  expected_training_rows: 175341
+  expected_testing_rows: 82332
+  identifier_column: "id"
+  identifier_scope: "partition_local"
+  record_key:
+    - "source_partition"
+    - "id"
+  categorical_encoder: "sklearn.preprocessing.OneHotEncoder"
+  categorical_encoder_fit_split: "normal_fit_only"
+  categorical_unknown_policy: "ignore"
+  categorical_sparse_output: false
+  standardizer: "sklearn.preprocessing.StandardScaler"
+  standardizer_fit_split: "normal_fit_only"
+  expected_numeric_features: 39
+  expected_encoded_categorical_features: 25
+  expected_model_features: 64
+  zero_variance_policy: "reject"
+  training_attack_usage: "excluded"
+  test_label_access: "evaluation_only"
+  label_column: "label"
+  attack_category_column: "attack_cat"
+  categorical_columns:
+    - "proto"
+    - "service"
+    - "state"
+  excluded_model_columns:
+    - "id"
+    - "label"
+    - "attack_cat"
+  training_usage: "normal_fit_and_calibration_only"
+  testing_usage: "hidden_label_evaluation_only"
+  normal_fit_fraction: 0.75
+  normal_calibration_fraction: 0.25
+  random_seed: 42
+  raw_files_immutable: true
+  hash_algorithm: "sha256"
+  manifest_path: "reports/validation/phase_07_unsw_nb15_manifest.json"
+  preprocessing_evidence_path: "reports/validation/phase_07_unsw_nb15_preprocessing.json"
+
+unsw_evaluation:
+  phase: 8
+  dataset_name: "UNSW-NB15"
+  model_input: "phase_07_standardized_partitions"
+  pca_fit_split: "normal_fit_only"
+  component_selection_split: "normal_fit_only"
+  threshold_calibration_split: "normal_calibration_only"
+  prediction_split: "official_test_features_only"
+  label_access: "after_predictions_frozen"
+  attack_category_access: "after_predictions_frozen"
+  alignment_key:
+    - "source_partition"
+    - "id"
+  test_source_partition: "unsw_testing"
+  post_evaluation_tuning: false
+  attack_category_order:
+    - "Normal"
+    - "Analysis"
+    - "Backdoor"
+    - "DoS"
+    - "Exploits"
+    - "Fuzzers"
+    - "Generic"
+    - "Reconnaissance"
+    - "Shellcode"
+    - "Worms"
+  figure_dpi: 150
+  table_format: "csv"
+  figure_format: "png"
+  output_paths:
+    summary_json: "results/unsw_nb15_evaluation.json"
+    predictions_csv: "results/unsw_nb15_predictions.csv"
+    metrics_csv: "reports/tables/unsw_nb15_metrics.csv"
+    attack_category_metrics_csv: "reports/tables/unsw_nb15_attack_category_metrics.csv"
+    confusion_matrix_figure: "reports/figures/unsw_nb15_confusion_matrix.png"
+    reconstruction_error_figure: "reports/figures/unsw_nb15_reconstruction_errors.png"
+    scree_plot_figure: "reports/figures/unsw_nb15_scree_plot.png"
+    attack_category_rates_figure: "reports/figures/unsw_nb15_attack_category_rates.png"
+
+agent_reasoning_evaluation:
+  phase: 9
+  rubric_version: "1.0.0"
+  evaluation_subject: "phase_08_unsw_nb15_reasoning_response"
+  response_path: "results/phase_09_agent_reasoning_response.md"
+  annotation_path: "results/phase_09_agent_reasoning_annotations.json"
+  source_standard_path: "docs/critical_reasoning.md"
+  automated_free_text_scoring: false
+  human_review_required: true
+  frozen_phase_08_commit: "c3867c45ee910d68648329ee8090d990169a60f4"
+  evidence_paths:
+    - "results/unsw_nb15_evaluation.json"
+    - "reports/tables/unsw_nb15_metrics.csv"
+    - "reports/tables/unsw_nb15_attack_category_metrics.csv"
+    - "agent_trace/phase_08.md"
+  score_levels:
+    missing_or_incorrect: 0
+    partial: 1
+    complete_and_evidence_grounded: 2
+  criteria:
+    - "subspace_geometry"
+    - "anomaly_not_attack_proof"
+    - "normal_fit_assumption"
+    - "leakage_and_contamination"
+    - "scaling_and_threshold"
+    - "error_consequences"
+    - "empirical_validation"
+  minimum_total_score: 12
+  maximum_total_score: 14
+  require_no_zero_scores: true
+  hard_failure_rules:
+    - "anomaly_claimed_as_attack_proof"
+    - "test_leakage_accepted"
+    - "frozen_metrics_misreported"
+    - "post_evaluation_tuning_claimed"
+    - "operational_deployment_recommended"
+  expected_operational_recommendation: "not_recommended"
+  output_paths:
+    summary_json: "results/agent_reasoning_evaluation.json"
+    rubric_csv: "reports/tables/agent_reasoning_rubric.csv"
+    scores_figure: "reports/figures/agent_reasoning_scores.png"
