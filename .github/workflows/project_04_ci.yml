@@ -1,0 +1,56 @@
+name: Project 04 CI
+
+"on":
+  push:
+    paths:
+      - "project_04_cybersecurity_pca/**"
+      - ".github/workflows/project_04_ci.yml"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "project_04_cybersecurity_pca/**"
+      - ".github/workflows/project_04_ci.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validation:
+    name: Python 3.12 validation
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: project_04_cybersecurity_pca
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: project_04_cybersecurity_pca/pyproject.toml
+
+      - name: Install package and test tools
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+          python -m pip install pytest pytest-cov
+
+      - name: Run complete validation suite
+        run: |
+          python -m pytest -q             --junitxml=reports/validation/phase_10_ci_pytest.xml             --cov=cyber_pca             --cov-branch             --cov-fail-under=90             --cov-report=term-missing             --cov-report=xml:reports/validation/phase_10_ci_coverage.xml
+
+      - name: Upload validation evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: project-04-validation-python-3.12
+          path: |
+            project_04_cybersecurity_pca/reports/validation/phase_10_ci_pytest.xml
+            project_04_cybersecurity_pca/reports/validation/phase_10_ci_coverage.xml
+          if-no-files-found: warn

@@ -1032,9 +1032,19 @@ def test_phase_eight_readme_evidence() -> None:
             "| UNSW-NB15 experiment "
             "| Completed |"
         ),
+        "## Phase 9 verification evidence",
+        "## Phase 10 verification evidence",
         (
             "| Agent reasoning evaluation "
-            "| Next phase |"
+            "| Completed; human reviewed |"
+        ),
+        (
+            "| Continuous integration "
+            "| Completed; GitHub Actions validated |"
+        ),
+        (
+            "| Reproducibility audit and project closure "
+            "| Completed on branch; merge pending |"
         ),
         (
             "untuned observed baseline "
@@ -1044,3 +1054,25 @@ def test_phase_eight_readme_evidence() -> None:
 
     for required_fragment in required_fragments:
         assert required_fragment in readme_text
+
+
+
+def test_phase_ten_reproducibility_audit() -> None:
+    audit_text = Path(
+        "docs/phase_10_reproducibility_audit.md"
+    ).read_text(
+        encoding="utf-8"
+    )
+
+    required_fragments = (
+        "# Phase 10 Reproducibility Audit",
+        "099d4476dc266d11c2812106728223d614d99949",
+        "626 passed, 1 skipped",
+        "95.10%",
+        "project-04-validation-python-3.12",
+        "official ignored UNSW-NB15 raw files",
+        "not recommended for operational",
+    )
+
+    for required_fragment in required_fragments:
+        assert required_fragment in audit_text
