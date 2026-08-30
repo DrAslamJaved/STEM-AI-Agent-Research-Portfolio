@@ -21,12 +21,12 @@ representation, not a claim that the original study contained only
 
 ## Benchmark Source
 
-Repository: hkmztrk/DeepDTA  
-Repository URL: https://github.com/hkmztrk/DeepDTA  
-Pinned commit: a546a8433a6822e958f36171c4356ad6f414d623  
-Commit date: 2023-08-16  
-Commit message: updated installation instructions  
-Local acquisition date: 2026-08-24  
+Repository: hkmztrk/DeepDTA
+Repository URL: https://github.com/hkmztrk/DeepDTA
+Pinned commit: a546a8433a6822e958f36171c4356ad6f414d623
+Commit date: 2023-08-16
+Commit message: updated installation instructions
+Local acquisition date: 2026-08-24
 Local raw-data directory: data/raw/davis/
 
 ## Dataset Representation
