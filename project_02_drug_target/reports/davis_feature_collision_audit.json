@@ -1,0 +1,527 @@
+{
+  "audit_scope": "unsupervised_raw_and_feature_representation_only",
+  "detailed_pair_record_count": 305,
+  "distance_definition": {
+    "max_absolute_difference": "Maximum absolute feature difference after the same range normalization.",
+    "mean_absolute_difference": "Mean absolute feature difference after dividing each active feature by its entity-level range.",
+    "name": "range_normalized_descriptor_distance",
+    "zero_range_features": "Excluded only from distance because they cannot distinguish entities."
+  },
+  "drug_audit": {
+    "active_distance_feature_columns": [
+      "drug_smiles_length",
+      "drug_atom_count",
+      "drug_carbon_fraction",
+      "drug_nitrogen_fraction",
+      "drug_oxygen_fraction",
+      "drug_sulfur_fraction",
+      "drug_phosphorus_fraction",
+      "drug_halogen_fraction",
+      "drug_ring_marker_count",
+      "drug_branch_count",
+      "drug_double_bond_count",
+      "drug_triple_bond_count"
+    ],
+    "active_distance_feature_count": 12,
+    "distinct_raw_feature_collision_pair_count": 0,
+    "entity_count": 68,
+    "entity_type": "drug",
+    "exact_feature_collision_group_count": 0,
+    "exact_feature_collision_group_examples": [],
+    "exact_feature_collision_pair_count": 0,
+    "feature_column_count": 15,
+    "nearest_distinct_raw_representation_pairs": [
+      {
+        "entity_id_a": "10184653",
+        "entity_id_b": "156414",
+        "entity_type": "drug",
+        "exact_feature_vector_equal": false,
+        "included_as_nearest_pair": true,
+        "range_normalized_max_absolute_difference": 0.1111111111111111,
+        "range_normalized_mean_absolute_difference": 0.012403913347309573,
+        "raw_representation_equal": false
+      },
+      {
+        "entity_id_a": "11314340",
+        "entity_id_b": "11427553",
+        "entity_type": "drug",
+        "exact_feature_vector_equal": false,
+        "included_as_nearest_pair": true,
+        "range_normalized_max_absolute_difference": 0.1,
+        "range_normalized_mean_absolute_difference": 0.030596706603570667,
+        "raw_representation_equal": false
+      },
+      {
+        "entity_id_a": "11427553",
+        "entity_id_b": "11717001",
+        "entity_type": "drug",
+        "exact_feature_vector_equal": false,
+        "included_as_nearest_pair": true,
+        "range_normalized_max_absolute_difference": 0.22,
+        "range_normalized_mean_absolute_difference": 0.03395565092989987,
+        "raw_representation_equal": false
+      },
+      {
+        "entity_id_a": "126565",
+        "entity_id_b": "44259",
+        "entity_type": "drug",
+        "exact_feature_vector_equal": false,
+        "included_as_nearest_pair": true,
+        "range_normalized_max_absolute_difference": 0.19523809523809524,
+        "range_normalized_mean_absolute_difference": 0.03866361648869245,
+        "raw_representation_equal": false
+      },
+      {
+        "entity_id_a": "123631",
+        "entity_id_b": "3081361",
+        "entity_type": "drug",
+        "exact_feature_vector_equal": false,
+        "included_as_nearest_pair": true,
+        "range_normalized_max_absolute_difference": 0.16559139784946236,
+        "range_normalized_mean_absolute_difference": 0.039596325163483555,
+        "raw_representation_equal": false
+      },
+      {
+        "entity_id_a": "11314340",
+        "entity_id_b": "11667893",
+        "entity_type": "drug",
+        "exact_feature_vector_equal": false,
+        "included_as_nearest_pair": true,
+        "range_normalized_max_absolute_difference": 0.13638531235097745,
+        "range_normalized_mean_absolute_difference": 0.03989129923000292,
+        "raw_representation_equal": false
+      },
+      {
+        "entity_id_a": "153999",
+        "entity_id_b": "44259",
+        "entity_type": "drug",
+        "exact_feature_vector_equal": false,
+        "included_as_nearest_pair": true,
+        "range_normalized_max_absolute_difference": 0.3333333333333333,
+        "range_normalized_mean_absolute_difference": 0.04694269741439552,
+        "raw_representation_equal": false
+      },
+      {
+        "entity_id_a": "11427553",
+        "entity_id_b": "11667893",
+        "entity_type": "drug",
+        "exact_feature_vector_equal": false,
+        "included_as_nearest_pair": true,
+        "range_normalized_max_absolute_difference": 0.11320754716981132,
+        "range_normalized_mean_absolute_difference": 0.05045694995231159,
+        "raw_representation_equal": false
+      },
+      {
+        "entity_id_a": "11234052",
+        "entity_id_b": "9929127",
+        "entity_type": "drug",
+        "exact_feature_vector_equal": false,
+        "included_as_nearest_pair": true,
+        "range_normalized_max_absolute_difference": 0.2,
+        "range_normalized_mean_absolute_difference": 0.05190335407995458,
+        "raw_representation_equal": false
+      },
+      {
+        "entity_id_a": "10074640",
+        "entity_id_b": "5291",
+        "entity_type": "drug",
+        "exact_feature_vector_equal": false,
+        "included_as_nearest_pair": true,
+        "range_normalized_max_absolute_difference": 0.3472222222222222,
+        "range_normalized_mean_absolute_difference": 0.05422682900048694,
+        "raw_representation_equal": false
+      }
+    ],
+    "raw_duplicate_entity_count": 0,
+    "raw_duplicate_group_count": 0,
+    "raw_duplicate_group_examples": [],
+    "raw_duplicate_pair_count": 0,
+    "zero_range_feature_columns": [
+      "drug_other_atom_fraction",
+      "drug_aromatic_atom_fraction",
+      "drug_charge_marker_count"
+    ]
+  },
+  "interpretation_limits": [
+    "Equal raw representations may reflect the benchmark mapping and are not automatically errors.",
+    "Exact feature collisions show information lost by this transparent representation, not biological equivalence.",
+    "Nearest descriptor pairs are a quality diagnostic only; they are not chemical similarity, sequence homology, or causal evidence.",
+    "The audit includes raw representations for all benchmark entities, including outer-holdout entities, but uses no outcomes. It is documentation only and must not guide retrospective model changes."
+  ],
+  "model_predictions_used": false,
+  "outcome_values_used": false,
+  "outer_holdout_raw_representations_included": true,
+  "target_audit": {
+    "active_distance_feature_columns": [
+      "target_sequence_length",
+      "target_aa_fraction_A",
+      "target_aa_fraction_C",
+      "target_aa_fraction_D",
+      "target_aa_fraction_E",
+      "target_aa_fraction_F",
+      "target_aa_fraction_G",
+      "target_aa_fraction_H",
+      "target_aa_fraction_I",
+      "target_aa_fraction_K",
+      "target_aa_fraction_L",
+      "target_aa_fraction_M",
+      "target_aa_fraction_N",
+      "target_aa_fraction_P",
+      "target_aa_fraction_Q",
+      "target_aa_fraction_R",
+      "target_aa_fraction_S",
+      "target_aa_fraction_T",
+      "target_aa_fraction_V",
+      "target_aa_fraction_W",
+      "target_unknown_residue_fraction"
+    ],
+    "active_distance_feature_count": 21,
+    "distinct_raw_feature_collision_pair_count": 0,
+    "entity_count": 442,
+    "entity_type": "target",
+    "exact_feature_collision_group_count": 18,
+    "exact_feature_collision_group_examples": [
+      {
+        "entity_count": 15,
+        "entity_ids": [
+          "ABL1",
+          "ABL1(E255K)",
+          "ABL1(F317I)",
+          "ABL1(F317I)p",
+          "ABL1(F317L)",
+          "ABL1(F317L)p",
+          "ABL1(H396P)",
+          "ABL1(H396P)p",
+          "ABL1(M351T)",
+          "ABL1(Q252H)",
+          "ABL1(Q252H)p",
+          "ABL1(T315I)",
+          "ABL1(T315I)p",
+          "ABL1(Y253F)",
+          "ABL1p"
+        ]
+      },
+      {
+        "entity_count": 12,
+        "entity_ids": [
+          "EGFR",
+          "EGFR(E746A750del)",
+          "EGFR(G719C)",
+          "EGFR(G719S)",
+          "EGFR(L747E749del)",
+          "EGFR(L747S752del)",
+          "EGFR(L747T751del)",
+          "EGFR(L858R)",
+          "EGFR(L858RT790M)",
+          "EGFR(L861Q)",
+          "EGFR(S752I759del)",
+          "EGFR(T790M)"
+        ]
+      },
+      {
+        "entity_count": 10,
+        "entity_ids": [
+          "PIK3CA",
+          "PIK3CA(C420R)",
+          "PIK3CA(E542K)",
+          "PIK3CA(E545A)",
+          "PIK3CA(E545K)",
+          "PIK3CA(H1047L)",
+          "PIK3CA(H1047Y)",
+          "PIK3CA(I800L)",
+          "PIK3CA(M1043I)",
+          "PIK3CA(Q546K)"
+        ]
+      },
+      {
+        "entity_count": 8,
+        "entity_ids": [
+          "KIT",
+          "KIT(A829P)",
+          "KIT(D816H)",
+          "KIT(D816V)",
+          "KIT(L576P)",
+          "KIT(V559D)",
+          "KIT(V559D-T670I)",
+          "KIT(V559D-V654A)"
+        ]
+      },
+      {
+        "entity_count": 7,
+        "entity_ids": [
+          "FLT3",
+          "FLT3(D835H)",
+          "FLT3(D835Y)",
+          "FLT3(ITD)",
+          "FLT3(K663Q)",
+          "FLT3(N841I)",
+          "FLT3(R834Q)"
+        ]
+      },
+      {
+        "entity_count": 4,
+        "entity_ids": [
+          "RET",
+          "RET(M918T)",
+          "RET(V804L)",
+          "RET(V804M)"
+        ]
+      },
+      {
+        "entity_count": 3,
+        "entity_ids": [
+          "MET",
+          "MET(M1250T)",
+          "MET(Y1235D)"
+        ]
+      },
+      {
+        "entity_count": 2,
+        "entity_ids": [
+          "BRAF",
+          "BRAF(V600E)"
+        ]
+      },
+      {
+        "entity_count": 2,
+        "entity_ids": [
+          "CDK4-cyclinD1",
+          "CDK4-cyclinD3"
+        ]
+      },
+      {
+        "entity_count": 2,
+        "entity_ids": [
+          "FGFR3",
+          "FGFR3(G697C)"
+        ]
+      }
+    ],
+    "exact_feature_collision_pair_count": 285,
+    "feature_column_count": 21,
+    "nearest_distinct_raw_representation_pairs": [
+      {
+        "entity_id_a": "PKAC-alpha",
+        "entity_id_b": "PKAC-beta",
+        "entity_type": "target",
+        "exact_feature_vector_equal": false,
+        "included_as_nearest_pair": true,
+        "range_normalized_max_absolute_difference": 0.11660377761325522,
+        "range_normalized_mean_absolute_difference": 0.029102372412763932,
+        "raw_representation_equal": false
+      },
+      {
+        "entity_id_a": "MARK1",
+        "entity_id_b": "MARK3",
+        "entity_type": "target",
+        "exact_feature_vector_equal": false,
+        "included_as_nearest_pair": true,
+        "range_normalized_max_absolute_difference": 0.1156742211469373,
+        "range_normalized_mean_absolute_difference": 0.03327993777431552,
+        "raw_representation_equal": false
+      },
+      {
+        "entity_id_a": "JNK1",
+        "entity_id_b": "JNK3",
+        "entity_type": "target",
+        "exact_feature_vector_equal": false,
+        "included_as_nearest_pair": true,
+        "range_normalized_max_absolute_difference": 0.09716266624974403,
+        "range_normalized_mean_absolute_difference": 0.037087365286710874,
+        "raw_representation_equal": false
+      },
+      {
+        "entity_id_a": "CSNK1D",
+        "entity_id_b": "CSNK1E",
+        "entity_type": "target",
+        "exact_feature_vector_equal": false,
+        "included_as_nearest_pair": true,
+        "range_normalized_max_absolute_difference": 0.1985073949006381,
+        "range_normalized_mean_absolute_difference": 0.039049577492715655,
+        "raw_representation_equal": false
+      },
+      {
+        "entity_id_a": "AKT1",
+        "entity_id_b": "AKT2",
+        "entity_type": "target",
+        "exact_feature_vector_equal": false,
+        "included_as_nearest_pair": true,
+        "range_normalized_max_absolute_difference": 0.09811193983806007,
+        "range_normalized_mean_absolute_difference": 0.04185349189601342,
+        "raw_representation_equal": false
+      },
+      {
+        "entity_id_a": "NDR1",
+        "entity_id_b": "NDR2",
+        "entity_type": "target",
+        "exact_feature_vector_equal": false,
+        "included_as_nearest_pair": true,
+        "range_normalized_max_absolute_difference": 0.10721369317858345,
+        "range_normalized_mean_absolute_difference": 0.043465208468752625,
+        "raw_representation_equal": false
+      },
+      {
+        "entity_id_a": "PRKD1",
+        "entity_id_b": "PRKD3",
+        "entity_type": "target",
+        "exact_feature_vector_equal": false,
+        "included_as_nearest_pair": true,
+        "range_normalized_max_absolute_difference": 0.13772506925207756,
+        "range_normalized_mean_absolute_difference": 0.04419838901263377,
+        "raw_representation_equal": false
+      },
+      {
+        "entity_id_a": "RSK2(KinDom.1-N-terminal)",
+        "entity_id_b": "RSK4(KinDom.1-N-terminal)",
+        "entity_type": "target",
+        "exact_feature_vector_equal": false,
+        "included_as_nearest_pair": true,
+        "range_normalized_max_absolute_difference": 0.13325889183084244,
+        "range_normalized_mean_absolute_difference": 0.0443646816563429,
+        "raw_representation_equal": false
+      },
+      {
+        "entity_id_a": "RSK2(KinDom.1-N-terminal)",
+        "entity_id_b": "RSK4(KinDom.2-C-terminal)",
+        "entity_type": "target",
+        "exact_feature_vector_equal": false,
+        "included_as_nearest_pair": true,
+        "range_normalized_max_absolute_difference": 0.13325889183084244,
+        "range_normalized_mean_absolute_difference": 0.0443646816563429,
+        "raw_representation_equal": false
+      },
+      {
+        "entity_id_a": "INSRR",
+        "entity_id_b": "TIE1",
+        "entity_type": "target",
+        "exact_feature_vector_equal": false,
+        "included_as_nearest_pair": true,
+        "range_normalized_max_absolute_difference": 0.11613592610035088,
+        "range_normalized_mean_absolute_difference": 0.04567360485557519,
+        "raw_representation_equal": false
+      }
+    ],
+    "raw_duplicate_entity_count": 81,
+    "raw_duplicate_group_count": 18,
+    "raw_duplicate_group_examples": [
+      {
+        "entity_count": 15,
+        "entity_ids": [
+          "ABL1",
+          "ABL1(E255K)",
+          "ABL1(F317I)",
+          "ABL1(F317I)p",
+          "ABL1(F317L)",
+          "ABL1(F317L)p",
+          "ABL1(H396P)",
+          "ABL1(H396P)p",
+          "ABL1(M351T)",
+          "ABL1(Q252H)",
+          "ABL1(Q252H)p",
+          "ABL1(T315I)",
+          "ABL1(T315I)p",
+          "ABL1(Y253F)",
+          "ABL1p"
+        ]
+      },
+      {
+        "entity_count": 12,
+        "entity_ids": [
+          "EGFR",
+          "EGFR(E746A750del)",
+          "EGFR(G719C)",
+          "EGFR(G719S)",
+          "EGFR(L747E749del)",
+          "EGFR(L747S752del)",
+          "EGFR(L747T751del)",
+          "EGFR(L858R)",
+          "EGFR(L858RT790M)",
+          "EGFR(L861Q)",
+          "EGFR(S752I759del)",
+          "EGFR(T790M)"
+        ]
+      },
+      {
+        "entity_count": 10,
+        "entity_ids": [
+          "PIK3CA",
+          "PIK3CA(C420R)",
+          "PIK3CA(E542K)",
+          "PIK3CA(E545A)",
+          "PIK3CA(E545K)",
+          "PIK3CA(H1047L)",
+          "PIK3CA(H1047Y)",
+          "PIK3CA(I800L)",
+          "PIK3CA(M1043I)",
+          "PIK3CA(Q546K)"
+        ]
+      },
+      {
+        "entity_count": 8,
+        "entity_ids": [
+          "KIT",
+          "KIT(A829P)",
+          "KIT(D816H)",
+          "KIT(D816V)",
+          "KIT(L576P)",
+          "KIT(V559D)",
+          "KIT(V559D-T670I)",
+          "KIT(V559D-V654A)"
+        ]
+      },
+      {
+        "entity_count": 7,
+        "entity_ids": [
+          "FLT3",
+          "FLT3(D835H)",
+          "FLT3(D835Y)",
+          "FLT3(ITD)",
+          "FLT3(K663Q)",
+          "FLT3(N841I)",
+          "FLT3(R834Q)"
+        ]
+      },
+      {
+        "entity_count": 4,
+        "entity_ids": [
+          "RET",
+          "RET(M918T)",
+          "RET(V804L)",
+          "RET(V804M)"
+        ]
+      },
+      {
+        "entity_count": 3,
+        "entity_ids": [
+          "MET",
+          "MET(M1250T)",
+          "MET(Y1235D)"
+        ]
+      },
+      {
+        "entity_count": 2,
+        "entity_ids": [
+          "BRAF",
+          "BRAF(V600E)"
+        ]
+      },
+      {
+        "entity_count": 2,
+        "entity_ids": [
+          "CDK4-cyclinD1",
+          "CDK4-cyclinD3"
+        ]
+      },
+      {
+        "entity_count": 2,
+        "entity_ids": [
+          "FGFR3",
+          "FGFR3(G697C)"
+        ]
+      }
+    ],
+    "raw_duplicate_pair_count": 285,
+    "zero_range_feature_columns": []
+  },
+  "top_n": 10
+}
