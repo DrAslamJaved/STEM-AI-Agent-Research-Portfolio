@@ -443,6 +443,64 @@ The low attack recall and high false-negative rate are retained as
 untuned observed baseline performance. These results are not evidence of an optimized
 or operational cybersecurity detector.
 
+## Phase 9 verification evidence
+
+Phase 9 evaluated the agent's critical reasoning about the frozen UNSW-NB15
+PCA baseline. The structured response was reviewed by Dr Aslam Javed and
+approved as written. Its conclusion remains unchanged: the PCA baseline is
+not recommended for operational deployment because of its low recall and high
+false-negative rate.
+
+Verified evidence:
+
+- 96 targeted Phase 9 tests passed;
+- the reviewed response SHA-256 is
+  a0b1a562e0e3bed5d78050e61ddf4743fe5979638406cca84e1990a401f3a48c;
+- human_reviewed is recorded as true;
+- the review covers factual accuracy, evidence references, and the
+  non-deployment conclusion;
+- the operational recommendation remains not recommended for operational
+  deployment.
+
+Evidence files:
+
+- results/phase_09_agent_reasoning_response.md;
+- results/phase_09_agent_reasoning_human_review.json;
+- docs/critical_reasoning.md;
+- src/cyber_pca/agent_reasoning.py;
+- tests/test_agent_reasoning.py;
+- tests/test_agent_reasoning_contract.py;
+- tests/test_agent_reasoning_response.py;
+- tests/test_agent_reasoning_validation.py.
+
+## Phase 10 verification evidence
+
+Phase 10 completed the reproducibility audit and added a dedicated GitHub
+Actions workflow for Project 04. The workflow performs a clean Linux checkout,
+installs the package, enforces the 90% branch-coverage gate, and uploads JUnit
+and coverage evidence.
+
+Verified evidence:
+
+- Windows Python 3.12.8 validation: 627 passed, 95.10% coverage;
+- clean GitHub Actions Ubuntu validation on Python 3.12.14:
+  626 passed, 1 expected skip, 95.10% coverage;
+- the expected skip requires official ignored UNSW-NB15 raw files that are not
+  stored in the repository;
+- the CI run used commit
+  099d4476dc266d11c2812106728223d614d99949;
+- CI artifact: project-04-validation-python-3.12;
+- artifact SHA-256:
+  078a0ed00d9109d6c9681d9c6af8d32d8bc4030359e35988e89ce584af6f346e;
+- the Phase 6 evaluation test now checks alignment contracts rather than
+  platform-dependent raw floating-point bytes.
+
+Evidence files:
+
+- .github/workflows/project_04_ci.yml;
+- docs/phase_10_reproducibility_audit.md;
+- tests/test_evaluation_integration.py.
+
 ## Current implementation status
 
 | Component | Status |
@@ -462,5 +520,6 @@ or operational cybersecurity detector.
 | Synthetic evaluation and reporting | Completed |
 | UNSW-NB15 acquisition and preprocessing | Completed |
 | UNSW-NB15 experiment | Completed |
-| Agent reasoning evaluation | Next phase |
-| Continuous integration | To be implemented |
+| Agent reasoning evaluation | Completed; human reviewed |
+| Continuous integration | Completed; GitHub Actions validated |
+| Reproducibility audit and project closure | Completed on branch; merge pending |
