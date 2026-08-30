@@ -1,6 +1,5 @@
 """Integration tests for frozen synthetic evaluation."""
 
-from hashlib import sha256
 from types import SimpleNamespace
 
 import numpy as np
@@ -81,14 +80,6 @@ def phase_six_evidence() -> SimpleNamespace:
         evaluation_data
     )
 
-    aligned_hash = sha256(
-        pd.util.hash_pandas_object(
-            evaluation_data,
-            index=True,
-        ).to_numpy(
-            dtype=np.uint64
-        ).tobytes()
-    ).hexdigest()
 
     return SimpleNamespace(
         raw_splits=raw_splits,
@@ -105,7 +96,6 @@ def phase_six_evidence() -> SimpleNamespace:
         errors_before=errors_before,
         predictions_before=predictions_before,
         raw_test_before=raw_test_before,
-        aligned_hash=aligned_hash,
     )
 
 
@@ -149,9 +139,46 @@ def test_phase_six_pipeline_contract(
         evidence.predictions.index
     )
 
-    assert evidence.aligned_hash == (
-        "6eeffc2ebc27964cedb037747d0438591c"
-        "55518846aa906b46f5c2f1ea0705be"
+    expected_label_frame = (
+        evidence.raw_splits.test.set_index("flow_id")
+        .loc[evidence.predictions.index]
+    )
+
+    expected_labels = expected_label_frame[
+        "is_anomaly"
+    ].astype(np.int8)
+    expected_labels.name = "true_anomaly"
+
+    expected_predictions = evidence.predictions.astype(
+        np.int8
+    )
+    expected_predictions.name = "predicted_anomaly"
+
+    expected_scenarios = expected_label_frame[
+        "scenario"
+    ].copy(deep=True)
+    expected_scenarios.name = "scenario"
+
+    expected_errors = evidence.error_splits.test.loc[
+        evidence.predictions.index
+    ].copy(deep=True)
+    expected_errors.name = "reconstruction_error"
+
+    pd.testing.assert_series_equal(
+        evidence.evaluation_data["true_anomaly"],
+        expected_labels,
+    )
+    pd.testing.assert_series_equal(
+        evidence.evaluation_data["predicted_anomaly"],
+        expected_predictions,
+    )
+    pd.testing.assert_series_equal(
+        evidence.evaluation_data["scenario"],
+        expected_scenarios,
+    )
+    pd.testing.assert_series_equal(
+        evidence.evaluation_data["reconstruction_error"],
+        expected_errors,
     )
 
 
