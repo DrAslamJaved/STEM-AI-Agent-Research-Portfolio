@@ -381,6 +381,68 @@ Evidence files:
 These results validate acquisition, schema, provenance, and preprocessing for
 the official curated dataset. They do not represent UNSW-NB15 anomaly-detection performance.
 
+## Phase 8 verification evidence
+
+Phase 8 evaluated the frozen PCA reconstruction-error detector on the official
+UNSW-NB15 testing partition. Predictions were created before hidden labels or
+attack categories were accessed, and post-evaluation tuning performed: 0.
+
+Verified evidence:
+
+- normal fitting observations: 42,000;
+- normal calibration observations: 14,000;
+- official test observations: 82,332;
+- standardized model features: 64;
+- selected principal components: 34;
+- explained-variance target: 0.95;
+- achieved explained variance: `0.9521414327676875`;
+- frozen threshold: `0.4923769885740442`;
+- predicted normal: 78,951;
+- predicted anomaly: 3,381;
+- true negatives: 35,974;
+- false positives: 1,026;
+- false negatives: 42,977;
+- true positives: 2,355;
+- confusion matrix: `((35974, 1026), (42977, 2355))`;
+- precision: `0.6965394853593612`;
+- recall: `0.05195005735462808`;
+- F1: `0.09668876891178946`;
+- accuracy: `0.4655419520963902`;
+- false-positive rate: `0.02772972972972973`;
+- false-negative rate: `0.9480499426453719`;
+- 531 passing tests;
+- failures, errors, and skipped tests: 0;
+- line coverage: 96.15%;
+- branch coverage: 91.16%;
+- 94.74% combined coverage;
+- `unsw_experiment.py` coverage: 100%;
+- `unsw_evaluation.py` coverage: 100%;
+- `unsw_reporting.py` coverage: 100%.
+
+The complete `evaluate-unsw` CLI regenerated eight artifacts with byte counts
+and SHA-256 values identical to the permanent evidence. The temporary
+regeneration directory was removed only after all comparisons passed.
+
+Evidence files:
+
+- `docs/unsw_nb15_evaluation_contract.md`;
+- `prompts/phase_08_unsw_evaluation.md`;
+- `agent_trace/phase_08.md`;
+- `results/unsw_nb15_evaluation.json`;
+- `results/unsw_nb15_predictions.csv`;
+- `reports/tables/unsw_nb15_metrics.csv`;
+- `reports/tables/unsw_nb15_attack_category_metrics.csv`;
+- `reports/figures/unsw_nb15_confusion_matrix.png`;
+- `reports/figures/unsw_nb15_reconstruction_errors.png`;
+- `reports/figures/unsw_nb15_scree_plot.png`;
+- `reports/figures/unsw_nb15_attack_category_rates.png`;
+- `reports/validation/phase_08_pytest.xml`;
+- `reports/validation/phase_08_coverage.xml`.
+
+The low attack recall and high false-negative rate are retained as
+untuned observed baseline performance. These results are not evidence of an optimized
+or operational cybersecurity detector.
+
 ## Current implementation status
 
 | Component | Status |
@@ -399,6 +461,6 @@ the official curated dataset. They do not represent UNSW-NB15 anomaly-detection 
 | Reconstruction-error detector | Completed |
 | Synthetic evaluation and reporting | Completed |
 | UNSW-NB15 acquisition and preprocessing | Completed |
-| UNSW-NB15 experiment | Next phase |
-| Agent reasoning evaluation | To be implemented |
+| UNSW-NB15 experiment | Completed |
+| Agent reasoning evaluation | Next phase |
 | Continuous integration | To be implemented |

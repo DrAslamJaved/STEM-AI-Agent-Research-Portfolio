@@ -916,7 +916,7 @@ def test_phase_seven_readme_evidence() -> None:
             "| UNSW-NB15 acquisition and "
             "preprocessing | Completed |"
         ),
-        "| UNSW-NB15 experiment | Next phase |",
+        "| UNSW-NB15 experiment | Completed |",
         (
             "These results validate acquisition, "
             "schema, provenance, and preprocessing"
@@ -924,6 +924,121 @@ def test_phase_seven_readme_evidence() -> None:
         (
             "They do not represent UNSW-NB15 "
             "anomaly-detection performance"
+        ),
+    )
+
+    for required_fragment in required_fragments:
+        assert required_fragment in readme_text
+
+def test_phase_eight_documents_and_artifacts_exist(
+) -> None:
+    required_paths = (
+        Path(
+            "docs/"
+            "unsw_nb15_evaluation_contract.md"
+        ),
+        Path(
+            "prompts/"
+            "phase_08_unsw_evaluation.md"
+        ),
+        Path(
+            "agent_trace/"
+            "phase_08.md"
+        ),
+        Path(
+            "results/"
+            "unsw_nb15_evaluation.json"
+        ),
+        Path(
+            "results/"
+            "unsw_nb15_predictions.csv"
+        ),
+        Path(
+            "reports/tables/"
+            "unsw_nb15_metrics.csv"
+        ),
+        Path(
+            "reports/tables/"
+            "unsw_nb15_"
+            "attack_category_metrics.csv"
+        ),
+        Path(
+            "reports/figures/"
+            "unsw_nb15_confusion_matrix.png"
+        ),
+        Path(
+            "reports/figures/"
+            "unsw_nb15_"
+            "reconstruction_errors.png"
+        ),
+        Path(
+            "reports/figures/"
+            "unsw_nb15_scree_plot.png"
+        ),
+        Path(
+            "reports/figures/"
+            "unsw_nb15_"
+            "attack_category_rates.png"
+        ),
+    )
+
+    for required_path in required_paths:
+        assert required_path.is_file()
+        assert required_path.stat().st_size > 0
+
+
+def test_phase_eight_readme_evidence() -> None:
+    readme_text = Path(
+        "README.md"
+    ).read_text(
+        encoding="utf-8"
+    )
+
+    required_fragments = (
+        "## Phase 8 verification evidence",
+        "531 passing tests",
+        "94.74% combined coverage",
+        "selected principal components: 34",
+        (
+            "frozen threshold: "
+            "`0.4923769885740442`"
+        ),
+        (
+            "confusion matrix: "
+            "`((35974, 1026), "
+            "(42977, 2355))`"
+        ),
+        (
+            "precision: "
+            "`0.6965394853593612`"
+        ),
+        (
+            "recall: "
+            "`0.05195005735462808`"
+        ),
+        (
+            "F1: "
+            "`0.09668876891178946`"
+        ),
+        (
+            "false-negative rate: "
+            "`0.9480499426453719`"
+        ),
+        (
+            "post-evaluation tuning "
+            "performed: 0"
+        ),
+        (
+            "| UNSW-NB15 experiment "
+            "| Completed |"
+        ),
+        (
+            "| Agent reasoning evaluation "
+            "| Next phase |"
+        ),
+        (
+            "untuned observed baseline "
+            "performance"
         ),
     )
 

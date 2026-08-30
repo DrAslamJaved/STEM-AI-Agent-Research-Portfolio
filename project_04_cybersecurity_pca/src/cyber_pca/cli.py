@@ -35,6 +35,26 @@ from cyber_pca.synthetic_data import (
 from cyber_pca.validation import run_math_validation
 
 
+from cyber_pca.unsw_data import (
+    load_unsw_nb15,
+)
+from cyber_pca.unsw_evaluation import (
+    align_unsw_evaluation_data,
+    evaluate_unsw_attack_categories,
+)
+from cyber_pca.unsw_experiment import (
+    run_unsw_detection,
+)
+from cyber_pca.unsw_preprocessing import (
+    split_unsw_normal_calibration_test,
+    standardize_unsw_splits,
+)
+from cyber_pca.unsw_reporting import (
+    resolve_unsw_evaluation_artifacts,
+    write_unsw_evaluation_artifacts,
+)
+
+
 DEFAULT_VALIDATION_OUTPUT = Path(
     "reports/validation/math_validation.json"
 )
@@ -126,6 +146,54 @@ def build_parser() -> argparse.ArgumentParser:
     )
 
     evaluation_parser.add_argument(
+        "--dpi",
+        type=int,
+        default=150,
+        help=(
+            "PNG resolution in dots per inch "
+            "(default: 150)"
+        ),
+    )
+
+    unsw_parser = subparsers.add_parser(
+        "evaluate-unsw",
+        help=(
+            "evaluate the frozen detector on the "
+            "official UNSW-NB15 test partition"
+        ),
+    )
+
+    unsw_parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help=(
+            "print ordered operations without "
+            "reading data or writing artifacts"
+        ),
+    )
+
+    unsw_parser.add_argument(
+        "--raw-directory",
+        type=Path,
+        default=Path("data/raw"),
+        help=(
+            "directory containing the official "
+            "UNSW-NB15 CSV files "
+            "(default: data/raw)"
+        ),
+    )
+
+    unsw_parser.add_argument(
+        "--output-root",
+        type=Path,
+        default=Path("."),
+        help=(
+            "root directory for results and "
+            "reports (default: current directory)"
+        ),
+    )
+
+    unsw_parser.add_argument(
         "--dpi",
         type=int,
         default=150,
@@ -394,6 +462,192 @@ def _execute_synthetic_evaluation(
 
     return 0
 
+def _print_unsw_evaluation_dry_run(
+    raw_directory: Path,
+    output_root: Path,
+    dpi: int,
+) -> None:
+    """Print the official UNSW-NB15 evaluation plan."""
+
+    artifacts = (
+        resolve_unsw_evaluation_artifacts(
+            output_root
+        )
+    )
+
+    operations = (
+        (
+            "load and validate the official "
+            f"UNSW-NB15 files from {raw_directory}"
+        ),
+        (
+            "create deterministic normal fitting, "
+            "normal calibration, and official test "
+            "partitions"
+        ),
+        (
+            "fit the encoder and standardizer using "
+            "normal fitting data only"
+        ),
+        (
+            "fit PCA and select components using "
+            "normal fitting data only"
+        ),
+        (
+            "calibrate the anomaly threshold using "
+            "normal calibration data only"
+        ),
+        (
+            "freeze official test predictions "
+            "before accessing test labels or "
+            "attack categories"
+        ),
+        (
+            "align predictions and hidden labels "
+            "by source_partition and id"
+        ),
+        (
+            "calculate binary and attack-category "
+            "metrics without post-evaluation tuning"
+        ),
+        (
+            "write deterministic JSON, CSV, and "
+            f"PNG artifacts at {dpi} DPI"
+        ),
+    )
+
+    print("DRY RUN - no files will be written")
+    print(f"Raw directory: {raw_directory}")
+
+    for index, operation in enumerate(
+        operations,
+        start=1,
+    ):
+        print(f"{index}. {operation}")
+
+    print("Planned artifacts:")
+
+    for field_name in (
+        artifacts.__dataclass_fields__
+    ):
+        artifact_path = getattr(
+            artifacts,
+            field_name,
+        )
+        print(f"- {artifact_path}")
+
+
+def _execute_unsw_evaluation(
+    raw_directory: Path,
+    output_root: Path,
+    dpi: int,
+) -> int:
+    """Execute the frozen official UNSW-NB15 evaluation."""
+
+    dataset = load_unsw_nb15(
+        raw_directory
+    )
+
+    raw_splits = (
+        split_unsw_normal_calibration_test(
+            dataset
+        )
+    )
+
+    standardized_splits = (
+        standardize_unsw_splits(
+            raw_splits
+        )
+    )
+
+    detection_result = run_unsw_detection(
+        standardized_splits
+    )
+
+    # Predictions are frozen before official test
+    # labels or attack categories enter evaluation.
+    evaluation_data = (
+        align_unsw_evaluation_data(
+            raw_splits.test,
+            (
+                detection_result
+                .reconstruction_errors
+                .test
+            ),
+            detection_result.test_predictions,
+        )
+    )
+
+    binary_result = (
+        evaluate_binary_predictions(
+            evaluation_data
+        )
+    )
+
+    attack_category_result = (
+        evaluate_unsw_attack_categories(
+            evaluation_data
+        )
+    )
+
+    artifacts = (
+        write_unsw_evaluation_artifacts(
+            evaluation_data,
+            detection_result,
+            binary_result,
+            attack_category_result,
+            output_root=output_root,
+            dpi=dpi,
+        )
+    )
+
+    print(
+        "Official UNSW-NB15 evaluation: PASSED"
+    )
+    print(
+        "- selected components: "
+        f"{detection_result.fit_result.n_components}"
+    )
+    print(
+        "- achieved explained variance: "
+        f"{detection_result.fit_result.achieved_explained_variance:.17g}"
+    )
+    print(
+        "- frozen threshold: "
+        f"{detection_result.threshold_result.threshold:.17g}"
+    )
+    print(
+        "- confusion matrix: "
+        f"{binary_result.confusion_matrix}"
+    )
+    print(
+        "- precision: "
+        f"{binary_result.precision:.17g}"
+    )
+    print(
+        "- recall: "
+        f"{binary_result.recall:.17g}"
+    )
+    print(
+        "- f1: "
+        f"{binary_result.f1:.17g}"
+    )
+    print(
+        "- false positive rate: "
+        f"{binary_result.false_positive_rate:.17g}"
+    )
+    print(
+        "- false negative rate: "
+        f"{binary_result.false_negative_rate:.17g}"
+    )
+    print(
+        "Evaluation report: "
+        f"{artifacts.summary_json}"
+    )
+
+    return 0
+
+
 def main(
     argv: Sequence[str] | None = None,
 ) -> int:
@@ -424,6 +678,21 @@ def main(
             return 0
 
         return _execute_synthetic_evaluation(
+            arguments.output_root,
+            arguments.dpi,
+        )
+
+    if arguments.command == "evaluate-unsw":
+        if arguments.dry_run:
+            _print_unsw_evaluation_dry_run(
+                arguments.raw_directory,
+                arguments.output_root,
+                arguments.dpi,
+            )
+            return 0
+
+        return _execute_unsw_evaluation(
+            arguments.raw_directory,
             arguments.output_root,
             arguments.dpi,
         )

@@ -114,3 +114,20 @@ __all__ = [
     "write_unsw_nb15_manifest",
     "write_unsw_preprocessing_evidence",
 ]
+
+from cyber_pca.unsw_evaluation import (
+    align_unsw_evaluation_data,
+    evaluate_unsw_attack_categories,
+)
+from cyber_pca.unsw_experiment import (
+    UNSWDetectionResult,
+    compute_unsw_reconstruction_errors,
+    fit_unsw_normal_pca,
+    run_unsw_detection,
+)
+from cyber_pca.unsw_reporting import (
+    UNSWEvaluationArtifacts,
+    build_unsw_evaluation_summary,
+    resolve_unsw_evaluation_artifacts,
+    write_unsw_evaluation_artifacts,
+)

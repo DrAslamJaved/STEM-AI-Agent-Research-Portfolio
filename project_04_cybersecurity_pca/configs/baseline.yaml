@@ -164,3 +164,42 @@ unsw_nb15:
   hash_algorithm: "sha256"
   manifest_path: "reports/validation/phase_07_unsw_nb15_manifest.json"
   preprocessing_evidence_path: "reports/validation/phase_07_unsw_nb15_preprocessing.json"
+
+unsw_evaluation:
+  phase: 8
+  dataset_name: "UNSW-NB15"
+  model_input: "phase_07_standardized_partitions"
+  pca_fit_split: "normal_fit_only"
+  component_selection_split: "normal_fit_only"
+  threshold_calibration_split: "normal_calibration_only"
+  prediction_split: "official_test_features_only"
+  label_access: "after_predictions_frozen"
+  attack_category_access: "after_predictions_frozen"
+  alignment_key:
+    - "source_partition"
+    - "id"
+  test_source_partition: "unsw_testing"
+  post_evaluation_tuning: false
+  attack_category_order:
+    - "Normal"
+    - "Analysis"
+    - "Backdoor"
+    - "DoS"
+    - "Exploits"
+    - "Fuzzers"
+    - "Generic"
+    - "Reconnaissance"
+    - "Shellcode"
+    - "Worms"
+  figure_dpi: 150
+  table_format: "csv"
+  figure_format: "png"
+  output_paths:
+    summary_json: "results/unsw_nb15_evaluation.json"
+    predictions_csv: "results/unsw_nb15_predictions.csv"
+    metrics_csv: "reports/tables/unsw_nb15_metrics.csv"
+    attack_category_metrics_csv: "reports/tables/unsw_nb15_attack_category_metrics.csv"
+    confusion_matrix_figure: "reports/figures/unsw_nb15_confusion_matrix.png"
+    reconstruction_error_figure: "reports/figures/unsw_nb15_reconstruction_errors.png"
+    scree_plot_figure: "reports/figures/unsw_nb15_scree_plot.png"
+    attack_category_rates_figure: "reports/figures/unsw_nb15_attack_category_rates.png"
