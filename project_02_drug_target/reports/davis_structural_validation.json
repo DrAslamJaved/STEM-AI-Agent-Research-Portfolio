@@ -1,0 +1,17 @@
+{
+  "affinity_dtype": "float64",
+  "affinity_missing_values": 0,
+  "affinity_non_missing_values": 30056,
+  "affinity_shape": [
+    68,
+    442
+  ],
+  "data_directory": "data\\raw\\davis",
+  "drug_count": 68,
+  "fold_coverage_count": 30056,
+  "fold_overlap_count": 0,
+  "target_count": 442,
+  "test_index_count": 5010,
+  "total_pair_count": 30056,
+  "train_index_count": 25046
+}
