@@ -1,0 +1,9 @@
+{
+  "affinity_kd_max_nM": 10000.0,
+  "affinity_kd_min_nM": 0.016,
+  "pKd_max": 10.795880017344075,
+  "pKd_min": 5.0,
+  "row_count": 30056,
+  "unique_drug_count": 68,
+  "unique_target_count": 442
+}

@@ -1,0 +1,427 @@
+{
+  "audit_pair_count": 23868,
+  "audit_partition": "train",
+  "correlation_action": "Retain correlated descriptors for now and document them; do not apply automatic correlation pruning or label-driven feature selection.",
+  "feature_columns": [
+    "drug_smiles_length",
+    "drug_atom_count",
+    "drug_carbon_fraction",
+    "drug_nitrogen_fraction",
+    "drug_oxygen_fraction",
+    "drug_sulfur_fraction",
+    "drug_phosphorus_fraction",
+    "drug_halogen_fraction",
+    "drug_other_atom_fraction",
+    "drug_aromatic_atom_fraction",
+    "drug_ring_marker_count",
+    "drug_branch_count",
+    "drug_double_bond_count",
+    "drug_triple_bond_count",
+    "drug_charge_marker_count",
+    "target_sequence_length",
+    "target_aa_fraction_A",
+    "target_aa_fraction_C",
+    "target_aa_fraction_D",
+    "target_aa_fraction_E",
+    "target_aa_fraction_F",
+    "target_aa_fraction_G",
+    "target_aa_fraction_H",
+    "target_aa_fraction_I",
+    "target_aa_fraction_K",
+    "target_aa_fraction_L",
+    "target_aa_fraction_M",
+    "target_aa_fraction_N",
+    "target_aa_fraction_P",
+    "target_aa_fraction_Q",
+    "target_aa_fraction_R",
+    "target_aa_fraction_S",
+    "target_aa_fraction_T",
+    "target_aa_fraction_V",
+    "target_aa_fraction_W",
+    "target_unknown_residue_fraction"
+  ],
+  "feature_statistics": [
+    {
+      "feature": "drug_smiles_length",
+      "maximum": 92.0,
+      "mean": 62.48148148148148,
+      "minimum": 40.0,
+      "standard_deviation": 11.56742030964672,
+      "unique_value_count": 30,
+      "variance": 133.80521262002742
+    },
+    {
+      "feature": "drug_atom_count",
+      "maximum": 46.0,
+      "mean": 31.90740740740741,
+      "minimum": 20.0,
+      "standard_deviation": 5.907523509830865,
+      "unique_value_count": 21,
+      "variance": 34.898834019204386
+    },
+    {
+      "feature": "drug_carbon_fraction",
+      "maximum": 0.8205128205128205,
+      "mean": 0.728936610680926,
+      "minimum": 0.6296296296296297,
+      "standard_deviation": 0.04778781977507217,
+      "unique_value_count": 43,
+      "variance": 0.002283675718854779
+    },
+    {
+      "feature": "drug_nitrogen_fraction",
+      "maximum": 0.2608695652173913,
+      "mean": 0.15216537167450933,
+      "minimum": 0.0357142857142857,
+      "standard_deviation": 0.04382074371250562,
+      "unique_value_count": 36,
+      "variance": 0.0019202575795171006
+    },
+    {
+      "feature": "drug_oxygen_fraction",
+      "maximum": 0.1818181818181818,
+      "mean": 0.07778306871850688,
+      "minimum": 0.0,
+      "standard_deviation": 0.03870212977850697,
+      "unique_value_count": 36,
+      "variance": 0.001497854849392396
+    },
+    {
+      "feature": "drug_sulfur_fraction",
+      "maximum": 0.08,
+      "mean": 0.008633632270595146,
+      "minimum": 0.0,
+      "standard_deviation": 0.017091653509236044,
+      "unique_value_count": 12,
+      "variance": 0.00029212461967978074
+    },
+    {
+      "feature": "drug_phosphorus_fraction",
+      "maximum": 0.0,
+      "mean": 0.0,
+      "minimum": 0.0,
+      "standard_deviation": 0.0,
+      "unique_value_count": 1,
+      "variance": 0.0
+    },
+    {
+      "feature": "drug_halogen_fraction",
+      "maximum": 0.16,
+      "mean": 0.03248131665546264,
+      "minimum": 0.0,
+      "standard_deviation": 0.040228203554945774,
+      "unique_value_count": 27,
+      "variance": 0.001618308361258152
+    },
+    {
+      "feature": "drug_other_atom_fraction",
+      "maximum": 0.0,
+      "mean": 0.0,
+      "minimum": 0.0,
+      "standard_deviation": 0.0,
+      "unique_value_count": 1,
+      "variance": 0.0
+    },
+    {
+      "feature": "drug_aromatic_atom_fraction",
+      "maximum": 0.0,
+      "mean": 0.0,
+      "minimum": 0.0,
+      "standard_deviation": 0.0,
+      "unique_value_count": 1,
+      "variance": 0.0
+    },
+    {
+      "feature": "drug_ring_marker_count",
+      "maximum": 16.0,
+      "mean": 8.88888888888889,
+      "minimum": 6.0,
+      "standard_deviation": 2.23330569358242,
+      "unique_value_count": 6,
+      "variance": 4.987654320987655
+    },
+    {
+      "feature": "drug_branch_count",
+      "maximum": 11.0,
+      "mean": 5.481481481481482,
+      "minimum": 2.0,
+      "standard_deviation": 1.7611101374768503,
+      "unique_value_count": 9,
+      "variance": 3.1015089163237306
+    },
+    {
+      "feature": "drug_double_bond_count",
+      "maximum": 15.0,
+      "mean": 10.11111111111111,
+      "minimum": 5.0,
+      "standard_deviation": 2.3227272178185414,
+      "unique_value_count": 11,
+      "variance": 5.395061728395062
+    },
+    {
+      "feature": "drug_triple_bond_count",
+      "maximum": 1.0,
+      "mean": 0.07407407407407407,
+      "minimum": 0.0,
+      "standard_deviation": 0.2618914004394621,
+      "unique_value_count": 2,
+      "variance": 0.06858710562414266
+    },
+    {
+      "feature": "drug_charge_marker_count",
+      "maximum": 0.0,
+      "mean": 0.0,
+      "minimum": 0.0,
+      "standard_deviation": 0.0,
+      "unique_value_count": 1,
+      "variance": 0.0
+    },
+    {
+      "feature": "target_sequence_length",
+      "maximum": 2549.0,
+      "mean": 788.947963800905,
+      "minimum": 244.0,
+      "standard_deviation": 378.3389506059714,
+      "unique_value_count": 304,
+      "variance": 143140.36154562765
+    },
+    {
+      "feature": "target_aa_fraction_A",
+      "maximum": 0.1385767790262172,
+      "mean": 0.06371132860993658,
+      "minimum": 0.027027027027027,
+      "standard_deviation": 0.015752104090281677,
+      "unique_value_count": 363,
+      "variance": 0.00024812878327106874
+    },
+    {
+      "feature": "target_aa_fraction_C",
+      "maximum": 0.0495867768595041,
+      "mean": 0.020615586624570702,
+      "minimum": 0.0031948881789137,
+      "standard_deviation": 0.009514586393594747,
+      "unique_value_count": 358,
+      "variance": 9.052735424117828e-05
+    },
+    {
+      "feature": "target_aa_fraction_D",
+      "maximum": 0.0950704225352112,
+      "mean": 0.05144823883412733,
+      "minimum": 0.0246679316888045,
+      "standard_deviation": 0.009843481855821698,
+      "unique_value_count": 366,
+      "variance": 9.689413504589098e-05
+    },
+    {
+      "feature": "target_aa_fraction_E",
+      "maximum": 0.1623616236162361,
+      "mean": 0.07289535739980607,
+      "minimum": 0.0330578512396694,
+      "standard_deviation": 0.01615180220812414,
+      "unique_value_count": 366,
+      "variance": 0.0002608807145703638
+    },
+    {
+      "feature": "target_aa_fraction_F",
+      "maximum": 0.0712250712250712,
+      "mean": 0.03680478248040942,
+      "minimum": 0.0170697012802275,
+      "standard_deviation": 0.009505831778100058,
+      "unique_value_count": 367,
+      "variance": 9.036083779353692e-05
+    },
+    {
+      "feature": "target_aa_fraction_G",
+      "maximum": 0.1388888888888889,
+      "mean": 0.06417710293030414,
+      "minimum": 0.0184921763869132,
+      "standard_deviation": 0.014672552033271507,
+      "unique_value_count": 367,
+      "variance": 0.00021528378316905986
+    },
+    {
+      "feature": "target_aa_fraction_H",
+      "maximum": 0.079002079002079,
+      "mean": 0.028154002437270037,
+      "minimum": 0.0117924528301886,
+      "standard_deviation": 0.008690787940818163,
+      "unique_value_count": 363,
+      "variance": 7.55297950322704e-05
+    },
+    {
+      "feature": "target_aa_fraction_I",
+      "maximum": 0.0839694656488549,
+      "mean": 0.04814747780963221,
+      "minimum": 0.0027855153203342,
+      "standard_deviation": 0.012918525277162576,
+      "unique_value_count": 371,
+      "variance": 0.0001668882953366884
+    },
+    {
+      "feature": "target_aa_fraction_K",
+      "maximum": 0.1316793893129771,
+      "mean": 0.06253899723947637,
+      "minimum": 0.0167130919220055,
+      "standard_deviation": 0.018875255993259614,
+      "unique_value_count": 373,
+      "variance": 0.00035627528881108304
+    },
+    {
+      "feature": "target_aa_fraction_L",
+      "maximum": 0.1688212927756654,
+      "mean": 0.09900440257100118,
+      "minimum": 0.0584070796460177,
+      "standard_deviation": 0.017221191039969747,
+      "unique_value_count": 367,
+      "variance": 0.00029656942083513426
+    },
+    {
+      "feature": "target_aa_fraction_M",
+      "maximum": 0.0488798370672097,
+      "mean": 0.023947845115574604,
+      "minimum": 0.0055710306406685,
+      "standard_deviation": 0.00717729817616187,
+      "unique_value_count": 369,
+      "variance": 5.151360910953651e-05
+    },
+    {
+      "feature": "target_aa_fraction_N",
+      "maximum": 0.0782442748091603,
+      "mean": 0.03746956553788662,
+      "minimum": 0.0030674846625766,
+      "standard_deviation": 0.011873507752736748,
+      "unique_value_count": 366,
+      "variance": 0.00014098018635429966
+    },
+    {
+      "feature": "target_aa_fraction_P",
+      "maximum": 0.1367292225201072,
+      "mean": 0.06095348072971821,
+      "minimum": 0.0114503816793893,
+      "standard_deviation": 0.01828014408877536,
+      "unique_value_count": 366,
+      "variance": 0.00033416366790638873
+    },
+    {
+      "feature": "target_aa_fraction_Q",
+      "maximum": 0.1165452653485952,
+      "mean": 0.04243690168683429,
+      "minimum": 0.0204918032786885,
+      "standard_deviation": 0.012805998101361621,
+      "unique_value_count": 368,
+      "variance": 0.00016399358737207746
+    },
+    {
+      "feature": "target_aa_fraction_R",
+      "maximum": 0.1442885771543086,
+      "mean": 0.0584250800445886,
+      "minimum": 0.0288461538461538,
+      "standard_deviation": 0.014697321980561827,
+      "unique_value_count": 365,
+      "variance": 0.00021601127340030584
+    },
+    {
+      "feature": "target_aa_fraction_S",
+      "maximum": 0.1321279554937413,
+      "mean": 0.07659236120183523,
+      "minimum": 0.0327868852459016,
+      "standard_deviation": 0.01778239381677645,
+      "unique_value_count": 374,
+      "variance": 0.00031621352985492933
+    },
+    {
+      "feature": "target_aa_fraction_T",
+      "maximum": 0.0926544240400667,
+      "mean": 0.049154660606173184,
+      "minimum": 0.0193548387096774,
+      "standard_deviation": 0.010441562308201454,
+      "unique_value_count": 363,
+      "variance": 0.00010902622343605325
+    },
+    {
+      "feature": "target_aa_fraction_V",
+      "maximum": 0.1070287539936102,
+      "mean": 0.06007076910000738,
+      "minimum": 0.0316027088036117,
+      "standard_deviation": 0.011797233777788805,
+      "unique_value_count": 373,
+      "variance": 0.00013917472480780112
+    },
+    {
+      "feature": "target_aa_fraction_W",
+      "maximum": 0.0288248337028824,
+      "mean": 0.012145925876990182,
+      "minimum": 0.0017793594306049,
+      "standard_deviation": 0.004710494302416136,
+      "unique_value_count": 358,
+      "variance": 2.2188756573094885e-05
+    },
+    {
+      "feature": "target_unknown_residue_fraction",
+      "maximum": 0.0081967213114754,
+      "mean": 1.85446183517543e-05,
+      "minimum": 0.0,
+      "standard_deviation": 0.0003894369853868403,
+      "unique_value_count": 2,
+      "variance": 1.516611655871901e-07
+    }
+  ],
+  "high_correlation_pair_count": 1,
+  "high_correlation_pairs": [
+    {
+      "absolute_pearson_correlation": 0.9626912672484299,
+      "feature_a": "drug_smiles_length",
+      "feature_b": "drug_atom_count",
+      "pearson_correlation": 0.9626912672484299
+    }
+  ],
+  "high_correlation_threshold": 0.95,
+  "input_feature_count": 36,
+  "label_column": "interaction_kd_le_1000_nM",
+  "missing_feature_value_count": 0,
+  "nonfinite_feature_value_count": 0,
+  "policy": "cold_drug",
+  "retained_feature_columns": [
+    "drug_smiles_length",
+    "drug_atom_count",
+    "drug_carbon_fraction",
+    "drug_nitrogen_fraction",
+    "drug_oxygen_fraction",
+    "drug_sulfur_fraction",
+    "drug_halogen_fraction",
+    "drug_ring_marker_count",
+    "drug_branch_count",
+    "drug_double_bond_count",
+    "drug_triple_bond_count",
+    "target_sequence_length",
+    "target_aa_fraction_A",
+    "target_aa_fraction_C",
+    "target_aa_fraction_D",
+    "target_aa_fraction_E",
+    "target_aa_fraction_F",
+    "target_aa_fraction_G",
+    "target_aa_fraction_H",
+    "target_aa_fraction_I",
+    "target_aa_fraction_K",
+    "target_aa_fraction_L",
+    "target_aa_fraction_M",
+    "target_aa_fraction_N",
+    "target_aa_fraction_P",
+    "target_aa_fraction_Q",
+    "target_aa_fraction_R",
+    "target_aa_fraction_S",
+    "target_aa_fraction_T",
+    "target_aa_fraction_V",
+    "target_aa_fraction_W",
+    "target_unknown_residue_fraction"
+  ],
+  "usable_feature_count": 32,
+  "zero_variance_action": "Future model pipelines will fit VarianceThreshold(threshold=0.0) on their training data only.",
+  "zero_variance_feature_count": 4,
+  "zero_variance_features": [
+    "drug_phosphorus_fraction",
+    "drug_other_atom_fraction",
+    "drug_aromatic_atom_fraction",
+    "drug_charge_marker_count"
+  ]
+}
