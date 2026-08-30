@@ -1,0 +1,23 @@
+{
+  "binary_label_variants": [
+    {
+      "kd_threshold_nM": 1000.0,
+      "label_column": "interaction_kd_le_1000_nM",
+      "negative_count": 24495,
+      "pKd_threshold": 6.0,
+      "positive_count": 5561,
+      "positive_rate": 0.18502129358530742,
+      "row_count": 30056
+    },
+    {
+      "kd_threshold_nM": 100.0,
+      "label_column": "interaction_kd_le_100_nM",
+      "negative_count": 27554,
+      "pKd_threshold": 7.0,
+      "positive_count": 2502,
+      "positive_rate": 0.08324461006121905,
+      "row_count": 30056
+    }
+  ],
+  "continuous_outcome": "pKd = -log10(Kd_nM / 1e9)"
+}
