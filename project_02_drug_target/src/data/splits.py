@@ -450,7 +450,7 @@ def main(argv: list[str] | None = None) -> int:
     print(json.dumps(payload, indent=2, sort_keys=True))
     print(f"Split assignments written to: {assignment_path}")
     print(f"Split audit written to: {summary_path}")
-    
+
     return 0
 
 
