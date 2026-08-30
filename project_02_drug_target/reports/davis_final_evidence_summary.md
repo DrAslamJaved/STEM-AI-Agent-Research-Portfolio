@@ -83,7 +83,7 @@ The unsupervised audit found 0 exact drug feature-collision groups and 18 exact 
 
 ## Reproducibility record
 
-Evidence source commit: `3523d35b445353e254c90135cf356481f6807914`.
+Evidence source commit: `f9247b16b9d2319d1f0b3e373b979c490256ae29`.
 
 Execution environment: cpython 3.12.8 on Windows-10-10.0.19045-SP0.
 

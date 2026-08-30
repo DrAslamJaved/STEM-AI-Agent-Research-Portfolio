@@ -420,7 +420,7 @@
     "dataset_representation": "DeepDTA-format Davis benchmark",
     "dataset_source_commit": "a546a8433a6822e958f36171c4356ad6f414d623",
     "name": "Davis binary drug-target interaction prediction",
-    "source_git_commit": "3523d35b445353e254c90135cf356481f6807914"
+    "source_git_commit": "f9247b16b9d2319d1f0b3e373b979c490256ae29"
   },
   "threshold_sensitivity": {
     "analysis_scope": "frozen_outer_training_partition_fixed_inner_cold_drug_folds",
