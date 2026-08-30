@@ -1,0 +1,211 @@
+{
+  "feature_importance_ranking": [
+    {
+      "feature": "drug_ring_marker_count",
+      "impurity_importance": 0.08517015287499735
+    },
+    {
+      "feature": "drug_atom_count",
+      "impurity_importance": 0.08472738069796398
+    },
+    {
+      "feature": "drug_oxygen_fraction",
+      "impurity_importance": 0.07987872490302267
+    },
+    {
+      "feature": "drug_smiles_length",
+      "impurity_importance": 0.06958436460137131
+    },
+    {
+      "feature": "drug_carbon_fraction",
+      "impurity_importance": 0.05642984081602595
+    },
+    {
+      "feature": "drug_nitrogen_fraction",
+      "impurity_importance": 0.056421560904575695
+    },
+    {
+      "feature": "drug_halogen_fraction",
+      "impurity_importance": 0.04555131864511463
+    },
+    {
+      "feature": "target_sequence_length",
+      "impurity_importance": 0.039732995891680896
+    },
+    {
+      "feature": "drug_double_bond_count",
+      "impurity_importance": 0.03852935817395975
+    },
+    {
+      "feature": "drug_branch_count",
+      "impurity_importance": 0.03744674534240911
+    },
+    {
+      "feature": "target_aa_fraction_H",
+      "impurity_importance": 0.03154908832346747
+    },
+    {
+      "feature": "target_aa_fraction_W",
+      "impurity_importance": 0.027728068582637655
+    },
+    {
+      "feature": "target_aa_fraction_S",
+      "impurity_importance": 0.026557963538489007
+    },
+    {
+      "feature": "target_aa_fraction_L",
+      "impurity_importance": 0.023656715569309327
+    },
+    {
+      "feature": "target_aa_fraction_K",
+      "impurity_importance": 0.02201597660668694
+    },
+    {
+      "feature": "target_aa_fraction_Q",
+      "impurity_importance": 0.020713694883865402
+    },
+    {
+      "feature": "target_aa_fraction_C",
+      "impurity_importance": 0.020652027242667622
+    },
+    {
+      "feature": "target_aa_fraction_T",
+      "impurity_importance": 0.020266901841149782
+    },
+    {
+      "feature": "drug_sulfur_fraction",
+      "impurity_importance": 0.020042264467598166
+    },
+    {
+      "feature": "target_aa_fraction_V",
+      "impurity_importance": 0.01914620053629038
+    },
+    {
+      "feature": "target_aa_fraction_D",
+      "impurity_importance": 0.01849221563068836
+    },
+    {
+      "feature": "target_aa_fraction_M",
+      "impurity_importance": 0.018491735262792113
+    },
+    {
+      "feature": "target_aa_fraction_F",
+      "impurity_importance": 0.018434293544560276
+    },
+    {
+      "feature": "target_aa_fraction_R",
+      "impurity_importance": 0.017538443644711906
+    },
+    {
+      "feature": "target_aa_fraction_E",
+      "impurity_importance": 0.017170007679370207
+    },
+    {
+      "feature": "target_aa_fraction_G",
+      "impurity_importance": 0.017110517602556028
+    },
+    {
+      "feature": "target_aa_fraction_A",
+      "impurity_importance": 0.0163754946582349
+    },
+    {
+      "feature": "target_aa_fraction_P",
+      "impurity_importance": 0.015885676172992587
+    },
+    {
+      "feature": "target_aa_fraction_I",
+      "impurity_importance": 0.015420475607486326
+    },
+    {
+      "feature": "target_aa_fraction_N",
+      "impurity_importance": 0.015242810333232102
+    },
+    {
+      "feature": "drug_triple_bond_count",
+      "impurity_importance": 0.004036953432597336
+    },
+    {
+      "feature": "target_unknown_residue_fraction",
+      "impurity_importance": 3.1987494910935196e-08
+    }
+  ],
+  "feature_importance_sum": 1.0,
+  "input_feature_count": 36,
+  "label_column": "interaction_kd_le_1000_nM",
+  "maximum_tree_depth": 12,
+  "mean_tree_depth": 12.0,
+  "metrics": {
+    "accuracy": 0.7600193923723335,
+    "average_precision": 0.3580506324435747,
+    "decision_threshold": 0.5,
+    "f1": 0.4014510278113664,
+    "false_negative": 646,
+    "false_positive": 839,
+    "negative_count": 5044,
+    "positive_count": 1144,
+    "positive_rate": 0.18487394957983194,
+    "precision": 0.3724756918474196,
+    "recall": 0.4353146853146853,
+    "roc_auc": 0.6504345674151384,
+    "sample_count": 6188,
+    "true_negative": 4205,
+    "true_positive": 498
+  },
+  "model_name": "RandomForestClassifier",
+  "model_parameters": {
+    "bootstrap": true,
+    "class_weight": "balanced",
+    "criterion": "gini",
+    "max_depth": 12,
+    "max_features": "sqrt",
+    "min_samples_leaf": 5,
+    "n_estimators": 300,
+    "n_jobs": 1,
+    "random_state": 20260830,
+    "zero_variance_selector": "VarianceThreshold(threshold=0.0)"
+  },
+  "policy": "cold_drug",
+  "removed_zero_variance_features": [
+    "drug_phosphorus_fraction",
+    "drug_other_atom_fraction",
+    "drug_aromatic_atom_fraction",
+    "drug_charge_marker_count"
+  ],
+  "retained_feature_columns": [
+    "drug_smiles_length",
+    "drug_atom_count",
+    "drug_carbon_fraction",
+    "drug_nitrogen_fraction",
+    "drug_oxygen_fraction",
+    "drug_sulfur_fraction",
+    "drug_halogen_fraction",
+    "drug_ring_marker_count",
+    "drug_branch_count",
+    "drug_double_bond_count",
+    "drug_triple_bond_count",
+    "target_sequence_length",
+    "target_aa_fraction_A",
+    "target_aa_fraction_C",
+    "target_aa_fraction_D",
+    "target_aa_fraction_E",
+    "target_aa_fraction_F",
+    "target_aa_fraction_G",
+    "target_aa_fraction_H",
+    "target_aa_fraction_I",
+    "target_aa_fraction_K",
+    "target_aa_fraction_L",
+    "target_aa_fraction_M",
+    "target_aa_fraction_N",
+    "target_aa_fraction_P",
+    "target_aa_fraction_Q",
+    "target_aa_fraction_R",
+    "target_aa_fraction_S",
+    "target_aa_fraction_T",
+    "target_aa_fraction_V",
+    "target_aa_fraction_W",
+    "target_unknown_residue_fraction"
+  ],
+  "retained_feature_count": 32,
+  "training_positive_rate": 0.18505949388302328,
+  "tree_count": 300
+}
