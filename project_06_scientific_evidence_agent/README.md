@@ -9,9 +9,9 @@ and stance-verification evaluation.
 
 ## Current phase
 
-Phase 01 establishes the reproducible project boundary, research contract, and
-testable runtime data-safety rules. No SciFact data, models, or experimental
-results are included in this commit.
+Phase 02 adds reproducible SciFact acquisition, SHA-256 provenance, structural
+validation, and machine-readable validation reports. Raw data and model files
+remain outside version control.
 
 ## Non-negotiable evaluation rule
 
@@ -26,6 +26,8 @@ py -3.12 -m venv .venv
 & .\.venv\Scripts\python.exe -m pip install --upgrade pip
 & .\.venv\Scripts\python.exe -m pip install -e ".[dev]"
 & .\.venv\Scripts\python.exe -m pytest -q
+& .\.venv\Scripts\python.exe -m evidence_agent acquire-data
+& .\.venv\Scripts\python.exe -m evidence_agent validate-data
 & .\.venv\Scripts\python.exe -m evidence_agent contract
 ```
 
@@ -45,6 +47,7 @@ agent_trace/   Phase-level decision and verification trace
 
 ## Planned commands
 
-`validate-data`, `build-index`, and `evaluate` are intentionally registered but
-not yet implemented. They become available only after the corresponding tested
-phases are completed.
+`acquire-data` downloads the official SciFact release, records SHA-256
+provenance, and safely extracts it. `validate-data` verifies the corpus, claim
+splits, rationale references, and five-fold layout before any model may use the
+dataset. `build-index` and `evaluate` remain unavailable until later phases.

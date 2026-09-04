@@ -2,6 +2,10 @@ project:
   name: scientific_evidence_agent
   seed: 20260904
 
+data:
+  raw_dir: data/raw/scifact
+  require_cross_validation: true
+
 runtime:
   max_retrieved_documents: 10
   max_citations_per_decision: 3

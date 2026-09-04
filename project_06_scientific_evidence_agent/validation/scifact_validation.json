@@ -1,0 +1,19 @@
+{
+  "cited_documents_not_in_corpus": 0,
+  "claims_by_split": {
+    "dev": 300,
+    "test": 300,
+    "train": 809
+  },
+  "corpus_documents": 5183,
+  "corpus_sentences": 45952,
+  "cross_validation_folds": 5,
+  "dataset_root": "G:\\Research\\STEM\\Micro1_STEM_Agent_Portfolio\\project_06_scientific_evidence_agent\\data\\raw\\scifact\\data",
+  "evidence_documents": 773,
+  "evidence_labels": {
+    "CONTRADICT": 463,
+    "SUPPORT": 832
+  },
+  "evidence_sentences": 1391,
+  "evidence_sets": 1295
+}
