@@ -1,0 +1,24 @@
+# Local environments and Python build products
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.coverage
+coverage.xml
+junit.xml
+
+# Local model and index caches
+models/
+artifacts/
+*.faiss
+
+# Immutable raw data are acquired by a documented script, never committed.
+data/raw/scifact/*
+!data/raw/scifact/.gitkeep
+
+# Editor and operating-system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
