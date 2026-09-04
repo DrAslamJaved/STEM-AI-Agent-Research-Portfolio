@@ -9,9 +9,10 @@ and stance-verification evaluation.
 
 ## Current phase
 
-Phase 02 adds reproducible SciFact acquisition, SHA-256 provenance, structural
-validation, and machine-readable validation reports. Raw data and model files
-remain outside version control.
+Phase 03 adds a deterministic BM25 retrieval baseline and leakage-safe
+evidence-document Recall@k evaluation. Raw data, index artifacts, and model
+files remain outside version control; the resulting evaluation report is
+committed as research evidence.
 
 ## Non-negotiable evaluation rule
 
@@ -22,12 +23,14 @@ retrieval, reranking, or verification code.
 ## Quick start
 
 ```powershell
-py -3.12 -m venv .venv
+python -m venv .venv
 & .\.venv\Scripts\python.exe -m pip install --upgrade pip
 & .\.venv\Scripts\python.exe -m pip install -e ".[dev]"
 & .\.venv\Scripts\python.exe -m pytest -q
 & .\.venv\Scripts\python.exe -m evidence_agent acquire-data
 & .\.venv\Scripts\python.exe -m evidence_agent validate-data
+& .\.venv\Scripts\python.exe -m evidence_agent build-index
+& .\.venv\Scripts\python.exe -m evidence_agent evaluate-retrieval
 & .\.venv\Scripts\python.exe -m evidence_agent contract
 ```
 
@@ -50,4 +53,6 @@ agent_trace/   Phase-level decision and verification trace
 `acquire-data` downloads the official SciFact release, records SHA-256
 provenance, and safely extracts it. `validate-data` verifies the corpus, claim
 splits, rationale references, and five-fold layout before any model may use the
-dataset. `build-index` and `evaluate` remain unavailable until later phases.
+dataset. `build-index` creates a fixed BM25 baseline from public corpus text;
+`evaluate-retrieval` freezes retrieval outputs before accessing evaluator-only
+gold evidence. General `evaluate` remains unavailable until later phases.

@@ -6,6 +6,14 @@ data:
   raw_dir: data/raw/scifact
   require_cross_validation: true
 
+retrieval:
+  algorithm: bm25
+  b: 0.75
+  corpus_path: data/raw/scifact/data/corpus.jsonl
+  index_path: artifacts/scifact_bm25_index.json
+  k1: 1.2
+  report_path: results/retrieval_baseline_dev.json
+
 runtime:
   max_retrieved_documents: 10
   max_citations_per_decision: 3
