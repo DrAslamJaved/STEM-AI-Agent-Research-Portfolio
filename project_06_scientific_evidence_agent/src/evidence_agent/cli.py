@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+import time
 from collections.abc import Sequence
 from pathlib import Path
 
@@ -23,6 +24,11 @@ from evidence_agent.evaluation.retrieval import (
     evaluate_retrieval_predictions,
     retrieve_claims,
     write_retrieval_report,
+)
+from evidence_agent.evaluation.verification import (
+    evaluate_stance_benchmark,
+    evaluate_verification_traces,
+    write_verification_report,
 )
 from evidence_agent.retrieval.bm25 import (
     build_bm25_index,
@@ -46,6 +52,26 @@ from evidence_agent.retrieval.semantic import (
     load_lsa_index,
     write_lsa_index,
 )
+from evidence_agent.verification.agent import (
+    DEFAULT_ASSERTION_THRESHOLD,
+    DEFAULT_MAX_SENTENCES_PER_CITATION,
+    DEFAULT_RETRIEVAL_K,
+    DEFAULT_SENTENCE_THRESHOLD,
+    run_verification_agent,
+)
+from evidence_agent.verification.models import (
+    DEFAULT_MAX_FEATURES,
+    DEFAULT_RANDOM_SEED,
+    fit_verifier_bundle,
+    load_verifier_bundle,
+    write_verifier_bundle,
+)
+from evidence_agent.verification.scifact import (
+    load_gold_claim_annotations,
+    load_stance_benchmark_inputs,
+    load_stance_benchmark_labels,
+    load_verification_training_data,
+)
 
 
 UNIMPLEMENTED_COMMANDS = {
@@ -58,6 +84,10 @@ DEFAULT_INDEX_PATH = Path("artifacts/scifact_bm25_index.json")
 DEFAULT_RETRIEVAL_REPORT_PATH = Path("results/retrieval_baseline_dev.json")
 DEFAULT_SEMANTIC_INDEX_PATH = Path("artifacts/scifact_lsa_index.joblib")
 DEFAULT_HYBRID_REPORT_PATH = Path("results/hybrid_retrieval_dev.json")
+DEFAULT_TRAIN_CLAIMS_PATH = Path("data/raw/scifact/data/claims_train.jsonl")
+DEFAULT_VERIFIER_MODEL_PATH = Path("artifacts/scifact_lexical_verifier.joblib")
+DEFAULT_VERIFICATION_REPORT_PATH = Path("results/verification_dev.json")
+DEFAULT_VERIFICATION_TRACE_PATH = Path("artifacts/verification_dev_trace.json")
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -253,6 +283,106 @@ def build_parser() -> argparse.ArgumentParser:
         default=[1, 3, 5, 10],
         help="Positive retrieval cutoffs used for Recall@k.",
     )
+
+    train_verifier = subparsers.add_parser(
+        "train-verifier",
+        help="Fit train-split lexical stance and sentence-evidence models.",
+    )
+    train_verifier.add_argument(
+        "--corpus-path",
+        type=Path,
+        default=DEFAULT_CORPUS_PATH,
+        help="Validated SciFact public corpus JSONL file.",
+    )
+    train_verifier.add_argument(
+        "--train-claims-path",
+        type=Path,
+        default=DEFAULT_TRAIN_CLAIMS_PATH,
+        help="SciFact training claim JSONL file; development labels are forbidden here.",
+    )
+    train_verifier.add_argument(
+        "--model-path",
+        type=Path,
+        default=DEFAULT_VERIFIER_MODEL_PATH,
+        help="Ignored local path for the trusted verifier bundle artifact.",
+    )
+    train_verifier.add_argument(
+        "--random-seed",
+        type=int,
+        default=DEFAULT_RANDOM_SEED,
+        help="Fixed logistic-regression random seed.",
+    )
+    train_verifier.add_argument(
+        "--max-features",
+        type=int,
+        default=DEFAULT_MAX_FEATURES,
+        help="Maximum TF-IDF feature count for each lexical model.",
+    )
+
+    verifier = subparsers.add_parser(
+        "evaluate-verifier",
+        help="Run BM25 -> evidence selection -> stance verification on development claims.",
+    )
+    verifier.add_argument(
+        "--corpus-path",
+        type=Path,
+        default=DEFAULT_CORPUS_PATH,
+        help="Validated SciFact public corpus JSONL file.",
+    )
+    verifier.add_argument(
+        "--claims-path",
+        type=Path,
+        default=DEFAULT_DEV_CLAIMS_PATH,
+        help="SciFact development claims used only for frozen runtime decisions and evaluation.",
+    )
+    verifier.add_argument(
+        "--index-path",
+        type=Path,
+        default=DEFAULT_INDEX_PATH,
+        help="Previously built lexical BM25 index artifact.",
+    )
+    verifier.add_argument(
+        "--model-path",
+        type=Path,
+        default=DEFAULT_VERIFIER_MODEL_PATH,
+        help="Locally trained verifier bundle from train-verifier.",
+    )
+    verifier.add_argument(
+        "--report-path",
+        type=Path,
+        default=DEFAULT_VERIFICATION_REPORT_PATH,
+        help="Compact machine-readable verifier result report to retain in Git.",
+    )
+    verifier.add_argument(
+        "--trace-path",
+        type=Path,
+        default=DEFAULT_VERIFICATION_TRACE_PATH,
+        help="Ignored local path for the complete candidate and sentence diagnostic trace.",
+    )
+    verifier.add_argument(
+        "--retrieval-k",
+        type=int,
+        default=DEFAULT_RETRIEVAL_K,
+        help="Fixed number of BM25 documents supplied to the runtime verifier.",
+    )
+    verifier.add_argument(
+        "--assertion-threshold",
+        type=float,
+        default=DEFAULT_ASSERTION_THRESHOLD,
+        help="Minimum combined stance/evidence confidence for an assertive verdict.",
+    )
+    verifier.add_argument(
+        "--sentence-threshold",
+        type=float,
+        default=DEFAULT_SENTENCE_THRESHOLD,
+        help="Minimum probability for a sentence to be cited as evidence.",
+    )
+    verifier.add_argument(
+        "--max-sentences-per-citation",
+        type=int,
+        default=DEFAULT_MAX_SENTENCES_PER_CITATION,
+        help="Maximum selected sentences retained in the single emitted citation.",
+    )
     evaluate = subparsers.add_parser("evaluate", help="Run a configured evaluation.")
     evaluate.add_argument("--config", type=str, help="Path to a YAML experiment config.")
     return parser
@@ -274,7 +404,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                     "project": "scientific_evidence_agent",
                     "version": __version__,
                     "runtime_gold_fields_forbidden": ["evidence", "cited_doc_ids"],
-                    "current_phase": "hybrid_retrieval_reranking",
+                    "current_phase": "evidence_selection_and_stance_verification",
                 },
                 indent=2,
                 sort_keys=True,
@@ -474,6 +604,140 @@ def main(argv: Sequence[str] | None = None) -> int:
                     "comparison_to_bm25": report["comparison_to_bm25"],
                     "report_path": str(args.report_path),
                     "summary": hybrid_summary,
+                },
+                indent=2,
+                sort_keys=True,
+            )
+        )
+        return 0
+
+    if args.command == "train-verifier":
+        training_data = load_verification_training_data(
+            args.train_claims_path,
+            args.corpus_path,
+        )
+        bundle = fit_verifier_bundle(
+            training_data.stance_examples,
+            training_data.sentence_examples,
+            training_claims_sha256=sha256_file(args.train_claims_path),
+            corpus_sha256=sha256_file(args.corpus_path),
+            random_seed=args.random_seed,
+            max_features=args.max_features,
+        )
+        write_verifier_bundle(bundle, args.model_path)
+        print(
+            json.dumps(
+                {
+                    "model": bundle.summary_dict(),
+                    "model_path": str(args.model_path),
+                    "training_data": training_data.summary_dict(),
+                },
+                indent=2,
+                sort_keys=True,
+            )
+        )
+        return 0
+
+    if args.command == "evaluate-verifier":
+        if args.trace_path == args.report_path:
+            raise ValueError("--trace-path and --report-path must be different files.")
+        corpus_sha256 = sha256_file(args.corpus_path)
+        corpus = load_scifact_corpus(args.corpus_path)
+        bm25_index = load_bm25_index(args.index_path)
+        bundle = load_verifier_bundle(args.model_path)
+        if bm25_index.corpus_sha256 != corpus_sha256:
+            raise ValueError("BM25 index does not match the supplied corpus SHA-256.")
+        if bundle.corpus_sha256 != corpus_sha256:
+            raise ValueError("Verifier bundle does not match the supplied corpus SHA-256.")
+
+        runtime_claims = load_runtime_claims(args.claims_path)
+        started_at = time.perf_counter()
+        runtime_traces = run_verification_agent(
+            bundle,
+            bm25_index,
+            corpus,
+            runtime_claims,
+            retrieval_k=args.retrieval_k,
+            assertion_threshold=args.assertion_threshold,
+            sentence_threshold=args.sentence_threshold,
+            max_sentences_per_citation=args.max_sentences_per_citation,
+        )
+        runtime_elapsed_seconds = time.perf_counter() - started_at
+
+        # Persist the diagnostic trace before any development gold field is
+        # loaded. This trace is intentionally ignored by Git because it keeps
+        # every candidate and sentence score; the committed report below is a
+        # compact audit record with one decision per claim.
+        trace_payload = {
+            "schema_version": "evidence_agent_verification_trace_v1",
+            "traces": [trace.as_dict() for trace in runtime_traces],
+        }
+        write_verification_report(trace_payload, args.trace_path)
+        trace_artifact = {
+            "path": str(args.trace_path),
+            "schema_version": trace_payload["schema_version"],
+            "sha256": sha256_file(args.trace_path),
+            "trace_count": len(runtime_traces),
+        }
+
+        # Evaluation-only cited-document labels are read only after the full
+        # BM25 -> sentence-selection -> claim-decision runtime trace is frozen.
+        stance_benchmark_inputs = load_stance_benchmark_inputs(
+            args.claims_path,
+            args.corpus_path,
+        )
+        stance_benchmark_predictions = bundle.predict_stances(stance_benchmark_inputs)
+        stance_benchmark_labels = load_stance_benchmark_labels(
+            args.claims_path,
+            args.corpus_path,
+        )
+        stance_benchmark = evaluate_stance_benchmark(
+            stance_benchmark_predictions,
+            stance_benchmark_labels,
+        )
+        gold_annotations = load_gold_claim_annotations(args.claims_path, args.corpus_path)
+        agent_evaluation = evaluate_verification_traces(runtime_traces, gold_annotations)
+        model_summary = bundle.summary_dict()
+        report = {
+            "algorithm": "bm25_lexical_stance_and_sentence_verifier",
+            "claims": {
+                "path": str(args.claims_path),
+                "sha256": sha256_file(args.claims_path),
+            },
+            "corpus_sha256": corpus_sha256,
+            "index": {
+                "document_count": bm25_index.document_count,
+                "parameters": {"b": bm25_index.b, "k1": bm25_index.k1},
+                "path": str(args.index_path),
+                "vocabulary_size": bm25_index.vocabulary_size,
+            },
+            "model": {"path": str(args.model_path), **model_summary},
+            "runtime_settings": {
+                "assertion_threshold": args.assertion_threshold,
+                "max_sentences_per_citation": args.max_sentences_per_citation,
+                "retrieval_k": args.retrieval_k,
+                "sentence_threshold": args.sentence_threshold,
+            },
+            "runtime_timing": {
+                "claim_count": len(runtime_claims),
+                "per_claim_milliseconds": 1_000 * runtime_elapsed_seconds / len(runtime_claims),
+                "total_seconds": runtime_elapsed_seconds,
+            },
+            "schema_version": "evidence_agent_verification_report_v1",
+            "stance_benchmark": stance_benchmark.summary_dict(),
+            "summary": agent_evaluation.summary_dict(),
+            "decisions": [trace.decision_dict() for trace in runtime_traces],
+            "trace_artifact": trace_artifact,
+        }
+        write_verification_report(report, args.report_path)
+        print(
+            json.dumps(
+                {
+                    "report_path": str(args.report_path),
+                    "stance_benchmark": stance_benchmark.summary_dict(),
+                    "summary": agent_evaluation.summary_dict(),
+                    "trace_path": str(args.trace_path),
+                    "runtime_timing": report["runtime_timing"],
                 },
                 indent=2,
                 sort_keys=True,

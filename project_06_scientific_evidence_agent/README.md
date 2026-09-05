@@ -9,13 +9,15 @@ and stance-verification evaluation.
 
 ## Current phase
 
-Phase 04 is complete. Its fixed corpus-only latent-semantic hybrid was a
-transparent negative control: on the frozen development comparison it did not
-outperform BM25. BM25 is therefore retained as the candidate retriever for the
-next evidence-selection and stance-verification phase. The hybrid report and
-its audit trail remain in the repository so that this decision is reproducible,
-rather than silently discarded. Raw data and fitted index artifacts remain
-outside version control.
+Phase 05 adds a train-only lexical verification baseline: TF-IDF relation
+features and logistic regression classify document stance, while a separate
+sentence model selects citable evidence. BM25 remains the candidate retriever,
+because the Phase 04 hybrid did not outperform it. The verifier reports
+three-way stance macro-F1, claim-classification macro-F1, evidence F1,
+citation correctness, faithfulness, coverage, unsupported-assertion rate, and
+latency. The first lexical result is retained as a baseline rather than treated
+as a final scientific-verification system. Raw data and fitted model artifacts
+remain outside version control.
 
 ## Non-negotiable evaluation rule
 
@@ -36,6 +38,8 @@ python -m venv .venv
 & .\.venv\Scripts\python.exe -m evidence_agent evaluate-retrieval
 & .\.venv\Scripts\python.exe -m evidence_agent build-semantic-index
 & .\.venv\Scripts\python.exe -m evidence_agent evaluate-hybrid-retrieval
+& .\.venv\Scripts\python.exe -m evidence_agent train-verifier
+& .\.venv\Scripts\python.exe -m evidence_agent evaluate-verifier
 & .\.venv\Scripts\python.exe -m evidence_agent contract
 ```
 
@@ -64,5 +68,9 @@ gold evidence. `build-semantic-index` fits a deterministic TF-IDF + LSA index
 from the public corpus, while `evaluate-hybrid-retrieval` combines BM25 and LSA
 with fixed reciprocal-rank fusion and a documented candidate reranker. The
 result is retained as a diagnostic comparator; `reports/phase_04_hybrid_retrieval.md`
-records why BM25 remains the selected retrieval path. General `evaluate`
-remains unavailable until later phases.
+records why BM25 remains the selected retrieval path. `train-verifier` fits
+only on `claims_train.jsonl`; `evaluate-verifier` freezes BM25-driven runtime
+decisions into an ignored full diagnostic trace before reading development
+evidence labels for offline scoring. Its committed result file remains compact:
+one auditable verdict and citation record per claim plus the full trace's local
+path and SHA-256. General `evaluate` remains unavailable until later phases.

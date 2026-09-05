@@ -39,3 +39,22 @@ The fixed Phase 04 hybrid is retained as a diagnostic comparator rather than
 used downstream: its committed report shows lower retrieval performance than
 BM25. Phase 05 consequently takes its candidate documents from the BM25 index
 while preserving the hybrid implementation and report for reproducibility.
+
+## Phase 05 evidence selection and stance verification
+
+Phase 05 fits two separate deterministic lexical models from `claims_train`
+only. The first uses claim/document TF-IDF relation features (claim vector,
+document vector, element-wise overlap, and absolute difference) with logistic
+regression to predict `SUPPORT`, `CONTRADICT`, or `NO_EVIDENCE`. The second
+uses the same relation representation on claim/sentence pairs to assign an
+evidence probability.
+
+At runtime, a safe `Claim(id, text)` is passed through BM25 top-10 retrieval.
+The verifier scores only those public-corpus documents and sentences, chooses
+one cited document only when both stance and sentence confidence clear fixed
+thresholds, otherwise abstains. The complete runtime trace freezes to an
+ignored local artifact before the evaluator reads development `evidence` or
+`cited_doc_ids`; the committed report retains only a compact claim-level audit
+record and the trace checksum. This makes the controlled cited-document stance
+benchmark and the end-to-end evidence audit separate, auditable measurements
+without committing a large generated trace.

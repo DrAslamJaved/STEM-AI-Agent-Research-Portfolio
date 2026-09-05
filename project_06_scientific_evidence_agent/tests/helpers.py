@@ -94,3 +94,96 @@ def write_minimal_scifact_dataset(root: Path, *, include_cross_validation: bool 
                 ],
             )
     return root
+
+
+def write_verification_scifact_dataset(root: Path) -> Path:
+    """Write a small train/dev fixture containing all verifier label classes."""
+    root.mkdir(parents=True, exist_ok=True)
+    _write_jsonl(
+        root / "corpus.jsonl",
+        [
+            {
+                "doc_id": 10,
+                "title": "Inflammation study",
+                "abstract": [
+                    "Aspirin reduces inflammation in the study population.",
+                    "The study included adult participants.",
+                ],
+                "structured": False,
+            },
+            {
+                "doc_id": 11,
+                "title": "Contradiction study",
+                "abstract": [
+                    "Aspirin does not reduce inflammation in this experiment.",
+                    "The control group received placebo.",
+                ],
+                "structured": False,
+            },
+            {
+                "doc_id": 12,
+                "title": "Unrelated observation",
+                "abstract": [
+                    "Aspirin tablets were white.",
+                    "The laboratory measured tablet mass.",
+                ],
+                "structured": False,
+            },
+        ],
+    )
+    training_records = [
+        {
+            "id": 1,
+            "claim": "Aspirin reduces inflammation.",
+            "evidence": {"10": [{"label": "SUPPORT", "sentences": [0]}]},
+            "cited_doc_ids": [10],
+        },
+        {
+            "id": 2,
+            "claim": "Aspirin reduces inflammation.",
+            "evidence": {"11": [{"label": "CONTRADICT", "sentences": [0]}]},
+            "cited_doc_ids": [11],
+        },
+        {
+            "id": 3,
+            "claim": "Aspirin reduces inflammation.",
+            "evidence": {},
+            "cited_doc_ids": [12],
+        },
+    ]
+    _write_jsonl(root / "claims_train.jsonl", training_records)
+    _write_jsonl(
+        root / "claims_dev.jsonl",
+        [
+            {
+                "id": 4,
+                "claim": "Aspirin reduces inflammation.",
+                "evidence": {"10": [{"label": "SUPPORT", "sentences": [0]}]},
+                "cited_doc_ids": [10],
+            },
+            {
+                "id": 5,
+                "claim": "Aspirin reduces inflammation.",
+                "evidence": {"11": [{"label": "CONTRADICT", "sentences": [0]}]},
+                "cited_doc_ids": [11],
+            },
+            {
+                "id": 6,
+                "claim": "Aspirin reduces inflammation.",
+                "evidence": {},
+                "cited_doc_ids": [12, 12],
+            },
+        ],
+    )
+    _write_jsonl(
+        root / "claims_test.jsonl",
+        [
+            {
+                "id": 7,
+                "claim": "A hidden-test style claim.",
+                "evidence": {},
+                "cited_doc_ids": [12],
+            }
+        ],
+    )
+    return root

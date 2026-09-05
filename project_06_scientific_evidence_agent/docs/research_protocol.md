@@ -47,6 +47,32 @@ post-evaluation tuned hybrid result. A later learned dense or cross-encoder
 retriever, if introduced, must be selected with the provided five-fold splits
 before one new frozen development evaluation.
 
+## Phase 05 lexical verification baseline
+
+The first verifier is a deliberately transparent baseline rather than an
+opaque pretrained NLI model. It fits a three-way claim/document classifier and
+a binary claim/sentence selector solely from `claims_train.jsonl`. Pair inputs
+are represented by separate claim and evidence TF-IDF vectors, their
+element-wise overlap, and their absolute difference. Each model uses fixed
+logistic-regression settings, `max_features=40000`, and `random_seed=20260904`.
+
+The runtime uses only BM25 top-10 corpus documents, the trained local artifact,
+claim text, and corpus sentences. It emits an assertive decision only if the
+geometric mean of the best assertion probability and sentence-evidence
+probability is at least 0.45; the sentence threshold is 0.50 and at most two
+sentences are cited. Development cited-document labels, evidence rationales,
+and claim verdicts are read only after all runtime traces freeze to an ignored
+local artifact. The version-controlled result retains only one decision per
+claim plus the full trace's SHA-256 and metadata.
+
+The Phase 05 report distinguishes: (1) controlled three-way stance macro-F1 on
+cited-document pairs; (2) end-to-end claim macro-F1 after BM25 retrieval;
+(3) sentence evidence F1; (4) strict citation correctness; and (5) faithfulness,
+coverage, unsupported-assertion rate, and latency. It is not a superiority
+claim against direct RAG. The next phase will select an abstention/citation
+audit policy using the provided five-fold splits before a new frozen
+development comparison.
+
 ## Data-split policy
 
 Use the provided five-fold splits for model and threshold selection. Freeze the
