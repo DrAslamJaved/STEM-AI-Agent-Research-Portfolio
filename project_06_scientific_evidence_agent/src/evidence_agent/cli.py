@@ -29,10 +29,22 @@ from evidence_agent.retrieval.bm25 import (
     load_bm25_index,
     write_bm25_index,
 )
+from evidence_agent.retrieval.hybrid import (
+    DEFAULT_CANDIDATE_K,
+    DEFAULT_RRF_RANK_CONSTANT,
+    HybridRetriever,
+    as_evaluation_predictions,
+    retrieve_hybrid_claims,
+)
 from evidence_agent.retrieval.scifact import (
     load_gold_evidence_documents,
     load_runtime_claims,
     load_scifact_corpus,
+)
+from evidence_agent.retrieval.semantic import (
+    build_lsa_index,
+    load_lsa_index,
+    write_lsa_index,
 )
 
 
@@ -44,6 +56,8 @@ DEFAULT_CORPUS_PATH = Path("data/raw/scifact/data/corpus.jsonl")
 DEFAULT_DEV_CLAIMS_PATH = Path("data/raw/scifact/data/claims_dev.jsonl")
 DEFAULT_INDEX_PATH = Path("artifacts/scifact_bm25_index.json")
 DEFAULT_RETRIEVAL_REPORT_PATH = Path("results/retrieval_baseline_dev.json")
+DEFAULT_SEMANTIC_INDEX_PATH = Path("artifacts/scifact_lsa_index.joblib")
+DEFAULT_HYBRID_REPORT_PATH = Path("results/hybrid_retrieval_dev.json")
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -116,6 +130,41 @@ def build_parser() -> argparse.ArgumentParser:
     index.add_argument("--k1", type=float, default=1.2, help="BM25 term-saturation value.")
     index.add_argument("--b", type=float, default=0.75, help="BM25 length-normalisation value.")
 
+    semantic = subparsers.add_parser(
+        "build-semantic-index",
+        help="Build a fixed corpus-only TF-IDF + LSA semantic index.",
+    )
+    semantic.add_argument(
+        "--corpus-path",
+        type=Path,
+        default=DEFAULT_CORPUS_PATH,
+        help="Validated SciFact corpus JSONL file.",
+    )
+    semantic.add_argument(
+        "--semantic-index-path",
+        type=Path,
+        default=DEFAULT_SEMANTIC_INDEX_PATH,
+        help="Ignored local path for the fitted LSA artifact.",
+    )
+    semantic.add_argument(
+        "--n-components",
+        type=int,
+        default=128,
+        help="Fixed number of latent semantic dimensions.",
+    )
+    semantic.add_argument(
+        "--random-seed",
+        type=int,
+        default=20260904,
+        help="Fixed randomized-SVD seed.",
+    )
+    semantic.add_argument(
+        "--min-document-frequency",
+        type=int,
+        default=2,
+        help="Minimum corpus document frequency retained by TF-IDF.",
+    )
+
     retrieval = subparsers.add_parser(
         "evaluate-retrieval", help="Evaluate the frozen BM25 baseline with Recall@k."
     )
@@ -144,6 +193,66 @@ def build_parser() -> argparse.ArgumentParser:
         default=[1, 3, 5, 10],
         help="Positive retrieval cutoffs used for Recall@k.",
     )
+
+    hybrid = subparsers.add_parser(
+        "evaluate-hybrid-retrieval",
+        help="Fuse BM25 and LSA retrieval, rerank candidates, and evaluate Recall@k.",
+    )
+    hybrid.add_argument(
+        "--corpus-path",
+        type=Path,
+        default=DEFAULT_CORPUS_PATH,
+        help="Validated SciFact corpus JSONL file used for title-aware reranking.",
+    )
+    hybrid.add_argument(
+        "--claims-path",
+        type=Path,
+        default=DEFAULT_DEV_CLAIMS_PATH,
+        help="SciFact development claim JSONL file.",
+    )
+    hybrid.add_argument(
+        "--bm25-index-path",
+        type=Path,
+        default=DEFAULT_INDEX_PATH,
+        help="Previously built lexical BM25 index artifact.",
+    )
+    hybrid.add_argument(
+        "--semantic-index-path",
+        type=Path,
+        default=DEFAULT_SEMANTIC_INDEX_PATH,
+        help="Previously built corpus-only LSA index artifact.",
+    )
+    hybrid.add_argument(
+        "--baseline-report-path",
+        type=Path,
+        default=DEFAULT_RETRIEVAL_REPORT_PATH,
+        help="Committed BM25 development report used only after hybrid predictions freeze.",
+    )
+    hybrid.add_argument(
+        "--report-path",
+        type=Path,
+        default=DEFAULT_HYBRID_REPORT_PATH,
+        help="Machine-readable hybrid retrieval report to retain in Git.",
+    )
+    hybrid.add_argument(
+        "--candidate-k",
+        type=int,
+        default=DEFAULT_CANDIDATE_K,
+        help="Top candidates requested independently from each first-stage retriever.",
+    )
+    hybrid.add_argument(
+        "--rrf-rank-constant",
+        type=int,
+        default=DEFAULT_RRF_RANK_CONSTANT,
+        help="Fixed reciprocal-rank-fusion rank constant.",
+    )
+    hybrid.add_argument(
+        "--cutoffs",
+        type=int,
+        nargs="+",
+        default=[1, 3, 5, 10],
+        help="Positive retrieval cutoffs used for Recall@k.",
+    )
     evaluate = subparsers.add_parser("evaluate", help="Run a configured evaluation.")
     evaluate.add_argument("--config", type=str, help="Path to a YAML experiment config.")
     return parser
@@ -165,7 +274,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                     "project": "scientific_evidence_agent",
                     "version": __version__,
                     "runtime_gold_fields_forbidden": ["evidence", "cited_doc_ids"],
-                    "current_phase": "retrieval_baseline",
+                    "current_phase": "hybrid_retrieval_reranking",
                 },
                 indent=2,
                 sort_keys=True,
@@ -215,6 +324,25 @@ def main(argv: Sequence[str] | None = None) -> int:
         )
         return 0
 
+    if args.command == "build-semantic-index":
+        corpus = load_scifact_corpus(args.corpus_path)
+        index = build_lsa_index(
+            {doc_id: document.searchable_text for doc_id, document in corpus.items()},
+            corpus_sha256=sha256_file(args.corpus_path),
+            n_components=args.n_components,
+            random_seed=args.random_seed,
+            min_document_frequency=args.min_document_frequency,
+        )
+        write_lsa_index(index, args.semantic_index_path)
+        print(
+            json.dumps(
+                {"index_path": str(args.semantic_index_path), **index.summary_dict()},
+                indent=2,
+                sort_keys=True,
+            )
+        )
+        return 0
+
     if args.command == "evaluate-retrieval":
         index = load_bm25_index(args.index_path)
         runtime_claims = load_runtime_claims(args.claims_path)
@@ -251,6 +379,102 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(
             json.dumps(
                 {"report_path": str(args.report_path), **evaluation.summary_dict()},
+                indent=2,
+                sort_keys=True,
+            )
+        )
+        return 0
+
+    if args.command == "evaluate-hybrid-retrieval":
+        corpus_sha256 = sha256_file(args.corpus_path)
+        corpus = load_scifact_corpus(args.corpus_path)
+        bm25_index = load_bm25_index(args.bm25_index_path)
+        semantic_index = load_lsa_index(args.semantic_index_path)
+        if bm25_index.corpus_sha256 != corpus_sha256:
+            raise ValueError("BM25 index does not match the supplied corpus SHA-256.")
+        if semantic_index.corpus_sha256 != corpus_sha256:
+            raise ValueError("Semantic index does not match the supplied corpus SHA-256.")
+        retriever = HybridRetriever(
+            bm25_index=bm25_index,
+            semantic_index=semantic_index,
+            corpus=corpus,
+            candidate_k=args.candidate_k,
+            rrf_rank_constant=args.rrf_rank_constant,
+        )
+        runtime_claims = load_runtime_claims(args.claims_path)
+        hybrid_predictions = retrieve_hybrid_claims(
+            retriever,
+            runtime_claims,
+            top_k=max(args.cutoffs),
+        )
+        # Gold evidence and baseline metrics load only after rankings are frozen.
+        gold_evidence_documents = load_gold_evidence_documents(args.claims_path)
+        evaluation = evaluate_retrieval_predictions(
+            as_evaluation_predictions(hybrid_predictions),
+            gold_evidence_documents,
+            cutoffs=args.cutoffs,
+        )
+        try:
+            baseline_report = json.loads(args.baseline_report_path.read_text(encoding="utf-8"))
+            baseline_summary = baseline_report["summary"]
+        except (OSError, json.JSONDecodeError, KeyError, TypeError) as error:
+            raise ValueError(
+                f"Unable to read the committed BM25 baseline report: {error}"
+            ) from error
+
+        hybrid_summary = evaluation.summary_dict()
+        metric_deltas = {
+            metric: {
+                cutoff: hybrid_summary[metric][cutoff] - baseline_summary[metric][cutoff]
+                for cutoff in hybrid_summary[metric]
+            }
+            for metric in ("claim_recall_at_k", "evidence_document_recall_at_k")
+        }
+        report = {
+            "algorithm": "bm25_lsa_rrf_transparent_reranker",
+            "baseline": {
+                "report_path": str(args.baseline_report_path),
+                "report_sha256": sha256_file(args.baseline_report_path),
+                "summary": baseline_summary,
+            },
+            "claims": {
+                "path": str(args.claims_path),
+                "sha256": sha256_file(args.claims_path),
+            },
+            "comparison_to_bm25": {
+                "claim_recall_at_k_delta": metric_deltas["claim_recall_at_k"],
+                "evidence_document_recall_at_k_delta": metric_deltas[
+                    "evidence_document_recall_at_k"
+                ],
+                "mean_reciprocal_rank_delta": hybrid_summary["mean_reciprocal_rank"]
+                - baseline_summary["mean_reciprocal_rank"],
+            },
+            "corpus_sha256": corpus_sha256,
+            "indexes": {
+                "bm25": {
+                    "document_count": bm25_index.document_count,
+                    "path": str(args.bm25_index_path),
+                    "parameters": {"b": bm25_index.b, "k1": bm25_index.k1},
+                    "vocabulary_size": bm25_index.vocabulary_size,
+                },
+                "semantic": {
+                    "path": str(args.semantic_index_path),
+                    **semantic_index.summary_dict(),
+                },
+            },
+            "predictions": [prediction.as_dict() for prediction in hybrid_predictions],
+            "retriever_settings": retriever.settings_dict(),
+            "schema_version": "evidence_agent_hybrid_retrieval_report_v1",
+            "summary": hybrid_summary,
+        }
+        write_retrieval_report(report, args.report_path)
+        print(
+            json.dumps(
+                {
+                    "comparison_to_bm25": report["comparison_to_bm25"],
+                    "report_path": str(args.report_path),
+                    "summary": hybrid_summary,
+                },
                 indent=2,
                 sort_keys=True,
             )

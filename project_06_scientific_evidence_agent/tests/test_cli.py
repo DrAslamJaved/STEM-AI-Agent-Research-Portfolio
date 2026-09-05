@@ -14,7 +14,7 @@ def test_contract_command_prints_machine_readable_project_contract(capsys) -> No
     assert main(["contract"]) == 0
 
     payload = json.loads(capsys.readouterr().out)
-    assert payload["current_phase"] == "retrieval_baseline"
+    assert payload["current_phase"] == "hybrid_retrieval_reranking"
     assert payload["runtime_gold_fields_forbidden"] == ["evidence", "cited_doc_ids"]
 
 
@@ -109,6 +109,89 @@ def test_cli_builds_and_evaluates_bm25_retrieval_baseline(
     assert payload["cutoffs"] == [1, 3]
     assert report["schema_version"] == "evidence_agent_retrieval_report_v1"
     assert len(report["predictions"]) == 1
+
+
+def test_cli_builds_and_evaluates_hybrid_retrieval(tmp_path: Path, capsys) -> None:
+    dataset = write_minimal_scifact_dataset(tmp_path / "scifact")
+    bm25_index_path = tmp_path / "artifacts" / "bm25.json"
+    semantic_index_path = tmp_path / "artifacts" / "semantic.joblib"
+    baseline_report_path = tmp_path / "results" / "baseline.json"
+    hybrid_report_path = tmp_path / "results" / "hybrid.json"
+
+    assert (
+        main(
+            [
+                "build-index",
+                "--corpus-path",
+                str(dataset / "corpus.jsonl"),
+                "--index-path",
+                str(bm25_index_path),
+            ]
+        )
+        == 0
+    )
+    capsys.readouterr()
+    assert (
+        main(
+            [
+                "evaluate-retrieval",
+                "--claims-path",
+                str(dataset / "claims_dev.jsonl"),
+                "--index-path",
+                str(bm25_index_path),
+                "--report-path",
+                str(baseline_report_path),
+            ]
+        )
+        == 0
+    )
+    capsys.readouterr()
+    assert (
+        main(
+            [
+                "build-semantic-index",
+                "--corpus-path",
+                str(dataset / "corpus.jsonl"),
+                "--semantic-index-path",
+                str(semantic_index_path),
+                "--n-components",
+                "1",
+                "--min-document-frequency",
+                "1",
+            ]
+        )
+        == 0
+    )
+    capsys.readouterr()
+
+    assert (
+        main(
+            [
+                "evaluate-hybrid-retrieval",
+                "--corpus-path",
+                str(dataset / "corpus.jsonl"),
+                "--claims-path",
+                str(dataset / "claims_dev.jsonl"),
+                "--bm25-index-path",
+                str(bm25_index_path),
+                "--semantic-index-path",
+                str(semantic_index_path),
+                "--baseline-report-path",
+                str(baseline_report_path),
+                "--report-path",
+                str(hybrid_report_path),
+                "--candidate-k",
+                "2",
+            ]
+        )
+        == 0
+    )
+
+    payload = json.loads(capsys.readouterr().out)
+    report = json.loads(hybrid_report_path.read_text(encoding="utf-8"))
+    assert payload["report_path"] == str(hybrid_report_path)
+    assert report["schema_version"] == "evidence_agent_hybrid_retrieval_report_v1"
+    assert report["baseline"]["report_sha256"]
 
 
 def test_future_command_fails_clearly_until_its_phase_is_implemented(capsys) -> None:

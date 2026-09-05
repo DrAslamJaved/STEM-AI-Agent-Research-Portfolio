@@ -14,6 +14,17 @@ retrieval:
   k1: 1.2
   report_path: results/retrieval_baseline_dev.json
 
+hybrid_retrieval:
+  baseline_report_path: results/retrieval_baseline_dev.json
+  candidate_k: 50
+  corpus_path: data/raw/scifact/data/corpus.jsonl
+  report_path: results/hybrid_retrieval_dev.json
+  rrf_rank_constant: 60
+  semantic_index_path: artifacts/scifact_lsa_index.joblib
+  semantic_min_document_frequency: 2
+  semantic_n_components: 128
+  semantic_random_seed: 20260904
+
 runtime:
   max_retrieved_documents: 10
   max_citations_per_decision: 3

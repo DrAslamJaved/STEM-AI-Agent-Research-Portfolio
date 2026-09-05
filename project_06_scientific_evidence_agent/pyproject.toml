@@ -12,7 +12,10 @@ license = {text = "MIT"}
 authors = [
   {name = "Dr. Muhammad Aslam Javed"},
 ]
-dependencies = []
+dependencies = [
+  "numpy>=2.0,<3.0",
+  "scikit-learn>=1.5,<2.0",
+]
 
 [project.optional-dependencies]
 dev = [
