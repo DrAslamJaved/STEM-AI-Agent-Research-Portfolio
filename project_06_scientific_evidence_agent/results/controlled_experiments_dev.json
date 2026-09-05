@@ -1,0 +1,322 @@
+{
+  "adversarial_evaluator_suite": {
+    "all_passed": true,
+    "cases": {
+      "incomplete_rationale": {
+        "abstract_level_f1": 0.0,
+        "passed": true,
+        "sentence_level_f1": 0.0
+      },
+      "wrong_document": {
+        "abstract_level_f1": 0.0,
+        "passed": true,
+        "sentence_level_f1": 0.0
+      },
+      "wrong_stance": {
+        "abstract_level_f1": 0.0,
+        "passed": true,
+        "sentence_level_f1": 0.0
+      }
+    }
+  },
+  "algorithm": "frozen_bm25_lexical_verifier_direct_rag_vs_citation_audit",
+  "artifacts": {
+    "bm25_index": {
+      "path": "artifacts/scifact_bm25_index.json",
+      "sha256": "d9c6d691d843f44741ab3a3a4a290f68ec26ac833eaf842f8365291af316f3d8"
+    },
+    "calibration_report": {
+      "path": "results/citation_audit_cross_validation.json",
+      "schema_version": "evidence_agent_citation_audit_calibration_v1",
+      "sha256": "27447a85cff918b5f1b322cf0598983c435143caec7a56484049a89e163f12b3"
+    },
+    "claims_dev": {
+      "path": "data/raw/scifact/data/claims_dev.jsonl",
+      "sha256": "86f0435d08fdb65d1aa41d1472684f57e6e71930626497bdf4d7a9ec1a632217"
+    },
+    "corpus": {
+      "path": "data/raw/scifact/data/corpus.jsonl",
+      "sha256": "b8d6c89624cb2ed74dee8938effc4f5d8bd2086887880af8110d64be4ceade62"
+    },
+    "train_claims": {
+      "path": "data/raw/scifact/data/claims_train.jsonl",
+      "sha256": "f4c8fa82d8bd0653a9cc8d61a6ea48c25eacea64e90af5dbf390ebb1b74372f0"
+    },
+    "verifier_model": {
+      "path": "artifacts/scifact_lexical_verifier.joblib",
+      "sha256": "13ceccf71f78a00d3f9b4c3919d0a7a2ba72c24c0693b41b44e34d4f8a846c43"
+    }
+  },
+  "audit_bootstrap_confidence_intervals": {
+    "claim_count": 300,
+    "confidence_level": 0.95,
+    "metric": "audited_agent_minus_direct_rag_delta",
+    "metrics": {
+      "citation_correctness_f1": {
+        "lower": -0.0063093974414559885,
+        "mean": 0.005362662548792017,
+        "upper": 0.020408163265306124
+      },
+      "claim_macro_f1": {
+        "lower": 0.12920443554537486,
+        "mean": 0.18258928586992362,
+        "upper": 0.23660265339181166
+      },
+      "coverage": {
+        "lower": -0.5733333333333333,
+        "mean": -0.5167816666666668,
+        "upper": -0.45999999999999996
+      },
+      "evidence_sentence_f1": {
+        "lower": -0.10005564724883566,
+        "mean": -0.06609639776936378,
+        "upper": -0.033914872802123464
+      },
+      "faithfulness": {
+        "lower": -0.1506160703016534,
+        "mean": -0.10126280467685833,
+        "upper": -0.05231717587152371
+      },
+      "unsupported_assertion_rate": {
+        "lower": 0.0523171758715237,
+        "mean": 0.10126280467685833,
+        "upper": 0.15061607030165342
+      }
+    },
+    "resamples": 2000,
+    "seed": 20260905
+  },
+  "audited_agent": {
+    "audit_metrics": {
+      "assertive_decision_count": 145,
+      "citation_correctness": {
+        "f1": 0.008281573498964804,
+        "precision": 0.013793103448275862,
+        "recall": 0.005917159763313609
+      },
+      "claim_classification": {
+        "accuracy": 0.45666666666666667,
+        "confusion_matrix": {
+          "CONTRADICT": {
+            "CONTRADICT": 17,
+            "NO_EVIDENCE": 17,
+            "SUPPORT": 30
+          },
+          "NO_EVIDENCE": {
+            "CONTRADICT": 9,
+            "NO_EVIDENCE": 87,
+            "SUPPORT": 16
+          },
+          "SUPPORT": {
+            "CONTRADICT": 40,
+            "NO_EVIDENCE": 51,
+            "SUPPORT": 33
+          }
+        },
+        "macro_f1": 0.41278233583541607,
+        "per_label": {
+          "CONTRADICT": {
+            "f1": 0.26153846153846155,
+            "precision": 0.25757575757575757,
+            "recall": 0.265625,
+            "support": 64
+          },
+          "NO_EVIDENCE": {
+            "f1": 0.651685393258427,
+            "precision": 0.5612903225806452,
+            "recall": 0.7767857142857143,
+            "support": 112
+          },
+          "SUPPORT": {
+            "f1": 0.3251231527093596,
+            "precision": 0.4177215189873418,
+            "recall": 0.2661290322580645,
+            "support": 124
+          }
+        }
+      },
+      "claim_count": 300,
+      "coverage": 0.48333333333333334,
+      "evidence_sentence": {
+        "f1": 0.042833607907742995,
+        "precision": 0.05394190871369295,
+        "recall": 0.03551912568306011
+      },
+      "faithful_assertive_decision_count": 10,
+      "faithfulness": 0.06896551724137931,
+      "unsupported_assertion_rate": 0.9310344827586207,
+      "unsupported_assertive_decision_count": 135
+    },
+    "official_scifact": {
+      "abstract_level": {
+        "f1": 0.05649717514124294,
+        "precision": 0.06896551724137931,
+        "recall": 0.04784688995215311
+      },
+      "claim_count": 300,
+      "sentence_level": {
+        "f1": 0.042833607907742995,
+        "precision": 0.05394190871369295,
+        "recall": 0.03551912568306011
+      }
+    },
+    "policy": {
+      "assertion_threshold": 0.65,
+      "max_sentences_per_citation": 2,
+      "sentence_threshold": 0.6
+    },
+    "predictions_artifact": {
+      "path": "artifacts/controlled_experiments_audited_agent_predictions.jsonl",
+      "sha256": "57e258b313adf40ce1b4c5e45400a1f2d06d75635eb74ea7a1f5bfd69f6f892c"
+    }
+  },
+  "comparison_to_direct_rag": {
+    "audit_metrics": {
+      "citation_correctness_f1": 0.005146777260720289,
+      "claim_macro_f1": 0.18268111192160566,
+      "coverage": -0.5166666666666666,
+      "evidence_sentence_f1": -0.06617113142874989,
+      "faithfulness": -0.1010344827586207,
+      "unsupported_assertion_rate": 0.1010344827586207
+    },
+    "official_scifact": {
+      "abstract_level_f1": -0.13603720599824626,
+      "sentence_level_f1": -0.06143179493585891
+    }
+  },
+  "config_path": "configs/controlled_experiments.yaml",
+  "direct_rag": {
+    "audit_metrics": {
+      "assertive_decision_count": 300,
+      "citation_correctness": {
+        "f1": 0.0031347962382445144,
+        "precision": 0.0033333333333333335,
+        "recall": 0.0029585798816568047
+      },
+      "claim_classification": {
+        "accuracy": 0.31666666666666665,
+        "confusion_matrix": {
+          "CONTRADICT": {
+            "CONTRADICT": 17,
+            "NO_EVIDENCE": 0,
+            "SUPPORT": 47
+          },
+          "NO_EVIDENCE": {
+            "CONTRADICT": 15,
+            "NO_EVIDENCE": 0,
+            "SUPPORT": 97
+          },
+          "SUPPORT": {
+            "CONTRADICT": 46,
+            "NO_EVIDENCE": 0,
+            "SUPPORT": 78
+          }
+        },
+        "macro_f1": 0.2301012239138104,
+        "per_label": {
+          "CONTRADICT": {
+            "f1": 0.23943661971830987,
+            "precision": 0.21794871794871795,
+            "recall": 0.265625,
+            "support": 64
+          },
+          "NO_EVIDENCE": {
+            "f1": 0.0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "support": 112
+          },
+          "SUPPORT": {
+            "f1": 0.4508670520231214,
+            "precision": 0.35135135135135137,
+            "recall": 0.6290322580645161,
+            "support": 124
+          }
+        }
+      },
+      "claim_count": 300,
+      "coverage": 1.0,
+      "evidence_sentence": {
+        "f1": 0.10900473933649288,
+        "precision": 0.07666666666666666,
+        "recall": 0.1885245901639344
+      },
+      "faithful_assertive_decision_count": 51,
+      "faithfulness": 0.17,
+      "unsupported_assertion_rate": 0.83,
+      "unsupported_assertive_decision_count": 249
+    },
+    "official_scifact": {
+      "abstract_level": {
+        "f1": 0.1925343811394892,
+        "precision": 0.16333333333333333,
+        "recall": 0.23444976076555024
+      },
+      "claim_count": 300,
+      "sentence_level": {
+        "f1": 0.1042654028436019,
+        "precision": 0.07333333333333333,
+        "recall": 0.18032786885245902
+      }
+    },
+    "policy": {
+      "max_sentences_per_citation": 3,
+      "retrieval_candidate": "bm25_rank_1",
+      "uses_abstention_thresholds": false
+    },
+    "predictions_artifact": {
+      "path": "artifacts/controlled_experiments_direct_rag_predictions.jsonl",
+      "sha256": "56346086d63237bf60da8bb5e9f110b00223704bacf30bcba866e825b7d4379d"
+    }
+  },
+  "evaluation_label": "held_out_development_evaluation",
+  "is_independent_test": false,
+  "official_bootstrap_confidence_intervals": {
+    "claim_count": 300,
+    "confidence_level": 0.95,
+    "metric": "audited_agent_minus_direct_rag_delta",
+    "metrics": {
+      "abstract_level_f1": {
+        "lower": -0.187107751563455,
+        "mean": -0.13620658460177865,
+        "upper": -0.08697987763863341
+      },
+      "sentence_level_f1": {
+        "lower": -0.09458512675725558,
+        "mean": -0.06133991308180306,
+        "upper": -0.028750176353489473
+      }
+    },
+    "resamples": 2000,
+    "seed": 20260905
+  },
+  "output": {
+    "agent_trace_path": "agent_trace/phase_08_controlled_experiments.md",
+    "audited_predictions_path": "artifacts/controlled_experiments_audited_agent_predictions.jsonl",
+    "direct_predictions_path": "artifacts/controlled_experiments_direct_rag_predictions.jsonl",
+    "report_path": "reports/phase_08_controlled_experiments.md",
+    "result_path": "results/controlled_experiments_dev.json",
+    "trace_path": "artifacts/controlled_experiments_dev_trace.json"
+  },
+  "runtime_settings": {
+    "direct_rag_max_sentences_per_citation": 3,
+    "retrieval_k": 10,
+    "selected_policy": {
+      "assertion_threshold": 0.65,
+      "max_sentences_per_citation": 2,
+      "sentence_threshold": 0.6
+    }
+  },
+  "runtime_timing": {
+    "claim_count": 300,
+    "per_claim_milliseconds": 17.629985000239685,
+    "total_seconds": 5.2889955000719056
+  },
+  "schema_version": "evidence_agent_controlled_experiments_v1",
+  "trace_artifact": {
+    "path": "artifacts/controlled_experiments_dev_trace.json",
+    "schema_version": "evidence_agent_controlled_experiments_runtime_trace_v1",
+    "sha256": "43679c7ec8b69d4b21666434039e477901a9cbe64964772fafb146919bdccdc9",
+    "trace_count": 300
+  }
+}

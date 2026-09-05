@@ -36,6 +36,7 @@ from evidence_agent.data.scifact import (
     validate_scifact_dataset,
     write_validation_report,
 )
+from evidence_agent.evaluation.controlled import run_controlled_experiments_command
 from evidence_agent.evaluation.final import run_evaluate_command
 from evidence_agent.evaluation.retrieval import (
     evaluate_retrieval_predictions,
@@ -558,6 +559,16 @@ def build_parser() -> argparse.ArgumentParser:
     )
     evaluate = subparsers.add_parser("evaluate", help="Run a configured evaluation.")
     evaluate.add_argument("--config", type=str, help="Path to a YAML experiment config.")
+
+    controlled_experiments = subparsers.add_parser(
+        "controlled-experiments",
+        help="Run the Phase 8 direct-RAG versus audited-agent comparison.",
+    )
+    controlled_experiments.add_argument(
+        "--config",
+        type=str,
+        help="Path to a YAML controlled-experiments config.",
+    )
     return parser
 
 
@@ -1138,6 +1149,13 @@ def main(argv: Sequence[str] | None = None) -> int:
         if args.config is None:
             raise ValueError("--config is required for the evaluate command.")
         summary = run_evaluate_command(Path(args.config))
+        print(json.dumps(summary, indent=2, sort_keys=True))
+        return 0
+
+    if args.command == "controlled-experiments":
+        if args.config is None:
+            raise ValueError("--config is required for the controlled-experiments command.")
+        summary = run_controlled_experiments_command(Path(args.config))
         print(json.dumps(summary, indent=2, sort_keys=True))
         return 0
 

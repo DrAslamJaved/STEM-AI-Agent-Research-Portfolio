@@ -9,16 +9,14 @@ and stance-verification evaluation.
 
 ## Current phase
 
-Phase 06 adds a confidence-based citation audit selected by five-fold
-cross-validation. Because the supplied SciFact folds include ordinary
-development claims, the implementation retains only their assignments of
-`claims_train.jsonl` IDs; it excludes every ordinary development claim from
-selection. The frozen policy filters both assertion confidence and sentence
-evidence confidence before a citation is accepted. BM25 remains the candidate
-retriever because the Phase 04 hybrid did not outperform it. The audit is an
-honest trade-off study, not a superiority claim: it must report unsupported
-assertion rate together with coverage, faithfulness, citation correctness,
-evidence F1, macro-F1, and latency. Raw data, models, and complete traces remain
+Phase 08 performs a controlled comparison between a direct-RAG baseline and
+the frozen, cross-validated citation-audit policy. Both arms are applied to
+the same gold-free BM25/verifier trace; the evaluator then reports the
+project's audit metrics alongside SciFact-compatible abstract and rationale
+sentence scores with paired bootstrap confidence intervals. This is an honest
+held-out development study, not an independent-test or blanket-superiority
+claim. BM25 remains the candidate retriever because the Phase 04 hybrid did
+not outperform it. Raw data, models, and complete runtime traces remain
 outside version control.
 
 ## Non-negotiable evaluation rule
@@ -44,6 +42,8 @@ python -m venv .venv
 & .\.venv\Scripts\python.exe -m evidence_agent evaluate-verifier
 & .\.venv\Scripts\python.exe -m evidence_agent calibrate-citation-audit
 & .\.venv\Scripts\python.exe -m evidence_agent evaluate-citation-audit
+& .\.venv\Scripts\python.exe -m evidence_agent evaluate --config configs/final.yaml
+& .\.venv\Scripts\python.exe -m evidence_agent controlled-experiments --config configs/controlled_experiments.yaml
 & .\.venv\Scripts\python.exe -m evidence_agent contract
 ```
 
@@ -81,5 +81,8 @@ path and SHA-256. `calibrate-citation-audit` derives five validation partitions
 from only the supplied fold assignments that belong to `claims_train.jsonl`,
 then freezes one coverage-constrained policy. `evaluate-citation-audit` applies
 that frozen policy to the untouched ordinary development split and compares it
-with the fixed Phase 05 policy. General `evaluate` remains unavailable until
-later phases.
+with the fixed Phase 05 policy. `evaluate --config configs/final.yaml` records
+the Phase 07 frozen-policy comparison. `controlled-experiments --config
+configs/controlled_experiments.yaml` runs the Phase 08 direct-RAG versus
+audited-agent comparison, including official SciFact-style scoring and paired
+bootstrap intervals.

@@ -1,0 +1,49 @@
+schema_version: evidence_agent_controlled_experiments_config_v1
+label: held_out_development_evaluation
+
+# All paths are resolved relative to this file, never the shell's current
+# directory. These are the fixed Phase 06/07 inputs. The evaluator validates
+# every digest before it loads or writes anything.
+artifacts:
+  corpus:
+    path: ../data/raw/scifact/data/corpus.jsonl
+    sha256: b8d6c89624cb2ed74dee8938effc4f5d8bd2086887880af8110d64be4ceade62
+  claims_dev:
+    path: ../data/raw/scifact/data/claims_dev.jsonl
+    sha256: 86f0435d08fdb65d1aa41d1472684f57e6e71930626497bdf4d7a9ec1a632217
+  train_claims:
+    path: ../data/raw/scifact/data/claims_train.jsonl
+    sha256: f4c8fa82d8bd0653a9cc8d61a6ea48c25eacea64e90af5dbf390ebb1b74372f0
+  bm25_index:
+    path: ../artifacts/scifact_bm25_index.json
+    sha256: d9c6d691d843f44741ab3a3a4a290f68ec26ac833eaf842f8365291af316f3d8
+  verifier_model:
+    path: ../artifacts/scifact_lexical_verifier.joblib
+    sha256: 13ceccf71f78a00d3f9b4c3919d0a7a2ba72c24c0693b41b44e34d4f8a846c43
+  calibration_report:
+    path: ../results/citation_audit_cross_validation.json
+    sha256: 27447a85cff918b5f1b322cf0598983c435143caec7a56484049a89e163f12b3
+
+runtime:
+  retrieval_k: 10
+
+# Direct-RAG deliberately uses the first BM25 result, without assertion or
+# sentence acceptance thresholds. It emits no more than three sentences because
+# the official SciFact abstract-level evaluator considers only the first three.
+direct_rag:
+  max_sentences_per_citation: 3
+
+bootstrap:
+  enabled: true
+  resamples: 2000
+  seed: 20260905
+  confidence_level: 0.95
+
+# No Phase 8 output may reuse a Phase 6 or Phase 7 path.
+output:
+  result_path: ../results/controlled_experiments_dev.json
+  trace_path: ../artifacts/controlled_experiments_dev_trace.json
+  direct_predictions_path: ../artifacts/controlled_experiments_direct_rag_predictions.jsonl
+  audited_predictions_path: ../artifacts/controlled_experiments_audited_agent_predictions.jsonl
+  report_path: ../reports/phase_08_controlled_experiments.md
+  agent_trace_path: ../agent_trace/phase_08_controlled_experiments.md
