@@ -1,0 +1,39 @@
+schema_version: evidence_agent_final_evaluation_config_v1
+label: held_out_development_evaluation
+
+# Every path below is resolved relative to this file's own directory
+# (configs/), never the process working directory.
+artifacts:
+  corpus:
+    path: ../data/raw/scifact/data/corpus.jsonl
+    sha256: b8d6c89624cb2ed74dee8938effc4f5d8bd2086887880af8110d64be4ceade62
+  claims_dev:
+    path: ../data/raw/scifact/data/claims_dev.jsonl
+    sha256: 86f0435d08fdb65d1aa41d1472684f57e6e71930626497bdf4d7a9ec1a632217
+  train_claims:
+    path: ../data/raw/scifact/data/claims_train.jsonl
+    sha256: f4c8fa82d8bd0653a9cc8d61a6ea48c25eacea64e90af5dbf390ebb1b74372f0
+  bm25_index:
+    path: ../artifacts/scifact_bm25_index.json
+    sha256: d9c6d691d843f44741ab3a3a4a290f68ec26ac833eaf842f8365291af316f3d8
+  verifier_model:
+    path: ../artifacts/scifact_lexical_verifier.joblib
+    sha256: 827fca5323c73d6a54fe281cb56038eb9287f685fdec08db93f18dc39c8c55cb
+  calibration_report:
+    path: ../results/citation_audit_cross_validation.json
+    sha256: 27447a85cff918b5f1b322cf0598983c435143caec7a56484049a89e163f12b3
+
+runtime:
+  retrieval_k: 10
+
+bootstrap:
+  enabled: true
+  resamples: 2000
+  seed: 20260904
+  confidence_level: 0.95
+
+output:
+  result_path: ../results/final_evaluation_dev.json
+  trace_path: ../artifacts/final_evaluation_dev_trace.json
+  report_path: ../reports/phase_07_final_evaluation.md
+  agent_trace_path: ../agent_trace/phase_07_final_evaluation.md

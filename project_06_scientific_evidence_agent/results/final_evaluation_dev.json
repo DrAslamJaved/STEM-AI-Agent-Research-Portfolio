@@ -1,0 +1,7323 @@
+{
+  "algorithm": "bm25_lexical_verifier_cross_validated_citation_audit",
+  "artifacts": {
+    "bm25_index": {
+      "path": "artifacts/scifact_bm25_index.json",
+      "sha256": "d9c6d691d843f44741ab3a3a4a290f68ec26ac833eaf842f8365291af316f3d8"
+    },
+    "calibration_report": {
+      "path": "results/citation_audit_cross_validation.json",
+      "schema_version": "evidence_agent_citation_audit_calibration_v1",
+      "sha256": "27447a85cff918b5f1b322cf0598983c435143caec7a56484049a89e163f12b3"
+    },
+    "claims_dev": {
+      "path": "data/raw/scifact/data/claims_dev.jsonl",
+      "sha256": "86f0435d08fdb65d1aa41d1472684f57e6e71930626497bdf4d7a9ec1a632217"
+    },
+    "corpus": {
+      "path": "data/raw/scifact/data/corpus.jsonl",
+      "sha256": "b8d6c89624cb2ed74dee8938effc4f5d8bd2086887880af8110d64be4ceade62"
+    },
+    "train_claims": {
+      "path": "data/raw/scifact/data/claims_train.jsonl",
+      "sha256": "f4c8fa82d8bd0653a9cc8d61a6ea48c25eacea64e90af5dbf390ebb1b74372f0"
+    },
+    "verifier_model": {
+      "path": "artifacts/scifact_lexical_verifier.joblib",
+      "sha256": "827fca5323c73d6a54fe281cb56038eb9287f685fdec08db93f18dc39c8c55cb"
+    }
+  },
+  "baseline_phase_05_policy": {
+    "policy": {
+      "assertion_threshold": 0.45,
+      "max_sentences_per_citation": 2,
+      "sentence_threshold": 0.5
+    },
+    "summary": {
+      "assertive_decision_count": 257,
+      "citation_correctness": {
+        "f1": 0.0067226890756302525,
+        "precision": 0.007782101167315175,
+        "recall": 0.005917159763313609
+      },
+      "claim_classification": {
+        "accuracy": 0.4166666666666667,
+        "confusion_matrix": {
+          "CONTRADICT": {
+            "CONTRADICT": 21,
+            "NO_EVIDENCE": 1,
+            "SUPPORT": 42
+          },
+          "NO_EVIDENCE": {
+            "CONTRADICT": 21,
+            "NO_EVIDENCE": 33,
+            "SUPPORT": 58
+          },
+          "SUPPORT": {
+            "CONTRADICT": 44,
+            "NO_EVIDENCE": 9,
+            "SUPPORT": 71
+          }
+        },
+        "macro_f1": 0.395720794605431,
+        "per_label": {
+          "CONTRADICT": {
+            "f1": 0.27999999999999997,
+            "precision": 0.2441860465116279,
+            "recall": 0.328125,
+            "support": 64
+          },
+          "NO_EVIDENCE": {
+            "f1": 0.4258064516129032,
+            "precision": 0.7674418604651163,
+            "recall": 0.29464285714285715,
+            "support": 112
+          },
+          "SUPPORT": {
+            "f1": 0.48135593220338985,
+            "precision": 0.4152046783625731,
+            "recall": 0.5725806451612904,
+            "support": 124
+          }
+        }
+      },
+      "claim_count": 300,
+      "coverage": 0.8566666666666667,
+      "evidence_sentence": {
+        "f1": 0.04804045512010114,
+        "precision": 0.04470588235294118,
+        "recall": 0.05191256830601093
+      },
+      "faithful_assertive_decision_count": 14,
+      "faithfulness": 0.054474708171206226,
+      "unsupported_assertion_rate": 0.9455252918287937,
+      "unsupported_assertive_decision_count": 243
+    }
+  },
+  "bootstrap_confidence_intervals": {
+    "claim_count": 300,
+    "confidence_level": 0.95,
+    "metric": "selected_minus_phase_05_delta",
+    "metrics": {
+      "citation_correctness_f1": {
+        "lower": -0.009248609492523367,
+        "mean": 0.001800839407194384,
+        "upper": 0.013782591952557322
+      },
+      "claim_macro_f1": {
+        "lower": -0.03576965381579256,
+        "mean": 0.017481513812711083,
+        "upper": 0.0718191613004486
+      },
+      "coverage": {
+        "lower": -0.42999999999999994,
+        "mean": -0.3738916666666667,
+        "upper": -0.31999999999999995
+      },
+      "evidence_sentence_f1": {
+        "lower": -0.022237085835792137,
+        "mean": -0.004984608851326604,
+        "upper": 0.01056072005306241
+      },
+      "faithfulness": {
+        "lower": -0.008910730286988527,
+        "mean": 0.01491662055770747,
+        "upper": 0.04048401003861672
+      },
+      "unsupported_assertion_rate": {
+        "lower": -0.04048401003861678,
+        "mean": -0.014916620557707474,
+        "upper": 0.008910730286988505
+      }
+    },
+    "resamples": 2000,
+    "seed": 20260904
+  },
+  "comparison_to_phase_05_policy": {
+    "citation_correctness_f1": 0.0015588844233345514,
+    "claim_macro_f1": 0.017061541229985044,
+    "coverage": -0.37333333333333335,
+    "evidence_sentence_f1": -0.0052068472123581455,
+    "faithfulness": 0.014490809070173083,
+    "unsupported_assertion_rate": -0.014490809070173083
+  },
+  "config_path": "configs/final.yaml",
+  "corpus_sha256": "b8d6c89624cb2ed74dee8938effc4f5d8bd2086887880af8110d64be4ceade62",
+  "evaluation_label": "held_out_development_evaluation",
+  "is_independent_test": false,
+  "output": {
+    "agent_trace_path": "agent_trace/phase_07_final_evaluation.md",
+    "report_path": "reports/phase_07_final_evaluation.md",
+    "result_path": "results/final_evaluation_dev.json",
+    "trace_path": "artifacts/final_evaluation_dev_trace.json"
+  },
+  "phase_05_decisions": [
+    {
+      "citations": [
+        {
+          "doc_id": 43385013,
+          "sentence_ids": [
+            8
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1,
+      "confidence": 0.5001126444699467,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 19497526,
+          "sentence_ids": [
+            5
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 3,
+      "confidence": 0.4510642296522712,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 13734012,
+          "sentence_ids": [
+            4
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 5,
+      "confidence": 0.6930876200617428,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 17450673,
+          "sentence_ids": [
+            5
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 13,
+      "confidence": 0.7001939108373859,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 16252863,
+          "sentence_ids": [
+            5
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 36,
+      "confidence": 0.49747549952370645,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 18174210,
+          "sentence_ids": [
+            9,
+            10
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 42,
+      "confidence": 0.7051363911416162,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 26016929,
+          "sentence_ids": [
+            7,
+            9
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 48,
+      "confidence": 0.6353883987679814,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 7029990,
+          "sentence_ids": [
+            7
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 49,
+      "confidence": 0.5461368517994214,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 3952288,
+          "sentence_ids": [
+            3,
+            4
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 50,
+      "confidence": 0.646746507337685,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 13906581,
+          "sentence_ids": [
+            6,
+            13
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 51,
+      "confidence": 0.6813312053076386,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 45638119,
+          "sentence_ids": [
+            1,
+            4
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 53,
+      "confidence": 0.7284115669072828,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 24721866,
+          "sentence_ids": [
+            9,
+            11
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 54,
+      "confidence": 0.7740814397365123,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 4709641,
+          "sentence_ids": [
+            1,
+            3
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 56,
+      "confidence": 0.6740952059056226,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 4709641,
+          "sentence_ids": [
+            1,
+            3
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 57,
+      "confidence": 0.682123584293894,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 4414547,
+          "sentence_ids": [
+            5
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 70,
+      "confidence": 0.667654121090089,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [],
+      "claim_id": 72,
+      "confidence": 0.7452310458087459,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 2052720,
+          "sentence_ids": [
+            6,
+            7
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 75,
+      "confidence": 0.5992536061674181,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [],
+      "claim_id": 94,
+      "confidence": 0.7219898863810886,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 12225214,
+          "sentence_ids": [
+            4
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 99,
+      "confidence": 0.46305625502852377,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 4398832,
+          "sentence_ids": [
+            6,
+            7
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 100,
+      "confidence": 0.7056891566773376,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 5573975,
+          "sentence_ids": [
+            2,
+            6
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 113,
+      "confidence": 0.7492798107371084,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 33872649,
+          "sentence_ids": [
+            6
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 115,
+      "confidence": 0.7496587790422305,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 32454714,
+          "sentence_ids": [
+            5
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 118,
+      "confidence": 0.6789760027574991,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 4883040,
+          "sentence_ids": [
+            8,
+            10
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 124,
+      "confidence": 0.8137944184883209,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 2727303,
+          "sentence_ids": [
+            3,
+            5
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 127,
+      "confidence": 0.5575179087393792,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 128,
+      "confidence": 0.5956247416888006,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 16390264,
+          "sentence_ids": [
+            6,
+            10
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 129,
+      "confidence": 0.6667331817780229,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [],
+      "claim_id": 130,
+      "confidence": 0.5617042635421374,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 45401535,
+          "sentence_ids": [
+            5
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 132,
+      "confidence": 0.6596531070034762,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 45764440,
+          "sentence_ids": [
+            5,
+            7
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 133,
+      "confidence": 0.5487548905597835,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 19675911,
+          "sentence_ids": [
+            5,
+            7
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 137,
+      "confidence": 0.8637385775795783,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 26016929,
+          "sentence_ids": [
+            7,
+            9
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 141,
+      "confidence": 0.6563597489953419,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 10582939,
+          "sentence_ids": [
+            8,
+            12
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 142,
+      "confidence": 0.7757211859751568,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 10582939,
+          "sentence_ids": [
+            8,
+            12
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 143,
+      "confidence": 0.7889720375768029,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 10582939,
+          "sentence_ids": [
+            8,
+            12
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 146,
+      "confidence": 0.7571308882914086,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 148,
+      "confidence": 0.6412472696052987,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 5824985,
+          "sentence_ids": [
+            11
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 163,
+      "confidence": 0.7180153284394035,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 27466734,
+          "sentence_ids": [
+            7,
+            18
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 171,
+      "confidence": 0.7313232961954435,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 17450673,
+          "sentence_ids": [
+            5,
+            9
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 179,
+      "confidence": 0.8463269097112635,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 16966326,
+          "sentence_ids": [
+            2,
+            5
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 180,
+      "confidence": 0.696175511323496,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 12827098,
+          "sentence_ids": [
+            3
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 183,
+      "confidence": 0.7722580189843726,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 23557241,
+          "sentence_ids": [
+            6
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 185,
+      "confidence": 0.7607095393172267,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [],
+      "claim_id": 198,
+      "confidence": 0.5493254791111104,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 16322674,
+          "sentence_ids": [
+            5,
+            6
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 208,
+      "confidence": 0.8978096786260972,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 6042706,
+          "sentence_ids": [
+            5,
+            8
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 212,
+      "confidence": 0.6454195126458199,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 5884524,
+          "sentence_ids": [
+            5,
+            6
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 213,
+      "confidence": 0.7629718180147681,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 41877386,
+          "sentence_ids": [
+            2,
+            8
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 216,
+      "confidence": 0.6070699334157403,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 41877386,
+          "sentence_ids": [
+            2,
+            8
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 217,
+      "confidence": 0.6813150270588973,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 7281161,
+          "sentence_ids": [
+            2,
+            4
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 218,
+      "confidence": 0.6911973626976737,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 7281161,
+          "sentence_ids": [
+            2,
+            4
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 219,
+      "confidence": 0.61704000110058,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 9394119,
+          "sentence_ids": [
+            16,
+            17
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 230,
+      "confidence": 0.6212236629682633,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 29090823,
+          "sentence_ids": [
+            7,
+            9
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 232,
+      "confidence": 0.5659611173501922,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 24142891,
+          "sentence_ids": [
+            1,
+            6
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 233,
+      "confidence": 0.7523836963873322,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 4388470,
+          "sentence_ids": [
+            3,
+            7
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 236,
+      "confidence": 0.7906047966384443,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 16472469,
+          "sentence_ids": [
+            4,
+            5
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 237,
+      "confidence": 0.7221469261747361,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 10463997,
+          "sentence_ids": [
+            12
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 238,
+      "confidence": 0.528316687801337,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 3952288,
+          "sentence_ids": [
+            3,
+            4
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 239,
+      "confidence": 0.6372394827937305,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 19205437,
+          "sentence_ids": [
+            1,
+            3
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 248,
+      "confidence": 0.6713278071761019,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 597790,
+          "sentence_ids": [
+            3,
+            5
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 249,
+      "confidence": 0.7740179529957976,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 40817021,
+          "sentence_ids": [
+            10,
+            14
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 261,
+      "confidence": 0.6589605665650485,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 4319174,
+          "sentence_ids": [
+            5,
+            6
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 268,
+      "confidence": 0.6953233207334377,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 4319174,
+          "sentence_ids": [
+            5,
+            6
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 269,
+      "confidence": 0.7267822771408058,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 11614737,
+          "sentence_ids": [
+            8,
+            9
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 274,
+      "confidence": 0.5877162539675092,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 4961038,
+          "sentence_ids": [
+            7
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 275,
+      "confidence": 0.5837382045084253,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 14376683,
+          "sentence_ids": [
+            4
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 279,
+      "confidence": 0.7135309156550428,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [],
+      "claim_id": 294,
+      "confidence": 0.7805784553100046,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 5979056,
+          "sentence_ids": [
+            4,
+            5
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 295,
+      "confidence": 0.6261378498155932,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 39381118,
+          "sentence_ids": [
+            0
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 298,
+      "confidence": 0.5783469741925598,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [],
+      "claim_id": 300,
+      "confidence": 0.6516437484171703,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 10024681,
+          "sentence_ids": [
+            3,
+            6
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 303,
+      "confidence": 0.5677129455615189,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 312,
+      "confidence": 0.8178749078930955,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 14376683,
+          "sentence_ids": [
+            4
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 314,
+      "confidence": 0.6424616403995154,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 2014909,
+          "sentence_ids": [
+            2
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 324,
+      "confidence": 0.5013475422103667,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 2462673,
+          "sentence_ids": [
+            2,
+            3
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 327,
+      "confidence": 0.6242359083492715,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 36288526,
+          "sentence_ids": [
+            5,
+            6
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 338,
+      "confidence": 0.7645290906945852,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 5884524,
+          "sentence_ids": [
+            5,
+            6
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 343,
+      "confidence": 0.7179637289793468,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 16927286,
+          "sentence_ids": [
+            4
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 350,
+      "confidence": 0.6486669505572187,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 8774475,
+          "sentence_ids": [
+            3,
+            6
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 354,
+      "confidence": 0.5400475935833692,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 15488881,
+          "sentence_ids": [
+            2
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 362,
+      "confidence": 0.5408765275693472,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 19005293,
+          "sentence_ids": [
+            2
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 380,
+      "confidence": 0.8022631413386538,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [],
+      "claim_id": 384,
+      "confidence": 0.7491190341838179,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 385,
+      "confidence": 0.5315540939864,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 12258338,
+          "sentence_ids": [
+            11,
+            14
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 386,
+      "confidence": 0.6905573817853958,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [],
+      "claim_id": 388,
+      "confidence": 0.8976184558653524,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 791050,
+          "sentence_ids": [
+            7,
+            11
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 399,
+      "confidence": 0.7593535493459748,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 30534237,
+          "sentence_ids": [
+            6,
+            8
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 410,
+      "confidence": 0.6413038866836486,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 1410197,
+          "sentence_ids": [
+            6,
+            10
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 411,
+      "confidence": 0.7229820544420128,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 6309659,
+          "sentence_ids": [
+            12
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 415,
+      "confidence": 0.7077377693570627,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 3067015,
+          "sentence_ids": [
+            7,
+            8
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 421,
+      "confidence": 0.4828645775990631,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 22696649,
+          "sentence_ids": [
+            4
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 431,
+      "confidence": 0.6370636597101211,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 436,
+      "confidence": 0.8036231452075114,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 437,
+      "confidence": 0.5885409895392589,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 18575183,
+          "sentence_ids": [
+            5,
+            7
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 439,
+      "confidence": 0.5950569745578818,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 18575183,
+          "sentence_ids": [
+            5,
+            7
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 440,
+      "confidence": 0.5950569745578818,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 16728949,
+          "sentence_ids": [
+            0
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 443,
+      "confidence": 0.7060514555744025,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 10546779,
+          "sentence_ids": [
+            2
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 452,
+      "confidence": 0.6919398629997036,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 5785219,
+          "sentence_ids": [
+            3
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 475,
+      "confidence": 0.4806148903393986,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 19005293,
+          "sentence_ids": [
+            2
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 478,
+      "confidence": 0.7057688427922801,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 9394119,
+          "sentence_ids": [
+            16,
+            17
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 491,
+      "confidence": 0.6972580745820058,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 14606752,
+          "sentence_ids": [
+            6,
+            10
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 501,
+      "confidence": 0.7663850722422884,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [],
+      "claim_id": 502,
+      "confidence": 0.4865736632099668,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 7433668,
+          "sentence_ids": [
+            1,
+            2
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 507,
+      "confidence": 0.6876204996750733,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 10128893,
+          "sentence_ids": [
+            8,
+            10
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 508,
+      "confidence": 0.5818227808956697,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 7662395,
+          "sentence_ids": [
+            9,
+            10
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 513,
+      "confidence": 0.6731706797653084,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 520579,
+          "sentence_ids": [
+            6,
+            9
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 514,
+      "confidence": 0.5731297965741443,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 29564505,
+          "sentence_ids": [
+            8,
+            13
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 516,
+      "confidence": 0.7523463244304976,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 6176498,
+          "sentence_ids": [
+            8
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 517,
+      "confidence": 0.6293565625295825,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 32159283,
+          "sentence_ids": [
+            7
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 521,
+      "confidence": 0.5369989866278359,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 4547102,
+          "sentence_ids": [
+            3
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 525,
+      "confidence": 0.7663909507252709,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 527,
+      "confidence": 0.7388838466136417,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 33904789,
+          "sentence_ids": [
+            5
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 528,
+      "confidence": 0.4723409556553512,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 1387104,
+          "sentence_ids": [
+            5,
+            9
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 532,
+      "confidence": 0.7616572651991024,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 1387104,
+          "sentence_ids": [
+            5,
+            9
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 533,
+      "confidence": 0.6298186928340902,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 13282296,
+          "sentence_ids": [
+            7,
+            11
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 535,
+      "confidence": 0.6773086412886128,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 16056514,
+          "sentence_ids": [
+            4,
+            5
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 536,
+      "confidence": 0.7264347541472478,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 6309659,
+          "sentence_ids": [
+            12
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 539,
+      "confidence": 0.8322449267522617,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 17150648,
+          "sentence_ids": [
+            3,
+            4
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 540,
+      "confidence": 0.6965746018747164,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 544,
+      "confidence": 0.7068586274461928,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 549,
+      "confidence": 0.6873716781714508,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 551,
+      "confidence": 0.679602484266466,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 1471041,
+          "sentence_ids": [
+            3
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 552,
+      "confidence": 0.6008791409225411,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [],
+      "claim_id": 554,
+      "confidence": 0.7593909645410001,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 195683603,
+          "sentence_ids": [
+            3
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 560,
+      "confidence": 0.6835514436483112,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 3952288,
+          "sentence_ids": [
+            3,
+            4
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 569,
+      "confidence": 0.6950591058087326,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 575,
+      "confidence": 0.6588268420576538,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 10582939,
+          "sentence_ids": [
+            8,
+            12
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 577,
+      "confidence": 0.6248331199936564,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 34103335,
+          "sentence_ids": [
+            4,
+            7
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 578,
+      "confidence": 0.636224647569884,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 7281161,
+          "sentence_ids": [
+            4
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 587,
+      "confidence": 0.4653246500220667,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 10984005,
+          "sentence_ids": [
+            10,
+            12
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 589,
+      "confidence": 0.8680302171885118,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 19675911,
+          "sentence_ids": [
+            5
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 593,
+      "confidence": 0.8222166970801046,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 46695481,
+          "sentence_ids": [
+            0,
+            9
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 597,
+      "confidence": 0.7184838636454903,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 46695481,
+          "sentence_ids": [
+            0,
+            9
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 598,
+      "confidence": 0.6948373345914055,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 9638032,
+          "sentence_ids": [
+            4,
+            5
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 613,
+      "confidence": 0.7555381879420187,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 26000593,
+          "sentence_ids": [
+            7
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 619,
+      "confidence": 0.5768423788933602,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 16256507,
+          "sentence_ids": [
+            7,
+            8
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 623,
+      "confidence": 0.5694954435280172,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 628,
+      "confidence": 0.6371559531907756,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 34071621,
+          "sentence_ids": [
+            2,
+            4
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 636,
+      "confidence": 0.6781202915612056,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 637,
+      "confidence": 0.7632151851956678,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 5912283,
+          "sentence_ids": [
+            9,
+            10
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 641,
+      "confidence": 0.7323162283069979,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 27466734,
+          "sentence_ids": [
+            7
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 644,
+      "confidence": 0.5876816342298066,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 15041758,
+          "sentence_ids": [
+            6,
+            7
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 649,
+      "confidence": 0.5011140848103854,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 659,
+      "confidence": 0.7219898863810886,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 660,
+      "confidence": 0.7438881342861658,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 4647303,
+          "sentence_ids": [
+            4
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 674,
+      "confidence": 0.6234186290000364,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 12824568,
+          "sentence_ids": [
+            6,
+            7
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 684,
+      "confidence": 0.6751715811017793,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 18174210,
+          "sentence_ids": [
+            9,
+            10
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 690,
+      "confidence": 0.501676652373118,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 10991183,
+          "sentence_ids": [
+            3
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 691,
+      "confidence": 0.6077051145810487,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 24088502,
+          "sentence_ids": [
+            7,
+            8
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 692,
+      "confidence": 0.7234475065131355,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 24088502,
+          "sentence_ids": [
+            7,
+            8
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 693,
+      "confidence": 0.7105971121722836,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [],
+      "claim_id": 700,
+      "confidence": 0.6251709088681139,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 702,
+      "confidence": 0.6642221885061891,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 37204802,
+          "sentence_ids": [
+            4,
+            6
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 715,
+      "confidence": 0.49044639911972443,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 23830488,
+          "sentence_ids": [
+            5,
+            6
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 716,
+      "confidence": 0.5120615041861407,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 17587795,
+          "sentence_ids": [
+            4
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 718,
+      "confidence": 0.6515338368701001,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 12670680,
+          "sentence_ids": [
+            1,
+            4
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 721,
+      "confidence": 0.5886845797922644,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 5531479,
+          "sentence_ids": [
+            1,
+            6
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 723,
+      "confidence": 0.7617392537370572,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 36444198,
+          "sentence_ids": [
+            9,
+            10
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 727,
+      "confidence": 0.7258262597704312,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 36444198,
+          "sentence_ids": [
+            9,
+            10
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 728,
+      "confidence": 0.6895475177487863,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 5531479,
+          "sentence_ids": [
+            1,
+            6
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 729,
+      "confidence": 0.7515217986088476,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 5884524,
+          "sentence_ids": [
+            5,
+            6
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 742,
+      "confidence": 0.6866730511150987,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 5884524,
+          "sentence_ids": [
+            5,
+            6
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 743,
+      "confidence": 0.6600908568149244,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 1469751,
+          "sentence_ids": [
+            2
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 744,
+      "confidence": 0.5127821180961069,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 25606339,
+          "sentence_ids": [
+            4,
+            5
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 756,
+      "confidence": 0.5120392860292604,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 10617916,
+          "sentence_ids": [
+            12
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 759,
+      "confidence": 0.6710186271550802,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 19497526,
+          "sentence_ids": [
+            5
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 768,
+      "confidence": 0.5761993856023739,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 15476777,
+          "sentence_ids": [
+            14,
+            16
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 770,
+      "confidence": 0.7368912748983039,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [],
+      "claim_id": 775,
+      "confidence": 0.7302655437471254,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 8246922,
+          "sentence_ids": [
+            7,
+            11
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 781,
+      "confidence": 0.8348880619925501,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 8246922,
+          "sentence_ids": [
+            7,
+            11
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 783,
+      "confidence": 0.8223597777359164,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 2356950,
+          "sentence_ids": [
+            2,
+            3
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 784,
+      "confidence": 0.6106455246417386,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 6550579,
+          "sentence_ids": [
+            10
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 785,
+      "confidence": 0.5184223911397848,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 25439264,
+          "sentence_ids": [
+            7
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 793,
+      "confidence": 0.5601035435834075,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 800,
+      "confidence": 0.6094480350373102,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 22180793,
+          "sentence_ids": [
+            3,
+            5
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 805,
+      "confidence": 0.6501823562604309,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 4313478,
+          "sentence_ids": [
+            5,
+            6
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 808,
+      "confidence": 0.6143340720629363,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 19799455,
+          "sentence_ids": [
+            4,
+            6
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 811,
+      "confidence": 0.7664670137926479,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 814,
+      "confidence": 0.6819279375396693,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 12451492,
+          "sentence_ids": [
+            5,
+            6
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 820,
+      "confidence": 0.5085891857011569,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 12451492,
+          "sentence_ids": [
+            5,
+            6
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 821,
+      "confidence": 0.5418259845489332,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 15319019,
+          "sentence_ids": [
+            13,
+            15
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 823,
+      "confidence": 0.6587633432985794,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 4447785,
+          "sentence_ids": [
+            1
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 830,
+      "confidence": 0.5360559299307409,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 36310858,
+          "sentence_ids": [
+            2,
+            4
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 831,
+      "confidence": 0.5183704524389003,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 19205437,
+          "sentence_ids": [
+            1,
+            3
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 832,
+      "confidence": 0.7158396672409684,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 28006126,
+          "sentence_ids": [
+            2,
+            3
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 834,
+      "confidence": 0.5756296428777488,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 1780819,
+          "sentence_ids": [
+            10,
+            11
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 837,
+      "confidence": 0.6763449773625687,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 13923069,
+          "sentence_ids": [
+            4
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 839,
+      "confidence": 0.6904645060775916,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 30041340,
+          "sentence_ids": [
+            1,
+            11
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 845,
+      "confidence": 0.6407574976045214,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 7552215,
+          "sentence_ids": [
+            10,
+            12
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 847,
+      "confidence": 0.7912813905459989,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 34208005,
+          "sentence_ids": [
+            14,
+            17
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 852,
+      "confidence": 0.7675036672204718,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 1982286,
+          "sentence_ids": [
+            3
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 859,
+      "confidence": 0.6964219972016482,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 1831916,
+          "sentence_ids": [
+            8,
+            9
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 870,
+      "confidence": 0.7477010420375395,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 12658073,
+          "sentence_ids": [
+            8
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 873,
+      "confidence": 0.661675893141963,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 879,
+      "confidence": 0.5944844320695177,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 8512633,
+          "sentence_ids": [
+            6
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 880,
+      "confidence": 0.49700878533004955,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 12709184,
+          "sentence_ids": [
+            10,
+            13
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 882,
+      "confidence": 0.6796176730252954,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 33872649,
+          "sentence_ids": [
+            6
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 887,
+      "confidence": 0.7696961262271859,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 13905670,
+          "sentence_ids": [
+            3,
+            4
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 903,
+      "confidence": 0.8446466288572488,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 5700349,
+          "sentence_ids": [
+            3,
+            4
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 904,
+      "confidence": 0.698961874289211,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 907,
+      "confidence": 0.7247774075004825,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 11254556,
+          "sentence_ids": [
+            3,
+            5
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 911,
+      "confidence": 0.7120707419704349,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 1727042,
+          "sentence_ids": [
+            1
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 913,
+      "confidence": 0.5148177135970801,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 4319174,
+          "sentence_ids": [
+            5,
+            6
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 914,
+      "confidence": 0.6549683167237843,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 1642727,
+          "sentence_ids": [
+            9,
+            13
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 921,
+      "confidence": 0.6177459099737176,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 17077004,
+          "sentence_ids": [
+            7,
+            9
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 922,
+      "confidence": 0.6560196107033336,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 24069089,
+          "sentence_ids": [
+            2,
+            5
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 936,
+      "confidence": 0.623715153463486,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 11090688,
+          "sentence_ids": [
+            7
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 956,
+      "confidence": 0.490862794735438,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 957,
+      "confidence": 0.5603940104320433,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 5698494,
+          "sentence_ids": [
+            8,
+            11
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 960,
+      "confidence": 0.8175199768422524,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [],
+      "claim_id": 967,
+      "confidence": 0.6986300826684947,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 46695481,
+          "sentence_ids": [
+            0,
+            9
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 971,
+      "confidence": 0.7660991238476359,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 9956893,
+          "sentence_ids": [
+            7
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 975,
+      "confidence": 0.4873442020660253,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 6609935,
+          "sentence_ids": [
+            3
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 982,
+      "confidence": 0.5360864999001906,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 34071621,
+          "sentence_ids": [
+            3,
+            4
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 985,
+      "confidence": 0.7672857037635128,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 16472469,
+          "sentence_ids": [
+            4,
+            5
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 993,
+      "confidence": 0.7490624033652149,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 9745001,
+          "sentence_ids": [
+            6,
+            12
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1012,
+      "confidence": 0.7624783955608718,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 1974176,
+          "sentence_ids": [
+            11
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1014,
+      "confidence": 0.6450347841414245,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 11603066,
+          "sentence_ids": [
+            6
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1019,
+      "confidence": 0.5964607521494224,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 1020,
+      "confidence": 0.6992469342171299,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 20960682,
+          "sentence_ids": [
+            10
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1021,
+      "confidence": 0.5156330985825632,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 1982286,
+          "sentence_ids": [
+            3
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1024,
+      "confidence": 0.6704102023146734,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 13940200,
+          "sentence_ids": [
+            2,
+            3
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1029,
+      "confidence": 0.8256088035408008,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 25254425,
+          "sentence_ids": [
+            3
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1041,
+      "confidence": 0.6400382879781873,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 1071991,
+          "sentence_ids": [
+            1,
+            2
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1049,
+      "confidence": 0.7684773214717031,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 665817,
+          "sentence_ids": [
+            4,
+            7
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1062,
+      "confidence": 0.5364822470458586,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 39281140,
+          "sentence_ids": [
+            7,
+            9
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1086,
+      "confidence": 0.7587243031762345,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 16086778,
+          "sentence_ids": [
+            2,
+            6
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1088,
+      "confidence": 0.5630617559734202,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 17628888,
+          "sentence_ids": [
+            7
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1089,
+      "confidence": 0.7069344737787231,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 27466734,
+          "sentence_ids": [
+            7
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1099,
+      "confidence": 0.76691794409262,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 22420524,
+          "sentence_ids": [
+            11,
+            13
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1100,
+      "confidence": 0.693247130771639,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 5884524,
+          "sentence_ids": [
+            5,
+            6
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1104,
+      "confidence": 0.8586949323676024,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 4319174,
+          "sentence_ids": [
+            5,
+            6
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1107,
+      "confidence": 0.6634970354202687,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 2032877,
+          "sentence_ids": [
+            8,
+            9
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1110,
+      "confidence": 0.6688340186011119,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 23076291,
+          "sentence_ids": [
+            8,
+            11
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1121,
+      "confidence": 0.5298028639290092,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 10559501,
+          "sentence_ids": [
+            3
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1130,
+      "confidence": 0.46386937924019706,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 24069089,
+          "sentence_ids": [
+            2,
+            5
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1132,
+      "confidence": 0.6646469998394808,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 11578459,
+          "sentence_ids": [
+            6,
+            8
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1137,
+      "confidence": 0.6292755578193441,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 12009265,
+          "sentence_ids": [
+            9,
+            14
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1140,
+      "confidence": 0.6564406817023566,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 32534305,
+          "sentence_ids": [
+            5,
+            8
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1144,
+      "confidence": 0.7131415904289872,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 13906581,
+          "sentence_ids": [
+            6,
+            13
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1146,
+      "confidence": 0.6255848627118029,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 1617327,
+          "sentence_ids": [
+            1
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1150,
+      "confidence": 0.5309044648803388,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 10071552,
+          "sentence_ids": [
+            4,
+            8
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1163,
+      "confidence": 0.7008146990209294,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 1175,
+      "confidence": 0.7513870647268941,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 14474178,
+          "sentence_ids": [
+            5,
+            6
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1179,
+      "confidence": 0.5601704922182152,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 14474178,
+          "sentence_ids": [
+            5,
+            6
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1180,
+      "confidence": 0.5975692317775403,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 16737210,
+          "sentence_ids": [
+            10
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1185,
+      "confidence": 0.6877110417866736,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 34071621,
+          "sentence_ids": [
+            4
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1187,
+      "confidence": 0.591301710231576,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 1191,
+      "confidence": 0.6956542589131048,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 35004872,
+          "sentence_ids": [
+            3,
+            7
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1194,
+      "confidence": 0.5480770694719356,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 1196,
+      "confidence": 0.6416288919631331,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 8593263,
+          "sentence_ids": [
+            3
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1197,
+      "confidence": 0.4555490056335074,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 40156901,
+          "sentence_ids": [
+            7,
+            10
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1199,
+      "confidence": 0.6088261876559387,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [],
+      "claim_id": 1200,
+      "confidence": 0.6665898227151298,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 3475317,
+          "sentence_ids": [
+            5,
+            7
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1202,
+      "confidence": 0.7521764312220701,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 19510470,
+          "sentence_ids": [
+            3,
+            4
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1204,
+      "confidence": 0.5440118126904655,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 1207,
+      "confidence": 0.7267274484652416,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 1213,
+      "confidence": 0.7751199873462676,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 24142891,
+          "sentence_ids": [
+            1,
+            6
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1216,
+      "confidence": 0.645018939612174,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 33370,
+          "sentence_ids": [
+            6,
+            9
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1221,
+      "confidence": 0.5917524725991987,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 43334921,
+          "sentence_ids": [
+            6,
+            8
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1225,
+      "confidence": 0.6439997331786359,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 12440953,
+          "sentence_ids": [
+            1
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1226,
+      "confidence": 0.7278368580239992,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 13905670,
+          "sentence_ids": [
+            3,
+            4
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1232,
+      "confidence": 0.8072357909209079,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 14296612,
+          "sentence_ids": [
+            7
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1241,
+      "confidence": 0.48661891843585975,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 7662395,
+          "sentence_ids": [
+            10
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1245,
+      "confidence": 0.6601471001495831,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 24341590,
+          "sentence_ids": [
+            11,
+            12
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1259,
+      "confidence": 0.7723055448898165,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 13023410,
+          "sentence_ids": [
+            1,
+            5
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1262,
+      "confidence": 0.4866192353220437,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 16322674,
+          "sentence_ids": [
+            5,
+            6
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1266,
+      "confidence": 0.8342185790743283,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 52072815,
+          "sentence_ids": [
+            8,
+            11
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1270,
+      "confidence": 0.7307458673514332,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 2587396,
+          "sentence_ids": [
+            7
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1271,
+      "confidence": 0.5992902781595221,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 6472746,
+          "sentence_ids": [
+            3
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1272,
+      "confidence": 0.6031577754940605,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 6472746,
+          "sentence_ids": [
+            3
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1273,
+      "confidence": 0.6201904114415362,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 1274,
+      "confidence": 0.699370151826895,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 3825750,
+          "sentence_ids": [
+            6
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1278,
+      "confidence": 0.6191666261693256,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 3825750,
+          "sentence_ids": [
+            6
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1279,
+      "confidence": 0.5900885756522876,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 36233757,
+          "sentence_ids": [
+            9
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1280,
+      "confidence": 0.46519179674453515,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 30208015,
+          "sentence_ids": [
+            7
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1281,
+      "confidence": 0.5599065398000003,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 21009874,
+          "sentence_ids": [
+            12,
+            15
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1282,
+      "confidence": 0.6867339721580064,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 4687948,
+          "sentence_ids": [
+            7,
+            10
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1290,
+      "confidence": 0.8463173081936989,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 3355397,
+          "sentence_ids": [
+            12,
+            16
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1292,
+      "confidence": 0.7492204203043752,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 8190282,
+          "sentence_ids": [
+            8,
+            9
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1298,
+      "confidence": 0.6594403908913263,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 40631095,
+          "sentence_ids": [
+            8,
+            10
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1303,
+      "confidence": 0.6370119669662369,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 13398997,
+          "sentence_ids": [
+            4
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1316,
+      "confidence": 0.5824453822142376,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 16284655,
+          "sentence_ids": [
+            2
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1319,
+      "confidence": 0.7027735427307333,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 16284655,
+          "sentence_ids": [
+            2
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1320,
+      "confidence": 0.6647971076713088,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 39264456,
+          "sentence_ids": [
+            8,
+            9
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1332,
+      "confidence": 0.7467237057326314,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 4468861,
+          "sentence_ids": [
+            4
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1335,
+      "confidence": 0.7011149578215568,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 4468861,
+          "sentence_ids": [
+            4
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1336,
+      "confidence": 0.7100462129229783,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 15248287,
+          "sentence_ids": [
+            2,
+            5
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1337,
+      "confidence": 0.5564182548853706,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 15482274,
+          "sentence_ids": [
+            9,
+            10
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1339,
+      "confidence": 0.8244953804204995,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 28937856,
+          "sentence_ids": [
+            5
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1344,
+      "confidence": 0.460827179900473,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 10648422,
+          "sentence_ids": [
+            4,
+            5
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1352,
+      "confidence": 0.5840488494617047,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 11614737,
+          "sentence_ids": [
+            8,
+            9
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1359,
+      "confidence": 0.6588955581060735,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [],
+      "claim_id": 1362,
+      "confidence": 0.5956247416888006,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 19140422,
+          "sentence_ids": [
+            9,
+            14
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1363,
+      "confidence": 0.5685884522347312,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 13312471,
+          "sentence_ids": [
+            6,
+            7
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1368,
+      "confidence": 0.6024732091991618,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 17450673,
+          "sentence_ids": [
+            5,
+            9
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1370,
+      "confidence": 0.8502264022576491,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 17450673,
+          "sentence_ids": [
+            5,
+            9
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1379,
+      "confidence": 0.8723373107825355,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 4423401,
+          "sentence_ids": [
+            1,
+            7
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1382,
+      "confidence": 0.6830234052816013,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 306006,
+          "sentence_ids": [
+            4
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1385,
+      "confidence": 0.7708388342893776,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 5612738,
+          "sentence_ids": [
+            4
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1389,
+      "confidence": 0.7499574784407484,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 13923069,
+          "sentence_ids": [
+            4
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1395,
+      "confidence": 0.49086154441349106,
+      "verdict": "SUPPORT"
+    }
+  ],
+  "runtime_settings": {
+    "retrieval_k": 10,
+    "selected_policy": {
+      "assertion_threshold": 0.65,
+      "max_sentences_per_citation": 2,
+      "sentence_threshold": 0.6
+    }
+  },
+  "runtime_timing": {
+    "claim_count": 300,
+    "per_claim_milliseconds": 18.633340999949723,
+    "total_seconds": 5.590002299984917
+  },
+  "schema_version": "evidence_agent_final_evaluation_v1",
+  "selected_decisions": [
+    {
+      "citations": [],
+      "claim_id": 1,
+      "confidence": 0.6222647005618238,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 3,
+      "confidence": 0.6973674298198689,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 13734012,
+          "sentence_ids": [
+            4
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 5,
+      "confidence": 0.6930876200617428,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 17450673,
+          "sentence_ids": [
+            5
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 13,
+      "confidence": 0.7001939108373859,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [],
+      "claim_id": 36,
+      "confidence": 0.7313490534071498,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 18174210,
+          "sentence_ids": [
+            9,
+            10
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 42,
+      "confidence": 0.7051363911416162,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 48,
+      "confidence": 0.50380827276322,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 49,
+      "confidence": 0.6364044252048272,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 50,
+      "confidence": 0.43024734860337105,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 13906581,
+          "sentence_ids": [
+            6,
+            13
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 51,
+      "confidence": 0.6813312053076386,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 45638119,
+          "sentence_ids": [
+            4
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 53,
+      "confidence": 0.7284115669072828,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 24721866,
+          "sentence_ids": [
+            9,
+            11
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 54,
+      "confidence": 0.7740814397365123,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 4709641,
+          "sentence_ids": [
+            1
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 56,
+      "confidence": 0.6740952059056226,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 4709641,
+          "sentence_ids": [
+            1,
+            3
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 57,
+      "confidence": 0.682123584293894,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 4414547,
+          "sentence_ids": [
+            5
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 70,
+      "confidence": 0.667654121090089,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [],
+      "claim_id": 72,
+      "confidence": 0.7452310458087459,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 75,
+      "confidence": 0.670860956932196,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 94,
+      "confidence": 0.7219898863810886,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 99,
+      "confidence": 0.6886807107665256,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 4398832,
+          "sentence_ids": [
+            6,
+            7
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 100,
+      "confidence": 0.7056891566773376,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 5573975,
+          "sentence_ids": [
+            2,
+            6
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 113,
+      "confidence": 0.7492798107371084,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 33872649,
+          "sentence_ids": [
+            6
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 115,
+      "confidence": 0.7496587790422305,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 32454714,
+          "sentence_ids": [
+            5
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 118,
+      "confidence": 0.6789760027574991,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 4883040,
+          "sentence_ids": [
+            8,
+            10
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 124,
+      "confidence": 0.8137944184883209,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [],
+      "claim_id": 127,
+      "confidence": 0.5132593269669059,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 128,
+      "confidence": 0.5956247416888006,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 16390264,
+          "sentence_ids": [
+            6,
+            10
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 129,
+      "confidence": 0.6667331817780229,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [],
+      "claim_id": 130,
+      "confidence": 0.5617042635421374,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 45401535,
+          "sentence_ids": [
+            5
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 132,
+      "confidence": 0.6596531070034762,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 133,
+      "confidence": 0.6517921870849407,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 19675911,
+          "sentence_ids": [
+            5
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 137,
+      "confidence": 0.8637385775795783,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 26016929,
+          "sentence_ids": [
+            7,
+            9
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 141,
+      "confidence": 0.6563597489953419,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 10582939,
+          "sentence_ids": [
+            8,
+            12
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 142,
+      "confidence": 0.7757211859751568,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 10582939,
+          "sentence_ids": [
+            8,
+            12
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 143,
+      "confidence": 0.7889720375768029,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 10582939,
+          "sentence_ids": [
+            8,
+            12
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 146,
+      "confidence": 0.7571308882914086,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 148,
+      "confidence": 0.6412472696052987,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 5824985,
+          "sentence_ids": [
+            11
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 163,
+      "confidence": 0.7180153284394035,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 27466734,
+          "sentence_ids": [
+            7,
+            18
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 171,
+      "confidence": 0.7313232961954435,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 17450673,
+          "sentence_ids": [
+            5,
+            9
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 179,
+      "confidence": 0.8463269097112635,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 16966326,
+          "sentence_ids": [
+            5
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 180,
+      "confidence": 0.696175511323496,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 12827098,
+          "sentence_ids": [
+            3
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 183,
+      "confidence": 0.7722580189843726,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 23557241,
+          "sentence_ids": [
+            6
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 185,
+      "confidence": 0.7607095393172267,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [],
+      "claim_id": 198,
+      "confidence": 0.5493254791111104,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 16322674,
+          "sentence_ids": [
+            5,
+            6
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 208,
+      "confidence": 0.8978096786260972,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [],
+      "claim_id": 212,
+      "confidence": 0.5068845351107331,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 5884524,
+          "sentence_ids": [
+            5,
+            6
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 213,
+      "confidence": 0.7629718180147681,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [],
+      "claim_id": 216,
+      "confidence": 0.38955699715421255,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 41877386,
+          "sentence_ids": [
+            2,
+            8
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 217,
+      "confidence": 0.6813150270588973,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 7281161,
+          "sentence_ids": [
+            2,
+            4
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 218,
+      "confidence": 0.6911973626976737,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 219,
+      "confidence": 0.35543027561476165,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 230,
+      "confidence": 0.4211346549548355,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 232,
+      "confidence": 0.4280323987315625,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 24142891,
+          "sentence_ids": [
+            1,
+            6
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 233,
+      "confidence": 0.7523836963873322,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 4388470,
+          "sentence_ids": [
+            3,
+            7
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 236,
+      "confidence": 0.7906047966384443,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 16472469,
+          "sentence_ids": [
+            5
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 237,
+      "confidence": 0.7221469261747361,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 238,
+      "confidence": 0.6072610225533523,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 239,
+      "confidence": 0.6899363887868486,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 19205437,
+          "sentence_ids": [
+            1,
+            3
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 248,
+      "confidence": 0.6713278071761019,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 597790,
+          "sentence_ids": [
+            3,
+            5
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 249,
+      "confidence": 0.7740179529957976,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 40817021,
+          "sentence_ids": [
+            10,
+            14
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 261,
+      "confidence": 0.6589605665650485,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 4319174,
+          "sentence_ids": [
+            5,
+            6
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 268,
+      "confidence": 0.6953233207334377,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 4319174,
+          "sentence_ids": [
+            5,
+            6
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 269,
+      "confidence": 0.7267822771408058,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 274,
+      "confidence": 0.3880874271496162,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 275,
+      "confidence": 0.5930303387765287,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 14376683,
+          "sentence_ids": [
+            4
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 279,
+      "confidence": 0.7135309156550428,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [],
+      "claim_id": 294,
+      "confidence": 0.7805784553100046,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 295,
+      "confidence": 0.46096651473762396,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 298,
+      "confidence": 0.44048356763587304,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 300,
+      "confidence": 0.6516437484171703,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 303,
+      "confidence": 0.5465281434950028,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 312,
+      "confidence": 0.8178749078930955,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 314,
+      "confidence": 0.4837252441257253,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 324,
+      "confidence": 0.5961359815210119,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 327,
+      "confidence": 0.535267531633833,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 36288526,
+          "sentence_ids": [
+            5,
+            6
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 338,
+      "confidence": 0.7645290906945852,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 5884524,
+          "sentence_ids": [
+            5,
+            6
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 343,
+      "confidence": 0.7179637289793468,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [],
+      "claim_id": 350,
+      "confidence": 0.40436731219840416,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 354,
+      "confidence": 0.5415809412348214,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 362,
+      "confidence": 0.686618945510079,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 19005293,
+          "sentence_ids": [
+            2
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 380,
+      "confidence": 0.8022631413386538,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [],
+      "claim_id": 384,
+      "confidence": 0.7491190341838179,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 385,
+      "confidence": 0.5315540939864,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 12258338,
+          "sentence_ids": [
+            11,
+            14
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 386,
+      "confidence": 0.6905573817853958,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [],
+      "claim_id": 388,
+      "confidence": 0.8976184558653524,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 791050,
+          "sentence_ids": [
+            7,
+            11
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 399,
+      "confidence": 0.7593535493459748,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [],
+      "claim_id": 410,
+      "confidence": 0.38806479633652635,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 1410197,
+          "sentence_ids": [
+            6,
+            10
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 411,
+      "confidence": 0.7229820544420128,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 6309659,
+          "sentence_ids": [
+            12
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 415,
+      "confidence": 0.7077377693570627,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [],
+      "claim_id": 421,
+      "confidence": 0.6801914375344507,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 431,
+      "confidence": 0.43439432329211763,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 436,
+      "confidence": 0.8036231452075114,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 437,
+      "confidence": 0.5885409895392589,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 439,
+      "confidence": 0.5004486917653757,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 440,
+      "confidence": 0.5004486917653757,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 16728949,
+          "sentence_ids": [
+            0
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 443,
+      "confidence": 0.7060514555744025,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 10546779,
+          "sentence_ids": [
+            2
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 452,
+      "confidence": 0.6919398629997036,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 475,
+      "confidence": 0.5877952763679093,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 19005293,
+          "sentence_ids": [
+            2
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 478,
+      "confidence": 0.7057688427922801,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 9394119,
+          "sentence_ids": [
+            16,
+            17
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 491,
+      "confidence": 0.6972580745820058,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 14606752,
+          "sentence_ids": [
+            6,
+            10
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 501,
+      "confidence": 0.7663850722422884,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [],
+      "claim_id": 502,
+      "confidence": 0.4865736632099668,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 7433668,
+          "sentence_ids": [
+            1,
+            2
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 507,
+      "confidence": 0.6876204996750733,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 508,
+      "confidence": 0.6046654110445318,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 7662395,
+          "sentence_ids": [
+            10
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 513,
+      "confidence": 0.6731706797653084,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [],
+      "claim_id": 514,
+      "confidence": 0.4226421688055083,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 29564505,
+          "sentence_ids": [
+            8,
+            13
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 516,
+      "confidence": 0.7523463244304976,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 517,
+      "confidence": 0.29970984277112694,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 521,
+      "confidence": 0.6898251278762098,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 4547102,
+          "sentence_ids": [
+            3
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 525,
+      "confidence": 0.7663909507252709,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 527,
+      "confidence": 0.7388838466136417,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 528,
+      "confidence": 0.5276564348274497,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 1387104,
+          "sentence_ids": [
+            5,
+            9
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 532,
+      "confidence": 0.7616572651991024,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [],
+      "claim_id": 533,
+      "confidence": 0.5268871192762652,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 13282296,
+          "sentence_ids": [
+            7,
+            11
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 535,
+      "confidence": 0.6773086412886128,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 16056514,
+          "sentence_ids": [
+            4,
+            5
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 536,
+      "confidence": 0.7264347541472478,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 6309659,
+          "sentence_ids": [
+            12
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 539,
+      "confidence": 0.8322449267522617,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 17150648,
+          "sentence_ids": [
+            3,
+            4
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 540,
+      "confidence": 0.6965746018747164,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 544,
+      "confidence": 0.7068586274461928,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 549,
+      "confidence": 0.6873716781714508,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 551,
+      "confidence": 0.679602484266466,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 552,
+      "confidence": 0.6062371811317773,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 554,
+      "confidence": 0.7593909645410001,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 195683603,
+          "sentence_ids": [
+            3
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 560,
+      "confidence": 0.6835514436483112,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 3952288,
+          "sentence_ids": [
+            3,
+            4
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 569,
+      "confidence": 0.6950591058087326,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 575,
+      "confidence": 0.6588268420576538,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 577,
+      "confidence": 0.4506793685024676,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 578,
+      "confidence": 0.2510619364268395,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 587,
+      "confidence": 0.7210657487209347,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 10984005,
+          "sentence_ids": [
+            10,
+            12
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 589,
+      "confidence": 0.8680302171885118,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 19675911,
+          "sentence_ids": [
+            5
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 593,
+      "confidence": 0.8222166970801046,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 46695481,
+          "sentence_ids": [
+            0,
+            9
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 597,
+      "confidence": 0.7184838636454903,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 46695481,
+          "sentence_ids": [
+            0,
+            9
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 598,
+      "confidence": 0.6948373345914055,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 9638032,
+          "sentence_ids": [
+            4,
+            5
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 613,
+      "confidence": 0.7555381879420187,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [],
+      "claim_id": 619,
+      "confidence": 0.6027226918377984,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 623,
+      "confidence": 0.5961612152214099,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 628,
+      "confidence": 0.6371559531907756,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 34071621,
+          "sentence_ids": [
+            2,
+            4
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 636,
+      "confidence": 0.6781202915612056,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 637,
+      "confidence": 0.7632151851956678,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 5912283,
+          "sentence_ids": [
+            9,
+            10
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 641,
+      "confidence": 0.7323162283069979,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [],
+      "claim_id": 644,
+      "confidence": 0.4579905277072858,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 649,
+      "confidence": 0.7498314261598101,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 659,
+      "confidence": 0.7219898863810886,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 660,
+      "confidence": 0.7438881342861658,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 674,
+      "confidence": 0.3371353247299698,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 12824568,
+          "sentence_ids": [
+            6,
+            7
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 684,
+      "confidence": 0.6751715811017793,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 690,
+      "confidence": 0.7568862223833092,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 691,
+      "confidence": 0.4141329279005855,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 24088502,
+          "sentence_ids": [
+            7,
+            8
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 692,
+      "confidence": 0.7234475065131355,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 24088502,
+          "sentence_ids": [
+            7,
+            8
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 693,
+      "confidence": 0.7105971121722836,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [],
+      "claim_id": 700,
+      "confidence": 0.6251709088681139,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 702,
+      "confidence": 0.6642221885061891,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 715,
+      "confidence": 0.7799865753879978,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 716,
+      "confidence": 0.6132049804974613,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 17587795,
+          "sentence_ids": [
+            4
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 718,
+      "confidence": 0.6515338368701001,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 721,
+      "confidence": 0.6201544634329632,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 5531479,
+          "sentence_ids": [
+            1,
+            6
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 723,
+      "confidence": 0.7617392537370572,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 36444198,
+          "sentence_ids": [
+            9,
+            10
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 727,
+      "confidence": 0.7258262597704312,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 36444198,
+          "sentence_ids": [
+            9,
+            10
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 728,
+      "confidence": 0.6895475177487863,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 5531479,
+          "sentence_ids": [
+            1,
+            6
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 729,
+      "confidence": 0.7515217986088476,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 5884524,
+          "sentence_ids": [
+            5,
+            6
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 742,
+      "confidence": 0.6866730511150987,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 5884524,
+          "sentence_ids": [
+            5,
+            6
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 743,
+      "confidence": 0.6600908568149244,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [],
+      "claim_id": 744,
+      "confidence": 0.49163812487537656,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 756,
+      "confidence": 0.5483735004288094,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 10617916,
+          "sentence_ids": [
+            12
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 759,
+      "confidence": 0.6710186271550802,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 768,
+      "confidence": 0.6536977674601541,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 15476777,
+          "sentence_ids": [
+            14,
+            16
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 770,
+      "confidence": 0.7368912748983039,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [],
+      "claim_id": 775,
+      "confidence": 0.7302655437471254,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 8246922,
+          "sentence_ids": [
+            7,
+            11
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 781,
+      "confidence": 0.8348880619925501,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 8246922,
+          "sentence_ids": [
+            7,
+            11
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 783,
+      "confidence": 0.8223597777359164,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 784,
+      "confidence": 0.5573928710039135,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 785,
+      "confidence": 0.511383313978771,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 793,
+      "confidence": 0.40693603087344105,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 800,
+      "confidence": 0.6094480350373102,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 22180793,
+          "sentence_ids": [
+            3,
+            5
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 805,
+      "confidence": 0.6501823562604309,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 808,
+      "confidence": 0.3865604447786517,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 19799455,
+          "sentence_ids": [
+            4,
+            6
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 811,
+      "confidence": 0.7664670137926479,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 814,
+      "confidence": 0.6819279375396693,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 820,
+      "confidence": 0.640103733393649,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 821,
+      "confidence": 0.6497328336443572,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 15319019,
+          "sentence_ids": [
+            13,
+            15
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 823,
+      "confidence": 0.6587633432985794,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 830,
+      "confidence": 0.5105505989170609,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 831,
+      "confidence": 0.513308132768478,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 19205437,
+          "sentence_ids": [
+            1,
+            3
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 832,
+      "confidence": 0.7158396672409684,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 834,
+      "confidence": 0.5336262495850594,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 1780819,
+          "sentence_ids": [
+            10
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 837,
+      "confidence": 0.6763449773625687,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 13923069,
+          "sentence_ids": [
+            4
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 839,
+      "confidence": 0.6904645060775916,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 845,
+      "confidence": 0.5865161805115392,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 7552215,
+          "sentence_ids": [
+            10,
+            12
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 847,
+      "confidence": 0.7912813905459989,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 34208005,
+          "sentence_ids": [
+            14,
+            17
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 852,
+      "confidence": 0.7675036672204718,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 1982286,
+          "sentence_ids": [
+            3
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 859,
+      "confidence": 0.6964219972016482,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 1831916,
+          "sentence_ids": [
+            8,
+            9
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 870,
+      "confidence": 0.7477010420375395,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 12658073,
+          "sentence_ids": [
+            8
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 873,
+      "confidence": 0.661675893141963,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 879,
+      "confidence": 0.5944844320695177,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 880,
+      "confidence": 0.470046070209197,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 12709184,
+          "sentence_ids": [
+            10,
+            13
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 882,
+      "confidence": 0.6796176730252954,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 33872649,
+          "sentence_ids": [
+            6
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 887,
+      "confidence": 0.7696961262271859,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 13905670,
+          "sentence_ids": [
+            3,
+            4
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 903,
+      "confidence": 0.8446466288572488,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 5700349,
+          "sentence_ids": [
+            3,
+            4
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 904,
+      "confidence": 0.698961874289211,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 907,
+      "confidence": 0.7247774075004825,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 11254556,
+          "sentence_ids": [
+            3,
+            5
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 911,
+      "confidence": 0.7120707419704349,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [],
+      "claim_id": 913,
+      "confidence": 0.5748720621287317,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 4319174,
+          "sentence_ids": [
+            5,
+            6
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 914,
+      "confidence": 0.6549683167237843,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 921,
+      "confidence": 0.45114151468215313,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 17077004,
+          "sentence_ids": [
+            7,
+            9
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 922,
+      "confidence": 0.6560196107033336,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 936,
+      "confidence": 0.43346536922187723,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 956,
+      "confidence": 0.5143054307002143,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 957,
+      "confidence": 0.5603940104320433,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 5698494,
+          "sentence_ids": [
+            8,
+            11
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 960,
+      "confidence": 0.8175199768422524,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [],
+      "claim_id": 967,
+      "confidence": 0.6986300826684947,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 46695481,
+          "sentence_ids": [
+            0,
+            9
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 971,
+      "confidence": 0.7660991238476359,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [],
+      "claim_id": 975,
+      "confidence": 0.49897567820266686,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 982,
+      "confidence": 0.6037569125199233,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 34071621,
+          "sentence_ids": [
+            3,
+            4
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 985,
+      "confidence": 0.7672857037635128,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 16472469,
+          "sentence_ids": [
+            5
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 993,
+      "confidence": 0.7490624033652149,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 9745001,
+          "sentence_ids": [
+            6,
+            12
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1012,
+      "confidence": 0.7624783955608718,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [],
+      "claim_id": 1014,
+      "confidence": 0.6030308312299609,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 1019,
+      "confidence": 0.42903169286059556,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 1020,
+      "confidence": 0.6992469342171299,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 1021,
+      "confidence": 0.6834806266320808,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 1982286,
+          "sentence_ids": [
+            3
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1024,
+      "confidence": 0.6704102023146734,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 13940200,
+          "sentence_ids": [
+            2,
+            3
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1029,
+      "confidence": 0.8256088035408008,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 1041,
+      "confidence": 0.686596745374277,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 1071991,
+          "sentence_ids": [
+            1,
+            2
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1049,
+      "confidence": 0.7684773214717031,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 1062,
+      "confidence": 0.7151793863561933,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 39281140,
+          "sentence_ids": [
+            7,
+            9
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1086,
+      "confidence": 0.7587243031762345,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [],
+      "claim_id": 1088,
+      "confidence": 0.4959720280966095,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 17628888,
+          "sentence_ids": [
+            7
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1089,
+      "confidence": 0.7069344737787231,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 27466734,
+          "sentence_ids": [
+            7
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1099,
+      "confidence": 0.76691794409262,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 22420524,
+          "sentence_ids": [
+            11,
+            13
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1100,
+      "confidence": 0.693247130771639,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 5884524,
+          "sentence_ids": [
+            5,
+            6
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1104,
+      "confidence": 0.8586949323676024,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 4319174,
+          "sentence_ids": [
+            5,
+            6
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1107,
+      "confidence": 0.6634970354202687,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 2032877,
+          "sentence_ids": [
+            8
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1110,
+      "confidence": 0.6688340186011119,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [],
+      "claim_id": 1121,
+      "confidence": 0.5636962266757543,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 1130,
+      "confidence": 0.4090702004728535,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 24069089,
+          "sentence_ids": [
+            2,
+            5
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1132,
+      "confidence": 0.6646469998394808,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 1137,
+      "confidence": 0.5154322911992893,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 12009265,
+          "sentence_ids": [
+            9,
+            14
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1140,
+      "confidence": 0.6564406817023566,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 32534305,
+          "sentence_ids": [
+            5,
+            8
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1144,
+      "confidence": 0.7131415904289872,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [],
+      "claim_id": 1146,
+      "confidence": 0.4862697462647441,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 1150,
+      "confidence": 0.4832866891667292,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 10071552,
+          "sentence_ids": [
+            4,
+            8
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1163,
+      "confidence": 0.7008146990209294,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 1175,
+      "confidence": 0.7513870647268941,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 1179,
+      "confidence": 0.7551878817261151,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 1180,
+      "confidence": 0.7249809808245934,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 16737210,
+          "sentence_ids": [
+            10
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1185,
+      "confidence": 0.6877110417866736,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [],
+      "claim_id": 1187,
+      "confidence": 0.693512352656998,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 1191,
+      "confidence": 0.6956542589131048,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 1194,
+      "confidence": 0.576045548150249,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 1196,
+      "confidence": 0.6416288919631331,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 1197,
+      "confidence": 0.6589368516804524,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 1199,
+      "confidence": 0.42039693913246434,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 1200,
+      "confidence": 0.6665898227151298,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 3475317,
+          "sentence_ids": [
+            5,
+            7
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1202,
+      "confidence": 0.7521764312220701,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 1204,
+      "confidence": 0.56853435759797,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 1207,
+      "confidence": 0.7267274484652416,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 1213,
+      "confidence": 0.7751199873462676,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 1216,
+      "confidence": 0.46132102731567565,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 1221,
+      "confidence": 0.5481429736260488,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 1225,
+      "confidence": 0.3801871806416805,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 12440953,
+          "sentence_ids": [
+            1
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1226,
+      "confidence": 0.7278368580239992,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 13905670,
+          "sentence_ids": [
+            3,
+            4
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1232,
+      "confidence": 0.8072357909209079,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 1241,
+      "confidence": 0.5566980534032434,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 7662395,
+          "sentence_ids": [
+            10
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1245,
+      "confidence": 0.6601471001495831,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 24341590,
+          "sentence_ids": [
+            11,
+            12
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1259,
+      "confidence": 0.7723055448898165,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [],
+      "claim_id": 1262,
+      "confidence": 0.5006779019247188,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 16322674,
+          "sentence_ids": [
+            5,
+            6
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1266,
+      "confidence": 0.8342185790743283,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 52072815,
+          "sentence_ids": [
+            8,
+            11
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1270,
+      "confidence": 0.7307458673514332,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 1271,
+      "confidence": 0.48753456687621394,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 1272,
+      "confidence": 0.5651575426721567,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 1273,
+      "confidence": 0.45474823614584947,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 1274,
+      "confidence": 0.699370151826895,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 1278,
+      "confidence": 0.43074338985729665,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 1279,
+      "confidence": 0.4571201506177688,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 1280,
+      "confidence": 0.5507961627537159,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 1281,
+      "confidence": 0.5483875482151226,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 21009874,
+          "sentence_ids": [
+            12,
+            15
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1282,
+      "confidence": 0.6867339721580064,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 4687948,
+          "sentence_ids": [
+            7,
+            10
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1290,
+      "confidence": 0.8463173081936989,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 3355397,
+          "sentence_ids": [
+            12,
+            16
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1292,
+      "confidence": 0.7492204203043752,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 8190282,
+          "sentence_ids": [
+            8,
+            9
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1298,
+      "confidence": 0.6594403908913263,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [],
+      "claim_id": 1303,
+      "confidence": 0.6053323732033703,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 1316,
+      "confidence": 0.4205074497712714,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 16284655,
+          "sentence_ids": [
+            2
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1319,
+      "confidence": 0.7027735427307333,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 16284655,
+          "sentence_ids": [
+            2
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1320,
+      "confidence": 0.6647971076713088,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 39264456,
+          "sentence_ids": [
+            8,
+            9
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1332,
+      "confidence": 0.7467237057326314,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 4468861,
+          "sentence_ids": [
+            4
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1335,
+      "confidence": 0.7011149578215568,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 4468861,
+          "sentence_ids": [
+            4
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1336,
+      "confidence": 0.7100462129229783,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 1337,
+      "confidence": 0.7655969891146267,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 15482274,
+          "sentence_ids": [
+            9,
+            10
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1339,
+      "confidence": 0.8244953804204995,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 1344,
+      "confidence": 0.6565418433813025,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 1352,
+      "confidence": 0.5919507669428666,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 11614737,
+          "sentence_ids": [
+            8,
+            9
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1359,
+      "confidence": 0.6588955581060735,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [],
+      "claim_id": 1362,
+      "confidence": 0.5956247416888006,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 1363,
+      "confidence": 0.5123040731165749,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [],
+      "claim_id": 1368,
+      "confidence": 0.43310666361410893,
+      "verdict": "NO_EVIDENCE"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 17450673,
+          "sentence_ids": [
+            5
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1370,
+      "confidence": 0.8502264022576491,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 17450673,
+          "sentence_ids": [
+            5
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1379,
+      "confidence": 0.8723373107825355,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 4423401,
+          "sentence_ids": [
+            1
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1382,
+      "confidence": 0.6830234052816013,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 306006,
+          "sentence_ids": [
+            4
+          ],
+          "stance": "CONTRADICT"
+        }
+      ],
+      "claim_id": 1385,
+      "confidence": 0.7708388342893776,
+      "verdict": "CONTRADICT"
+    },
+    {
+      "citations": [
+        {
+          "doc_id": 5612738,
+          "sentence_ids": [
+            4
+          ],
+          "stance": "SUPPORT"
+        }
+      ],
+      "claim_id": 1389,
+      "confidence": 0.7499574784407484,
+      "verdict": "SUPPORT"
+    },
+    {
+      "citations": [],
+      "claim_id": 1395,
+      "confidence": 0.7466023250066065,
+      "verdict": "NO_EVIDENCE"
+    }
+  ],
+  "selected_policy": {
+    "assertion_threshold": 0.65,
+    "max_sentences_per_citation": 2,
+    "sentence_threshold": 0.6
+  },
+  "summary": {
+    "assertive_decision_count": 145,
+    "citation_correctness": {
+      "f1": 0.008281573498964804,
+      "precision": 0.013793103448275862,
+      "recall": 0.005917159763313609
+    },
+    "claim_classification": {
+      "accuracy": 0.45666666666666667,
+      "confusion_matrix": {
+        "CONTRADICT": {
+          "CONTRADICT": 17,
+          "NO_EVIDENCE": 17,
+          "SUPPORT": 30
+        },
+        "NO_EVIDENCE": {
+          "CONTRADICT": 9,
+          "NO_EVIDENCE": 87,
+          "SUPPORT": 16
+        },
+        "SUPPORT": {
+          "CONTRADICT": 40,
+          "NO_EVIDENCE": 51,
+          "SUPPORT": 33
+        }
+      },
+      "macro_f1": 0.41278233583541607,
+      "per_label": {
+        "CONTRADICT": {
+          "f1": 0.26153846153846155,
+          "precision": 0.25757575757575757,
+          "recall": 0.265625,
+          "support": 64
+        },
+        "NO_EVIDENCE": {
+          "f1": 0.651685393258427,
+          "precision": 0.5612903225806452,
+          "recall": 0.7767857142857143,
+          "support": 112
+        },
+        "SUPPORT": {
+          "f1": 0.3251231527093596,
+          "precision": 0.4177215189873418,
+          "recall": 0.2661290322580645,
+          "support": 124
+        }
+      }
+    },
+    "claim_count": 300,
+    "coverage": 0.48333333333333334,
+    "evidence_sentence": {
+      "f1": 0.042833607907742995,
+      "precision": 0.05394190871369295,
+      "recall": 0.03551912568306011
+    },
+    "faithful_assertive_decision_count": 10,
+    "faithfulness": 0.06896551724137931,
+    "unsupported_assertion_rate": 0.9310344827586207,
+    "unsupported_assertive_decision_count": 135
+  },
+  "trace_artifact": {
+    "path": "artifacts/final_evaluation_dev_trace.json",
+    "schema_version": "evidence_agent_final_evaluation_runtime_trace_v1",
+    "sha256": "3a86c9fd96d99fe64c4c4e2b0fbdd5a2155ab02b8515cfd59d859e1cf821b5ae",
+    "trace_count": 300
+  }
+}

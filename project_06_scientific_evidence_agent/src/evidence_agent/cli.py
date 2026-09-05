@@ -36,6 +36,7 @@ from evidence_agent.data.scifact import (
     validate_scifact_dataset,
     write_validation_report,
 )
+from evidence_agent.evaluation.final import run_evaluate_command
 from evidence_agent.evaluation.retrieval import (
     evaluate_retrieval_predictions,
     retrieve_claims,
@@ -90,9 +91,7 @@ from evidence_agent.verification.scifact import (
 )
 
 
-UNIMPLEMENTED_COMMANDS = {
-    "evaluate": "Complete the relevant evaluation pipeline before running this command.",
-}
+UNIMPLEMENTED_COMMANDS: dict[str, str] = {}
 
 DEFAULT_CORPUS_PATH = Path("data/raw/scifact/data/corpus.jsonl")
 DEFAULT_DEV_CLAIMS_PATH = Path("data/raw/scifact/data/claims_dev.jsonl")
@@ -1133,6 +1132,13 @@ def main(argv: Sequence[str] | None = None) -> int:
                 sort_keys=True,
             )
         )
+        return 0
+
+    if args.command == "evaluate":
+        if args.config is None:
+            raise ValueError("--config is required for the evaluate command.")
+        summary = run_evaluate_command(Path(args.config))
+        print(json.dumps(summary, indent=2, sort_keys=True))
         return 0
 
     print(

@@ -405,6 +405,6 @@ def test_cli_calibrates_then_evaluates_a_frozen_citation_audit_policy(
     assert audit_trace_path.is_file()
 
 
-def test_future_command_fails_clearly_until_its_phase_is_implemented(capsys) -> None:
-    assert main(["evaluate"]) == 2
-    assert "not available yet" in capsys.readouterr().err
+def test_evaluate_command_requires_a_config_path() -> None:
+    with pytest.raises(ValueError, match="--config is required"):
+        main(["evaluate"])
