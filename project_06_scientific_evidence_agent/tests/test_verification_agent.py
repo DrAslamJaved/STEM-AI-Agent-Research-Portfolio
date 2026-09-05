@@ -53,3 +53,8 @@ def test_runtime_agent_emits_traceable_decisions_without_gold_fields(tmp_path) -
     assert not _contains_key(serialized, "evidence")
     assert not _contains_key(serialized, "cited_doc_ids")
     assert serialized["candidates"]
+
+    decision = traces[0].decision_dict()
+    assert set(decision) == {"claim_id", "verdict", "confidence", "citations"}
+    assert not _contains_key(decision, "evidence")
+    assert not _contains_key(decision, "cited_doc_ids")

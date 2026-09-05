@@ -49,9 +49,6 @@ in unsupported assertions and the coverage it sacrifices.
 & .\.venv\Scripts\python.exe -m evidence_agent evaluate-verifier
 ```
 
-The last command writes a compact `results/verification_dev.json` containing
+The last command writes `results/verification_dev.json`. It includes the local
 model metadata, exact runtime settings, controlled stance metrics, end-to-end
-metrics, and one auditable decision per claim. Its full candidate and sentence
-diagnostic trace is written locally to
-`artifacts/verification_dev_trace.json` (ignored by Git); the compact report
-records that trace's SHA-256 and schema metadata.
+metrics, per-claim decisions, candidate scores, and selected sentences.

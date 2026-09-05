@@ -187,3 +187,107 @@ def write_verification_scifact_dataset(root: Path) -> Path:
         ],
     )
     return root
+
+
+def write_citation_audit_scifact_dataset(root: Path) -> Path:
+    """Write a five-fold fixture whose supplied folds also contain dev IDs.
+
+    This deliberately mirrors the SciFact release property that requires the
+    calibration code to filter supplied folds to ordinary-training IDs.
+    """
+    root.mkdir(parents=True, exist_ok=True)
+    _write_jsonl(
+        root / "corpus.jsonl",
+        [
+            {
+                "doc_id": 10,
+                "title": "Inflammation study",
+                "abstract": [
+                    "Aspirin reduces inflammation in the study population.",
+                    "The study included adult participants.",
+                ],
+                "structured": False,
+            },
+            {
+                "doc_id": 11,
+                "title": "Contradiction study",
+                "abstract": [
+                    "Aspirin does not reduce inflammation in this experiment.",
+                    "The control group received placebo.",
+                ],
+                "structured": False,
+            },
+            {
+                "doc_id": 12,
+                "title": "Unrelated observation",
+                "abstract": [
+                    "Aspirin tablets were white.",
+                    "The laboratory measured tablet mass.",
+                ],
+                "structured": False,
+            },
+        ],
+    )
+
+    def record(claim_id: int, label: str) -> dict:
+        if label == "SUPPORT":
+            return {
+                "id": claim_id,
+                "claim": "Aspirin reduces inflammation.",
+                "evidence": {"10": [{"label": "SUPPORT", "sentences": [0]}]},
+                "cited_doc_ids": [10],
+            }
+        if label == "CONTRADICT":
+            return {
+                "id": claim_id,
+                "claim": "Aspirin reduces inflammation.",
+                "evidence": {"11": [{"label": "CONTRADICT", "sentences": [0]}]},
+                "cited_doc_ids": [11],
+            }
+        return {
+            "id": claim_id,
+            "claim": "Aspirin reduces inflammation.",
+            "evidence": {},
+            "cited_doc_ids": [12],
+        }
+
+    labels = (
+        "SUPPORT",
+        "CONTRADICT",
+        "NO_EVIDENCE",
+        "SUPPORT",
+        "CONTRADICT",
+        "NO_EVIDENCE",
+        "SUPPORT",
+        "CONTRADICT",
+        "NO_EVIDENCE",
+        "SUPPORT",
+    )
+    training_records = [record(claim_id, label) for claim_id, label in enumerate(labels, start=1)]
+    _write_jsonl(root / "claims_train.jsonl", training_records)
+    ordinary_development_record = record(100, "SUPPORT")
+    _write_jsonl(root / "claims_dev.jsonl", [ordinary_development_record])
+    _write_jsonl(root / "claims_test.jsonl", [record(101, "NO_EVIDENCE")])
+
+    cross_validation = root / "cross_validation"
+    for fold_number, validation_ids in enumerate(
+        ((1, 2), (3, 4), (5, 6), (7, 8), (9, 10)), start=1
+    ):
+        fold = cross_validation / f"fold_{fold_number}"
+        fold.mkdir(parents=True)
+        _write_jsonl(
+            fold / f"claims_dev_{fold_number}.jsonl",
+            [
+                *(training_records[claim_id - 1] for claim_id in validation_ids),
+                ordinary_development_record,
+            ],
+        )
+        _write_jsonl(
+            fold / f"claims_train_{fold_number}.jsonl",
+            [
+                record_item
+                for record_item in training_records
+                if record_item["id"] not in validation_ids
+            ],
+        )
+    return root

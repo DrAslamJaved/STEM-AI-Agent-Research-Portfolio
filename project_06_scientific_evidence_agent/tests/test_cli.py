@@ -9,14 +9,18 @@ import pytest
 
 from evidence_agent.cli import main
 from evidence_agent.data.acquisition import AcquisitionManifest
-from tests.helpers import write_minimal_scifact_dataset, write_verification_scifact_dataset
+from tests.helpers import (
+    write_citation_audit_scifact_dataset,
+    write_minimal_scifact_dataset,
+    write_verification_scifact_dataset,
+)
 
 
 def test_contract_command_prints_machine_readable_project_contract(capsys) -> None:
     assert main(["contract"]) == 0
 
     payload = json.loads(capsys.readouterr().out)
-    assert payload["current_phase"] == "evidence_selection_and_stance_verification"
+    assert payload["current_phase"] == "cross_validated_citation_audit_policy_selection"
     assert payload["runtime_gold_fields_forbidden"] == ["evidence", "cited_doc_ids"]
 
 
@@ -287,6 +291,118 @@ def test_verifier_rejects_a_trace_path_that_would_overwrite_the_report(tmp_path:
                 str(shared_path),
             ]
         )
+
+
+def test_cli_calibrates_then_evaluates_a_frozen_citation_audit_policy(
+    tmp_path: Path, capsys
+) -> None:
+    dataset = write_citation_audit_scifact_dataset(tmp_path / "scifact")
+    index_path = tmp_path / "artifacts" / "bm25.json"
+    model_path = tmp_path / "artifacts" / "verifier.joblib"
+    calibration_path = tmp_path / "results" / "calibration.json"
+    audit_report_path = tmp_path / "results" / "audit.json"
+    audit_trace_path = tmp_path / "artifacts" / "audit_trace.json"
+
+    assert (
+        main(
+            [
+                "build-index",
+                "--corpus-path",
+                str(dataset / "corpus.jsonl"),
+                "--index-path",
+                str(index_path),
+            ]
+        )
+        == 0
+    )
+    capsys.readouterr()
+    assert (
+        main(
+            [
+                "calibrate-citation-audit",
+                "--corpus-path",
+                str(dataset / "corpus.jsonl"),
+                "--train-claims-path",
+                str(dataset / "claims_train.jsonl"),
+                "--development-claims-path",
+                str(dataset / "claims_dev.jsonl"),
+                "--cross-validation-dir",
+                str(dataset / "cross_validation"),
+                "--index-path",
+                str(index_path),
+                "--artifact-dir",
+                str(tmp_path / "artifacts" / "audit_cv"),
+                "--report-path",
+                str(calibration_path),
+                "--assertion-thresholds",
+                "0",
+                "--sentence-thresholds",
+                "0",
+                "--max-sentences-per-citation",
+                "1",
+                "--minimum-coverage",
+                "0",
+                "--max-features",
+                "100",
+                "--retrieval-k",
+                "2",
+            ]
+        )
+        == 0
+    )
+    calibration_payload = json.loads(capsys.readouterr().out)
+    assert calibration_payload["policy_grid_count"] == 1
+
+    assert (
+        main(
+            [
+                "train-verifier",
+                "--corpus-path",
+                str(dataset / "corpus.jsonl"),
+                "--train-claims-path",
+                str(dataset / "claims_train.jsonl"),
+                "--model-path",
+                str(model_path),
+                "--max-features",
+                "100",
+            ]
+        )
+        == 0
+    )
+    capsys.readouterr()
+    assert (
+        main(
+            [
+                "evaluate-citation-audit",
+                "--corpus-path",
+                str(dataset / "corpus.jsonl"),
+                "--claims-path",
+                str(dataset / "claims_dev.jsonl"),
+                "--index-path",
+                str(index_path),
+                "--model-path",
+                str(model_path),
+                "--train-claims-path",
+                str(dataset / "claims_train.jsonl"),
+                "--calibration-report-path",
+                str(calibration_path),
+                "--report-path",
+                str(audit_report_path),
+                "--trace-path",
+                str(audit_trace_path),
+                "--retrieval-k",
+                "2",
+            ]
+        )
+        == 0
+    )
+    payload = json.loads(capsys.readouterr().out)
+    report = json.loads(audit_report_path.read_text(encoding="utf-8"))
+    assert payload["report_path"] == str(audit_report_path)
+    assert report["schema_version"] == "evidence_agent_citation_audit_evaluation_v1"
+    assert report["policy_selection"]["report_sha256"]
+    assert len(report["selected_decisions"]) == 1
+    assert audit_trace_path.is_file()
 
 
 def test_future_command_fails_clearly_until_its_phase_is_implemented(capsys) -> None:

@@ -9,7 +9,7 @@ evaluation loads annotations only after runtime decisions have frozen.
 from __future__ import annotations
 
 import json
-from collections.abc import Iterator, Mapping, Sequence
+from collections.abc import Collection, Iterator, Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -196,12 +196,31 @@ def _parse_claim(
     )
 
 
+def _normalise_claim_ids(claim_ids: Collection[int] | None) -> frozenset[int] | None:
+    if claim_ids is None:
+        return None
+    normalised: set[int] = set()
+    for claim_id in claim_ids:
+        normalised.add(_require_non_negative_int(claim_id, "claim_id", "claim_ids"))
+    if not normalised:
+        raise VerificationDataError("claim_ids must contain at least one claim ID.")
+    return frozenset(normalised)
+
+
 def _iter_parsed_claims(
-    claims_path: Path, corpus: Mapping[int, CorpusDocument]
+    claims_path: Path,
+    corpus: Mapping[int, CorpusDocument],
+    *,
+    claim_ids: Collection[int] | None = None,
 ) -> Iterator[_ParsedClaim]:
+    allowed_claim_ids = _normalise_claim_ids(claim_ids)
     seen_claim_ids: set[int] = set()
     for line_number, record in _iter_jsonl(claims_path):
-        parsed = _parse_claim(record, corpus, f"{claims_path}:{line_number}")
+        source = f"{claims_path}:{line_number}"
+        raw_claim_id = _require_non_negative_int(record.get("id"), "id", source)
+        if allowed_claim_ids is not None and raw_claim_id not in allowed_claim_ids:
+            continue
+        parsed = _parse_claim(record, corpus, source)
         if parsed.claim_id in seen_claim_ids:
             raise VerificationDataError(f"{claims_path}:{line_number}: duplicate claim ID.")
         seen_claim_ids.add(parsed.claim_id)
@@ -209,7 +228,10 @@ def _iter_parsed_claims(
 
 
 def load_verification_training_data(
-    train_claims_path: Path, corpus_path: Path
+    train_claims_path: Path,
+    corpus_path: Path,
+    *,
+    claim_ids: Collection[int] | None = None,
 ) -> VerificationTrainingData:
     """Create labelled examples strictly from the SciFact training split.
 
@@ -221,7 +243,11 @@ def load_verification_training_data(
     stance_examples: list[StanceTrainingExample] = []
     sentence_examples: list[SentenceTrainingExample] = []
     claim_count = 0
-    for parsed in _iter_parsed_claims(train_claims_path, corpus):
+    for parsed in _iter_parsed_claims(
+        train_claims_path,
+        corpus,
+        claim_ids=claim_ids,
+    ):
         claim_count += 1
         for doc_id in parsed.cited_doc_ids:
             document = corpus[doc_id]
@@ -320,12 +346,15 @@ def load_stance_benchmark(
 
 
 def load_gold_claim_annotations(
-    claims_path: Path, corpus_path: Path
+    claims_path: Path,
+    corpus_path: Path,
+    *,
+    claim_ids: Collection[int] | None = None,
 ) -> dict[int, GoldClaimAnnotation]:
     """Load evaluator-only claim labels and exact SciFact rationale sets."""
     corpus = load_scifact_corpus(corpus_path)
     annotations: dict[int, GoldClaimAnnotation] = {}
-    for parsed in _iter_parsed_claims(claims_path, corpus):
+    for parsed in _iter_parsed_claims(claims_path, corpus, claim_ids=claim_ids):
         citations = tuple(
             citation
             for doc_id in sorted(parsed.evidence_by_doc)

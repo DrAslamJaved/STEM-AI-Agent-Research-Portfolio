@@ -9,15 +9,17 @@ and stance-verification evaluation.
 
 ## Current phase
 
-Phase 05 adds a train-only lexical verification baseline: TF-IDF relation
-features and logistic regression classify document stance, while a separate
-sentence model selects citable evidence. BM25 remains the candidate retriever,
-because the Phase 04 hybrid did not outperform it. The verifier reports
-three-way stance macro-F1, claim-classification macro-F1, evidence F1,
-citation correctness, faithfulness, coverage, unsupported-assertion rate, and
-latency. The first lexical result is retained as a baseline rather than treated
-as a final scientific-verification system. Raw data and fitted model artifacts
-remain outside version control.
+Phase 06 adds a confidence-based citation audit selected by five-fold
+cross-validation. Because the supplied SciFact folds include ordinary
+development claims, the implementation retains only their assignments of
+`claims_train.jsonl` IDs; it excludes every ordinary development claim from
+selection. The frozen policy filters both assertion confidence and sentence
+evidence confidence before a citation is accepted. BM25 remains the candidate
+retriever because the Phase 04 hybrid did not outperform it. The audit is an
+honest trade-off study, not a superiority claim: it must report unsupported
+assertion rate together with coverage, faithfulness, citation correctness,
+evidence F1, macro-F1, and latency. Raw data, models, and complete traces remain
+outside version control.
 
 ## Non-negotiable evaluation rule
 
@@ -40,6 +42,8 @@ python -m venv .venv
 & .\.venv\Scripts\python.exe -m evidence_agent evaluate-hybrid-retrieval
 & .\.venv\Scripts\python.exe -m evidence_agent train-verifier
 & .\.venv\Scripts\python.exe -m evidence_agent evaluate-verifier
+& .\.venv\Scripts\python.exe -m evidence_agent calibrate-citation-audit
+& .\.venv\Scripts\python.exe -m evidence_agent evaluate-citation-audit
 & .\.venv\Scripts\python.exe -m evidence_agent contract
 ```
 
@@ -73,4 +77,9 @@ only on `claims_train.jsonl`; `evaluate-verifier` freezes BM25-driven runtime
 decisions into an ignored full diagnostic trace before reading development
 evidence labels for offline scoring. Its committed result file remains compact:
 one auditable verdict and citation record per claim plus the full trace's local
-path and SHA-256. General `evaluate` remains unavailable until later phases.
+path and SHA-256. `calibrate-citation-audit` derives five validation partitions
+from only the supplied fold assignments that belong to `claims_train.jsonl`,
+then freezes one coverage-constrained policy. `evaluate-citation-audit` applies
+that frozen policy to the untouched ordinary development split and compares it
+with the fixed Phase 05 policy. General `evaluate` remains unavailable until
+later phases.

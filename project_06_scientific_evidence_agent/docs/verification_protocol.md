@@ -34,8 +34,7 @@ best assertion and evidence probabilities is at least 0.45. Otherwise it emits
 
 ## Evaluation boundary
 
-The complete runtime trace freezes to an ignored local artifact first. Only
-then does the evaluator load:
+The runtime trace freezes first. Only then does the evaluator load:
 
 - cited-document pairs for controlled stance macro-F1;
 - complete SciFact rationale sets for strict citation correctness and
@@ -48,14 +47,3 @@ its claim stance is wrong or none of its selected citation sentences overlaps a
 gold sentence with matching stance. This deliberately prevents an unsupported
 citation from being treated as a correct answer merely because the claim label
 happens to match.
-
-## Report retention
-
-`results/verification_dev.json` is deliberately compact and suitable for Git:
-it retains the fixed settings, model and corpus provenance, metrics, and one
-claim-level audit decision (verdict, confidence, and citations) per development
-claim. The full candidate-level and sentence-level diagnostic trace is written
-to `artifacts/verification_dev_trace.json`, which is ignored by Git. The compact
-report records the local trace path, SHA-256, schema version, and trace count so
-the detailed trace can be verified when it is available without committing an
-unnecessarily large generated file.

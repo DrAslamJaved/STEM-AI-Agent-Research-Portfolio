@@ -19,6 +19,16 @@
 | Coverage | Proportion of claims receiving an assertive verdict rather than abstention. |
 | Cost and latency | Per-claim wall-clock time, retrieved documents, candidate sentences, model calls, and hardware details. |
 
+## Policy-selection rule
+
+An abstention or citation threshold may be selected only from training-derived
+cross-validation partitions. If supplied folds contain ordinary-development
+claims, their assignments must be filtered to the ordinary training IDs before
+selection. Final development labels must be read only after the candidate trace
+and the selected-policy decisions are frozen. Any claimed reduction in
+unsupported assertions must be reported alongside the corresponding coverage
+change.
+
 ## Acceptance conditions
 
 The final report will not make a superiority claim from a single favourable

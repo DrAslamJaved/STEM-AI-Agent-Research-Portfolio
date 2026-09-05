@@ -69,16 +69,33 @@ The Phase 05 report distinguishes: (1) controlled three-way stance macro-F1 on
 cited-document pairs; (2) end-to-end claim macro-F1 after BM25 retrieval;
 (3) sentence evidence F1; (4) strict citation correctness; and (5) faithfulness,
 coverage, unsupported-assertion rate, and latency. It is not a superiority
-claim against direct RAG. The next phase will select an abstention/citation
-audit policy using the provided five-fold splits before a new frozen
-development comparison.
+claim against direct RAG.
+
+## Phase 06 citation-audit calibration
+
+Inspection of the release shows that the supplied five folds partition the
+union of the ordinary training and ordinary development claims. Using their
+`claims_train_i.jsonl` files would therefore let ordinary development evidence
+influence threshold selection. Phase 06 corrects this: each supplied
+`claims_dev_i` assignment is intersected with `claims_train.jsonl`, and the
+complement within `claims_train.jsonl` is used as that fold's training data.
+Every ordinary development claim is excluded from policy selection.
+
+The audited policy has three fixed parameters: assertion threshold, sentence
+threshold, and maximum sentences per citation. Fold models first write all
+gold-free candidate traces. The evaluator then scores the fixed grid and
+selects the policy with the lowest pooled unsupported-assertion rate subject to
+at least 20% coverage; deterministic tie-breakers favour higher coverage,
+faithfulness, and citation F1. Only after selection is the chosen policy applied
+to an ordinary-training model's frozen development trace.
 
 ## Data-split policy
 
-Use the provided five-fold splits for model and threshold selection. Freeze the
-configuration before one final development-set evaluation. The hidden test set
-may be used only for final prediction generation or a leaderboard submission,
-never for local metric selection.
+Use the supplied five-fold **assignments**, filtered to the ordinary training
+split, for model and threshold selection. Freeze the configuration before one
+final ordinary-development evaluation. The hidden test set may be used only for
+final prediction generation or a leaderboard submission, never for local metric
+selection.
 
 ## Leakage policy
 

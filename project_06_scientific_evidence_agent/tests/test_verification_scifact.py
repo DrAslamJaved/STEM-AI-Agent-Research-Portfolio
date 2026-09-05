@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import json
+
 from evidence_agent.data.schemas import Verdict
 from evidence_agent.verification.scifact import (
     load_gold_claim_annotations,
@@ -56,3 +58,28 @@ def test_gold_claim_annotations_preserve_complete_rationales(tmp_path) -> None:
     assert annotations[5].verdict is Verdict.CONTRADICT
     assert annotations[6].verdict is Verdict.NO_EVIDENCE
     assert annotations[6].citations == ()
+
+
+def test_claim_id_filter_skips_excluded_gold_records_before_they_are_parsed(tmp_path) -> None:
+    dataset = write_verification_scifact_dataset(tmp_path / "scifact")
+    training_path = dataset / "claims_train.jsonl"
+    records = [json.loads(line) for line in training_path.read_text(encoding="utf-8").splitlines()]
+    records[2]["evidence"] = "not a valid evidence object"
+    training_path.write_text(
+        "".join(json.dumps(record) + "\n" for record in records),
+        encoding="utf-8",
+    )
+
+    training = load_verification_training_data(
+        training_path,
+        dataset / "corpus.jsonl",
+        claim_ids={1, 2},
+    )
+    annotations = load_gold_claim_annotations(
+        dataset / "claims_dev.jsonl",
+        dataset / "corpus.jsonl",
+        claim_ids={4},
+    )
+
+    assert training.claim_count == 2
+    assert set(annotations) == {4}

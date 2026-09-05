@@ -23,8 +23,7 @@ work must improve.
 1. Unit and CLI tests for the train-only data adapter, artifact round-trip,
    runtime trace, stance macro-F1, evidence F1, citation correctness,
    faithfulness, and unsupported-assertion rate.
-2. A locally trained ignored model artifact, an ignored full diagnostic trace,
-   and a compact committed development report.
+2. A locally trained ignored model artifact and a committed development report.
 3. Passing tests, coverage, compilation, and whitespace validation.
 
 ## Reference outcome
@@ -38,8 +37,3 @@ This is retained as an honest baseline. It identifies the next research task:
 select an abstention and citation-audit policy on the supplied five-fold splits
 and compare it with a direct-RAG baseline without concealing the coverage
 trade-off.
-
-The committed report retains one citation decision per claim; the complete
-candidate and sentence trace remains an ignored local artifact with its
-checksum recorded in that report. This prevents generated diagnostics from
-inflating repository history while keeping the run auditable.

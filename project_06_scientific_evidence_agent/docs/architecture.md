@@ -58,3 +58,22 @@ ignored local artifact before the evaluator reads development `evidence` or
 record and the trace checksum. This makes the controlled cited-document stance
 benchmark and the end-to-end evidence audit separate, auditable measurements
 without committing a large generated trace.
+
+## Phase 06 cross-validated citation audit
+
+The supplied SciFact cross-validation files partition the union of ordinary
+training and ordinary development claims. Therefore Phase 06 does **not** train
+on `claims_train_i.jsonl` directly. It takes each supplied `claims_dev_i` ID
+assignment, retains only IDs already in `claims_train.jsonl`, and trains on the
+complement within that same ordinary training split. This preserves
+`claims_dev.jsonl` for one final evaluation.
+
+Each fold freezes a complete BM25/verifier candidate trace with zero thresholds
+before any fold labels are loaded for policy scoring. A policy specifies the
+minimum assertion confidence, minimum sentence-evidence confidence, and a
+maximum number of citation sentences. The selected policy minimizes pooled
+out-of-fold unsupported-assertion rate subject to at least 20% assertion
+coverage. It is then applied, without re-selection, to a final model trained on
+the full ordinary training split and to the untouched ordinary development
+claims. Both the selected and Phase 05 policies are applied to the same frozen
+development trace for a fair coverage-aware comparison.
