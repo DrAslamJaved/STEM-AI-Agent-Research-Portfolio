@@ -1,0 +1,1491 @@
+{
+  "cross_validation": {
+    "development_claims_excluded_from_selection": true,
+    "fold_assignment_rule": "supplied_fold_dev_ids_intersected_with_main_training_ids",
+    "fold_count": 5,
+    "source_directory": "data\\raw\\scifact\\data\\cross_validation"
+  },
+  "data": {
+    "corpus_sha256": "b8d6c89624cb2ed74dee8938effc4f5d8bd2086887880af8110d64be4ceade62",
+    "main_training_claims": {
+      "path": "data\\raw\\scifact\\data\\claims_train.jsonl",
+      "sha256": "f4c8fa82d8bd0653a9cc8d61a6ea48c25eacea64e90af5dbf390ebb1b74372f0"
+    },
+    "ordinary_development_claims": {
+      "path": "data\\raw\\scifact\\data\\claims_dev.jsonl",
+      "sha256": "86f0435d08fdb65d1aa41d1472684f57e6e71930626497bdf4d7a9ec1a632217"
+    }
+  },
+  "folds": [
+    {
+      "fold_development_path": "data\\raw\\scifact\\data\\cross_validation\\fold_1\\claims_dev_1.jsonl",
+      "fold_development_sha256": "e30aaab11fbc94580514c83fe3778b76cac0b1b981f3fe941d7b4a33005e5653",
+      "fold_number": 1,
+      "model": {
+        "algorithm": "tfidf_relation_features_logistic_regression_stance_and_sentence_selector",
+        "corpus_sha256": "b8d6c89624cb2ed74dee8938effc4f5d8bd2086887880af8110d64be4ceade62",
+        "format": "evidence_agent_lexical_relation_verifier_v2",
+        "max_features": 40000,
+        "path": "artifacts\\citation_audit_cv\\fold_1_verifier.joblib",
+        "random_seed": 20260904,
+        "scikit_learn_version": "1.9.0",
+        "sentence_example_count": 6797,
+        "sentence_vocabulary_size": 40000,
+        "stance_label_counts": {
+          "CONTRADICT": 159,
+          "NO_EVIDENCE": 277,
+          "SUPPORT": 303
+        },
+        "stance_vocabulary_size": 40000,
+        "training_claims_sha256": "f0aebcdd4178dafe71c01af19faff6220504e980afcf3ed7e5e07b00065bf043"
+      },
+      "ordinary_development_claim_count_excluded": 60,
+      "trace_artifact": {
+        "path": "artifacts\\citation_audit_cv\\fold_1_runtime_trace.json",
+        "schema_version": "evidence_agent_citation_audit_runtime_trace_v1",
+        "sha256": "869b1b689273a95991dd1f04cb35a2908712d616b3a23735acf63b51c7f12fce",
+        "trace_count": 162
+      },
+      "training_claim_count": 647,
+      "validation_claim_count": 162
+    },
+    {
+      "fold_development_path": "data\\raw\\scifact\\data\\cross_validation\\fold_2\\claims_dev_2.jsonl",
+      "fold_development_sha256": "1db8e51cfa04f680ce6d256096ffe336ee74f1640f836e4d2bc0c711fb312f03",
+      "fold_number": 2,
+      "model": {
+        "algorithm": "tfidf_relation_features_logistic_regression_stance_and_sentence_selector",
+        "corpus_sha256": "b8d6c89624cb2ed74dee8938effc4f5d8bd2086887880af8110d64be4ceade62",
+        "format": "evidence_agent_lexical_relation_verifier_v2",
+        "max_features": 40000,
+        "path": "artifacts\\citation_audit_cv\\fold_2_verifier.joblib",
+        "random_seed": 20260904,
+        "scikit_learn_version": "1.9.0",
+        "sentence_example_count": 6667,
+        "sentence_vocabulary_size": 40000,
+        "stance_label_counts": {
+          "CONTRADICT": 156,
+          "NO_EVIDENCE": 291,
+          "SUPPORT": 286
+        },
+        "stance_vocabulary_size": 40000,
+        "training_claims_sha256": "92e329e6b53622d4c365361f408fb0f78c5cc77f13666406bf2b31a4d93a0bd6"
+      },
+      "ordinary_development_claim_count_excluded": 58,
+      "trace_artifact": {
+        "path": "artifacts\\citation_audit_cv\\fold_2_runtime_trace.json",
+        "schema_version": "evidence_agent_citation_audit_runtime_trace_v1",
+        "sha256": "224e9e31137a2c4382f23062800a740610bef7652638cb858cbe0ff9934d5779",
+        "trace_count": 164
+      },
+      "training_claim_count": 645,
+      "validation_claim_count": 164
+    },
+    {
+      "fold_development_path": "data\\raw\\scifact\\data\\cross_validation\\fold_3\\claims_dev_3.jsonl",
+      "fold_development_sha256": "25f3b19510216350db45cfd469a7d8c6131f948c7ce70976f01d6126682ee745",
+      "fold_number": 3,
+      "model": {
+        "algorithm": "tfidf_relation_features_logistic_regression_stance_and_sentence_selector",
+        "corpus_sha256": "b8d6c89624cb2ed74dee8938effc4f5d8bd2086887880af8110d64be4ceade62",
+        "format": "evidence_agent_lexical_relation_verifier_v2",
+        "max_features": 40000,
+        "path": "artifacts\\citation_audit_cv\\fold_3_verifier.joblib",
+        "random_seed": 20260904,
+        "scikit_learn_version": "1.9.0",
+        "sentence_example_count": 6844,
+        "sentence_vocabulary_size": 40000,
+        "stance_label_counts": {
+          "CONTRADICT": 155,
+          "NO_EVIDENCE": 284,
+          "SUPPORT": 302
+        },
+        "stance_vocabulary_size": 40000,
+        "training_claims_sha256": "cb50ef5e9f2018585dc54c0f5f7a5ea836f1a5b8033b2b6ae33a44523bea491d"
+      },
+      "ordinary_development_claim_count_excluded": 68,
+      "trace_artifact": {
+        "path": "artifacts\\citation_audit_cv\\fold_3_runtime_trace.json",
+        "schema_version": "evidence_agent_citation_audit_runtime_trace_v1",
+        "sha256": "e134841286c7bd08334ea3d2a65eb9a6bd256ea943c17dbe67f52ee9d2685882",
+        "trace_count": 154
+      },
+      "training_claim_count": 655,
+      "validation_claim_count": 154
+    },
+    {
+      "fold_development_path": "data\\raw\\scifact\\data\\cross_validation\\fold_4\\claims_dev_4.jsonl",
+      "fold_development_sha256": "f6c91c02854739b476b145160c47beb9a123607da58b33b7ea240e0d51209142",
+      "fold_number": 4,
+      "model": {
+        "algorithm": "tfidf_relation_features_logistic_regression_stance_and_sentence_selector",
+        "corpus_sha256": "b8d6c89624cb2ed74dee8938effc4f5d8bd2086887880af8110d64be4ceade62",
+        "format": "evidence_agent_lexical_relation_verifier_v2",
+        "max_features": 40000,
+        "path": "artifacts\\citation_audit_cv\\fold_4_verifier.joblib",
+        "random_seed": 20260904,
+        "scikit_learn_version": "1.9.0",
+        "sentence_example_count": 6698,
+        "sentence_vocabulary_size": 40000,
+        "stance_label_counts": {
+          "CONTRADICT": 148,
+          "NO_EVIDENCE": 286,
+          "SUPPORT": 295
+        },
+        "stance_vocabulary_size": 40000,
+        "training_claims_sha256": "29492b9ba48d0b61067dd12a0849b3d3e21f968b21ec509e59bf38abab9f5493"
+      },
+      "ordinary_development_claim_count_excluded": 55,
+      "trace_artifact": {
+        "path": "artifacts\\citation_audit_cv\\fold_4_runtime_trace.json",
+        "schema_version": "evidence_agent_citation_audit_runtime_trace_v1",
+        "sha256": "b9dfaf64f89fedc616217f17db26fcd26b89881eb55f2fc20ce2331150d8e9ec",
+        "trace_count": 167
+      },
+      "training_claim_count": 642,
+      "validation_claim_count": 167
+    },
+    {
+      "fold_development_path": "data\\raw\\scifact\\data\\cross_validation\\fold_5\\claims_dev_5.jsonl",
+      "fold_development_sha256": "a210668e95a02d8b2b67f2592db517476e22d6175309e5d643f2bf01eed5c97b",
+      "fold_number": 5,
+      "model": {
+        "algorithm": "tfidf_relation_features_logistic_regression_stance_and_sentence_selector",
+        "corpus_sha256": "b8d6c89624cb2ed74dee8938effc4f5d8bd2086887880af8110d64be4ceade62",
+        "format": "evidence_agent_lexical_relation_verifier_v2",
+        "max_features": 40000,
+        "path": "artifacts\\citation_audit_cv\\fold_5_verifier.joblib",
+        "random_seed": 20260904,
+        "scikit_learn_version": "1.9.0",
+        "sentence_example_count": 6698,
+        "sentence_vocabulary_size": 40000,
+        "stance_label_counts": {
+          "CONTRADICT": 158,
+          "NO_EVIDENCE": 282,
+          "SUPPORT": 294
+        },
+        "stance_vocabulary_size": 40000,
+        "training_claims_sha256": "cf16a7c5592e96bd1d9cf3660884a35aa3cd5653f7d36f846063ccce1dda5ea2"
+      },
+      "ordinary_development_claim_count_excluded": 59,
+      "trace_artifact": {
+        "path": "artifacts\\citation_audit_cv\\fold_5_runtime_trace.json",
+        "schema_version": "evidence_agent_citation_audit_runtime_trace_v1",
+        "sha256": "85ca8cf68a2a723ae9f46eec6550d54c7f6abcdd2acb828ca011ce8337c4bc31",
+        "trace_count": 162
+      },
+      "training_claim_count": 647,
+      "validation_claim_count": 162
+    }
+  ],
+  "index": {
+    "document_count": 5183,
+    "parameters": {
+      "b": 0.75,
+      "k1": 1.2
+    },
+    "vocabulary_size": 35954
+  },
+  "policy_grid": [
+    {
+      "assertion_threshold": 0.45,
+      "max_sentences_per_citation": 1,
+      "sentence_threshold": 0.5
+    },
+    {
+      "assertion_threshold": 0.45,
+      "max_sentences_per_citation": 2,
+      "sentence_threshold": 0.5
+    },
+    {
+      "assertion_threshold": 0.45,
+      "max_sentences_per_citation": 1,
+      "sentence_threshold": 0.6
+    },
+    {
+      "assertion_threshold": 0.45,
+      "max_sentences_per_citation": 2,
+      "sentence_threshold": 0.6
+    },
+    {
+      "assertion_threshold": 0.45,
+      "max_sentences_per_citation": 1,
+      "sentence_threshold": 0.7
+    },
+    {
+      "assertion_threshold": 0.45,
+      "max_sentences_per_citation": 2,
+      "sentence_threshold": 0.7
+    },
+    {
+      "assertion_threshold": 0.45,
+      "max_sentences_per_citation": 1,
+      "sentence_threshold": 0.8
+    },
+    {
+      "assertion_threshold": 0.45,
+      "max_sentences_per_citation": 2,
+      "sentence_threshold": 0.8
+    },
+    {
+      "assertion_threshold": 0.45,
+      "max_sentences_per_citation": 1,
+      "sentence_threshold": 0.9
+    },
+    {
+      "assertion_threshold": 0.45,
+      "max_sentences_per_citation": 2,
+      "sentence_threshold": 0.9
+    },
+    {
+      "assertion_threshold": 0.55,
+      "max_sentences_per_citation": 1,
+      "sentence_threshold": 0.5
+    },
+    {
+      "assertion_threshold": 0.55,
+      "max_sentences_per_citation": 2,
+      "sentence_threshold": 0.5
+    },
+    {
+      "assertion_threshold": 0.55,
+      "max_sentences_per_citation": 1,
+      "sentence_threshold": 0.6
+    },
+    {
+      "assertion_threshold": 0.55,
+      "max_sentences_per_citation": 2,
+      "sentence_threshold": 0.6
+    },
+    {
+      "assertion_threshold": 0.55,
+      "max_sentences_per_citation": 1,
+      "sentence_threshold": 0.7
+    },
+    {
+      "assertion_threshold": 0.55,
+      "max_sentences_per_citation": 2,
+      "sentence_threshold": 0.7
+    },
+    {
+      "assertion_threshold": 0.55,
+      "max_sentences_per_citation": 1,
+      "sentence_threshold": 0.8
+    },
+    {
+      "assertion_threshold": 0.55,
+      "max_sentences_per_citation": 2,
+      "sentence_threshold": 0.8
+    },
+    {
+      "assertion_threshold": 0.55,
+      "max_sentences_per_citation": 1,
+      "sentence_threshold": 0.9
+    },
+    {
+      "assertion_threshold": 0.55,
+      "max_sentences_per_citation": 2,
+      "sentence_threshold": 0.9
+    },
+    {
+      "assertion_threshold": 0.65,
+      "max_sentences_per_citation": 1,
+      "sentence_threshold": 0.5
+    },
+    {
+      "assertion_threshold": 0.65,
+      "max_sentences_per_citation": 2,
+      "sentence_threshold": 0.5
+    },
+    {
+      "assertion_threshold": 0.65,
+      "max_sentences_per_citation": 1,
+      "sentence_threshold": 0.6
+    },
+    {
+      "assertion_threshold": 0.65,
+      "max_sentences_per_citation": 2,
+      "sentence_threshold": 0.6
+    },
+    {
+      "assertion_threshold": 0.65,
+      "max_sentences_per_citation": 1,
+      "sentence_threshold": 0.7
+    },
+    {
+      "assertion_threshold": 0.65,
+      "max_sentences_per_citation": 2,
+      "sentence_threshold": 0.7
+    },
+    {
+      "assertion_threshold": 0.65,
+      "max_sentences_per_citation": 1,
+      "sentence_threshold": 0.8
+    },
+    {
+      "assertion_threshold": 0.65,
+      "max_sentences_per_citation": 2,
+      "sentence_threshold": 0.8
+    },
+    {
+      "assertion_threshold": 0.65,
+      "max_sentences_per_citation": 1,
+      "sentence_threshold": 0.9
+    },
+    {
+      "assertion_threshold": 0.65,
+      "max_sentences_per_citation": 2,
+      "sentence_threshold": 0.9
+    },
+    {
+      "assertion_threshold": 0.75,
+      "max_sentences_per_citation": 1,
+      "sentence_threshold": 0.5
+    },
+    {
+      "assertion_threshold": 0.75,
+      "max_sentences_per_citation": 2,
+      "sentence_threshold": 0.5
+    },
+    {
+      "assertion_threshold": 0.75,
+      "max_sentences_per_citation": 1,
+      "sentence_threshold": 0.6
+    },
+    {
+      "assertion_threshold": 0.75,
+      "max_sentences_per_citation": 2,
+      "sentence_threshold": 0.6
+    },
+    {
+      "assertion_threshold": 0.75,
+      "max_sentences_per_citation": 1,
+      "sentence_threshold": 0.7
+    },
+    {
+      "assertion_threshold": 0.75,
+      "max_sentences_per_citation": 2,
+      "sentence_threshold": 0.7
+    },
+    {
+      "assertion_threshold": 0.75,
+      "max_sentences_per_citation": 1,
+      "sentence_threshold": 0.8
+    },
+    {
+      "assertion_threshold": 0.75,
+      "max_sentences_per_citation": 2,
+      "sentence_threshold": 0.8
+    },
+    {
+      "assertion_threshold": 0.75,
+      "max_sentences_per_citation": 1,
+      "sentence_threshold": 0.9
+    },
+    {
+      "assertion_threshold": 0.75,
+      "max_sentences_per_citation": 2,
+      "sentence_threshold": 0.9
+    },
+    {
+      "assertion_threshold": 0.85,
+      "max_sentences_per_citation": 1,
+      "sentence_threshold": 0.5
+    },
+    {
+      "assertion_threshold": 0.85,
+      "max_sentences_per_citation": 2,
+      "sentence_threshold": 0.5
+    },
+    {
+      "assertion_threshold": 0.85,
+      "max_sentences_per_citation": 1,
+      "sentence_threshold": 0.6
+    },
+    {
+      "assertion_threshold": 0.85,
+      "max_sentences_per_citation": 2,
+      "sentence_threshold": 0.6
+    },
+    {
+      "assertion_threshold": 0.85,
+      "max_sentences_per_citation": 1,
+      "sentence_threshold": 0.7
+    },
+    {
+      "assertion_threshold": 0.85,
+      "max_sentences_per_citation": 2,
+      "sentence_threshold": 0.7
+    },
+    {
+      "assertion_threshold": 0.85,
+      "max_sentences_per_citation": 1,
+      "sentence_threshold": 0.8
+    },
+    {
+      "assertion_threshold": 0.85,
+      "max_sentences_per_citation": 2,
+      "sentence_threshold": 0.8
+    },
+    {
+      "assertion_threshold": 0.85,
+      "max_sentences_per_citation": 1,
+      "sentence_threshold": 0.9
+    },
+    {
+      "assertion_threshold": 0.85,
+      "max_sentences_per_citation": 2,
+      "sentence_threshold": 0.9
+    },
+    {
+      "assertion_threshold": 0.95,
+      "max_sentences_per_citation": 1,
+      "sentence_threshold": 0.5
+    },
+    {
+      "assertion_threshold": 0.95,
+      "max_sentences_per_citation": 2,
+      "sentence_threshold": 0.5
+    },
+    {
+      "assertion_threshold": 0.95,
+      "max_sentences_per_citation": 1,
+      "sentence_threshold": 0.6
+    },
+    {
+      "assertion_threshold": 0.95,
+      "max_sentences_per_citation": 2,
+      "sentence_threshold": 0.6
+    },
+    {
+      "assertion_threshold": 0.95,
+      "max_sentences_per_citation": 1,
+      "sentence_threshold": 0.7
+    },
+    {
+      "assertion_threshold": 0.95,
+      "max_sentences_per_citation": 2,
+      "sentence_threshold": 0.7
+    },
+    {
+      "assertion_threshold": 0.95,
+      "max_sentences_per_citation": 1,
+      "sentence_threshold": 0.8
+    },
+    {
+      "assertion_threshold": 0.95,
+      "max_sentences_per_citation": 2,
+      "sentence_threshold": 0.8
+    },
+    {
+      "assertion_threshold": 0.95,
+      "max_sentences_per_citation": 1,
+      "sentence_threshold": 0.9
+    },
+    {
+      "assertion_threshold": 0.95,
+      "max_sentences_per_citation": 2,
+      "sentence_threshold": 0.9
+    }
+  ],
+  "policy_scores": [
+    {
+      "metrics": {
+        "assertive_decision_count": 686,
+        "citation_correctness_f1": 0.038953134510042606,
+        "claim_macro_f1": 0.3963144702710351,
+        "coverage": 0.8479604449938195,
+        "evidence_sentence_f1": 0.042080654587960266,
+        "faithfulness": 0.052478134110787174,
+        "unsupported_assertion_rate": 0.9475218658892128
+      },
+      "policy": {
+        "assertion_threshold": 0.45,
+        "max_sentences_per_citation": 1,
+        "sentence_threshold": 0.5
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 686,
+        "citation_correctness_f1": 0.014607425441265977,
+        "claim_macro_f1": 0.3963144702710351,
+        "coverage": 0.8479604449938195,
+        "evidence_sentence_f1": 0.05466540999057493,
+        "faithfulness": 0.06559766763848396,
+        "unsupported_assertion_rate": 0.934402332361516
+      },
+      "policy": {
+        "assertion_threshold": 0.45,
+        "max_sentences_per_citation": 2,
+        "sentence_threshold": 0.5
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 630,
+        "citation_correctness_f1": 0.036546943919344675,
+        "claim_macro_f1": 0.42006066421452365,
+        "coverage": 0.7787391841779975,
+        "evidence_sentence_f1": 0.03867069486404834,
+        "faithfulness": 0.050793650793650794,
+        "unsupported_assertion_rate": 0.9492063492063492
+      },
+      "policy": {
+        "assertion_threshold": 0.45,
+        "max_sentences_per_citation": 1,
+        "sentence_threshold": 0.6
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 630,
+        "citation_correctness_f1": 0.01512287334593573,
+        "claim_macro_f1": 0.42006066421452365,
+        "coverage": 0.7787391841779975,
+        "evidence_sentence_f1": 0.05306122448979592,
+        "faithfulness": 0.06349206349206349,
+        "unsupported_assertion_rate": 0.9365079365079365
+      },
+      "policy": {
+        "assertion_threshold": 0.45,
+        "max_sentences_per_citation": 2,
+        "sentence_threshold": 0.6
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 483,
+        "citation_correctness_f1": 0.033333333333333326,
+        "claim_macro_f1": 0.4378840206753398,
+        "coverage": 0.5970333745364648,
+        "evidence_sentence_f1": 0.03448275862068966,
+        "faithfulness": 0.053830227743271224,
+        "unsupported_assertion_rate": 0.9461697722567288
+      },
+      "policy": {
+        "assertion_threshold": 0.45,
+        "max_sentences_per_citation": 1,
+        "sentence_threshold": 0.7
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 483,
+        "citation_correctness_f1": 0.013888888888888888,
+        "claim_macro_f1": 0.4378840206753398,
+        "coverage": 0.5970333745364648,
+        "evidence_sentence_f1": 0.048065650644783124,
+        "faithfulness": 0.06625258799171843,
+        "unsupported_assertion_rate": 0.9337474120082816
+      },
+      "policy": {
+        "assertion_threshold": 0.45,
+        "max_sentences_per_citation": 2,
+        "sentence_threshold": 0.7
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 311,
+        "citation_correctness_f1": 0.028391167192429026,
+        "claim_macro_f1": 0.3923724774115958,
+        "coverage": 0.38442521631644005,
+        "evidence_sentence_f1": 0.02844311377245509,
+        "faithfulness": 0.06109324758842444,
+        "unsupported_assertion_rate": 0.9389067524115756
+      },
+      "policy": {
+        "assertion_threshold": 0.45,
+        "max_sentences_per_citation": 1,
+        "sentence_threshold": 0.8
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 311,
+        "citation_correctness_f1": 0.01892744479495268,
+        "claim_macro_f1": 0.3923724774115958,
+        "coverage": 0.38442521631644005,
+        "evidence_sentence_f1": 0.03494060097833683,
+        "faithfulness": 0.06752411575562701,
+        "unsupported_assertion_rate": 0.932475884244373
+      },
+      "policy": {
+        "assertion_threshold": 0.45,
+        "max_sentences_per_citation": 2,
+        "sentence_threshold": 0.8
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 90,
+        "citation_correctness_f1": 0.0171919770773639,
+        "claim_macro_f1": 0.26456170669350687,
+        "coverage": 0.11124845488257108,
+        "evidence_sentence_f1": 0.016143497757847534,
+        "faithfulness": 0.1,
+        "unsupported_assertion_rate": 0.9
+      },
+      "policy": {
+        "assertion_threshold": 0.45,
+        "max_sentences_per_citation": 1,
+        "sentence_threshold": 0.9
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 90,
+        "citation_correctness_f1": 0.013371537726838587,
+        "claim_macro_f1": 0.26456170669350687,
+        "coverage": 0.11124845488257108,
+        "evidence_sentence_f1": 0.01959038290293856,
+        "faithfulness": 0.1,
+        "unsupported_assertion_rate": 0.9
+      },
+      "policy": {
+        "assertion_threshold": 0.45,
+        "max_sentences_per_citation": 2,
+        "sentence_threshold": 0.9
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 558,
+        "citation_correctness_f1": 0.0396039603960396,
+        "claim_macro_f1": 0.4444579261395118,
+        "coverage": 0.6897404202719407,
+        "evidence_sentence_f1": 0.042956411876184465,
+        "faithfulness": 0.06093189964157706,
+        "unsupported_assertion_rate": 0.9390681003584229
+      },
+      "policy": {
+        "assertion_threshold": 0.55,
+        "max_sentences_per_citation": 1,
+        "sentence_threshold": 0.5
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 558,
+        "citation_correctness_f1": 0.014521452145214522,
+        "claim_macro_f1": 0.4444579261395118,
+        "coverage": 0.6897404202719407,
+        "evidence_sentence_f1": 0.056008146639511196,
+        "faithfulness": 0.07706093189964158,
+        "unsupported_assertion_rate": 0.9229390681003584
+      },
+      "policy": {
+        "assertion_threshold": 0.55,
+        "max_sentences_per_citation": 2,
+        "sentence_threshold": 0.5
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 539,
+        "citation_correctness_f1": 0.036096256684491984,
+        "claim_macro_f1": 0.442361905163038,
+        "coverage": 0.6662546353522868,
+        "evidence_sentence_f1": 0.03836317135549872,
+        "faithfulness": 0.055658627087198514,
+        "unsupported_assertion_rate": 0.9443413729128015
+      },
+      "policy": {
+        "assertion_threshold": 0.55,
+        "max_sentences_per_citation": 1,
+        "sentence_threshold": 0.6
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 539,
+        "citation_correctness_f1": 0.014705882352941178,
+        "claim_macro_f1": 0.442361905163038,
+        "coverage": 0.6662546353522868,
+        "evidence_sentence_f1": 0.052603327965646804,
+        "faithfulness": 0.07050092764378478,
+        "unsupported_assertion_rate": 0.9294990723562152
+      },
+      "policy": {
+        "assertion_threshold": 0.55,
+        "max_sentences_per_citation": 2,
+        "sentence_threshold": 0.6
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 455,
+        "citation_correctness_f1": 0.032577903682719546,
+        "claim_macro_f1": 0.4326988173443709,
+        "coverage": 0.5624227441285538,
+        "evidence_sentence_f1": 0.033783783783783786,
+        "faithfulness": 0.054945054945054944,
+        "unsupported_assertion_rate": 0.945054945054945
+      },
+      "policy": {
+        "assertion_threshold": 0.55,
+        "max_sentences_per_citation": 1,
+        "sentence_threshold": 0.7
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 455,
+        "citation_correctness_f1": 0.01274787535410765,
+        "claim_macro_f1": 0.4326988173443709,
+        "coverage": 0.5624227441285538,
+        "evidence_sentence_f1": 0.0477326968973747,
+        "faithfulness": 0.06813186813186813,
+        "unsupported_assertion_rate": 0.9318681318681319
+      },
+      "policy": {
+        "assertion_threshold": 0.55,
+        "max_sentences_per_citation": 2,
+        "sentence_threshold": 0.7
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 309,
+        "citation_correctness_f1": 0.02843601895734597,
+        "claim_macro_f1": 0.39167792808919094,
+        "coverage": 0.3819530284301607,
+        "evidence_sentence_f1": 0.028485757121439283,
+        "faithfulness": 0.061488673139158574,
+        "unsupported_assertion_rate": 0.9385113268608414
+      },
+      "policy": {
+        "assertion_threshold": 0.55,
+        "max_sentences_per_citation": 1,
+        "sentence_threshold": 0.8
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 309,
+        "citation_correctness_f1": 0.018957345971563982,
+        "claim_macro_f1": 0.39167792808919094,
+        "coverage": 0.3819530284301607,
+        "evidence_sentence_f1": 0.03498950314905529,
+        "faithfulness": 0.06796116504854369,
+        "unsupported_assertion_rate": 0.9320388349514563
+      },
+      "policy": {
+        "assertion_threshold": 0.55,
+        "max_sentences_per_citation": 2,
+        "sentence_threshold": 0.8
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 90,
+        "citation_correctness_f1": 0.0171919770773639,
+        "claim_macro_f1": 0.26456170669350687,
+        "coverage": 0.11124845488257108,
+        "evidence_sentence_f1": 0.016143497757847534,
+        "faithfulness": 0.1,
+        "unsupported_assertion_rate": 0.9
+      },
+      "policy": {
+        "assertion_threshold": 0.55,
+        "max_sentences_per_citation": 1,
+        "sentence_threshold": 0.9
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 90,
+        "citation_correctness_f1": 0.013371537726838587,
+        "claim_macro_f1": 0.26456170669350687,
+        "coverage": 0.11124845488257108,
+        "evidence_sentence_f1": 0.01959038290293856,
+        "faithfulness": 0.1,
+        "unsupported_assertion_rate": 0.9
+      },
+      "policy": {
+        "assertion_threshold": 0.55,
+        "max_sentences_per_citation": 2,
+        "sentence_threshold": 0.9
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 323,
+        "citation_correctness_f1": 0.032812499999999994,
+        "claim_macro_f1": 0.38136198165988344,
+        "coverage": 0.3992583436341162,
+        "evidence_sentence_f1": 0.032640949554896145,
+        "faithfulness": 0.06811145510835913,
+        "unsupported_assertion_rate": 0.9318885448916409
+      },
+      "policy": {
+        "assertion_threshold": 0.65,
+        "max_sentences_per_citation": 1,
+        "sentence_threshold": 0.5
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 323,
+        "citation_correctness_f1": 0.009375,
+        "claim_macro_f1": 0.38136198165988344,
+        "coverage": 0.3992583436341162,
+        "evidence_sentence_f1": 0.04613466334164588,
+        "faithfulness": 0.08978328173374613,
+        "unsupported_assertion_rate": 0.9102167182662538
+      },
+      "policy": {
+        "assertion_threshold": 0.65,
+        "max_sentences_per_citation": 2,
+        "sentence_threshold": 0.5
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 323,
+        "citation_correctness_f1": 0.032812499999999994,
+        "claim_macro_f1": 0.38136198165988344,
+        "coverage": 0.3992583436341162,
+        "evidence_sentence_f1": 0.032640949554896145,
+        "faithfulness": 0.06811145510835913,
+        "unsupported_assertion_rate": 0.9318885448916409
+      },
+      "policy": {
+        "assertion_threshold": 0.65,
+        "max_sentences_per_citation": 1,
+        "sentence_threshold": 0.6
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 323,
+        "citation_correctness_f1": 0.0109375,
+        "claim_macro_f1": 0.38136198165988344,
+        "coverage": 0.3992583436341162,
+        "evidence_sentence_f1": 0.047103755569700825,
+        "faithfulness": 0.08978328173374613,
+        "unsupported_assertion_rate": 0.9102167182662538
+      },
+      "policy": {
+        "assertion_threshold": 0.65,
+        "max_sentences_per_citation": 2,
+        "sentence_threshold": 0.6
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 302,
+        "citation_correctness_f1": 0.030182684670373317,
+        "claim_macro_f1": 0.371431454313885,
+        "coverage": 0.37330037082818296,
+        "evidence_sentence_f1": 0.030143180105501127,
+        "faithfulness": 0.06622516556291391,
+        "unsupported_assertion_rate": 0.9337748344370861
+      },
+      "policy": {
+        "assertion_threshold": 0.65,
+        "max_sentences_per_citation": 1,
+        "sentence_threshold": 0.7
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 302,
+        "citation_correctness_f1": 0.011119936457505957,
+        "claim_macro_f1": 0.371431454313885,
+        "coverage": 0.37330037082818296,
+        "evidence_sentence_f1": 0.04438466711499664,
+        "faithfulness": 0.08609271523178808,
+        "unsupported_assertion_rate": 0.9139072847682119
+      },
+      "policy": {
+        "assertion_threshold": 0.65,
+        "max_sentences_per_citation": 2,
+        "sentence_threshold": 0.7
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 229,
+        "citation_correctness_f1": 0.0269814502529511,
+        "claim_macro_f1": 0.34822653627207706,
+        "coverage": 0.2830655129789864,
+        "evidence_sentence_f1": 0.02551834130781499,
+        "faithfulness": 0.06986899563318777,
+        "unsupported_assertion_rate": 0.9301310043668122
+      },
+      "policy": {
+        "assertion_threshold": 0.65,
+        "max_sentences_per_citation": 1,
+        "sentence_threshold": 0.8
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 229,
+        "citation_correctness_f1": 0.016863406408094438,
+        "claim_macro_f1": 0.34822653627207706,
+        "coverage": 0.2830655129789864,
+        "evidence_sentence_f1": 0.03286034353995519,
+        "faithfulness": 0.07860262008733625,
+        "unsupported_assertion_rate": 0.9213973799126638
+      },
+      "policy": {
+        "assertion_threshold": 0.65,
+        "max_sentences_per_citation": 2,
+        "sentence_threshold": 0.8
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 78,
+        "citation_correctness_f1": 0.015458937198067634,
+        "claim_macro_f1": 0.25114827581315513,
+        "coverage": 0.09641532756489493,
+        "evidence_sentence_f1": 0.014505893019038985,
+        "faithfulness": 0.10256410256410256,
+        "unsupported_assertion_rate": 0.8974358974358975
+      },
+      "policy": {
+        "assertion_threshold": 0.65,
+        "max_sentences_per_citation": 1,
+        "sentence_threshold": 0.9
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 78,
+        "citation_correctness_f1": 0.011594202898550723,
+        "claim_macro_f1": 0.25114827581315513,
+        "coverage": 0.09641532756489493,
+        "evidence_sentence_f1": 0.018001800180018006,
+        "faithfulness": 0.10256410256410256,
+        "unsupported_assertion_rate": 0.8974358974358975
+      },
+      "policy": {
+        "assertion_threshold": 0.65,
+        "max_sentences_per_citation": 2,
+        "sentence_threshold": 0.9
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 120,
+        "citation_correctness_f1": 0.012999071494893223,
+        "claim_macro_f1": 0.26182982023077933,
+        "coverage": 0.14833127317676142,
+        "evidence_sentence_f1": 0.012227074235807859,
+        "faithfulness": 0.058333333333333334,
+        "unsupported_assertion_rate": 0.9416666666666667
+      },
+      "policy": {
+        "assertion_threshold": 0.75,
+        "max_sentences_per_citation": 1,
+        "sentence_threshold": 0.5
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 120,
+        "citation_correctness_f1": 0.005571030640668524,
+        "claim_macro_f1": 0.26182982023077933,
+        "coverage": 0.14833127317676142,
+        "evidence_sentence_f1": 0.019230769230769232,
+        "faithfulness": 0.08333333333333333,
+        "unsupported_assertion_rate": 0.9166666666666666
+      },
+      "policy": {
+        "assertion_threshold": 0.75,
+        "max_sentences_per_citation": 2,
+        "sentence_threshold": 0.5
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 120,
+        "citation_correctness_f1": 0.012999071494893223,
+        "claim_macro_f1": 0.26182982023077933,
+        "coverage": 0.14833127317676142,
+        "evidence_sentence_f1": 0.012227074235807859,
+        "faithfulness": 0.058333333333333334,
+        "unsupported_assertion_rate": 0.9416666666666667
+      },
+      "policy": {
+        "assertion_threshold": 0.75,
+        "max_sentences_per_citation": 1,
+        "sentence_threshold": 0.6
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 120,
+        "citation_correctness_f1": 0.005571030640668524,
+        "claim_macro_f1": 0.26182982023077933,
+        "coverage": 0.14833127317676142,
+        "evidence_sentence_f1": 0.01937046004842615,
+        "faithfulness": 0.08333333333333333,
+        "unsupported_assertion_rate": 0.9166666666666666
+      },
+      "policy": {
+        "assertion_threshold": 0.75,
+        "max_sentences_per_citation": 2,
+        "sentence_threshold": 0.6
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 120,
+        "citation_correctness_f1": 0.012999071494893223,
+        "claim_macro_f1": 0.26182982023077933,
+        "coverage": 0.14833127317676142,
+        "evidence_sentence_f1": 0.012227074235807859,
+        "faithfulness": 0.058333333333333334,
+        "unsupported_assertion_rate": 0.9416666666666667
+      },
+      "policy": {
+        "assertion_threshold": 0.75,
+        "max_sentences_per_citation": 1,
+        "sentence_threshold": 0.7
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 120,
+        "citation_correctness_f1": 0.005571030640668524,
+        "claim_macro_f1": 0.26182982023077933,
+        "coverage": 0.14833127317676142,
+        "evidence_sentence_f1": 0.017959183673469388,
+        "faithfulness": 0.075,
+        "unsupported_assertion_rate": 0.925
+      },
+      "policy": {
+        "assertion_threshold": 0.75,
+        "max_sentences_per_citation": 2,
+        "sentence_threshold": 0.7
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 111,
+        "citation_correctness_f1": 0.011235955056179777,
+        "claim_macro_f1": 0.256525931572299,
+        "coverage": 0.13720642768850433,
+        "evidence_sentence_f1": 0.01056338028169014,
+        "faithfulness": 0.05405405405405406,
+        "unsupported_assertion_rate": 0.9459459459459459
+      },
+      "policy": {
+        "assertion_threshold": 0.75,
+        "max_sentences_per_citation": 1,
+        "sentence_threshold": 0.8
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 111,
+        "citation_correctness_f1": 0.007490636704119852,
+        "claim_macro_f1": 0.256525931572299,
+        "coverage": 0.13720642768850433,
+        "evidence_sentence_f1": 0.013490725126475547,
+        "faithfulness": 0.06306306306306306,
+        "unsupported_assertion_rate": 0.9369369369369369
+      },
+      "policy": {
+        "assertion_threshold": 0.75,
+        "max_sentences_per_citation": 2,
+        "sentence_threshold": 0.8
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 41,
+        "citation_correctness_f1": 0.0060120240480961915,
+        "claim_macro_f1": 0.21297303314729074,
+        "coverage": 0.05067985166872682,
+        "evidence_sentence_f1": 0.005628517823639774,
+        "faithfulness": 0.07317073170731707,
+        "unsupported_assertion_rate": 0.926829268292683
+      },
+      "policy": {
+        "assertion_threshold": 0.75,
+        "max_sentences_per_citation": 1,
+        "sentence_threshold": 0.9
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 41,
+        "citation_correctness_f1": 0.0060120240480961915,
+        "claim_macro_f1": 0.21297303314729074,
+        "coverage": 0.05067985166872682,
+        "evidence_sentence_f1": 0.005612722170252572,
+        "faithfulness": 0.07317073170731707,
+        "unsupported_assertion_rate": 0.926829268292683
+      },
+      "policy": {
+        "assertion_threshold": 0.75,
+        "max_sentences_per_citation": 2,
+        "sentence_threshold": 0.9
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 9,
+        "citation_correctness_f1": 0.002070393374741201,
+        "claim_macro_f1": 0.18693926846100758,
+        "coverage": 0.011124845488257108,
+        "evidence_sentence_f1": 0.0019342359767891683,
+        "faithfulness": 0.1111111111111111,
+        "unsupported_assertion_rate": 0.8888888888888888
+      },
+      "policy": {
+        "assertion_threshold": 0.85,
+        "max_sentences_per_citation": 1,
+        "sentence_threshold": 0.5
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 9,
+        "citation_correctness_f1": 0.002070393374741201,
+        "claim_macro_f1": 0.18693926846100758,
+        "coverage": 0.011124845488257108,
+        "evidence_sentence_f1": 0.0019193857965451055,
+        "faithfulness": 0.1111111111111111,
+        "unsupported_assertion_rate": 0.8888888888888888
+      },
+      "policy": {
+        "assertion_threshold": 0.85,
+        "max_sentences_per_citation": 2,
+        "sentence_threshold": 0.5
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 9,
+        "citation_correctness_f1": 0.002070393374741201,
+        "claim_macro_f1": 0.18693926846100758,
+        "coverage": 0.011124845488257108,
+        "evidence_sentence_f1": 0.0019342359767891683,
+        "faithfulness": 0.1111111111111111,
+        "unsupported_assertion_rate": 0.8888888888888888
+      },
+      "policy": {
+        "assertion_threshold": 0.85,
+        "max_sentences_per_citation": 1,
+        "sentence_threshold": 0.6
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 9,
+        "citation_correctness_f1": 0.002070393374741201,
+        "claim_macro_f1": 0.18693926846100758,
+        "coverage": 0.011124845488257108,
+        "evidence_sentence_f1": 0.0019193857965451055,
+        "faithfulness": 0.1111111111111111,
+        "unsupported_assertion_rate": 0.8888888888888888
+      },
+      "policy": {
+        "assertion_threshold": 0.85,
+        "max_sentences_per_citation": 2,
+        "sentence_threshold": 0.6
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 9,
+        "citation_correctness_f1": 0.002070393374741201,
+        "claim_macro_f1": 0.18693926846100758,
+        "coverage": 0.011124845488257108,
+        "evidence_sentence_f1": 0.0019342359767891683,
+        "faithfulness": 0.1111111111111111,
+        "unsupported_assertion_rate": 0.8888888888888888
+      },
+      "policy": {
+        "assertion_threshold": 0.85,
+        "max_sentences_per_citation": 1,
+        "sentence_threshold": 0.7
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 9,
+        "citation_correctness_f1": 0.002070393374741201,
+        "claim_macro_f1": 0.18693926846100758,
+        "coverage": 0.011124845488257108,
+        "evidence_sentence_f1": 0.0019212295869356388,
+        "faithfulness": 0.1111111111111111,
+        "unsupported_assertion_rate": 0.8888888888888888
+      },
+      "policy": {
+        "assertion_threshold": 0.85,
+        "max_sentences_per_citation": 2,
+        "sentence_threshold": 0.7
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 9,
+        "citation_correctness_f1": 0.002070393374741201,
+        "claim_macro_f1": 0.18693926846100758,
+        "coverage": 0.011124845488257108,
+        "evidence_sentence_f1": 0.0019342359767891683,
+        "faithfulness": 0.1111111111111111,
+        "unsupported_assertion_rate": 0.8888888888888888
+      },
+      "policy": {
+        "assertion_threshold": 0.85,
+        "max_sentences_per_citation": 1,
+        "sentence_threshold": 0.8
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 9,
+        "citation_correctness_f1": 0.002070393374741201,
+        "claim_macro_f1": 0.18693926846100758,
+        "coverage": 0.011124845488257108,
+        "evidence_sentence_f1": 0.0019249278152069298,
+        "faithfulness": 0.1111111111111111,
+        "unsupported_assertion_rate": 0.8888888888888888
+      },
+      "policy": {
+        "assertion_threshold": 0.85,
+        "max_sentences_per_citation": 2,
+        "sentence_threshold": 0.8
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 5,
+        "citation_correctness_f1": 0.0,
+        "claim_macro_f1": 0.1829121540312876,
+        "coverage": 0.006180469715698393,
+        "evidence_sentence_f1": 0.0,
+        "faithfulness": 0.0,
+        "unsupported_assertion_rate": 1.0
+      },
+      "policy": {
+        "assertion_threshold": 0.85,
+        "max_sentences_per_citation": 1,
+        "sentence_threshold": 0.9
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 5,
+        "citation_correctness_f1": 0.0,
+        "claim_macro_f1": 0.1829121540312876,
+        "coverage": 0.006180469715698393,
+        "evidence_sentence_f1": 0.0,
+        "faithfulness": 0.0,
+        "unsupported_assertion_rate": 1.0
+      },
+      "policy": {
+        "assertion_threshold": 0.85,
+        "max_sentences_per_citation": 2,
+        "sentence_threshold": 0.9
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 0,
+        "citation_correctness_f1": 0.0,
+        "claim_macro_f1": 0.18209044624138962,
+        "coverage": 0.0,
+        "evidence_sentence_f1": 0.0,
+        "faithfulness": 0.0,
+        "unsupported_assertion_rate": 0.0
+      },
+      "policy": {
+        "assertion_threshold": 0.95,
+        "max_sentences_per_citation": 1,
+        "sentence_threshold": 0.5
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 0,
+        "citation_correctness_f1": 0.0,
+        "claim_macro_f1": 0.18209044624138962,
+        "coverage": 0.0,
+        "evidence_sentence_f1": 0.0,
+        "faithfulness": 0.0,
+        "unsupported_assertion_rate": 0.0
+      },
+      "policy": {
+        "assertion_threshold": 0.95,
+        "max_sentences_per_citation": 2,
+        "sentence_threshold": 0.5
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 0,
+        "citation_correctness_f1": 0.0,
+        "claim_macro_f1": 0.18209044624138962,
+        "coverage": 0.0,
+        "evidence_sentence_f1": 0.0,
+        "faithfulness": 0.0,
+        "unsupported_assertion_rate": 0.0
+      },
+      "policy": {
+        "assertion_threshold": 0.95,
+        "max_sentences_per_citation": 1,
+        "sentence_threshold": 0.6
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 0,
+        "citation_correctness_f1": 0.0,
+        "claim_macro_f1": 0.18209044624138962,
+        "coverage": 0.0,
+        "evidence_sentence_f1": 0.0,
+        "faithfulness": 0.0,
+        "unsupported_assertion_rate": 0.0
+      },
+      "policy": {
+        "assertion_threshold": 0.95,
+        "max_sentences_per_citation": 2,
+        "sentence_threshold": 0.6
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 0,
+        "citation_correctness_f1": 0.0,
+        "claim_macro_f1": 0.18209044624138962,
+        "coverage": 0.0,
+        "evidence_sentence_f1": 0.0,
+        "faithfulness": 0.0,
+        "unsupported_assertion_rate": 0.0
+      },
+      "policy": {
+        "assertion_threshold": 0.95,
+        "max_sentences_per_citation": 1,
+        "sentence_threshold": 0.7
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 0,
+        "citation_correctness_f1": 0.0,
+        "claim_macro_f1": 0.18209044624138962,
+        "coverage": 0.0,
+        "evidence_sentence_f1": 0.0,
+        "faithfulness": 0.0,
+        "unsupported_assertion_rate": 0.0
+      },
+      "policy": {
+        "assertion_threshold": 0.95,
+        "max_sentences_per_citation": 2,
+        "sentence_threshold": 0.7
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 0,
+        "citation_correctness_f1": 0.0,
+        "claim_macro_f1": 0.18209044624138962,
+        "coverage": 0.0,
+        "evidence_sentence_f1": 0.0,
+        "faithfulness": 0.0,
+        "unsupported_assertion_rate": 0.0
+      },
+      "policy": {
+        "assertion_threshold": 0.95,
+        "max_sentences_per_citation": 1,
+        "sentence_threshold": 0.8
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 0,
+        "citation_correctness_f1": 0.0,
+        "claim_macro_f1": 0.18209044624138962,
+        "coverage": 0.0,
+        "evidence_sentence_f1": 0.0,
+        "faithfulness": 0.0,
+        "unsupported_assertion_rate": 0.0
+      },
+      "policy": {
+        "assertion_threshold": 0.95,
+        "max_sentences_per_citation": 2,
+        "sentence_threshold": 0.8
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 0,
+        "citation_correctness_f1": 0.0,
+        "claim_macro_f1": 0.18209044624138962,
+        "coverage": 0.0,
+        "evidence_sentence_f1": 0.0,
+        "faithfulness": 0.0,
+        "unsupported_assertion_rate": 0.0
+      },
+      "policy": {
+        "assertion_threshold": 0.95,
+        "max_sentences_per_citation": 1,
+        "sentence_threshold": 0.9
+      }
+    },
+    {
+      "metrics": {
+        "assertive_decision_count": 0,
+        "citation_correctness_f1": 0.0,
+        "claim_macro_f1": 0.18209044624138962,
+        "coverage": 0.0,
+        "evidence_sentence_f1": 0.0,
+        "faithfulness": 0.0,
+        "unsupported_assertion_rate": 0.0
+      },
+      "policy": {
+        "assertion_threshold": 0.95,
+        "max_sentences_per_citation": 2,
+        "sentence_threshold": 0.9
+      }
+    }
+  ],
+  "runtime_settings": {
+    "max_features": 40000,
+    "random_seed": 20260904,
+    "raw_trace_assertion_threshold": 0.0,
+    "raw_trace_sentence_threshold": 0.0,
+    "retrieval_k": 10
+  },
+  "schema_version": "evidence_agent_citation_audit_calibration_v1",
+  "selected_policy": {
+    "metrics": {
+      "assertive_decision_count": 323,
+      "citation_correctness_f1": 0.0109375,
+      "claim_macro_f1": 0.38136198165988344,
+      "coverage": 0.3992583436341162,
+      "evidence_sentence_f1": 0.047103755569700825,
+      "faithfulness": 0.08978328173374613,
+      "unsupported_assertion_rate": 0.9102167182662538
+    },
+    "policy": {
+      "assertion_threshold": 0.65,
+      "max_sentences_per_citation": 2,
+      "sentence_threshold": 0.6
+    }
+  },
+  "selection_objective": {
+    "constraint": {
+      "minimum_coverage": 0.2
+    },
+    "primary": "minimise_pooled_unsupported_assertion_rate",
+    "tie_breakers": [
+      "maximise_coverage",
+      "maximise_faithfulness",
+      "maximise_strict_citation_f1",
+      "prefer_higher_assertion_threshold",
+      "prefer_higher_sentence_threshold",
+      "prefer_fewer_sentences_per_citation"
+    ]
+  }
+}

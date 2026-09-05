@@ -1,0 +1,9 @@
+{
+  "acquired_at_utc": "2026-09-04T14:04:13.260946+00:00",
+  "archive_path": "data\\raw\\scifact\\scifact_data.tar.gz",
+  "archive_sha256": "11c621288d41ac144d29b13b0f8503b3820b7d6e8b1f6ff24dff335c196d76be",
+  "archive_size_bytes": 3115079,
+  "dataset_root": "G:\\Research\\STEM\\Micro1_STEM_Agent_Portfolio\\project_06_scientific_evidence_agent\\data\\raw\\scifact\\data",
+  "downloaded_this_run": true,
+  "source_url": "https://scifact.s3-us-west-2.amazonaws.com/release/latest/data.tar.gz"
+}
