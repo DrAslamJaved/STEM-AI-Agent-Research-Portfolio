@@ -522,4 +522,4 @@ Evidence files:
 | UNSW-NB15 experiment | Completed |
 | Agent reasoning evaluation | Completed; human reviewed |
 | Continuous integration | Completed; GitHub Actions validated |
-| Reproducibility audit and project closure | Completed on branch; merge pending |
+| Reproducibility audit and project closure | Completed; merged into main |

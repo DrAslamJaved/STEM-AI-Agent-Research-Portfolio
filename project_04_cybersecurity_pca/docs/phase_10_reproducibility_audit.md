@@ -2,8 +2,8 @@
 
 ## Status
 
-Audit completed on 30 August 2026. Project closure evidence is ready for
-pull-request review and merge. This audit does not alter the Phase 9
+Audit completed on 30 August 2026. Project 04 Phase 10 closure was merged
+into `main` on 30 August 2026. This audit does not alter the Phase 9
 non-deployment recommendation.
 
 ## Scope
@@ -45,6 +45,15 @@ ignored and unavailable to the public CI runner.
 - artifact SHA-256:
   078a0ed00d9109d6c9681d9c6af8d32d8bc4030359e35988e89ce584af6f346e.
 
+## Post-merge main verification
+
+On 6 September 2026, a fresh isolated Windows Python 3.12.8 environment
+was created from `main`. Package installation and `pip check` succeeded.
+The complete suite produced 627 passed, 1 expected skip, and 95.10%
+combined branch coverage. The expected skip was
+`tests/test_unsw_integration.py`, because the official ignored UNSW-NB15
+raw files were not available in this clean main worktree.
+
 ## Expected data-dependent skip
 
 tests/test_unsw_integration.py is skipped on the clean CI runner because the
@@ -68,8 +77,8 @@ python -m pytest -q --cov=cyber_pca --cov-branch --cov-fail-under=90 --cov-repor
 
 ## Closure decision
 
-The tracked Project 04 implementation reproduces successfully in both the
-validated Windows environment and a clean Linux GitHub Actions environment.
-The project is ready for final pull-request review. The PCA baseline remains
-an untuned research baseline and is not recommended for operational
-cybersecurity deployment.
+The tracked Project 04 implementation reproduces successfully in the
+validated Windows environment, a fresh post-merge Windows environment, and
+a clean Linux GitHub Actions environment. Project closure is complete. The
+PCA baseline remains an untuned research baseline and is
+not recommended for operational cybersecurity deployment.
