@@ -1044,7 +1044,7 @@ def test_phase_eight_readme_evidence() -> None:
         ),
         (
             "| Reproducibility audit and project closure "
-            "| Completed on branch; merge pending |"
+            "| Completed; merged into main |"
         ),
         (
             "untuned observed baseline "
@@ -1068,6 +1068,9 @@ def test_phase_ten_reproducibility_audit() -> None:
         "# Phase 10 Reproducibility Audit",
         "099d4476dc266d11c2812106728223d614d99949",
         "626 passed, 1 skipped",
+        "## Post-merge main verification",
+        "627 passed, 1 expected skip",
+        "Project closure is complete.",
         "95.10%",
         "project-04-validation-python-3.12",
         "official ignored UNSW-NB15 raw files",
