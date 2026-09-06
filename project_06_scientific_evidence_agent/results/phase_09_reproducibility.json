@@ -4,7 +4,7 @@
   "command": ".\\.venv\\Scripts\\python.exe .\\scripts\\run_phase09_reproducibility.py --clean",
   "scope": {
     "verifies": [
-      "Each of the three frozen Phase 06-08 result JSON files matches its declared SHA-256 digest.",
+      "Each of the three frozen Phase 06-08 result JSON files matches its declared SHA-256 digest, computed via a line-ending-normalized canonical byte representation (sha256_frozen_result_json) so the check passes identically on a Windows CRLF checkout and a Linux LF checkout.",
       "Phase 07 (final_evaluation_dev.json) and Phase 08 (controlled_experiments_dev.json) both declare evaluation_label = held_out_development_evaluation and is_independent_test = false.",
       "Phase 08's adversarial evaluator-regression suite (adversarial_evaluator_suite.all_passed) is true.",
       "Each frozen result's own SHA-256 is echoed inside both its committed Markdown report and its committed agent trace.",
@@ -27,19 +27,20 @@
     "pip_check": "No broken requirements found."
   },
   "test_summary": {
-    "tests": 164,
+    "tests": 166,
     "failures": 0,
     "errors": 0,
     "skipped": 0,
-    "duration_seconds": 32.125,
-    "junit_xml_path": "artifacts/phase09_reproducibility/pytest_junit.xml"
+    "duration_seconds": 27.028,
+    "junit_xml_path": "artifacts/phase09_reproducibility/pytest_junit.xml",
+    "includes_cross_platform_line_ending_checksum_regression_tests": true
   },
   "coverage_summary": {
-    "num_statements": 3061,
-    "covered_lines": 2735,
+    "num_statements": 3067,
+    "covered_lines": 2741,
     "missing_lines": 326,
-    "percent_covered": 85.1014641664526,
-    "percent_statements_covered": 89.34988565828161,
+    "percent_covered": 85.1243908694537,
+    "percent_statements_covered": 89.37072057385066,
     "num_branches": 832,
     "covered_branches": 578,
     "percent_branches_covered": 69.47115384615384,

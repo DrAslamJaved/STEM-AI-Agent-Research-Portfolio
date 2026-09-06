@@ -90,5 +90,35 @@
     or test file changed beyond the path-policy fix and its own regression
     tests: `git status --short` shows only the Phase 9 files and the
     original `README.md` / `src/evidence_agent/cli.py` edits.
+17. Fixed a cross-platform checksum defect: the three frozen Phase 06-08
+    result JSON digests declared in `configs/reproducibility.yaml` were
+    recorded from a Windows CRLF checkout, so a Linux CI checkout of the same
+    committed content (LF line endings) failed the raw-byte SHA-256
+    comparison even though nothing about the evidence had changed. Added
+    `sha256_frozen_result_json` (and its `_canonicalize_line_endings` helper)
+    to `src/evidence_agent/reproducibility.py`: it normalizes CRLF and lone-CR
+    line endings to LF, re-expands to a canonical CRLF byte representation,
+    then hashes that -- giving the same digest on Windows and Linux. The
+    generic `sha256_file` helper other phases use, the three declared
+    Phase 06-08 SHA-256 values, and every Phase 06-08 result/report/config/
+    agent-trace file were left untouched; only `_validate_frozen_result_hashes`
+    was repointed at the new helper. Added two regression tests -- LF/CRLF
+    equivalence, and that a real content change still changes the digest --
+    plus confirmed the existing end-to-end test against the real committed
+    `configs/reproducibility.yaml` still passes. Documented the fix in
+    `docs/phase_09_reproducibility_protocol.md`.
+18. Re-ran `scripts/run_phase09_reproducibility.py --clean` end to end from a
+    completely fresh virtual environment after the checksum fix. All steps
+    passed: 166 tests passed (0 failed/errored/skipped) in 27.03 s under
+    Python 3.12.8, with 85.12% combined statement+branch coverage -- the two
+    new cross-platform line-ending checksum regression tests raised the suite
+    from 164 to 166.
+19. Refreshed `results/phase_09_reproducibility.json` with those measured
+    numbers (test_summary and coverage_summary, plus a note that the suite
+    now includes the cross-platform line-ending checksum regression tests);
+    every other field, including the three frozen-evidence hashes and the
+    gate manifest, was already correct and unchanged. Computed its new
+    SHA-256 and updated that value here and in
+    `reports/phase_09_reproducibility.md`. No file hashes itself.
 
-Result JSON SHA-256: `f0a273ddf6f3fcc8f5596406697a722c5d0aa5dfd7b1b81c5d22c0a730b0ba40`
+Result JSON SHA-256: `311bc37dcecbfd97625023f74ef6c4aee5ceadc416e62aa230d5981e8aa055b1`

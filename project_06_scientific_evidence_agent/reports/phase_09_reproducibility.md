@@ -41,25 +41,31 @@ That gate confirms, by reading only committed `results/`, `reports/`, and
 
 ## Measured results of the last full clean-environment run
 
-These numbers reflect the corrected provenance-path policy in
-`_is_forbidden_committed_path` (rejecting POSIX-absolute, drive-letter,
-Windows-rooted, and UNC paths while accepting relative POSIX and relative
-backslash paths) and its added regression tests, which raised the suite from
-149 to 164 tests.
+These numbers reflect the cross-platform checksum fix in
+`sha256_frozen_result_json` (`src/evidence_agent/reproducibility.py`), which
+verifies each frozen Phase 06-08 result JSON's SHA-256 from a line-ending-
+normalized canonical byte representation instead of raw bytes, so the gate
+passes identically on a Windows CRLF checkout and a Linux LF checkout. The
+suite now includes two dedicated regression tests for this fix --
+`test_sha256_frozen_result_json_is_identical_for_lf_and_crlf_checkouts` and
+`test_sha256_frozen_result_json_still_detects_real_content_changes` -- which
+raised the suite from 164 to 166 tests. The generic `sha256_file` helper used
+by every other phase, and all three frozen Phase 06-08 declared SHA-256
+values below, are unchanged.
 
 | Metric | Value |
 | --- | --- |
 | Python version | 3.12.8 |
 | Isolated environment | fresh venv under `artifacts/phase09_reproducibility/venv`, built only from `requirements-dev.lock` + editable install |
 | `pip check` | No broken requirements found |
-| Tests collected | 164 |
-| Tests passed / failed / errored / skipped | 164 / 0 / 0 / 0 |
-| Test duration | 32.13 s |
-| Coverage (statements + branches) | 85.10% (2,735 / 3,061 statements plus partial branch credit) |
-| Coverage (statements only) | 89.35% |
+| Tests collected | 166 |
+| Tests passed / failed / errored / skipped | 166 / 0 / 0 / 0 |
+| Test duration | 27.03 s |
+| Coverage (statements + branches) | 85.12% (2,741 / 3,067 statements plus partial branch credit) |
+| Coverage (statements only) | 89.37% |
 | Coverage (branches only) | 69.47% |
 
-Result JSON SHA-256: `f0a273ddf6f3fcc8f5596406697a722c5d0aa5dfd7b1b81c5d22c0a730b0ba40`
+Result JSON SHA-256: `311bc37dcecbfd97625023f74ef6c4aee5ceadc416e62aa230d5981e8aa055b1`
 
 (This hash was computed after `results/phase_09_reproducibility.json` was
 written; the file does not hash itself.)

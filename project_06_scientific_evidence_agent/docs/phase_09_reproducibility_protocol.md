@@ -41,7 +41,14 @@ the three frozen Phase 06-08 result JSON files, their Markdown reports, and
 their agent traces -- and confirms:
 
 - each frozen result's SHA-256 matches the digest declared in
-  `configs/reproducibility.yaml`;
+  `configs/reproducibility.yaml`, computed by a dedicated Phase 09 helper
+  (`sha256_frozen_result_json`) that normalizes CRLF and lone-CR line endings
+  to LF and then re-expands to a canonical CRLF byte representation before
+  hashing. This is a cross-platform verification step only: it does not
+  rewrite the committed file, it never touches the generic `sha256_file`
+  helper other phases use, and it produces the same digest whether the
+  frozen result JSON is checked out with Windows CRLF or Linux LF line
+  endings, so the same declared hash verifies on every platform;
 - Phase 07 (`final_evaluation_dev.json`) and Phase 08
   (`controlled_experiments_dev.json`) both declare
   `evaluation_label: held_out_development_evaluation` and
@@ -84,6 +91,16 @@ identically regardless of where it is invoked from.
 These digests are declared once in `configs/reproducibility.yaml` and must
 never be edited to match a changed file; a changed file means the frozen
 evidence was altered, which Phase 09 must fail loudly.
+
+**Cross-platform verification note:** these three digests were originally
+computed on a Windows CRLF checkout. A Linux checkout of the identically
+committed file (as GitHub Actions performs) can present LF line endings for
+the same content, which would make a raw byte-for-byte SHA-256 comparison
+fail even though nothing about the evidence changed. The Phase 09 gate
+therefore hashes each frozen result JSON only after normalizing its line
+endings to a canonical form (see `sha256_frozen_result_json` above), so these
+declared digests verify identically on Windows and Linux without ever being
+recomputed or edited.
 
 ## Held-out development, not an independent test
 

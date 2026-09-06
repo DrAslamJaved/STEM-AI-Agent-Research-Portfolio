@@ -4,7 +4,10 @@ This module verifies -- without downloading raw data, retraining any model,
 recalibrating a policy, or overwriting a prior result -- that the frozen
 Phase 6-8 evidence committed to the repository is internally consistent:
 
-* each frozen result JSON matches its declared SHA-256 digest;
+* each frozen result JSON matches its declared SHA-256 digest, computed from a
+  line-ending-normalized canonical byte representation so the check gives the
+  same answer on a Windows CRLF checkout and a Linux LF checkout of the same
+  committed file (see :func:`sha256_frozen_result_json`);
 * Phase 7 and Phase 8 are labelled a held-out *development* evaluation, never
   an independent test;
 * Phase 8's adversarial evaluator-regression suite passed;
@@ -27,6 +30,7 @@ trained model artifacts, or runtime traces.
 
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 from collections.abc import Mapping, Sequence
@@ -35,7 +39,6 @@ from pathlib import Path
 
 import yaml
 
-from evidence_agent.data.acquisition import sha256_file
 from evidence_agent.evaluation.verification import write_verification_report as write_json_report
 
 
@@ -87,6 +90,33 @@ def _relative_posix_path(path: Path, project_root: Path) -> str:
         return resolved.relative_to(project_root).as_posix()
     except ValueError:
         return resolved.as_posix()
+
+
+def _canonicalize_line_endings(raw_bytes: bytes) -> bytes:
+    """Normalize CRLF and lone CR line endings to LF, then re-expand to CRLF.
+
+    Every real line ending -- ``\\r\\n`` or a lone ``\\r`` -- collapses to
+    ``\\n`` first, then every ``\\n`` re-expands to ``\\r\\n``. The result is
+    the same canonical CRLF byte sequence regardless of which line-ending
+    convention the file was checked out with, so hashing it gives the same
+    digest on a Windows CRLF checkout and a Linux LF checkout of the same
+    committed content.
+    """
+    normalized = raw_bytes.replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+    return normalized.replace(b"\n", b"\r\n")
+
+
+def sha256_frozen_result_json(path: Path) -> str:
+    """Return the line-ending-normalized SHA-256 digest of a frozen result JSON file.
+
+    This is a Phase 9-only helper used exclusively to verify the Phase 6-8
+    frozen result JSON digests declared in ``configs/reproducibility.yaml``.
+    It intentionally does not replace, and must never be used in place of,
+    :func:`evidence_agent.data.acquisition.sha256_file`, which every other
+    phase continues to use to hash raw file bytes.
+    """
+    raw_bytes = Path(path).read_bytes()
+    return hashlib.sha256(_canonicalize_line_endings(raw_bytes)).hexdigest()
 
 
 @dataclass(frozen=True, slots=True)
@@ -312,7 +342,7 @@ def _validate_frozen_result_hashes(config: ReproducibilityConfig) -> dict[str, M
     loaded: dict[str, Mapping[str, object]] = {}
     for name, ref in config.frozen_results.items():
         try:
-            actual_sha256 = sha256_file(ref.path)
+            actual_sha256 = sha256_frozen_result_json(ref.path)
         except OSError as error:
             raise ReproducibilityError(
                 f"{name}: unable to read frozen result at {ref.path}: {error}"

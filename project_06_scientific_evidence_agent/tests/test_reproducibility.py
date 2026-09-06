@@ -9,7 +9,6 @@ import pytest
 import yaml
 
 from evidence_agent.cli import main
-from evidence_agent.data.acquisition import sha256_file
 from evidence_agent.reproducibility import (
     CONFIG_SCHEMA_VERSION,
     GATE_LABEL,
@@ -20,6 +19,7 @@ from evidence_agent.reproducibility import (
     load_reproducibility_config,
     run_reproducibility_check,
     run_reproducibility_command,
+    sha256_frozen_result_json,
 )
 
 
@@ -40,7 +40,7 @@ def _write_yaml(path: Path, payload: dict) -> None:
 
 def _config_payload(project_root: Path) -> dict[str, object]:
     hashes = {
-        name: sha256_file(project_root / "results" / f"{name}.json")
+        name: sha256_frozen_result_json(project_root / "results" / f"{name}.json")
         for name in (
             "citation_audit_cross_validation",
             "final_evaluation_dev",
@@ -138,8 +138,8 @@ def _build_fixture(tmp_path: Path) -> Path:
             "output": {"report_path": "reports/phase_08_controlled_experiments.md"},
         },
     )
-    final_sha256 = sha256_file(tmp_path / "results" / "final_evaluation_dev.json")
-    controlled_sha256 = sha256_file(tmp_path / "results" / "controlled_experiments_dev.json")
+    final_sha256 = sha256_frozen_result_json(tmp_path / "results" / "final_evaluation_dev.json")
+    controlled_sha256 = sha256_frozen_result_json(tmp_path / "results" / "controlled_experiments_dev.json")
     _write_text(
         tmp_path / "reports" / "phase_07_final_evaluation.md",
         f"# Phase 07\n\nResult JSON SHA-256: `{final_sha256}`\n",
@@ -228,6 +228,29 @@ def test_gate_rejects_each_frozen_hash_mismatch(tmp_path: Path, result_name: str
 
     with pytest.raises(ReproducibilityError, match=result_name):
         run_reproducibility_check(config)
+
+
+def test_sha256_frozen_result_json_is_identical_for_lf_and_crlf_checkouts(tmp_path: Path) -> None:
+    """Cross-platform regression: CRLF (Windows) and LF (Linux CI) checkouts of the
+    same committed frozen result JSON must hash to the same digest."""
+    content = '{\n  "a": 1,\n  "b": [2, 3]\n}\n'
+    lf_path = tmp_path / "lf.json"
+    crlf_path = tmp_path / "crlf.json"
+    lf_path.write_bytes(content.encode("utf-8"))
+    crlf_path.write_bytes(content.replace("\n", "\r\n").encode("utf-8"))
+
+    assert sha256_frozen_result_json(lf_path) == sha256_frozen_result_json(crlf_path)
+
+
+def test_sha256_frozen_result_json_still_detects_real_content_changes(tmp_path: Path) -> None:
+    """A genuine content change -- not just a line-ending difference -- must still
+    change the digest, so the normalization cannot mask a real evidence edit."""
+    original_path = tmp_path / "original.json"
+    changed_path = tmp_path / "changed.json"
+    original_path.write_bytes(b'{\r\n  "a": 1\r\n}\r\n')
+    changed_path.write_bytes(b'{\r\n  "a": 2\r\n}\r\n')
+
+    assert sha256_frozen_result_json(original_path) != sha256_frozen_result_json(changed_path)
 
 
 def test_gate_rejects_non_held_out_development_label(tmp_path: Path) -> None:
