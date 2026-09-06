@@ -13,7 +13,7 @@ forecast residuals can identify meaningful anomalies.
 The full research question is documented in
 [`docs/research_question.md`](docs/research_question.md).
 
-## Planned workflow
+## Implemented workflow
 
 1. Select and document a public time-series dataset.
 2. Load and validate the data.
@@ -46,125 +46,31 @@ The raw data contains:
 See [`docs/dataset_card.md`](docs/dataset_card.md) for provenance,
 licensing, integrity information, variables, and limitations.
 
-## Current status
+## Implementation summary
 
-Completed:
+Project 03 is fully implemented and validated.
 
-- reproducible repository foundation;
-- Python package configuration;
-- research-question documentation;
-- dataset selection and acquisition;
-- dataset provenance and licence documentation;
-- raw-file integrity verification;
-- initial structural data audit;
-- automated dataset tests;
-- reusable YAML data-configuration loader;
-- reusable CSV data loader;
-- explicit date, hour, and target parsing;
-- construction of the canonical hourly timestamp;
-- automated loader error-handling tests;
-- structured time-series validation agent;
-- duplicate, missing, irregular, and disordered timestamp checks;
-- missing, negative, and zero target checks;
-- documented-closure consistency checks;
-- machine-readable JSON validation report;
-- human-readable Markdown validation report;
-- leakage-safe preprocessing module;
-- chronological sorting without row deletion;
-- structural-zero and closure preservation;
-- processed-data and preprocessing-summary generation;
-- descriptive time-series statistics;
-- daily and weekly autocorrelation diagnostics;
-- Augmented Dickey–Fuller stationarity test;
-- rolling-mean and rolling-variability analysis;
-- hourly demand profile;
-- ACF and PACF figures;
-- additive daily-seasonal decomposition;
-- consistent baseline-model interface;
-- mean and last-value forecasts;
-- daily seasonal-naive forecasting;
-- weekly seasonal-naive forecasting;
-- validation of regular training timestamps;
-- reproducible next-24-hour forecast preview;
-- one-week chronological holdout evaluation;
-- MAE, RMSE, sMAPE, and MASE implementation;
-- leakage-safe MASE scaling from training data;
-- baseline holdout comparison figure;
-- 12-fold expanding-window validation;
-- non-overlapping weekly test periods;
-- fold-level and aggregate accuracy results;
-- performance-variability reporting;
-- fold-win counts and mean-MAE ranking;
-- additive Holt-Winters forecasting;
-- damped additive trend;
-- daily seasonal period of 24 hours;
-- residual and information-criterion diagnostics;
-- reproducible next-24-hour Holt-Winters preview;
-- transparent nonnegative count-forecast constraint;
-- reporting of raw negative forecasts before clipping;
-- 12-fold Holt-Winters evaluation;
-- direct comparison with the weekly seasonal-naive benchmark;
-- fold-level reporting of constrained negative forecasts;
-- mean-error improvement and fold-win evidence;
-- leakage-safe lag features;
-- shifted rolling statistics;
-- cyclical hour and weekday features;
-- explicit current-target leakage tests;
-- machine-readable feature summary;
-- deterministic Gradient Boosting forecaster;
-- recursive multi-step prediction;
-- training and future-feature alignment;
-- feature-importance diagnostics;
-- nonnegative machine-learning forecasts;
-- integration of Gradient Boosting with temporal evaluation;
-- 12-fold recursive Gradient Boosting evaluation;
-- comparison of six forecasting models on identical weekly folds;
-- reporting of machine-learning raw negative forecasts;
-- fold-level machine-learning accuracy results;
-- machine-learning model-ranking figures;
-- direct Gradient Boosting comparison with the weekly benchmark;
-- evidence-based selection of the preferred forecasting model;
-- reusable expanding-window residual collection;
-- timestamp-level out-of-sample actual and forecast records;
-- explicit residual and absolute-residual calculation;
-- closure-status attachment to forecast residuals;
-- preservation of fold-level raw-negative forecast counts;
-- machine-readable residual-collection summary;
-- verification that residual MAE reproduces evaluation MAE;
-- robust median-and-MAD residual anomaly detection;
-- modified-z-score anomaly thresholding;
-- exclusion of known closures from anomaly calibration;
-- separation of statistical and actionable alerts;
-- positive-spike and negative-drop classification;
-- moderate, high, and extreme anomaly severity;
-- contextual weather and operating-day enrichment;
-- consecutive-hour anomaly episode construction;
-- rain-coincident demand-drop identification;
-- recursive forecast-floor failure identification;
-- ranked contextual anomaly evidence;
-- anomaly timeline and threshold figures;
-- daily anomaly-count visualization;
-- reproducible human-readable anomaly report;
-- transparent evidence-based model recommendation policy;
-- minimum MAE-improvement decision gate;
-- nondegradation RMSE decision gate;
-- equal-fold comparability requirement;
-- automatic preferred-model and fallback-model selection;
-- model-complexity and raw-negative forecast reporting;
-- explicit model-selection cautions;
-- machine-readable model-recommendation JSON;
-- human-readable model-recommendation report;
-- operational forecasting and fallback policy.
+Completed capabilities include:
 
-Not yet completed:
+- byte-exact raw-dataset preservation and checksum validation;
+- structured timestamp, target, closure, and data-quality checks;
+- leakage-safe chronological preprocessing;
+- lagged and rolling feature engineering;
+- historical-mean, naive, and seasonal-naive baselines;
+- Holt-Winters forecasting;
+- recursive Gradient Boosting forecasting;
+- chronological holdout evaluation;
+- 12-fold expanding-window evaluation;
+- out-of-sample residual collection;
+- robust residual-anomaly scoring;
+- contextual anomaly and episode reporting;
+- evidence-based preferred-model and fallback-model selection;
+- unified command-line orchestration across 17 scripts;
+- continuous integration on Python 3.11 and Python 3.12;
+- final scientific and reproducibility reporting.
 
-
-- forecast-residual anomaly detection;
-- anomaly scoring and explanation;
-- final model-recommendation agent;
-- end-to-end command-line pipeline;
-- continuous-integration workflow;
-- final reproducibility and portfolio report.
+The consolidated project evidence is available in the
+[final project report](reports/final_project_report.md).
 
 
 ## Forecasting results
@@ -329,21 +235,36 @@ The CLI validates script availability, uses the active Python environment, execu
 
 See `docs/cli_guide.md` for complete usage instructions.
 
-## Project status
+## Final validation and report
 
-The following major components are complete:
+Project 03 is complete.
 
-- reproducible data loading and validation;
-- leakage-safe preprocessing and feature engineering;
-- baseline, classical, and machine-learning forecasting;
-- chronological holdout and expanding-window evaluation;
-- residual-based anomaly detection and episode reporting;
-- evidence-based model recommendation;
-- unified command-line workflows;
-- 151 automated tests with 90% package coverage.
+| Validation check | Result |
+|---|---|
+| Dependency consistency | Passed |
+| Automated tests | 158 passed |
+| Package coverage | 90.07% |
+| Required coverage gate | 90% |
+| Source compilation | Passed |
+| CLI help smoke test | Passed |
+| Complete workflow dry run | 17 steps passed |
+| Raw-data checksum validation | Passed |
+| GitHub Actions, Python 3.11 | Passed |
+| GitHub Actions, Python 3.12 | Passed |
 
-Remaining work:
+Final documentation:
 
-- continuous-integration workflow;
-- final end-to-end project report and portfolio audit.
+- [Final project report and reproducibility audit](reports/final_project_report.md)
+- [Research question and outcomes](docs/research_question.md)
+- [Dataset card](docs/dataset_card.md)
+- [Methodology](docs/methodology.md)
+- [Command-line guide](docs/cli_guide.md)
+- [Anomaly report](reports/anomaly_report.md)
+- [Model recommendation](reports/model_recommendation.md)
+
+The project demonstrates a complete agent-assisted scientific workflow:
+problem definition, immutable data handling, leakage-safe modelling,
+chronological evaluation, residual analysis, transparent recommendation,
+automated testing, command-line orchestration, and continuous
+integration.
 

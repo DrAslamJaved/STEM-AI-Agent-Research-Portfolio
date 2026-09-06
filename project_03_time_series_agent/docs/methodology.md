@@ -576,4 +576,41 @@ The interface validates script availability, prints numbered progress informatio
 
 Real smoke tests verified the forecast, anomaly, and recommendation workflows. During validation, the anomaly workflow exposed a candidate-ranking defect: presentation columns were selected before sorting by `absolute_modified_z_score`. Candidate selection was moved into a tested package function so ranking occurs before presentation columns are removed.
 
-The completed interface was validated with 151 automated tests, 90% package coverage, compilation checks, and deprecation warnings treated as errors.
+The completed interface was validated with 158 automated tests, 90.07%
+package coverage, compilation checks, dependency checks, command-line
+smoke tests, and deprecation warnings treated as errors.
+
+## 22. Final reproducibility audit
+
+The final project audit was conducted from a clean branch based on the
+synchronized `main` branch.
+
+The audit verified:
+
+1. environment consistency with `pip check`;
+2. 158 passing automated tests;
+3. 90.07% package coverage against a 90% minimum gate;
+4. compilation of all source, test, and workflow-script files;
+5. successful command-line help execution;
+6. correct inspection of the complete 17-script workflow using
+   `run-all --dry-run`;
+7. byte-exact raw-dataset integrity;
+8. successful GitHub Actions jobs on Python 3.11 and Python 3.12.
+
+The raw Seoul bicycle dataset is treated as an immutable source artifact.
+Its SHA-256 checksum is:
+
+`373339B71A8935D69E9AF0ABF26A70744632119862EEB3919EFB389A7B749C60`
+
+A project-level `.gitattributes` rule prevents automatic line-ending
+conversion of this file so that the checksum remains identical across
+Windows and Linux environments.
+
+The final local test evidence is stored in:
+
+`reports/validation/phase_15_pytest.xml`
+
+These checks establish computational reproducibility within the recorded
+dataset, software dependencies, validation design, and supported Python
+versions. They do not establish external validity for other cities,
+years, transport systems, or operational environments.

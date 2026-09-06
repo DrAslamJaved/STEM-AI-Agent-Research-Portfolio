@@ -16,7 +16,7 @@
 
 ## Intended use
 
-The dataset will be used to develop and evaluate a reproducible
+The dataset is used to develop and evaluate a reproducible
 time-series forecasting and residual-based anomaly-detection agent.
 
 The principal forecasting target is the hourly number of rented bicycles.
@@ -40,7 +40,7 @@ Each row represents one hour in the Seoul Bike Sharing System.
 - **Duplicate timestamps:** 0
 - **Timezone:** Not specified in the source documentation
 
-The modelling timestamp will be constructed by combining `Date` and
+The modelling timestamp is constructed by combining `Date` and
 `Hour`.
 
 ## Target variable
@@ -99,20 +99,27 @@ The audit evidence is stored in:
 
 ## Preprocessing decisions
 
-No observations have been deleted or imputed.
+No raw observations were deleted or imputed during structural
+preprocessing.
 
-Planned preprocessing includes:
+Implemented preprocessing includes:
 
 1. parsing `Date` using the explicit `%d/%m/%Y` format;
 2. validating that `Hour` lies between 0 and 23;
 3. combining `Date` and `Hour` into `timestamp`;
-4. sorting chronologically;
-5. preserving the original raw file unchanged;
-6. distinguishing known nonfunctioning periods from unexplained
-   anomalous observations.
+4. sorting observations chronologically;
+5. preserving the original raw dataset byte-for-byte;
+6. distinguishing documented nonfunctioning periods from unexplained
+   candidate anomalies;
+7. creating lagged and rolling features without using future
+   observations;
+8. excluding the initial 168 hours only from the model-ready feature
+   matrix because the longest historical feature is unavailable there;
+9. fitting any data-derived transformation using training data only.
 
-Preprocessing parameters will be fitted using training data only where
-the operation can produce temporal leakage.
+Structural preprocessing retains all 8,760 hourly observations. The
+lag-based feature matrix contains 8,592 usable observations after the
+initial 168-hour history requirement is applied.
 
 ## Licence and attribution
 
@@ -150,5 +157,21 @@ Results should not be interpreted as individual-level travel behaviour.
 
 ## Current status
 
-Dataset acquisition and initial structural validation are complete.
-Forecasting models have not yet been trained.
+Dataset acquisition, checksum verification, structural validation,
+preprocessing, and feature engineering are complete.
+
+The dataset has been used for:
+
+- chronological holdout evaluation;
+- 12-fold expanding-window evaluation;
+- baseline, Holt-Winters, and recursive Gradient Boosting forecasting;
+- out-of-sample residual collection;
+- candidate anomaly and episode analysis;
+- evidence-based model recommendation.
+
+The raw source file is protected from automatic line-ending conversion
+by `.gitattributes`. Its byte-exact SHA-256 checksum is verified by the
+automated test suite on Windows and Linux.
+
+The dataset contains no verified anomaly labels. Residual-based findings
+are therefore reported as candidate alerts requiring contextual review.
