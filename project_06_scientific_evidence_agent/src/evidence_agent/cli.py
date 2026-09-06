@@ -48,6 +48,7 @@ from evidence_agent.evaluation.verification import (
     evaluate_verification_traces,
     write_verification_report,
 )
+from evidence_agent.reproducibility import run_reproducibility_command
 from evidence_agent.retrieval.bm25 import (
     build_bm25_index,
     load_bm25_index,
@@ -568,6 +569,23 @@ def build_parser() -> argparse.ArgumentParser:
         "--config",
         type=str,
         help="Path to a YAML controlled-experiments config.",
+    )
+
+    reproducibility = subparsers.add_parser(
+        "reproducibility",
+        help="Run the Phase 9 clean-environment reproducibility gate on frozen Phase 6-8 evidence.",
+    )
+    reproducibility.add_argument(
+        "--config",
+        type=Path,
+        default=Path("configs/reproducibility.yaml"),
+        help="Path to the YAML reproducibility-gate config.",
+    )
+    reproducibility.add_argument(
+        "--output-dir",
+        type=Path,
+        required=True,
+        help="Directory to write the reproducibility manifest into; no other location is touched.",
     )
     return parser
 
@@ -1157,6 +1175,11 @@ def main(argv: Sequence[str] | None = None) -> int:
             raise ValueError("--config is required for the controlled-experiments command.")
         summary = run_controlled_experiments_command(Path(args.config))
         print(json.dumps(summary, indent=2, sort_keys=True))
+        return 0
+
+    if args.command == "reproducibility":
+        manifest = run_reproducibility_command(args.config, args.output_dir)
+        print(json.dumps(manifest, indent=2, sort_keys=True))
         return 0
 
     print(

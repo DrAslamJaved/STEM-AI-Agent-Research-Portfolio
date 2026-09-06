@@ -1,0 +1,28 @@
+# Exact, locked third-party dependencies for the Project 06 Phase 9
+# clean-environment reproducibility gate.
+#
+# Generated from a real, working Phase 9 virtual environment with:
+#   python -m pip freeze
+# and then stripped of the local editable project line -- this file pins
+# only third-party packages. Install the project itself, separately and
+# without dependency resolution, with:
+#   python -m pip install --no-deps -e .
+#
+# Regenerate by recreating scripts/run_phase09_reproducibility.py's isolated
+# environment and re-running pip freeze; do not hand-edit version pins.
+cloudpickle==3.1.2
+colorama==0.4.6
+coverage==7.16.0
+iniconfig==2.3.0
+joblib==1.6.0
+narwhals==2.25.0
+numpy==2.5.2
+packaging==26.3
+pluggy==1.6.0
+Pygments==2.21.0
+pytest==9.1.1
+pytest-cov==7.1.0
+PyYAML==6.0.3
+scikit-learn==1.9.0
+scipy==1.18.1
+threadpoolctl==3.6.0
