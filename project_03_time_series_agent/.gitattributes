@@ -1,0 +1,3 @@
+# Preserve the byte-exact source dataset across operating systems.
+# Preserve the byte-exact source dataset across operating systems.
+data/raw/SeoulBikeData.csv binary
