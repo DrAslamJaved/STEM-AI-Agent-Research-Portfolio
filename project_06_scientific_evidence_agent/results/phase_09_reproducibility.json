@@ -1,0 +1,135 @@
+{
+  "schema_version": "evidence_agent_phase09_reproducibility_v1",
+  "label": "clean_environment_reproducibility_gate",
+  "command": ".\\.venv\\Scripts\\python.exe .\\scripts\\run_phase09_reproducibility.py --clean",
+  "scope": {
+    "verifies": [
+      "Each of the three frozen Phase 06-08 result JSON files matches its declared SHA-256 digest, computed via a line-ending-normalized canonical byte representation (sha256_frozen_result_json) so the check passes identically on a Windows CRLF checkout and a Linux LF checkout.",
+      "Phase 07 (final_evaluation_dev.json) and Phase 08 (controlled_experiments_dev.json) both declare evaluation_label = held_out_development_evaluation and is_independent_test = false.",
+      "Phase 08's adversarial evaluator-regression suite (adversarial_evaluator_suite.all_passed) is true.",
+      "Each frozen result's own SHA-256 is echoed inside both its committed Markdown report and its committed agent trace.",
+      "Every path / *_path field recorded inside those frozen results is a portable, project-relative path, never absolute or drive-lettered.",
+      "A brand-new, isolated virtual environment built solely from requirements-dev.lock plus an editable install of this project passes pip check, the full pytest suite, and python -m compileall."
+    ],
+    "does_not": [
+      "Does not download the raw SciFact release or touch data/raw/.",
+      "Does not train, retrain, or recalibrate any model or citation-audit policy.",
+      "Does not re-run the Phase 07 or Phase 08 experiments; it only checks their already-frozen, committed results.",
+      "Does not overwrite any Phase 06-08 result, report, config, or agent trace.",
+      "Does not require the ignored raw dataset, a trained model artifact, or a full runtime trace."
+    ]
+  },
+  "environment": {
+    "python_version": "3.12.8",
+    "platform": "win32",
+    "isolated_venv_path": "artifacts/phase09_reproducibility/venv",
+    "lock_file": "requirements-dev.lock",
+    "pip_check": "No broken requirements found."
+  },
+  "test_summary": {
+    "tests": 166,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "duration_seconds": 27.028,
+    "junit_xml_path": "artifacts/phase09_reproducibility/pytest_junit.xml",
+    "includes_cross_platform_line_ending_checksum_regression_tests": true
+  },
+  "coverage_summary": {
+    "num_statements": 3067,
+    "covered_lines": 2741,
+    "missing_lines": 326,
+    "percent_covered": 85.1243908694537,
+    "percent_statements_covered": 89.37072057385066,
+    "num_branches": 832,
+    "covered_branches": 578,
+    "percent_branches_covered": 69.47115384615384,
+    "coverage_xml_path": "artifacts/phase09_reproducibility/coverage.xml",
+    "coverage_json_path": "artifacts/phase09_reproducibility/coverage.json"
+  },
+  "frozen_evidence": {
+    "citation_audit_cross_validation": {
+      "path": "results/citation_audit_cross_validation.json",
+      "sha256": "27447a85cff918b5f1b322cf0598983c435143caec7a56484049a89e163f12b3"
+    },
+    "final_evaluation_dev": {
+      "path": "results/final_evaluation_dev.json",
+      "sha256": "b8f997142a49c3cf497ae48727f5378d91288c237562c5cce1a1b861060e03fd"
+    },
+    "controlled_experiments_dev": {
+      "path": "results/controlled_experiments_dev.json",
+      "sha256": "32fe3b1d7c6886db580b08ad9ffb694f85961bd7b19cafb980e1507a2c081b5d"
+    }
+  },
+  "gate_manifest": {
+    "schema_version": "evidence_agent_reproducibility_manifest_v1",
+    "label": "clean_environment_reproducibility_gate",
+    "config_path": "configs/reproducibility.yaml",
+    "frozen_results": {
+      "citation_audit_cross_validation": {
+        "path": "results/citation_audit_cross_validation.json",
+        "sha256": "27447a85cff918b5f1b322cf0598983c435143caec7a56484049a89e163f12b3"
+      },
+      "controlled_experiments_dev": {
+        "path": "results/controlled_experiments_dev.json",
+        "sha256": "32fe3b1d7c6886db580b08ad9ffb694f85961bd7b19cafb980e1507a2c081b5d"
+      },
+      "final_evaluation_dev": {
+        "path": "results/final_evaluation_dev.json",
+        "sha256": "b8f997142a49c3cf497ae48727f5378d91288c237562c5cce1a1b861060e03fd"
+      }
+    },
+    "held_out_development_checks": [
+      {
+        "result": "final_evaluation_dev",
+        "label_field": "evaluation_label",
+        "expected_label": "held_out_development_evaluation",
+        "independent_test_field": "is_independent_test",
+        "passed": true
+      },
+      {
+        "result": "controlled_experiments_dev",
+        "label_field": "evaluation_label",
+        "expected_label": "held_out_development_evaluation",
+        "independent_test_field": "is_independent_test",
+        "passed": true
+      }
+    ],
+    "adversarial_suite_check": {
+      "result": "controlled_experiments_dev",
+      "field_path": ["adversarial_evaluator_suite", "all_passed"],
+      "passed": true
+    },
+    "report_consistency_checks": [
+      {
+        "result": "final_evaluation_dev",
+        "report_path": "reports/phase_07_final_evaluation.md",
+        "agent_trace_path": "agent_trace/phase_07_final_evaluation.md",
+        "passed": true
+      },
+      {
+        "result": "controlled_experiments_dev",
+        "report_path": "reports/phase_08_controlled_experiments.md",
+        "agent_trace_path": "agent_trace/phase_08_controlled_experiments.md",
+        "passed": true
+      }
+    ],
+    "provenance_scan_results": [
+      "citation_audit_cross_validation",
+      "final_evaluation_dev",
+      "controlled_experiments_dev"
+    ],
+    "ok": true
+  },
+  "ci": {
+    "workflow_path": ".github/workflows/project06-reproducibility.yml",
+    "python_version": "3.12",
+    "triggers": ["pull_request", "push", "workflow_dispatch"],
+    "uploaded_artifacts": [
+      "artifacts/phase09_reproducibility/pytest_junit.xml",
+      "artifacts/phase09_reproducibility/coverage.xml",
+      "artifacts/phase09_reproducibility/coverage.json",
+      "artifacts/phase09_reproducibility/manifest/reproducibility_manifest.json"
+    ]
+  }
+}

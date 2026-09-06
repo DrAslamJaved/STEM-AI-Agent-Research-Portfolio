@@ -9,6 +9,17 @@ and stance-verification evaluation.
 
 ## Current phase
 
+Phase 09 is the reproducibility handoff. It adds a one-command,
+clean-environment gate that verifies -- without retraining anything or
+downloading raw data -- that the frozen Phase 06-08 evidence committed to
+this repository is internally consistent: every declared SHA-256 matches,
+Phase 07 and Phase 08 are correctly labelled a held-out development
+evaluation rather than an independent test, Phase 08's adversarial
+evaluator-regression suite passed, and each frozen result's own hash is
+echoed in its committed report and agent trace. See
+`docs/phase_09_reproducibility_protocol.md` and
+`reports/phase_09_reproducibility.md` for the full record.
+
 Phase 08 performs a controlled comparison between a direct-RAG baseline and
 the frozen, cross-validated citation-audit policy. Both arms are applied to
 the same gold-free BM25/verifier trace; the evaluator then reports the
@@ -47,16 +58,45 @@ python -m venv .venv
 & .\.venv\Scripts\python.exe -m evidence_agent contract
 ```
 
+## Reproducibility gate (Phase 09)
+
+Verify the frozen Phase 06-08 evidence directly, against the currently
+active environment:
+
+```powershell
+& .\.venv\Scripts\python.exe -m evidence_agent reproducibility `
+  --config configs/reproducibility.yaml `
+  --output-dir artifacts\phase09_manual_check
+```
+
+Or prove it from a completely clean, isolated environment with one command
+(this is what CI runs):
+
+```powershell
+& .\.venv\Scripts\python.exe .\scripts\run_phase09_reproducibility.py --clean
+```
+
+This creates its own virtual environment under
+`artifacts/phase09_reproducibility/`, installs the exact locked dependencies
+from `requirements-dev.lock`, installs this project editable without
+re-resolving dependencies, runs `pip check`, the full pytest suite with
+JUnit XML and branch coverage, `compileall`, and the reproducibility CLI
+check above. It never downloads the raw SciFact release, trains or
+recalibrates a model, or overwrites a prior result. See
+`docs/phase_09_reproducibility_protocol.md` for the full protocol and
+`reports/phase_09_reproducibility.md` for the last recorded run.
+
 ## Repository layout
 
 ```text
 configs/       Deterministic experiment configuration
 data/          Raw, interim, and processed data boundaries
 docs/          Research protocol, architecture, and evaluation contract
+scripts/       Standalone clean-environment and figure-generation scripts
 src/           Installable Python package
 tests/         Unit and integration tests
 validation/    Provenance and validation evidence
-reports/       Human-readable experimental reports
+reports/       Human-readable experimental reports and figures
 results/       Machine-readable final experimental outputs
 agent_trace/   Phase-level decision and verification trace
 ```
@@ -85,4 +125,7 @@ with the fixed Phase 05 policy. `evaluate --config configs/final.yaml` records
 the Phase 07 frozen-policy comparison. `controlled-experiments --config
 configs/controlled_experiments.yaml` runs the Phase 08 direct-RAG versus
 audited-agent comparison, including official SciFact-style scoring and paired
-bootstrap intervals.
+bootstrap intervals. `reproducibility --config configs/reproducibility.yaml
+--output-dir <path>` runs the Phase 09 evidence-integrity gate and writes a
+manifest only to `<path>`; it never re-runs, retrains, or overwrites anything
+from an earlier phase.

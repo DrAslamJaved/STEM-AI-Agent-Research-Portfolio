@@ -1,0 +1,55 @@
+schema_version: evidence_agent_reproducibility_config_v1
+label: clean_environment_reproducibility_gate
+
+# All paths are resolved relative to this file, never the shell's current
+# directory. These are the three frozen, committed Phase 06-08 result files.
+# The gate validates every digest before it reads anything else, and it never
+# requires the ignored raw SciFact release, a trained model, or a runtime
+# trace: everything it checks is already committed to Git.
+frozen_results:
+  citation_audit_cross_validation:
+    path: ../results/citation_audit_cross_validation.json
+    sha256: 27447a85cff918b5f1b322cf0598983c435143caec7a56484049a89e163f12b3
+  final_evaluation_dev:
+    path: ../results/final_evaluation_dev.json
+    sha256: b8f997142a49c3cf497ae48727f5378d91288c237562c5cce1a1b861060e03fd
+  controlled_experiments_dev:
+    path: ../results/controlled_experiments_dev.json
+    sha256: 32fe3b1d7c6886db580b08ad9ffb694f85961bd7b19cafb980e1507a2c081b5d
+
+# Phase 07 and Phase 08 must each declare themselves a held-out development
+# evaluation, never an independent test.
+held_out_development:
+  - result: final_evaluation_dev
+    label_field: evaluation_label
+    expected_label: held_out_development_evaluation
+    independent_test_field: is_independent_test
+  - result: controlled_experiments_dev
+    label_field: evaluation_label
+    expected_label: held_out_development_evaluation
+    independent_test_field: is_independent_test
+
+# Phase 08's adversarial evaluator-regression suite (wrong document, wrong
+# stance, incomplete rationale) must have passed.
+adversarial_suite:
+  result: controlled_experiments_dev
+  field_path: [adversarial_evaluator_suite, all_passed]
+
+# Each frozen result's own SHA-256 must be echoed in both its committed
+# narrative report and its committed agent trace, so the two records cannot
+# silently drift apart from the machine-readable evidence.
+report_consistency:
+  - result: final_evaluation_dev
+    report_path: ../reports/phase_07_final_evaluation.md
+    agent_trace_path: ../agent_trace/phase_07_final_evaluation.md
+  - result: controlled_experiments_dev
+    report_path: ../reports/phase_08_controlled_experiments.md
+    agent_trace_path: ../agent_trace/phase_08_controlled_experiments.md
+
+# Every "path" / "*_path" field recorded inside these frozen results must be a
+# portable, project-relative POSIX path -- never an absolute path or a
+# Windows drive-letter path.
+provenance_scan_results:
+  - citation_audit_cross_validation
+  - final_evaluation_dev
+  - controlled_experiments_dev

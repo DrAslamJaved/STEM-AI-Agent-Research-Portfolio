@@ -1,0 +1,55 @@
+name: Project 06 Reproducibility
+
+"on":
+  push:
+    paths:
+      - "project_06_scientific_evidence_agent/**"
+      - ".github/workflows/project06-reproducibility.yml"
+  pull_request:
+    paths:
+      - "project_06_scientific_evidence_agent/**"
+      - ".github/workflows/project06-reproducibility.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  reproducibility-gate:
+    name: Python 3.12 clean-environment reproducibility gate
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: project_06_scientific_evidence_agent
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # This single command creates its own isolated virtual environment
+      # under artifacts/phase09_reproducibility/, installs the exact locked
+      # dependencies from requirements-dev.lock plus this project (editable,
+      # with no dependency re-resolution), runs pip check, the full pytest
+      # suite with JUnit XML and branch coverage, compileall, and the Phase 9
+      # reproducibility CLI check. It never downloads the raw SciFact
+      # release, trains or recalibrates a model, or writes to a committed
+      # results/, reports/, or agent_trace/ path.
+      - name: Run the Phase 9 clean-environment reproducibility gate
+        run: python scripts/run_phase09_reproducibility.py --clean
+
+      - name: Upload reproducibility evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: project-06-phase09-reproducibility
+          path: |
+            project_06_scientific_evidence_agent/artifacts/phase09_reproducibility/pytest_junit.xml
+            project_06_scientific_evidence_agent/artifacts/phase09_reproducibility/coverage.xml
+            project_06_scientific_evidence_agent/artifacts/phase09_reproducibility/coverage.json
+            project_06_scientific_evidence_agent/artifacts/phase09_reproducibility/manifest/reproducibility_manifest.json
+          if-no-files-found: error
