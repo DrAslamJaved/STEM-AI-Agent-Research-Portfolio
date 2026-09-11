@@ -1,0 +1,29 @@
+name: Project 10 quality checks
+
+on:
+  pull_request:
+    paths:
+      - "project_10_stem_research_ai_agent/**"
+      - ".github/workflows/project10-ci.yml"
+  push:
+    branches: [main]
+    paths:
+      - "project_10_stem_research_ai_agent/**"
+      - ".github/workflows/project10-ci.yml"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install test dependencies
+        run: python -m pip install -r project_10_stem_research_ai_agent/requirements-dev.txt
+      - name: Run tests
+        env:
+          PYTHONPATH: project_10_stem_research_ai_agent/src
+        run: python -m pytest -q project_10_stem_research_ai_agent/tests
+      - name: Compile source
+        run: python -m compileall -q project_10_stem_research_ai_agent/src
