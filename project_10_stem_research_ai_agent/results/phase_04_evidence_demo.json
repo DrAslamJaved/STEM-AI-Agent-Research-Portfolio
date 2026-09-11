@@ -1,0 +1,37 @@
+{
+  "ranking": [
+    "S01"
+  ],
+  "ledger": {
+    "sources": [
+      {
+        "source_id": "S01",
+        "title": "Drug target prediction baseline",
+        "abstract": "A transparent baseline for drug target interaction prediction.",
+        "year": 2024,
+        "doi": "10.1000/example.dti",
+        "url": "https://doi.org/10.1000/example.dti",
+        "verification_status": "VERIFIED"
+      }
+    ],
+    "claims": [
+      {
+        "claim_id": "C01",
+        "text": "A prevalence baseline is a transparent reference for binary DTI prediction.",
+        "kind": "method",
+        "status": "HUMAN_APPROVED"
+      }
+    ],
+    "links": [
+      {
+        "claim_id": "C01",
+        "source_id": "S01",
+        "rationale": "The source describes baseline DTI prediction.",
+        "entailment": "supports"
+      }
+    ],
+    "finalizable_claim_ids": [
+      "C01"
+    ]
+  }
+}
