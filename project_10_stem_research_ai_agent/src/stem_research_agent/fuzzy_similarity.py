@@ -16,8 +16,14 @@ def dice_similarity(left, right):
     return 1.0 if denominator == 0 else 2 * sum(min(x, y) for x, y in zip(a, b)) / denominator
 
 def cosine_similarity(left, right):
-    a, b = _vectors(left, right); denominator = sqrt(sum(x*x for x in a)) * sqrt(sum(y*y for y in b))
-    return 1.0 if denominator == 0 and a == b else 0.0 if denominator == 0 else sum(x*y for x, y in zip(a, b)) / denominator
+    a, b = _vectors(left, right)
+    denominator = sqrt(sum(x*x for x in a)) * sqrt(sum(y*y for y in b))
+
+    if denominator == 0:
+        return 1.0 if a == b else 0.0
+
+    raw_similarity = sum(x*y for x, y in zip(a, b)) / denominator
+    return min(1.0, max(0.0, raw_similarity))
 
 def cardinality_balance_similarity(left, right):
     """Equal cardinality is not a claim of equal fuzzy sets."""
