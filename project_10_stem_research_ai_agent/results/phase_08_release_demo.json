@@ -1,0 +1,36 @@
+{
+  "baseline": {
+    "cited_claim_ids": [
+      "C99"
+    ],
+    "supported_claim_ids": [],
+    "unsupported_claim_ids": [
+      "C99"
+    ],
+    "supported_claim_rate": 0.0,
+    "citation_validity_rate": 0.0
+  },
+  "controlled": {
+    "cited_claim_ids": [
+      "C01"
+    ],
+    "supported_claim_ids": [
+      "C01"
+    ],
+    "unsupported_claim_ids": [],
+    "supported_claim_rate": 1.0,
+    "citation_validity_rate": 1.0
+  },
+  "supported_claim_rate_delta": 1.0,
+  "audit_passed": true,
+  "audit_finding_count": 0,
+  "human_review_exportable": true,
+  "reproducibility_passed": true,
+  "human_correction_count": 2,
+  "release_ready": true,
+  "limitations": [
+    "This MVP supports researcher-controlled drafting; it does not establish autonomous authorship.",
+    "Evidence links and audit checks reduce risk but do not guarantee factual completeness or publication readiness.",
+    "Similarity and overlap checks are safeguards, not a claim of absolute plagiarism freedom."
+  ]
+}
