@@ -1,0 +1,27 @@
+{
+  "draft_id": "phase-05-results-demo",
+  "is_locked": true,
+  "exportable": true,
+  "events": [
+    {
+      "event_id": 1,
+      "action": "approve",
+      "reviewer": "Dr Aslam Javed",
+      "reason": "Evidence and results checked.",
+      "claim_ids": [
+        "C01"
+      ],
+      "timestamp_utc": "2026-09-11T20:36:17.376739+00:00"
+    },
+    {
+      "event_id": 2,
+      "action": "lock",
+      "reviewer": "Dr Aslam Javed",
+      "reason": "Approved draft locked for export.",
+      "claim_ids": [
+        "C01"
+      ],
+      "timestamp_utc": "2026-09-11T20:36:17.376739+00:00"
+    }
+  ]
+}
