@@ -1,0 +1,16 @@
+{
+  "section": "results",
+  "text": "## Results\n\nObserved analysis values: accuracy=0.75; f1=0.60.\n\n[C01] The analysis used a transparent prevalence baseline.",
+  "claim_ids": [
+    "C01"
+  ],
+  "analysis_keys": [
+    "accuracy",
+    "f1"
+  ],
+  "style": {
+    "section_heading_case": "title",
+    "result_precision": 2,
+    "terminology": "formal"
+  }
+}
