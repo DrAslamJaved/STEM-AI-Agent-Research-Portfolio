@@ -13,3 +13,4 @@ __pycache__/
 /runs/
 /data/raw/*
 !/data/raw/.gitkeep
+*.egg-info/
