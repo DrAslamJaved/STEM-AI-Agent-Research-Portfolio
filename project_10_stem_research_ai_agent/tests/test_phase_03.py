@@ -9,6 +9,10 @@ def test_metrics_and_auc_are_perfect():
     result = evaluate_binary_predictions([0,1,0,1], [.1,.9,.2,.8])
     assert result.f1 == result.roc_auc == result.pr_auc == 1.0
 
+def test_constant_scores_have_prevalence_pr_auc():
+    result = evaluate_binary_predictions([0, 1, 0, 1], [.5, .5, .5, .5])
+    assert result.roc_auc == result.pr_auc == .5
+
 def test_seeded_split_is_reproducible():
     assert seeded_random_split(RECORDS, test_fraction=.5, seed=7) == seeded_random_split(RECORDS, test_fraction=.5, seed=7)
 
