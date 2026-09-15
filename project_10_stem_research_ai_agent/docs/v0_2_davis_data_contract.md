@@ -11,8 +11,11 @@ data/raw/davis/
   Y
 ```
 
-`ligands_can.txt` and `proteins.txt` must be non-empty JSON objects. `Y` must
-be a rectangular JSON matrix of strictly positive Kd values in nanomolar units.
+`ligands_can.txt` and `proteins.txt` must be non-empty JSON objects. In the
+pinned DeepDTA source, `Y` is a binary Python-pickle matrix of strictly
+positive Kd values in nanomolar units. It must be loaded only after its
+SHA-256 value matches the researcher-approved manifest; untrusted pickle files
+must never be loaded.
 The matrix row order must follow the ligand JSON object order; its column order
 must follow the protein JSON object order.
 
@@ -36,7 +39,8 @@ reported before claims depend on it.
 
 ## Required exclusions and checks
 
-- Reject zero, negative, non-finite, or non-rectangular affinity data.
+- Reject a source whose hash is not approved, and reject zero, negative,
+  non-finite, or non-rectangular affinity data.
 - Preserve every observed pair; do not create negatives by random pairing.
 - Retain raw Kd and pKd simultaneously in analytical outputs.
 - Never use a held-out drug or target for fitting in cold-start evaluation.

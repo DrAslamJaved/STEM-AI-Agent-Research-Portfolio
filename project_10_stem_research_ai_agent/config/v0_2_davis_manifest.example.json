@@ -6,6 +6,7 @@
   "acquisition_date_utc": "REPLACE_WITH_ACQUISITION_TIMESTAMP",
   "license_or_terms_reviewed": "REPLACE_WITH_RESEARCHER_CONFIRMATION",
   "expected_files": ["ligands_can.txt", "proteins.txt", "Y"],
+  "affinity_matrix_encoding": "Python pickle; load only after SHA-256 approval",
   "expected_dimensions": {"compounds": 68, "targets": 442, "records": 30056},
   "affinity_unit": "nM",
   "derived_response": "pKd = 9 - log10(Kd_nM)",

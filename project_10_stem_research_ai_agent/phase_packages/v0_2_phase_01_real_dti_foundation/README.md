@@ -1,6 +1,7 @@
 # v0.2 Increment 1 — Real Davis DTI Foundation
 
-This increment adds a non-networked Davis loader, source hash capture, pKd
+This increment adds a non-networked Davis loader (including the canonical
+binary-pickle `Y` matrix), source hash capture, pKd
 derivation, deterministic long-form records, a formal data contract, and unit
 tests. It intentionally does **not** download a dataset or train a model.
 Those actions require an approved source copy and are the next increment.
