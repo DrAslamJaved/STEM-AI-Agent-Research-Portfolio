@@ -1,0 +1,38 @@
+{
+  "dataset_id": "davis_kinase_deepdta_layout",
+  "source_commit": "a546a8433a6822e958f36171c4356ad6f414d623",
+  "context_claim_ids": [
+    "C01",
+    "C02"
+  ],
+  "result_claim_ids": [
+    "R01",
+    "R02",
+    "R03"
+  ],
+  "results": [
+    {
+      "split": "pair_random",
+      "forest_pr_auc": 0.6126859348494371,
+      "prevalence_pr_auc": 0.08333333333333333,
+      "improvement": 0.5293526015161037
+    },
+    {
+      "split": "cold_drug",
+      "forest_pr_auc": 0.40154639885688614,
+      "prevalence_pr_auc": 0.09389140271493213,
+      "improvement": 0.307654996141954
+    },
+    {
+      "split": "cold_target",
+      "forest_pr_auc": 0.5784944141639281,
+      "prevalence_pr_auc": 0.09517514871116986,
+      "improvement": 0.4833192654527583
+    }
+  ],
+  "limitations": [
+    "Crossref verification establishes bibliographic identity, not scientific entailment.",
+    "Pair-random results do not establish cold-start generalization.",
+    "The draft is not a clinical, prospective, or state-of-the-art performance claim."
+  ]
+}
