@@ -1,0 +1,27 @@
+{
+    "dataset_id":  "davis_kinase_deepdta_layout",
+    "source_repository":  "https://github.com/hkmztrk/DeepDTA",
+    "source_commit":  "a546a8433a6822e958f36171c4356ad6f414d623",
+    "source_subdirectory":  "data/davis",
+    "acquisition_date_utc":  "2026-09-15T19:03:30.4731967Z",
+    "license_or_terms_reviewed":  "Researcher reviewed upstream repository access and reuse terms; local use is limited to reproducible research validation.",
+    "expected_files":  [
+                           "ligands_can.txt",
+                           "proteins.txt",
+                           "Y"
+                       ],
+    "affinity_matrix_encoding":  "Python pickle; load only after SHA-256 approval",
+    "expected_dimensions":  {
+                                "compounds":  68,
+                                "targets":  442,
+                                "records":  30056
+                            },
+    "affinity_unit":  "nM",
+    "derived_response":  "pKd = 9 - log10(Kd_nM)",
+    "binary_binder_definition":  "pKd \u003e= 7.0 (Kd \u003c= 100 nM)",
+    "sha256":  {
+                   "ligands_can.txt":  "141094d99510a52091d2ea1b05be7c1f66b2c5fcaeeeb261eaf4cbf2128bde6d",
+                   "proteins.txt":  "187cedeee10cd3b58af915a2861a5ed0c4ff42a2d728f4dea5e0b47e3d75b291",
+                   "Y":  "9855c4f234ec6dd18295b0e0cd6ee54214cafa908c6eb1d447b47d454fc0294a"
+               }
+}
