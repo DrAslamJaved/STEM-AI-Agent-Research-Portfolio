@@ -25,10 +25,19 @@ def _pr_auc(labels, scores):
     positives = sum(labels)
     if not positives: return None
     tp = fp = 0; previous_recall = area = 0.0
-    for _, label in sorted(zip(scores, labels), reverse=True):
-        tp += label; fp += 1 - label
+    ordered = sorted(zip(scores, labels), reverse=True)
+    start = 0
+    while start < len(ordered):
+        end = start + 1
+        while end < len(ordered) and ordered[end][0] == ordered[start][0]:
+            end += 1
+        group = ordered[start:end]
+        tp += sum(label for _, label in group)
+        fp += len(group) - sum(label for _, label in group)
         recall, precision = tp / positives, tp / (tp + fp)
-        area += (recall - previous_recall) * precision; previous_recall = recall
+        area += (recall - previous_recall) * precision
+        previous_recall = recall
+        start = end
     return area
 
 def evaluate_binary_predictions(labels, scores, *, threshold=0.5):
