@@ -26,3 +26,10 @@ generalization.
 
 The initial run uses split seed `20260915`, test fraction 0.2, and a
 single-threaded random forest. Any parameter change defines a distinct run.
+
+## Environment
+
+Run the model increment in a project-local virtual environment, not against an
+arbitrary global scientific-Python installation. The requirements deliberately
+pin NumPy below version 2 to retain binary compatibility with the initial SciPy
+and scikit-learn range. The environment is ignored by Git.
