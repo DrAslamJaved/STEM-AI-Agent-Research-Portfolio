@@ -1,0 +1,22 @@
+{
+  "source": {
+    "root": "data\\raw\\davis",
+    "compound_count": 68,
+    "target_count": 442,
+    "affinity_rows": 68,
+    "affinity_columns": 442,
+    "record_count": 30056,
+    "is_valid": true,
+    "issues": [],
+    "sha256": {
+      "ligands_can.txt": "141094d99510a52091d2ea1b05be7c1f66b2c5fcaeeeb261eaf4cbf2128bde6d",
+      "proteins.txt": "187cedeee10cd3b58af915a2861a5ed0c4ff42a2d728f4dea5e0b47e3d75b291",
+      "Y": "9855c4f234ec6dd18295b0e0cd6ee54214cafa908c6eb1d447b47d454fc0294a"
+    }
+  },
+  "dataset_id": "davis_kinase_deepdta_layout",
+  "source_commit": "a546a8433a6822e958f36171c4356ad6f414d623",
+  "binder_pkd_cutoff": 7.0,
+  "positive_label_count": 2502,
+  "positive_label_rate": 0.08324461006121905
+}
