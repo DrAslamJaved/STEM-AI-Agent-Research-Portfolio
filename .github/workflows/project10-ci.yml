@@ -19,8 +19,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Install test dependencies
-        run: python -m pip install -r project_10_stem_research_ai_agent/requirements-dev.txt
+      - name: Install project and test dependencies
+        run: python -m pip install -r project_10_stem_research_ai_agent/requirements.txt -r project_10_stem_research_ai_agent/requirements-dev.txt
       - name: Run tests
         env:
           PYTHONPATH: project_10_stem_research_ai_agent/src
