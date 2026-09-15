@@ -1,0 +1,18 @@
+{
+  "dataset_id": "davis_kinase_deepdta_layout",
+  "source_repository": "https://github.com/hkmztrk/DeepDTA",
+  "source_commit": "a546a8433a6822e958f36171c4356ad6f414d623",
+  "source_subdirectory": "data/davis",
+  "acquisition_date_utc": "REPLACE_WITH_ACQUISITION_TIMESTAMP",
+  "license_or_terms_reviewed": "REPLACE_WITH_RESEARCHER_CONFIRMATION",
+  "expected_files": ["ligands_can.txt", "proteins.txt", "Y"],
+  "expected_dimensions": {"compounds": 68, "targets": 442, "records": 30056},
+  "affinity_unit": "nM",
+  "derived_response": "pKd = 9 - log10(Kd_nM)",
+  "binary_binder_definition": "pKd >= 7.0 (Kd <= 100 nM)",
+  "sha256": {
+    "ligands_can.txt": "REPLACE_AFTER_LOCAL_ACQUISITION",
+    "proteins.txt": "REPLACE_AFTER_LOCAL_ACQUISITION",
+    "Y": "REPLACE_AFTER_LOCAL_ACQUISITION"
+  }
+}
