@@ -13,12 +13,20 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Validate canonical Davis source files.")
     parser.add_argument("--data-dir", required=True, help="Directory containing ligands_can.txt, proteins.txt and Y.")
     parser.add_argument("--output", default="results/v0_2_davis_data_report.json")
+    parser.add_argument("--manifest", default="config/v0_2_davis_manifest.json")
     parser.add_argument("--binder-pkd-cutoff", type=float, default=7.0)
     args = parser.parse_args()
-    dataset = load_davis_dataset(args.data_dir)
+    manifest_path = Path(args.manifest)
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    expected_hashes = manifest.get("sha256")
+    if not isinstance(expected_hashes, dict):
+        raise ValueError("Manifest must contain an approved sha256 object.")
+    dataset = load_davis_dataset(args.data_dir, expected_sha256=expected_hashes)
     records = davis_records(dataset, binder_pkd_cutoff=args.binder_pkd_cutoff)
     result = {
         "source": dataset.source_report.to_dict(),
+        "dataset_id": manifest.get("dataset_id"),
+        "source_commit": manifest.get("source_commit"),
         "binder_pkd_cutoff": args.binder_pkd_cutoff,
         "positive_label_count": sum(row["label"] for row in records),
         "positive_label_rate": sum(row["label"] for row in records) / len(records),

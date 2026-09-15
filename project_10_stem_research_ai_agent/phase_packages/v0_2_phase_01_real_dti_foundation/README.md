@@ -24,7 +24,8 @@ python -m pytest -q .\tests
 ```
 
 After placing the approved Davis files in `data/raw/davis/`, copy the example
-manifest to `config/v0_2_davis_manifest.json`, complete its values, and run:
+manifest to `config/v0_2_davis_manifest.json`, calculate and approve its hashes,
+complete its values, and run:
 
 ```powershell
 python .\experiments\run_v0_2_data_contract_demo.py `
