@@ -1,0 +1,186 @@
+{
+  "dataset_id": "davis_kinase_deepdta_layout",
+  "source_commit": "a546a8433a6822e958f36171c4356ad6f414d623",
+  "test_fraction": 0.2,
+  "seed": 20260915,
+  "feature_set": "fixed_smiles_and_protein_composition_v1",
+  "outcomes": {
+    "pair_random": {
+      "diagnostics": {
+        "split_name": "pair_random",
+        "train_records": 24044,
+        "test_records": 6012,
+        "train_positive_count": 2001,
+        "test_positive_count": 501,
+        "train_positive_rate": 0.08322242555315255,
+        "test_positive_rate": 0.08333333333333333,
+        "shared_drug_count": 68,
+        "shared_target_count": 442,
+        "shared_pair_count": 0,
+        "train_unique_drugs": 68,
+        "test_unique_drugs": 68,
+        "train_unique_targets": 442,
+        "test_unique_targets": 442
+      },
+      "models": {
+        "prevalence": {
+          "true_negative": 5511,
+          "false_positive": 0,
+          "false_negative": 501,
+          "true_positive": 0,
+          "accuracy": 0.9166666666666666,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "roc_auc": 0.5,
+          "pr_auc": 0.08333333333333333,
+          "brier_score": 0.0763889011894246
+        },
+        "logistic_regression": {
+          "true_negative": 3736,
+          "false_positive": 1775,
+          "false_negative": 156,
+          "true_positive": 345,
+          "accuracy": 0.6788090485695276,
+          "precision": 0.16273584905660377,
+          "recall": 0.688622754491018,
+          "f1": 0.2632582983594048,
+          "roc_auc": 0.7338965690466283,
+          "pr_auc": 0.22185701589380438,
+          "brier_score": 0.21071322930813527
+        },
+        "random_forest": {
+          "true_negative": 5407,
+          "false_positive": 104,
+          "false_negative": 265,
+          "true_positive": 236,
+          "accuracy": 0.938622754491018,
+          "precision": 0.6941176470588235,
+          "recall": 0.47105788423153694,
+          "f1": 0.5612366230677764,
+          "roc_auc": 0.9202533057637221,
+          "pr_auc": 0.6126859348494371,
+          "brier_score": 0.04890514559229545
+        }
+      }
+    },
+    "cold_drug": {
+      "diagnostics": {
+        "split_name": "cold_drug",
+        "train_records": 23868,
+        "test_records": 6188,
+        "train_positive_count": 1921,
+        "test_positive_count": 581,
+        "train_positive_rate": 0.08048433048433049,
+        "test_positive_rate": 0.09389140271493213,
+        "shared_drug_count": 0,
+        "shared_target_count": 442,
+        "shared_pair_count": 0,
+        "train_unique_drugs": 54,
+        "test_unique_drugs": 14,
+        "train_unique_targets": 442,
+        "test_unique_targets": 442
+      },
+      "models": {
+        "prevalence": {
+          "true_negative": 5607,
+          "false_positive": 0,
+          "false_negative": 581,
+          "true_positive": 0,
+          "accuracy": 0.9061085972850679,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "roc_auc": 0.5,
+          "pr_auc": 0.09389140271493213,
+          "brier_score": 0.08525555679695114
+        },
+        "logistic_regression": {
+          "true_negative": 3961,
+          "false_positive": 1646,
+          "false_negative": 205,
+          "true_positive": 376,
+          "accuracy": 0.7008726567550096,
+          "precision": 0.18595450049455983,
+          "recall": 0.6471600688468159,
+          "f1": 0.28889742604686897,
+          "roc_auc": 0.7470283181184572,
+          "pr_auc": 0.2207887223106202,
+          "brier_score": 0.2019071817410894
+        },
+        "random_forest": {
+          "true_negative": 5533,
+          "false_positive": 74,
+          "false_negative": 515,
+          "true_positive": 66,
+          "accuracy": 0.9048157724628313,
+          "precision": 0.4714285714285714,
+          "recall": 0.11359724612736662,
+          "f1": 0.18307905686546463,
+          "roc_auc": 0.8275402304778235,
+          "pr_auc": 0.40154639885688614,
+          "brier_score": 0.0690237862770834
+        }
+      }
+    },
+    "cold_target": {
+      "diagnostics": {
+        "split_name": "cold_target",
+        "train_records": 24004,
+        "test_records": 6052,
+        "train_positive_count": 1926,
+        "test_positive_count": 576,
+        "train_positive_rate": 0.0802366272287952,
+        "test_positive_rate": 0.09517514871116986,
+        "shared_drug_count": 68,
+        "shared_target_count": 0,
+        "shared_pair_count": 0,
+        "train_unique_drugs": 68,
+        "test_unique_drugs": 68,
+        "train_unique_targets": 353,
+        "test_unique_targets": 89
+      },
+      "models": {
+        "prevalence": {
+          "true_negative": 5476,
+          "false_positive": 0,
+          "false_negative": 576,
+          "true_positive": 0,
+          "accuracy": 0.9048248512888302,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "roc_auc": 0.5,
+          "pr_auc": 0.09517514871116986,
+          "brier_score": 0.08633999920305596
+        },
+        "logistic_regression": {
+          "true_negative": 3792,
+          "false_positive": 1684,
+          "false_negative": 212,
+          "true_positive": 364,
+          "accuracy": 0.6867151354923992,
+          "precision": 0.177734375,
+          "recall": 0.6319444444444444,
+          "f1": 0.2774390243902439,
+          "roc_auc": 0.7220209018139762,
+          "pr_auc": 0.21675116004983339,
+          "brier_score": 0.20475019702777195
+        },
+        "random_forest": {
+          "true_negative": 5361,
+          "false_positive": 115,
+          "false_negative": 352,
+          "true_positive": 224,
+          "accuracy": 0.9228354263053536,
+          "precision": 0.6607669616519174,
+          "recall": 0.3888888888888889,
+          "f1": 0.48961748633879787,
+          "roc_auc": 0.8955648004423342,
+          "pr_auc": 0.5784944141639281,
+          "brier_score": 0.05928329012827637
+        }
+      }
+    }
+  }
+}
