@@ -16,6 +16,7 @@ location or before integrity verification.
 
 ## Runtime dependency
 
-The canonical `Y` pickle contains a NumPy array. NumPy is therefore a required
-runtime dependency for real Davis loading, even though the structural tests use
-only the Python standard library.
+The canonical `Y` pickle contains a NumPy array and may contain legacy string
+representations. NumPy is therefore a required runtime dependency for real
+Davis loading, and deserialization uses the `latin1` compatibility encoding
+specified by the pinned DeepDTA source.
