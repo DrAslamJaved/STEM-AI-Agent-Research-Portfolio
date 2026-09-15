@@ -24,7 +24,8 @@ must follow the protein JSON object order.
 - Record the upstream repository URL and immutable commit in
   `config/v0_2_davis_manifest.json`.
 - Record acquisition time, access/licence review, and SHA-256 for all three
-  source files.
+  source files. The validation command must reject placeholders or a mismatch
+  before the binary `Y` file is unpickled.
 - Do not overwrite raw data. Corrected or alternative sources require a new
   manifest and a new release run.
 - The expected canonical shape is 68 compounds by 442 targets (30,056 pairs).

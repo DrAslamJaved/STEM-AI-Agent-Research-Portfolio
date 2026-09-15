@@ -43,3 +43,17 @@ def test_pkd_conversion_requires_positive_nanomoar_affinity():
     assert affinity_nm_to_pkd(100.0) == pytest.approx(7.0)
     with pytest.raises(ValueError):
         affinity_nm_to_pkd(0.0)
+
+
+def test_approved_hashes_are_checked_before_loading_pickle(tmp_path):
+    _write_source(tmp_path)
+    unapproved = {"ligands_can.txt": "0" * 64, "proteins.txt": "0" * 64, "Y": "0" * 64}
+    with pytest.raises(ValueError, match="Davis source is not approved"):
+        load_davis_dataset(tmp_path, expected_sha256=unapproved)
+
+
+def test_matching_hashes_allow_loading(tmp_path):
+    _write_source(tmp_path)
+    dataset = load_davis_dataset(tmp_path)
+    approved = dataset.source_report.sha256
+    assert load_davis_dataset(tmp_path, expected_sha256=approved).source_report.is_valid

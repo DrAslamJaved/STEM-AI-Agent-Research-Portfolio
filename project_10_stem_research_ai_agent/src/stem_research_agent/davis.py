@@ -15,7 +15,7 @@ import json
 from math import isfinite, log10
 from pathlib import Path
 import pickle
-from typing import Any
+from typing import Any, Mapping
 
 
 CANONICAL_DAVIS_FILES = ("ligands_can.txt", "proteins.txt", "Y")
@@ -59,6 +59,24 @@ def sha256_file(path: str | Path) -> str:
     return digest.hexdigest()
 
 
+def verify_source_hashes(actual: Mapping[str, str], expected: Mapping[str, str]) -> None:
+    """Require an exact approved SHA-256 value for every canonical source file."""
+    missing = [name for name in CANONICAL_DAVIS_FILES if name not in expected]
+    placeholders = [name for name in CANONICAL_DAVIS_FILES
+                    if str(expected.get(name, "")).startswith("REPLACE_")]
+    mismatches = [name for name in CANONICAL_DAVIS_FILES
+                  if name in expected and str(expected[name]).lower() != actual[name].lower()]
+    if missing or placeholders or mismatches:
+        parts: list[str] = []
+        if missing:
+            parts.append("missing approved hash for " + ", ".join(missing))
+        if placeholders:
+            parts.append("placeholder hash for " + ", ".join(placeholders))
+        if mismatches:
+            parts.append("hash mismatch for " + ", ".join(mismatches))
+        raise ValueError("Davis source is not approved: " + "; ".join(parts))
+
+
 def _read_json_object(path: Path, *, label: str) -> dict[str, str]:
     try:
         value = json.loads(path.read_text(encoding="utf-8"))
@@ -100,7 +118,7 @@ def _read_affinity_matrix(path: Path) -> tuple[tuple[float, ...], ...]:
     return tuple(rows)
 
 
-def load_davis_dataset(root: str | Path) -> DavisDataset:
+def load_davis_dataset(root: str | Path, *, expected_sha256: Mapping[str, str] | None = None) -> DavisDataset:
     """Load and validate a local canonical Davis data directory.
 
     The matrix convention is compounds by rows and targets by columns, matching
@@ -110,6 +128,9 @@ def load_davis_dataset(root: str | Path) -> DavisDataset:
     missing = [name for name in CANONICAL_DAVIS_FILES if not (directory / name).is_file()]
     if missing:
         raise FileNotFoundError(f"Davis source is missing required file(s): {', '.join(missing)}")
+    hashes = {name: sha256_file(directory / name) for name in CANONICAL_DAVIS_FILES}
+    if expected_sha256 is not None:
+        verify_source_hashes(hashes, expected_sha256)
     compounds = _read_json_object(directory / "ligands_can.txt", label="ligands_can.txt")
     targets = _read_json_object(directory / "proteins.txt", label="proteins.txt")
     affinities = _read_affinity_matrix(directory / "Y")
@@ -127,7 +148,7 @@ def load_davis_dataset(root: str | Path) -> DavisDataset:
         record_count=len(compounds) * len(targets),
         is_valid=not issues,
         issues=tuple(issues),
-        sha256={name: sha256_file(directory / name) for name in CANONICAL_DAVIS_FILES},
+        sha256=hashes,
     )
     if not report.is_valid:
         raise ValueError("Invalid Davis dimensions: " + "; ".join(report.issues))
