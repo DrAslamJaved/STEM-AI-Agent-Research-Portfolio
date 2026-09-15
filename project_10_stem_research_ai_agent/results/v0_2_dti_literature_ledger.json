@@ -1,0 +1,54 @@
+{
+  "sources": [
+    {
+      "source_id": "S01",
+      "title": "Comprehensive analysis of kinase inhibitor selectivity",
+      "abstract": "",
+      "year": 2011,
+      "doi": "10.1038/nbt.1990",
+      "url": "https://doi.org/10.1038/nbt.1990",
+      "verification_status": "VERIFIED"
+    },
+    {
+      "source_id": "S02",
+      "title": "DeepDTA: deep drug\u2013target binding affinity prediction",
+      "abstract": "",
+      "year": 2018,
+      "doi": "10.1093/bioinformatics/bty593",
+      "url": "https://doi.org/10.1093/bioinformatics/bty593",
+      "verification_status": "VERIFIED"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "C01",
+      "text": "The original Davis study profiled kinase-inhibitor interactions across a broad kinase panel.",
+      "kind": "dataset_context",
+      "status": "HUMAN_APPROVED"
+    },
+    {
+      "claim_id": "C02",
+      "text": "DeepDTA describes binding-affinity prediction from compound and protein sequence representations.",
+      "kind": "method_context",
+      "status": "HUMAN_APPROVED"
+    }
+  ],
+  "links": [
+    {
+      "claim_id": "C01",
+      "source_id": "S01",
+      "rationale": "The source reports the Davis kinase-inhibitor profiling study used to contextualize this benchmark.",
+      "entailment": "supports"
+    },
+    {
+      "claim_id": "C02",
+      "source_id": "S02",
+      "rationale": "The source describes the DeepDTA affinity-prediction approach and its input representations.",
+      "entailment": "supports"
+    }
+  ],
+  "finalizable_claim_ids": [
+    "C01",
+    "C02"
+  ]
+}
