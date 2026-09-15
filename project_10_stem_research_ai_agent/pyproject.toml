@@ -7,7 +7,7 @@ name = "stem-research-ai-agent"
 version = "0.1.0"
 description = "Human-in-the-loop STEM research agent"
 requires-python = ">=3.12"
-dependencies = ["numpy>=1.26"]
+dependencies = ["numpy>=1.26", "scikit-learn>=1.4"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
