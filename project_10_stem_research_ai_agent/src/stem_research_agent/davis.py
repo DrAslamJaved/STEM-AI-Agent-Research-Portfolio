@@ -85,11 +85,12 @@ def _read_affinity_matrix(path: Path) -> tuple[tuple[float, ...], ...]:
         raise ValueError(f"Cannot parse binary-pickle Y affinity matrix: {exc}") from exc
     if hasattr(value, "tolist"):
         value = value.tolist()
-    if not isinstance(value, list) or not value or not all(isinstance(row, list) and row for row in value):
+    if not isinstance(value, (list, tuple)) or not value or not all(isinstance(row, (list, tuple)) and row for row in value):
         raise ValueError("Y must be a non-empty rectangular affinity matrix.")
-    width = len(value[0])
+    matrix = [list(row) for row in value]
+    width = len(matrix[0])
     rows: list[tuple[float, ...]] = []
-    for row in value:
+    for row in matrix:
         if len(row) != width:
             raise ValueError("Y must be rectangular.")
         converted = tuple(float(item) for item in row)
