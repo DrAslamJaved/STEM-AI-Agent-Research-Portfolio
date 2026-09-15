@@ -11,8 +11,8 @@ publication readiness.
 
 ## v0.2 acceptance criteria
 
-1. A pinned, locally stored Davis source is validated against a recorded
-   manifest and SHA-256 checksums.
+1. A pinned, locally stored Davis source (including its binary-pickle `Y`
+   matrix) is validated against a recorded manifest and SHA-256 checksums.
 2. Every long-form DTI record retains drug, target, raw Kd (nM), derived pKd,
    label definition, and source version.
 3. Pair-random, cold-drug, and cold-target splits are generated deterministically

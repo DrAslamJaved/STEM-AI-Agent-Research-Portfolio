@@ -14,6 +14,7 @@ from hashlib import sha256
 import json
 from math import isfinite, log10
 from pathlib import Path
+import pickle
 from typing import Any
 
 
@@ -72,12 +73,20 @@ def _read_json_object(path: Path, *, label: str) -> dict[str, str]:
 
 
 def _read_affinity_matrix(path: Path) -> tuple[tuple[float, ...], ...]:
+    """Load the canonical DeepDTA binary-pickle affinity matrix.
+
+    Python pickles are unsafe when their provenance is unknown. Callers must
+    only use the pinned and hash-reviewed source specified in the v0.2 manifest.
+    """
     try:
-        value = json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
-        raise ValueError(f"Cannot parse Y affinity JSON: {exc}") from exc
+        with path.open("rb") as handle:
+            value = pickle.load(handle)
+    except (OSError, pickle.UnpicklingError, EOFError, AttributeError, ImportError, IndexError) as exc:
+        raise ValueError(f"Cannot parse binary-pickle Y affinity matrix: {exc}") from exc
+    if hasattr(value, "tolist"):
+        value = value.tolist()
     if not isinstance(value, list) or not value or not all(isinstance(row, list) and row for row in value):
-        raise ValueError("Y must be a non-empty rectangular JSON matrix.")
+        raise ValueError("Y must be a non-empty rectangular affinity matrix.")
     width = len(value[0])
     rows: list[tuple[float, ...]] = []
     for row in value:

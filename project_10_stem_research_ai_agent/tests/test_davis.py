@@ -1,4 +1,5 @@
 import json
+import pickle
 
 import pytest
 
@@ -8,7 +9,8 @@ from stem_research_agent.davis import affinity_nm_to_pkd, davis_records, load_da
 def _write_source(tmp_path, matrix=((10.0, 100.0), (1.0, 1000.0))):
     (tmp_path / "ligands_can.txt").write_text(json.dumps({"D1": "CCO", "D2": "CCC"}), encoding="utf-8")
     (tmp_path / "proteins.txt").write_text(json.dumps({"T1": "MAAA", "T2": "MBBB"}), encoding="utf-8")
-    (tmp_path / "Y").write_text(json.dumps(matrix), encoding="utf-8")
+    with (tmp_path / "Y").open("wb") as handle:
+        pickle.dump(matrix, handle)
 
 
 def test_loader_produces_a_valid_source_report_and_stable_record_order(tmp_path):
