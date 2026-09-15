@@ -98,7 +98,8 @@ def _read_affinity_matrix(path: Path) -> tuple[tuple[float, ...], ...]:
     """
     try:
         with path.open("rb") as handle:
-            value = pickle.load(handle)
+            # DeepDTA's canonical loader specifies latin1 for legacy pickles.
+            value = pickle.load(handle, encoding="latin1")
     except (OSError, pickle.UnpicklingError, EOFError, AttributeError, ImportError, IndexError) as exc:
         raise ValueError(f"Cannot parse binary-pickle Y affinity matrix: {exc}") from exc
     if hasattr(value, "tolist"):
