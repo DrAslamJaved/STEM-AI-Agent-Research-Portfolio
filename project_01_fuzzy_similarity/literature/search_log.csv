@@ -1,0 +1,7 @@
+﻿query_id,query_text,source,search_date_utc,result_count,retained_records,notes
+"Q01","""fuzzy similarity measure"" cardinality fuzzy sets","Web discovery search","2026-09-05T08:48:40.9758257Z","not_exposed","none_pending_review","Four discovery leads identified; primary verification pending."
+"Q02","""similarity measures"" fuzzy sets axioms cardinality","Web discovery search","2026-09-05T08:48:40.9758257Z","not_exposed","none_pending_review","Supplementary discovery query; primary verification pending."
+"Q03","Zadeh 1965 Fuzzy sets Information and Control DOI official","Web discovery search","2026-09-05T09:08:51.9341571Z","not_exposed","none_pending_review","Zadeh 1965 identified; primary mathematical verification pending."
+"Q04","Liu 1992 Entropy distance measure similarity measure fuzzy sets relations DOI","Web discovery search","2026-09-05T09:08:51.9341571Z","not_exposed","none_pending_review","Liu 1992 identified; primary mathematical verification pending."
+"Q05","Wang 1995 A comparative study of similarity measures Fuzzy Sets and Systems DOI","Web discovery search","2026-09-05T09:08:51.9341571Z","not_exposed","none_pending_review","Wang et al. 1995 identified; primary mathematical verification pending."
+"Q06","Tversky 1977 Features of similarity Psychological Review DOI Dice 1945","Web discovery search","2026-09-05T09:08:51.9341571Z","not_exposed","none_pending_review","Classical similarity lead identified; relevance and primary verification pending."

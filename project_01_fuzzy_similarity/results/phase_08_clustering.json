@@ -1,0 +1,52 @@
+{
+  "seed": 20260908,
+  "n_samples": 300,
+  "dimension": 10,
+  "status": "executed",
+  "methods": {
+    "theta1": {
+      "within_mean": 0.7655493432770957,
+      "between_mean": 0.356125519864553,
+      "separation_gap": 0.4094238234125427,
+      "adjusted_rand_index": 0.5648990540491277,
+      "cluster_sizes": [
+        99,
+        1,
+        200
+      ]
+    },
+    "jaccard": {
+      "within_mean": 0.7797889352646209,
+      "between_mean": 0.356125519864553,
+      "separation_gap": 0.4236634154000679,
+      "adjusted_rand_index": 0.5648990540491277,
+      "cluster_sizes": [
+        99,
+        1,
+        200
+      ]
+    },
+    "dice": {
+      "within_mean": 0.8670908998518405,
+      "between_mean": 0.5007884030064335,
+      "separation_gap": 0.36630249684540706,
+      "adjusted_rand_index": 0.5648990540491277,
+      "cluster_sizes": [
+        99,
+        1,
+        200
+      ]
+    },
+    "cosine": {
+      "within_mean": 0.9364625576665421,
+      "between_mean": 0.9345015435302101,
+      "separation_gap": 0.0019610141363319844,
+      "adjusted_rand_index": 4.4894874722577697e-05,
+      "cluster_sizes": [
+        298,
+        1,
+        1
+      ]
+    }
+  }
+}
