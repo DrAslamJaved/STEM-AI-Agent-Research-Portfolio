@@ -1,0 +1,64 @@
+{
+  "dataset_id": "davis_kinase_deepdta_layout",
+  "source_commit": "a546a8433a6822e958f36171c4356ad6f414d623",
+  "context_claim_ids": [
+    "C01",
+    "C02"
+  ],
+  "result_rows": [
+    {
+      "split": "pair_random",
+      "forest_pr_auc": 0.6126859348494371,
+      "prevalence_pr_auc": 0.08333333333333333,
+      "improvement": 0.5293526015161037
+    },
+    {
+      "split": "cold_drug",
+      "forest_pr_auc": 0.40154639885688614,
+      "prevalence_pr_auc": 0.09389140271493213,
+      "improvement": 0.307654996141954
+    },
+    {
+      "split": "cold_target",
+      "forest_pr_auc": 0.5784944141639281,
+      "prevalence_pr_auc": 0.09517514871116986,
+      "improvement": 0.4833192654527583
+    }
+  ],
+  "tests_passed": true,
+  "compileall_passed": true,
+  "diff_check_passed": true,
+  "human_review_exportable": true,
+  "reviewer": "Dr Muhammad Aslam Javed",
+  "review_reason": "Reviewed the evidence ledger, recorded Davis results, constrained draft, and stated limitations.",
+  "release_ready": true,
+  "limitations": [
+    "Crossref verification establishes bibliographic identity, not scientific entailment.",
+    "Pair-random results do not establish cold-start generalization.",
+    "This release is a researcher-reviewed baseline draft, not a clinical or publication-ready claim."
+  ],
+  "review_events": [
+    {
+      "event_id": 1,
+      "action": "approve",
+      "reviewer": "Dr Muhammad Aslam Javed",
+      "reason": "Reviewed the evidence ledger, recorded Davis results, constrained draft, and stated limitations.",
+      "claim_ids": [
+        "C01",
+        "C02"
+      ],
+      "timestamp_utc": "2026-09-15T20:42:06.708902+00:00"
+    },
+    {
+      "event_id": 2,
+      "action": "lock",
+      "reviewer": "Dr Muhammad Aslam Javed",
+      "reason": "Approved draft locked for v0.2 release.",
+      "claim_ids": [
+        "C01",
+        "C02"
+      ],
+      "timestamp_utc": "2026-09-15T20:42:06.708902+00:00"
+    }
+  ]
+}
