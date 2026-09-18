@@ -1,0 +1,7 @@
+{
+  "audit": "exact_rational_grid",
+  "checked_pairs": 270,
+  "membership_values": ["0", "1/2", "1"],
+  "parameter_sets": 3,
+  "result": "passed"
+}

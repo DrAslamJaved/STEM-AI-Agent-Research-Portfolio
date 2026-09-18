@@ -1,0 +1,49 @@
+{
+  "study": "phase_10_external_dti",
+  "amendment": "01_source_location",
+  "status": "incomplete_fail_closed",
+  "source_root": "G:/Research/STEM/Project10_v02_clean",
+  "required_label": "interaction_kd_le_1000_nM",
+  "required_random_state": 20260830,
+  "excluded_project_10_v02_regime": {
+    "label": "pKd_ge_7_0",
+    "random_state": 20260915
+  },
+  "found_files": [
+    {
+      "path": "project_10_stem_research_ai_agent/data/raw/davis/ligands_can.txt",
+      "bytes": 5306,
+      "sha256": "141094d99510a52091d2ea1b05be7c1f66b2c5fcaeeeb261eaf4cbf2128bde6d"
+    },
+    {
+      "path": "project_10_stem_research_ai_agent/data/raw/davis/proteins.txt",
+      "bytes": 355211,
+      "sha256": "187cedeee10cd3b58af915a2861a5ed0c4ff42a2d728f4dea5e0b47e3d75b291"
+    },
+    {
+      "path": "project_10_stem_research_ai_agent/data/raw/davis/Y",
+      "bytes": 240605,
+      "sha256": "9855c4f234ec6dd18295b0e0cd6ee54214cafa908c6eb1d447b47d454fc0294a"
+    },
+    {
+      "path": "project_02_drug_target/reports/davis_binary_label_summary.json",
+      "bytes": 620,
+      "sha256": "d06a9c09ff78510a5b9587f27805bc6204e79a1c4c040ff75ed5a5577b186a24"
+    },
+    {
+      "path": "project_02_drug_target/reports/davis_split_audit.json",
+      "bytes": 2719,
+      "sha256": "7301b20b7b04dc62fb47bc9e604ff883db19d9e6d3c9b65bd8f79e80014252f7"
+    },
+    {
+      "path": "project_02_drug_target/validation/davis_sha256.csv",
+      "bytes": 3,
+      "sha256": "f1945cd6c19e56b3c1c78943ef5ec18116907a4ca1efc40a57d48ab1db7adfc5"
+    }
+  ],
+  "missing_or_incompatible": [
+    "Project 02-compatible processed interaction table (approved candidate paths)",
+    "project_02_drug_target/data/interim/davis_split_assignments.csv",
+    "split audit with random_state 20260830"
+  ]
+}

@@ -1,0 +1,18 @@
+﻿# Generated local artifacts
+__pycache__/
+*.py[cod]
+/.pytest_cache/
+/.hypothesis/
+/.coverage
+/coverage.xml
+/htmlcov/
+/.venv/
+/venv/
+/build/
+/dist/
+/runs/
+/data/raw/*
+!/data/raw/.gitkeep
+*.egg-info/
+/.coverage*
+/results/failed_phase10r_*/
