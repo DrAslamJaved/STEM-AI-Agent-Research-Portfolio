@@ -13,3 +13,10 @@ package-dir = {"" = "src"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[project.optional-dependencies]
+test = [
+    "hypothesis>=6,<7",
+    "pytest>=9,<10",
+    "pytest-cov>=7,<8",
+]

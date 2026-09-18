@@ -1,0 +1,44 @@
+name: Project 01 CI
+
+on:
+  push:
+    paths:
+      - "project_01_fuzzy_similarity/**"
+      - ".github/workflows/project-01-ci.yml"
+  pull_request:
+    paths:
+      - "project_01_fuzzy_similarity/**"
+      - ".github/workflows/project-01-ci.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: project-01-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+    defaults:
+      run:
+        working-directory: project_01_fuzzy_similarity
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: project_01_fuzzy_similarity/pyproject.toml
+      - name: Install Project 01 test dependencies
+        run: python -m pip install ".[test]"
+      - name: Run Project 01 tests
+        run: >-
+          python -m pytest tests/
+          --cov=src/fuzzy_similarity
+          --cov-branch
+          --cov-fail-under=95
