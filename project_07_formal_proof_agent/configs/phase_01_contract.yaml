@@ -1,0 +1,42 @@
+project_id: project_07_formal_proof_agent
+phase: "01"
+status: PENDING_HUMAN_APPROVAL
+
+research_question: >
+  Does a Lean/SymPy generate-verify-repair workflow produce more formally
+  valid proofs than an LLM-only workflow?
+
+arms:
+  - id: llm_only
+    generation_feedback: none
+    final_validator: post_hoc_lean_compilation
+  - id: llm_sympy
+    generation_feedback: sympy_simplification_and_counterexample_search
+    final_validator: post_hoc_lean_compilation
+  - id: llm_lean_repair
+    generation_feedback: lean_compiler_diagnostics
+    final_validator: lean_compilation
+
+metrics:
+  - compile_at_1
+  - pass_at_k
+  - repair_iterations
+  - valid_counterexamples
+  - elapsed_time
+
+pass_at_k: [1, 4, 8]
+max_candidates_per_theorem: 8
+max_repair_iterations: 3
+
+benchmark:
+  minif2f_version: v1
+  exact_commit: PENDING_PHASE_02
+  lean_toolchain: Lean_3_PENDING_PHASE_02
+  test_split_locked: true
+
+prohibited_tokens:
+  - sorry
+  - admit
+
+human_approval_required_before_execution: true
+human_approval_required_before_release: true
