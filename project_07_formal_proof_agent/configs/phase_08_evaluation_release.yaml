@@ -1,0 +1,73 @@
+schema_version: 1
+phase: "08"
+title: "Controlled evaluation and release gate"
+
+benchmark:
+  repository: openai/miniF2F
+  frozen_branch: v1
+  benchmark_commit: f0dcc8b59e630fba00ba9569ca6714700e0a8801
+  development_split: valid
+  final_evaluation_split: test
+  test_split_locked: true
+
+toolchain:
+  lean_toolchain: leanprover-community/lean:3.42.1
+  mathlib_revision: cb2b02fff213ed6f65bebd64446baac64137dcda
+
+study_arms:
+  - arm: llm_only
+    lean_feedback: forbidden
+    sympy_feedback: forbidden
+    max_repair_iterations: 0
+  - arm: llm_sympy
+    lean_feedback: forbidden
+    sympy_feedback: allowed
+    max_repair_iterations: 0
+  - arm: llm_lean_repair
+    lean_feedback: allowed
+    sympy_feedback: not_required
+    max_repair_iterations: 2
+
+controls:
+  same_frozen_tasks_for_every_arm: true
+  same_model_identifier_per_comparison: true
+  same_seed_schedule_per_comparison: true
+  same_samples_per_theorem_per_comparison: true
+  theorem_declaration_edits: forbidden
+  prohibited_shortcuts:
+    - sorry
+    - admit
+    - axiom
+
+evaluation:
+  primary_validator: independent_lean_compilation
+  metrics:
+    - compile_at_1
+    - pass_at_k
+    - compile_after_allowed_workflow
+    - repair_iterations
+    - refutation_success_rate
+    - static_rejection_count
+    - elapsed_seconds
+    - token_counts
+    - estimated_cost_usd
+    - human_intervention_attempt_count
+    - paired_outcomes
+    - exact_mcnemar_two_sided_p_value
+
+release_gate:
+  synthetic_smoke_result_is_final_evidence: false
+  human_review_required_for_release: true
+  require_locked_test_manifest: true
+  require_hashed_provenance: true
+  require_reproducible_bundle: true
+  required_artifacts:
+    - locked_test_manifest
+    - candidate_attempts_jsonl
+    - release_evidence_json
+    - human_review_record
+    - limitations_statement
+
+scope_note: >-
+  The committed Phase 08 fixture verifies the evaluation and release machinery.
+  It is not a miniF2F test-set run and does not establish comparative model performance.

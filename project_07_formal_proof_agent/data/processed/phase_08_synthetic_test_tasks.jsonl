@@ -1,0 +1,3 @@
+{"declaration":"example : (2 : Nat) = 2 :=","kind":"proof","source":"phase_08_synthetic_fixture","split":"test","theorem_id":"synthetic_nat_refl"}
+{"declaration":"example : (3 : Nat) + 0 = 3 :=","kind":"proof","source":"phase_08_synthetic_fixture","split":"test","theorem_id":"synthetic_nat_add_zero"}
+{"declaration":"example : True :=","kind":"refutation","source":"phase_08_synthetic_fixture","split":"test","theorem_id":"synthetic_fuzzy_refutation"}
