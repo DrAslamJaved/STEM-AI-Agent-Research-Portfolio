@@ -1,0 +1,14 @@
+{
+  "benchmark": "openai/miniF2F",
+  "frozen_branch": "v1",
+  "benchmark_commit": "f0dcc8b59e630fba00ba9569ca6714700e0a8801",
+  "lean_toolchain": "leanprover-community/lean:3.42.1",
+  "lean_version": "Lean (version 3.42.1, commit 68455b087d87, Release)",
+  "mathlib_revision": "cb2b02fff213ed6f65bebd64446baac64137dcda",
+  "configure_status": "passed",
+  "build_status": "passed",
+  "build_exit_code": 0,
+  "configuration_log": "reports/phase_02/minif2f_configure.log",
+  "build_log": "reports/phase_02/minif2f_build.log",
+  "validated_at_utc": "2026-09-18T21:06:32.4029408Z"
+}

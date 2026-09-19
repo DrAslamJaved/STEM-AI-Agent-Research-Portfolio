@@ -1,0 +1,37 @@
+schema_version: 1
+phase: 02
+name: benchmark_and_toolchain_validation
+
+benchmark:
+  repository: https://github.com/openai/miniF2F.git
+  frozen_branch: v1
+  commit: f0dcc8b59e630fba00ba9569ca6714700e0a8801
+  development_split: valid
+  held_out_split: test
+  test_split_locked: true
+
+toolchain:
+  lean: leanprover-community/lean:3.42.1
+  lean_commit: 68455b087d87
+  mathlib_revision: cb2b02fff213ed6f65bebd64446baac64137dcda
+
+validation:
+  configuration_command: leanpkg configure
+  build_command: leanpkg build
+  required_build_exit_code: 0
+  required_status: passed
+  generated_manifest: reports/phase_02/toolchain_validation.json
+
+version_control:
+  commit:
+    - benchmarks/minif2f/provenance.json
+    - configs/phase_02_benchmark_toolchain.yaml
+    - docs/phase_02_benchmark_toolchain.md
+    - agent_trace/phase_02_benchmark_toolchain.md
+    - scripts/validate_phase_02_toolchain.py
+    - tests/test_phase_02_toolchain.py
+    - reports/phase_02/toolchain_validation.json
+  ignore:
+    - benchmarks/minif2f/upstream/
+    - benchmarks/minif2f/upstream/_target/
+    - reports/phase_02/*.log

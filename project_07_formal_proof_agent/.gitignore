@@ -10,3 +10,6 @@ dist/
 runs/
 results/generated/
 benchmarks/minif2f/upstream/
+# Phase 02 local benchmark checkout and build logs
+benchmarks/minif2f/upstream/_target/
+reports/phase_02/*.log

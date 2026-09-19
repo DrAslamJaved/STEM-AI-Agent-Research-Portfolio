@@ -1,0 +1,10 @@
+﻿{
+    "source_url":  "https://github.com/openai/miniF2F.git",
+    "frozen_branch":  "v1",
+    "resolved_commit":  "f0dcc8b59e630fba00ba9569ca6714700e0a8801",
+    "lean_toolchain":  "leanprover-community/lean:3.42.1",
+    "mathlib_revision":  "cb2b02fff213ed6f65bebd64446baac64137dcda",
+    "leanpkg_toml_sha256":  "C8796AF2E529649F5B33588D584C1A3539AA3FD13DBF57AFD77220CEEDC93B2F",
+    "acquired_at_utc":  "2026-09-18T17:51:52.0697293Z",
+    "execution_status":  "ACQUIRED_NOT_YET_COMPILED"
+}
