@@ -1,0 +1,34 @@
+{
+  "compile_evidence": "results/phase_07_lean_compile.json is created only by the pinned compiler runner",
+  "counterexample": {
+    "certification": "Lean theorem fuzzy_jaccard_counterexample_not_one",
+    "false_claim": "every registered fuzzy-member pair has similarity 1",
+    "witness": {
+      "a": "1/4",
+      "b": "1/2",
+      "value": "1/2"
+    }
+  },
+  "formal_validity_decision": "independent_lean_compilation",
+  "phase": "07",
+  "pinned_toolchain": {
+    "benchmark_commit": "f0dcc8b59e630fba00ba9569ca6714700e0a8801",
+    "lean_toolchain": "leanprover-community/lean:3.42.1",
+    "mathlib_revision": "cb2b02fff213ed6f65bebd64446baac64137dcda"
+  },
+  "schema_version": 1,
+  "scope": "singleton-universe exact fuzzy Jaccard table on the denominator-four membership grid",
+  "source": {
+    "path": "formalizations/lean3/FuzzySimilarity.lean",
+    "sha256": "1534c2698153ffe9a4e1da0b1e0284e26651fa84e242cce25c6806c9a2e25c2c"
+  },
+  "theorem_inventory": [
+    "fuzzy_jaccard_zero_zero",
+    "fuzzy_jaccard_refl",
+    "fuzzy_jaccard_symm",
+    "quarter_has_exact_value",
+    "half_has_exact_value",
+    "fuzzy_jaccard_counterexample_value",
+    "fuzzy_jaccard_counterexample_not_one"
+  ]
+}

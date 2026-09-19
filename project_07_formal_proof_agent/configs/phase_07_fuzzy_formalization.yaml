@@ -1,0 +1,55 @@
+schema_version: 1
+phase: "07"
+title: "Fuzzy similarity formalization suite"
+
+benchmark:
+  repository: "openai/miniF2F"
+  frozen_branch: "v1"
+  benchmark_commit: "f0dcc8b59e630fba00ba9569ca6714700e0a8801"
+  development_split: valid
+  final_evaluation_split: test
+  test_split_locked: true
+
+toolchain:
+  lean_toolchain: "leanprover-community/lean:3.42.1"
+  mathlib_revision: "cb2b02fff213ed6f65bebd64446baac64137dcda"
+  compiler_command: "elan run leanprover-community/lean:3.42.1 lean"
+  compiler_working_directory: "configured pinned miniF2F v1 checkout"
+
+formalization:
+  universe: singleton
+  membership_domain: "exact denominator-four grid {0, 1/4, 1/2, 3/4, 1}"
+  similarity: singleton_fuzzy_jaccard_exact_table
+  similarity_encoding: "exact symbolic values {0, 1/4, 1/3, 1/2, 2/3, 3/4, 1}"
+  source_encoding: ASCII
+  zero_union_convention: "J(0, 0) = 1"
+  source: "formalizations/lean3/FuzzySimilarity.lean"
+  valid_theorems:
+    - zero_zero_convention
+    - reflexivity
+    - symmetry
+    - exact_grid_witness_values
+  false_claim:
+    identifier: universal_identity_is_false
+    claim: "every registered fuzzy-member pair has similarity 1"
+    exact_witness:
+      a: "1/4"
+      b: "1/2"
+      similarity_value: "1/2"
+    certification: "Lean theorem fuzzy_jaccard_counterexample_not_one"
+
+validity_policy:
+  primary_validator: independent_lean_compilation
+  static_rejections:
+    - sorry
+    - admit
+    - axiom
+  theorem_source_edits_during_compilation: forbidden
+  non_ascii_lean_source: forbidden
+  generated_manifest_is_not_proof_evidence: true
+
+scope_note: >-
+  Phase 07 is a minimum viable custom suite for a one-element finite universe.
+  It uses exact rational arithmetic and provides a formally stated witness for
+  one false universal claim. It does not yet formalize arbitrary finite
+  universes, all similarity families, transitivity, or a miniF2F score.
