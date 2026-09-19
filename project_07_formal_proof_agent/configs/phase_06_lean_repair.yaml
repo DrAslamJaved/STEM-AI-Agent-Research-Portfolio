@@ -1,0 +1,57 @@
+schema_version: 1
+phase: "06"
+title: "Lean generate-verify-repair workflow"
+
+benchmark:
+  repository: "openai/miniF2F"
+  frozen_branch: "v1"
+  benchmark_commit: "f0dcc8b59e630fba00ba9569ca6714700e0a8801"
+  development_split: valid
+  final_evaluation_split: test
+  test_split_locked: true
+
+toolchain:
+  lean_toolchain: "leanprover-community/lean:3.42.1"
+  mathlib_revision: "cb2b02fff213ed6f65bebd64446baac64137dcda"
+  compiler: "elan run <pinned-toolchain> lean"
+  working_directory: "benchmarks/minif2f/upstream"
+
+lean_repair_arm:
+  arm: llm_lean_repair
+  initial_generation_feedback: none
+  lean_feedback_during_generation: allowed_compiler_diagnostics_and_static_policy
+  compiler_feedback_during_generation: allowed
+  evaluation_timing: iterative_independent_compilation
+  theorem_declaration_edits: forbidden
+  prior_candidate_text_during_repair: allowed
+  repair:
+    max_repair_iterations: 2
+    termination:
+      - candidate_compiles
+      - repair_budget_exhausted
+  forbidden_generation_content:
+    - sorry
+    - admit
+    - axiom
+
+evaluation:
+  interface: "phase_03_evaluation_harness"
+  primary_validator: independent_lean_compilation
+  candidate_provenance:
+    retain_initial_prompt: true
+    retain_repair_prompt: true
+    retain_raw_completion: true
+    retain_compiler_stdout_stderr: true
+    retain_source_sha256: true
+    retain_feedback_sha256: true
+  metrics:
+    - compile_at_1
+    - compile_after_lean_repair
+    - repaired_theorem_count
+    - repair_budget_exhausted_theorem_count
+    - mean_repair_iterations_executed
+
+scope_note: >-
+  This phase enables a bounded Lean-feedback repair arm. The bundled synthetic
+  smoke run demonstrates control flow and provenance only; it is not a miniF2F
+  score or an LLM-performance result.

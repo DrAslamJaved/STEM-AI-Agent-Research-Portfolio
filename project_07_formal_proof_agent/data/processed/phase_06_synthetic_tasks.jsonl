@@ -1,0 +1,2 @@
+{"theorem_id": "synthetic_nat_refl", "split": "valid", "declaration": "example : (2 : Nat) = 2 :=", "source": "synthetic_phase_06_demo"}
+{"theorem_id": "synthetic_nat_add_zero", "split": "valid", "declaration": "example : (3 : Nat) + 0 = 3 :=", "source": "synthetic_phase_06_demo"}
