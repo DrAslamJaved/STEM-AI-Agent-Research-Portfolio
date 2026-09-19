@@ -1,0 +1,4 @@
+# Phase 02 local benchmark checkout and build logs
+benchmarks/minif2f/upstream/
+benchmarks/minif2f/upstream/_target/
+reports/phase_02/*.log
