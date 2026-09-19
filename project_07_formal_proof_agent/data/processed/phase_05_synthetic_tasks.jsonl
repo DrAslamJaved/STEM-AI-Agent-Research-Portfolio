@@ -1,0 +1,2 @@
+{"theorem_id": "synthetic_symbolic_identity", "split": "valid", "declaration": "example : (2 : Nat) = 2 :=", "source": "synthetic_phase_05_demo"}
+{"theorem_id": "synthetic_fuzzy_witness", "split": "valid", "declaration": "example : (1 : Rat) / 4 < 1 / 2 :=", "imports": ["tactic"], "source": "synthetic_phase_05_demo"}

@@ -1,0 +1,303 @@
+{
+  "evaluation_results": [
+    {
+      "arm": "llm_sympy",
+      "candidate_id": "sympy-9a57ffd3b09a62e8",
+      "compile_passed": true,
+      "compiler_exit_code": 0,
+      "compiler_stderr": "",
+      "compiler_stdout": "synthetic evaluator accepted candidate",
+      "elapsed_seconds": 7e-06,
+      "source_sha256": "e90a75ee4b57d6e87420745c8246217b3ba8666343d955b6c5c08dc391e702bd",
+      "split": "valid",
+      "static_rejections": [],
+      "status": "compiled",
+      "theorem_id": "synthetic_symbolic_identity"
+    },
+    {
+      "arm": "llm_sympy",
+      "candidate_id": "sympy-3a70927e409d7f55",
+      "compile_passed": true,
+      "compiler_exit_code": 0,
+      "compiler_stderr": "",
+      "compiler_stdout": "synthetic evaluator accepted candidate",
+      "elapsed_seconds": 4e-06,
+      "source_sha256": "e90a75ee4b57d6e87420745c8246217b3ba8666343d955b6c5c08dc391e702bd",
+      "split": "valid",
+      "static_rejections": [],
+      "status": "compiled",
+      "theorem_id": "synthetic_symbolic_identity"
+    },
+    {
+      "arm": "llm_sympy",
+      "candidate_id": "sympy-36287b1f65537e8c",
+      "compile_passed": false,
+      "compiler_exit_code": 1,
+      "compiler_stderr": "synthetic evaluator rejected candidate",
+      "compiler_stdout": "",
+      "elapsed_seconds": 4e-06,
+      "source_sha256": "2f781bd1d48adbd2b2f8991c0b487fb7405cbf36a9174c74c5ac0b3100af79d7",
+      "split": "valid",
+      "static_rejections": [],
+      "status": "failed_compile",
+      "theorem_id": "synthetic_fuzzy_witness"
+    },
+    {
+      "arm": "llm_sympy",
+      "candidate_id": "sympy-66366f51bcf348ec",
+      "compile_passed": true,
+      "compiler_exit_code": 0,
+      "compiler_stderr": "",
+      "compiler_stdout": "synthetic evaluator accepted candidate",
+      "elapsed_seconds": 3e-06,
+      "source_sha256": "814f59292751dd3531030b267a6fc1ca5ebbdad3361cb56ddd181533b1c3db22",
+      "split": "valid",
+      "static_rejections": [],
+      "status": "compiled",
+      "theorem_id": "synthetic_fuzzy_witness"
+    }
+  ],
+  "generated_candidates": [
+    {
+      "arm": "llm_sympy",
+      "candidate_id": "sympy-9a57ffd3b09a62e8",
+      "input_tokens": 24,
+      "iteration": 0,
+      "lean_code": "by rfl",
+      "metadata": {
+        "evaluation_feedback": "forbidden",
+        "generation_policy": "sympy_only_no_lean_feedback",
+        "iteration": 0,
+        "lean_feedback": "forbidden",
+        "model_identifier": "scripted-sympy-offline-provider",
+        "prompt_sha256": "8c3058c029ef18c2c244f29d5c5feaf8c11224ad0277b7307b798471e1e1dce0",
+        "raw_completion_sha256": "07414bc62774fe846652745e0ac194133428f2a4b61232c7c03f2b8c1b5fc6f4",
+        "seed": 20260919,
+        "sympy_context_sha256": "8c87bef15c73346228e925767d640c84a7826b997151f2927d43c2c50449ffb2",
+        "sympy_feedback": "exact_diagnostics_and_counterexamples"
+      },
+      "output_tokens": 4,
+      "prompt": "Produce only the Lean proof body for the frozen theorem below.\nDo not restate, edit, or weaken the theorem declaration.\nYou may use only the SymPy context below; you will receive no Lean compiler diagnostics, compilation status, search results, or prior candidate text.\nSymPy evidence is advisory and cannot establish formal validity.\nDo not use sorry, admit, or axiom.\n\nSymPy-only diagnostic context (not Lean compiler feedback):\n- SymPy can guide algebra and exact witness search; it cannot establish Lean validity.\n- binomial_expansion: (x + y)**2 = x**2 + 2*x*y + y**2; residual 0 (residual is zero).\n\nFrozen theorem (SymPy repair iteration 0):\nexample : (2 : Nat) = 2 :=\n",
+      "prompt_id": "phase_05_llm_sympy_prompt_v1",
+      "prompt_sha256": "8c3058c029ef18c2c244f29d5c5feaf8c11224ad0277b7307b798471e1e1dce0",
+      "raw_completion": "```lean\nby rfl\n```",
+      "raw_completion_sha256": "07414bc62774fe846652745e0ac194133428f2a4b61232c7c03f2b8c1b5fc6f4",
+      "source_sha256": "e90a75ee4b57d6e87420745c8246217b3ba8666343d955b6c5c08dc391e702bd",
+      "sympy_context": {
+        "counterexamples": [],
+        "diagnostics": [
+          {
+            "claim_id": "binomial_expansion",
+            "equivalent_under_sympy_simplification": true,
+            "formal_validity_decision": "not_decided_by_sympy",
+            "lhs": "(x + y)**2",
+            "method": "sympy_simplify_exact_symbolic_residual",
+            "residual": "0",
+            "rhs": "x**2 + 2*x*y + y**2"
+          }
+        ],
+        "formal_validity_decision": "reserved_for_independent_lean_evaluation"
+      },
+      "sympy_context_sha256": "8c87bef15c73346228e925767d640c84a7826b997151f2927d43c2c50449ffb2",
+      "theorem_id": "synthetic_symbolic_identity"
+    },
+    {
+      "arm": "llm_sympy",
+      "candidate_id": "sympy-3a70927e409d7f55",
+      "input_tokens": 24,
+      "iteration": 1,
+      "lean_code": "by rfl",
+      "metadata": {
+        "evaluation_feedback": "forbidden",
+        "generation_policy": "sympy_only_no_lean_feedback",
+        "iteration": 1,
+        "lean_feedback": "forbidden",
+        "model_identifier": "scripted-sympy-offline-provider",
+        "prompt_sha256": "ef95476a098ddafd6cfcd3a0c49d047731c02edaa1811c65824735eb3f55ddb3",
+        "raw_completion_sha256": "e90a75ee4b57d6e87420745c8246217b3ba8666343d955b6c5c08dc391e702bd",
+        "seed": 20260919,
+        "sympy_context_sha256": "8c87bef15c73346228e925767d640c84a7826b997151f2927d43c2c50449ffb2",
+        "sympy_feedback": "exact_diagnostics_and_counterexamples"
+      },
+      "output_tokens": 4,
+      "prompt": "Produce only the Lean proof body for the frozen theorem below.\nDo not restate, edit, or weaken the theorem declaration.\nYou may use only the SymPy context below; you will receive no Lean compiler diagnostics, compilation status, search results, or prior candidate text.\nSymPy evidence is advisory and cannot establish formal validity.\nDo not use sorry, admit, or axiom.\n\nSymPy-only diagnostic context (not Lean compiler feedback):\n- SymPy can guide algebra and exact witness search; it cannot establish Lean validity.\n- binomial_expansion: (x + y)**2 = x**2 + 2*x*y + y**2; residual 0 (residual is zero).\n\nFrozen theorem (SymPy repair iteration 1):\nexample : (2 : Nat) = 2 :=\n",
+      "prompt_id": "phase_05_llm_sympy_prompt_v1",
+      "prompt_sha256": "ef95476a098ddafd6cfcd3a0c49d047731c02edaa1811c65824735eb3f55ddb3",
+      "raw_completion": "by rfl",
+      "raw_completion_sha256": "e90a75ee4b57d6e87420745c8246217b3ba8666343d955b6c5c08dc391e702bd",
+      "source_sha256": "e90a75ee4b57d6e87420745c8246217b3ba8666343d955b6c5c08dc391e702bd",
+      "sympy_context": {
+        "counterexamples": [],
+        "diagnostics": [
+          {
+            "claim_id": "binomial_expansion",
+            "equivalent_under_sympy_simplification": true,
+            "formal_validity_decision": "not_decided_by_sympy",
+            "lhs": "(x + y)**2",
+            "method": "sympy_simplify_exact_symbolic_residual",
+            "residual": "0",
+            "rhs": "x**2 + 2*x*y + y**2"
+          }
+        ],
+        "formal_validity_decision": "reserved_for_independent_lean_evaluation"
+      },
+      "sympy_context_sha256": "8c87bef15c73346228e925767d640c84a7826b997151f2927d43c2c50449ffb2",
+      "theorem_id": "synthetic_symbolic_identity"
+    },
+    {
+      "arm": "llm_sympy",
+      "candidate_id": "sympy-36287b1f65537e8c",
+      "input_tokens": 24,
+      "iteration": 0,
+      "lean_code": "by exact 0",
+      "metadata": {
+        "evaluation_feedback": "forbidden",
+        "generation_policy": "sympy_only_no_lean_feedback",
+        "iteration": 0,
+        "lean_feedback": "forbidden",
+        "model_identifier": "scripted-sympy-offline-provider",
+        "prompt_sha256": "73cdb788ac57434cadbd596deb90cf51ee7409c02a81495aca86a54028eb93ad",
+        "raw_completion_sha256": "2f781bd1d48adbd2b2f8991c0b487fb7405cbf36a9174c74c5ac0b3100af79d7",
+        "seed": 20260919,
+        "sympy_context_sha256": "c05c8983f63ffbcdf27ed873345e4cbe4bbc19ad44cf5404b77f645406f32b03",
+        "sympy_feedback": "exact_diagnostics_and_counterexamples"
+      },
+      "output_tokens": 4,
+      "prompt": "Produce only the Lean proof body for the frozen theorem below.\nDo not restate, edit, or weaken the theorem declaration.\nYou may use only the SymPy context below; you will receive no Lean compiler diagnostics, compilation status, search results, or prior candidate text.\nSymPy evidence is advisory and cannot establish formal validity.\nDo not use sorry, admit, or axiom.\n\nSymPy-only diagnostic context (not Lean compiler feedback):\n- SymPy can guide algebra and exact witness search; it cannot establish Lean validity.\n- Exact counterexample to singleton_jaccard_nonzero_identity: a=1/4, b=1/2; observed value 1/2.\n\nFrozen theorem (SymPy repair iteration 0):\nimport tactic\n\nexample : (1 : Rat) / 4 < 1 / 2 :=\n",
+      "prompt_id": "phase_05_llm_sympy_prompt_v1",
+      "prompt_sha256": "73cdb788ac57434cadbd596deb90cf51ee7409c02a81495aca86a54028eb93ad",
+      "raw_completion": "by exact 0",
+      "raw_completion_sha256": "2f781bd1d48adbd2b2f8991c0b487fb7405cbf36a9174c74c5ac0b3100af79d7",
+      "source_sha256": "2f781bd1d48adbd2b2f8991c0b487fb7405cbf36a9174c74c5ac0b3100af79d7",
+      "sympy_context": {
+        "counterexamples": [
+          {
+            "arithmetic": "exact_rational",
+            "assignments": {
+              "a": "1/4",
+              "b": "1/2"
+            },
+            "claim_description": "For all nonzero singleton fuzzy memberships a and b, J(a, b) = 1.",
+            "claim_id": "singleton_jaccard_nonzero_identity",
+            "examined_points": 2,
+            "formal_validity_decision": "not_decided_by_sympy",
+            "observed_value": "1/2",
+            "search_method": "finite_exact_rational_grid"
+          }
+        ],
+        "diagnostics": [],
+        "formal_validity_decision": "reserved_for_independent_lean_evaluation"
+      },
+      "sympy_context_sha256": "c05c8983f63ffbcdf27ed873345e4cbe4bbc19ad44cf5404b77f645406f32b03",
+      "theorem_id": "synthetic_fuzzy_witness"
+    },
+    {
+      "arm": "llm_sympy",
+      "candidate_id": "sympy-66366f51bcf348ec",
+      "input_tokens": 24,
+      "iteration": 1,
+      "lean_code": "by norm_num",
+      "metadata": {
+        "evaluation_feedback": "forbidden",
+        "generation_policy": "sympy_only_no_lean_feedback",
+        "iteration": 1,
+        "lean_feedback": "forbidden",
+        "model_identifier": "scripted-sympy-offline-provider",
+        "prompt_sha256": "5ecd5b2a66d143ad2fd42c182afc1640aea5fcc512df698e1011a04f232b5746",
+        "raw_completion_sha256": "814f59292751dd3531030b267a6fc1ca5ebbdad3361cb56ddd181533b1c3db22",
+        "seed": 20260919,
+        "sympy_context_sha256": "c05c8983f63ffbcdf27ed873345e4cbe4bbc19ad44cf5404b77f645406f32b03",
+        "sympy_feedback": "exact_diagnostics_and_counterexamples"
+      },
+      "output_tokens": 4,
+      "prompt": "Produce only the Lean proof body for the frozen theorem below.\nDo not restate, edit, or weaken the theorem declaration.\nYou may use only the SymPy context below; you will receive no Lean compiler diagnostics, compilation status, search results, or prior candidate text.\nSymPy evidence is advisory and cannot establish formal validity.\nDo not use sorry, admit, or axiom.\n\nSymPy-only diagnostic context (not Lean compiler feedback):\n- SymPy can guide algebra and exact witness search; it cannot establish Lean validity.\n- Exact counterexample to singleton_jaccard_nonzero_identity: a=1/4, b=1/2; observed value 1/2.\n\nFrozen theorem (SymPy repair iteration 1):\nimport tactic\n\nexample : (1 : Rat) / 4 < 1 / 2 :=\n",
+      "prompt_id": "phase_05_llm_sympy_prompt_v1",
+      "prompt_sha256": "5ecd5b2a66d143ad2fd42c182afc1640aea5fcc512df698e1011a04f232b5746",
+      "raw_completion": "by norm_num",
+      "raw_completion_sha256": "814f59292751dd3531030b267a6fc1ca5ebbdad3361cb56ddd181533b1c3db22",
+      "source_sha256": "814f59292751dd3531030b267a6fc1ca5ebbdad3361cb56ddd181533b1c3db22",
+      "sympy_context": {
+        "counterexamples": [
+          {
+            "arithmetic": "exact_rational",
+            "assignments": {
+              "a": "1/4",
+              "b": "1/2"
+            },
+            "claim_description": "For all nonzero singleton fuzzy memberships a and b, J(a, b) = 1.",
+            "claim_id": "singleton_jaccard_nonzero_identity",
+            "examined_points": 2,
+            "formal_validity_decision": "not_decided_by_sympy",
+            "observed_value": "1/2",
+            "search_method": "finite_exact_rational_grid"
+          }
+        ],
+        "diagnostics": [],
+        "formal_validity_decision": "reserved_for_independent_lean_evaluation"
+      },
+      "sympy_context_sha256": "c05c8983f63ffbcdf27ed873345e4cbe4bbc19ad44cf5404b77f645406f32b03",
+      "theorem_id": "synthetic_fuzzy_witness"
+    }
+  ],
+  "generation_completed_before_evaluation": true,
+  "generation_policy": {
+    "arm": "llm_sympy",
+    "counterexample_arithmetic": "exact_rational_only",
+    "evaluation_timing": "post_generation_only",
+    "lean_feedback_during_generation": "forbidden",
+    "sympy_feedback_during_generation": "allowed_exact_diagnostics_and_counterexamples",
+    "test_split_locked": true
+  },
+  "metrics": {
+    "candidate_count": 4,
+    "compile_after_sympy_repair": 1.0,
+    "compile_at_1": 0.5,
+    "max_recorded_iteration": 1,
+    "theorem_count": 2
+  },
+  "run_config": {
+    "max_sympy_repair_iterations": 1,
+    "model_identifier": "scripted-sympy-offline-provider",
+    "prompt_id": "phase_05_llm_sympy_prompt_v1",
+    "run_id": "phase_05_synthetic_sympy_v1",
+    "seed": 20260919
+  },
+  "schema_version": 1,
+  "sympy_context_by_theorem": {
+    "synthetic_fuzzy_witness": {
+      "counterexamples": [
+        {
+          "arithmetic": "exact_rational",
+          "assignments": {
+            "a": "1/4",
+            "b": "1/2"
+          },
+          "claim_description": "For all nonzero singleton fuzzy memberships a and b, J(a, b) = 1.",
+          "claim_id": "singleton_jaccard_nonzero_identity",
+          "examined_points": 2,
+          "formal_validity_decision": "not_decided_by_sympy",
+          "observed_value": "1/2",
+          "search_method": "finite_exact_rational_grid"
+        }
+      ],
+      "diagnostics": [],
+      "formal_validity_decision": "reserved_for_independent_lean_evaluation"
+    },
+    "synthetic_symbolic_identity": {
+      "counterexamples": [],
+      "diagnostics": [
+        {
+          "claim_id": "binomial_expansion",
+          "equivalent_under_sympy_simplification": true,
+          "formal_validity_decision": "not_decided_by_sympy",
+          "lhs": "(x + y)**2",
+          "method": "sympy_simplify_exact_symbolic_residual",
+          "residual": "0",
+          "rhs": "x**2 + 2*x*y + y**2"
+        }
+      ],
+      "formal_validity_decision": "reserved_for_independent_lean_evaluation"
+    }
+  },
+  "synthetic_demo": true
+}
