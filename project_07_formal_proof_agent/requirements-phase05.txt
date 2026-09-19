@@ -1,0 +1,2 @@
+# Exact symbolic diagnostics and rational counterexample search for Phase 05.
+sympy>=1.12,<2

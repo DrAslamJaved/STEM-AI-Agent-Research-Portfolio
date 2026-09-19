@@ -1,0 +1,54 @@
+schema_version: 1
+phase: "05"
+title: "LLM plus SymPy diagnostics and exact counterexample search"
+
+benchmark:
+  repository: "openai/miniF2F"
+  frozen_branch: "v1"
+  benchmark_commit: "f0dcc8b59e630fba00ba9569ca6714700e0a8801"
+  development_split: valid
+  final_evaluation_split: test
+  test_split_locked: true
+
+sympy_arm:
+  arm: llm_sympy
+  sympy_feedback_during_generation: allowed_exact_diagnostics_and_counterexamples
+  lean_feedback_during_generation: forbidden
+  compiler_feedback_during_generation: forbidden
+  evaluation_timing: post_generation_only
+  allowed_sympy_operations:
+    - exact_symbolic_residual_simplification
+    - finite_exact_rational_counterexample_search
+  forbidden_operations:
+    - floating_point_counterexample_evidence
+    - lean_diagnostics
+    - lean_compilation_status
+    - prior_candidate_text
+  repair:
+    max_sympy_repair_iterations: 1
+    repair_signal: sympy_diagnostics_and_counterexamples_only
+    theorem_declaration_edits: forbidden
+
+counterexample_policy:
+  fuzzy_membership_domain: closed_unit_interval
+  arithmetic: exact_rational_only
+  zero_denominator_conventions: explicit_and_recorded
+  non_witness_interpretation: no_finite_grid_witness_is_not_a_proof
+
+evaluation:
+  interface: "phase_03_evaluation_harness"
+  primary_validator: independent_posthoc_lean_compilation
+  static_rejection:
+    prohibited_tokens:
+      - sorry
+      - admit
+      - axiom
+  metrics:
+    - compile_at_1
+    - compile_after_sympy_repair
+    - counterexample_witness_count
+
+scope_note: >-
+  SymPy is an auxiliary symbolic-diagnostic and exact-counterexample tool. It
+  does not establish Lean theorem validity, and this synthetic smoke run is not
+  a miniF2F or model-performance result.
