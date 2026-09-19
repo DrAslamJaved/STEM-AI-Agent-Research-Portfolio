@@ -1,0 +1,25 @@
+{
+  "benchmark_commit": "f0dcc8b59e630fba00ba9569ca6714700e0a8801",
+  "compilation_passed": true,
+  "compiler_command": [
+    "run",
+    "leanprover-community/lean:3.42.1",
+    "lean",
+    "formalizations/lean3/FuzzySimilarity.lean"
+  ],
+  "compiler_cwd_kind": "configured_pinned_minif2f_v1_checkout",
+  "compiler_exit_code": 0,
+  "compiler_stderr": "",
+  "compiler_stdout": "",
+  "finished_at_utc": "2026-09-19T16:51:33.475679Z",
+  "formal_validity_decision": "independent_lean_compilation",
+  "lean_toolchain": "leanprover-community/lean:3.42.1",
+  "mathlib_revision": "cb2b02fff213ed6f65bebd64446baac64137dcda",
+  "phase": "07",
+  "schema_version": 1,
+  "source_encoding": "ASCII",
+  "source_path": "formalizations/lean3/FuzzySimilarity.lean",
+  "source_sha256": "1534c2698153ffe9a4e1da0b1e0284e26651fa84e242cce25c6806c9a2e25c2c",
+  "started_at_utc": "2026-09-19T16:51:32.198253Z",
+  "status": "compiled"
+}
