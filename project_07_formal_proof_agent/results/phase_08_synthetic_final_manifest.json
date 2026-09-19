@@ -1,0 +1,41 @@
+{
+  "arms": {
+    "llm_lean_repair": {
+      "lean_feedback": "allowed",
+      "max_repair_iterations": 2,
+      "sympy_feedback": "not_required"
+    },
+    "llm_only": {
+      "lean_feedback": "forbidden",
+      "max_repair_iterations": 0,
+      "sympy_feedback": "forbidden"
+    },
+    "llm_sympy": {
+      "lean_feedback": "forbidden",
+      "max_repair_iterations": 0,
+      "sympy_feedback": "allowed"
+    }
+  },
+  "evaluation_split": "test",
+  "formal_validity_decision": "independent_lean_compilation",
+  "human_review": {
+    "approved": false,
+    "reviewer": "not_applicable_synthetic_fixture"
+  },
+  "max_repair_iterations": 2,
+  "model_identifier": "scripted-offline-release-fixture",
+  "phase": "08",
+  "provenance": {
+    "benchmark_commit": "f0dcc8b59e630fba00ba9569ca6714700e0a8801",
+    "candidate_records_sha256": "099d24afaeb9efc216cf07213c7498b5a7f658dc893274fce6b3d43fb206466e",
+    "lean_toolchain": "leanprover-community/lean:3.42.1",
+    "mathlib_revision": "cb2b02fff213ed6f65bebd64446baac64137dcda",
+    "task_manifest_sha256": "9db215ae111f11236c95a3a25ecf1aa17ac7b84cd9ade7da14274e19d67c8705"
+  },
+  "run_id": "phase_08_synthetic_release_v1",
+  "samples_per_theorem": 1,
+  "schema_version": 1,
+  "seed": 20260920,
+  "synthetic_demo": true,
+  "test_split_locked": true
+}

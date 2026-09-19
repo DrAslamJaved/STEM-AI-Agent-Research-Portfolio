@@ -1,0 +1,34 @@
+name: Project 07 validation
+
+on:
+  pull_request:
+    paths:
+      - "project_07_formal_proof_agent/**"
+      - ".github/workflows/project-07-ci.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "project_07_formal_proof_agent/**"
+      - ".github/workflows/project-07-ci.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  project-07-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install test dependencies
+        run: python -m pip install --upgrade pytest hypothesis sympy
+      - name: Run Project 07 test suite
+        run: python -m pytest -q project_07_formal_proof_agent/tests
+      - name: Rebuild and validate Phase 08 synthetic release gate
+        run: |
+          python project_07_formal_proof_agent/scripts/run_phase_08_synthetic_release.py --project-root project_07_formal_proof_agent
+          python project_07_formal_proof_agent/scripts/validate_phase_08_evaluation_release.py
+          python -m compileall -q project_07_formal_proof_agent/src project_07_formal_proof_agent/scripts
