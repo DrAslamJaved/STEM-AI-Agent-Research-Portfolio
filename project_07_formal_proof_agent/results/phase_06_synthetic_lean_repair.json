@@ -1,0 +1,164 @@
+{
+  "attempts": [
+    {
+      "arm": "llm_lean_repair",
+      "candidate_id": "lean-repair-d384ccb2108ba551",
+      "evaluation": {
+        "arm": "llm_lean_repair",
+        "candidate_id": "lean-repair-d384ccb2108ba551",
+        "compile_passed": true,
+        "compiler_exit_code": 0,
+        "compiler_stderr": "",
+        "compiler_stdout": "synthetic evaluator accepted candidate",
+        "elapsed_seconds": 8e-06,
+        "source_sha256": "e90a75ee4b57d6e87420745c8246217b3ba8666343d955b6c5c08dc391e702bd",
+        "split": "valid",
+        "static_rejections": [],
+        "status": "compiled",
+        "theorem_id": "synthetic_nat_refl"
+      },
+      "input_tokens": 16,
+      "iteration": 0,
+      "lean_code": "by rfl",
+      "metadata": {
+        "generation_policy": "bounded_lean_generate_verify_repair",
+        "lean_feedback": "none",
+        "model_identifier": "scripted-lean-repair-offline-provider",
+        "prompt_sha256": "5c80ada1e0566034a59ab7d9e4dcb551638cb9af7f2cd86673a29299ae900354",
+        "raw_completion_sha256": "07414bc62774fe846652745e0ac194133428f2a4b61232c7c03f2b8c1b5fc6f4",
+        "repair_iteration": 0,
+        "seed": 20260919
+      },
+      "output_tokens": 4,
+      "prompt": "Produce only the Lean proof body for the frozen theorem below.\nDo not restate, edit, or weaken the theorem declaration.\nThis is the initial attempt; no compiler feedback is available yet.\nDo not use sorry, admit, or axiom.\n\nexample : (2 : Nat) = 2 :=\n",
+      "prompt_id": "phase_06_lean_repair_prompt_v1",
+      "prompt_sha256": "5c80ada1e0566034a59ab7d9e4dcb551638cb9af7f2cd86673a29299ae900354",
+      "raw_completion": "```lean\nby rfl\n```",
+      "raw_completion_sha256": "07414bc62774fe846652745e0ac194133428f2a4b61232c7c03f2b8c1b5fc6f4",
+      "repair_feedback": null,
+      "source_sha256": "e90a75ee4b57d6e87420745c8246217b3ba8666343d955b6c5c08dc391e702bd",
+      "theorem_id": "synthetic_nat_refl"
+    },
+    {
+      "arm": "llm_lean_repair",
+      "candidate_id": "lean-repair-5e27ac2096eb7668",
+      "evaluation": {
+        "arm": "llm_lean_repair",
+        "candidate_id": "lean-repair-5e27ac2096eb7668",
+        "compile_passed": false,
+        "compiler_exit_code": 1,
+        "compiler_stderr": "synthetic Lean diagnostic: proof body did not typecheck",
+        "compiler_stdout": "",
+        "elapsed_seconds": 4e-06,
+        "source_sha256": "2f781bd1d48adbd2b2f8991c0b487fb7405cbf36a9174c74c5ac0b3100af79d7",
+        "split": "valid",
+        "static_rejections": [],
+        "status": "failed_compile",
+        "theorem_id": "synthetic_nat_add_zero"
+      },
+      "input_tokens": 16,
+      "iteration": 0,
+      "lean_code": "by exact 0",
+      "metadata": {
+        "generation_policy": "bounded_lean_generate_verify_repair",
+        "lean_feedback": "none",
+        "model_identifier": "scripted-lean-repair-offline-provider",
+        "prompt_sha256": "43a628d7616f68a28c864bfe3e4eeb99702470288a4fddee578a72f191606175",
+        "raw_completion_sha256": "2f781bd1d48adbd2b2f8991c0b487fb7405cbf36a9174c74c5ac0b3100af79d7",
+        "repair_iteration": 0,
+        "seed": 20260919
+      },
+      "output_tokens": 4,
+      "prompt": "Produce only the Lean proof body for the frozen theorem below.\nDo not restate, edit, or weaken the theorem declaration.\nThis is the initial attempt; no compiler feedback is available yet.\nDo not use sorry, admit, or axiom.\n\nexample : (3 : Nat) + 0 = 3 :=\n",
+      "prompt_id": "phase_06_lean_repair_prompt_v1",
+      "prompt_sha256": "43a628d7616f68a28c864bfe3e4eeb99702470288a4fddee578a72f191606175",
+      "raw_completion": "by exact 0",
+      "raw_completion_sha256": "2f781bd1d48adbd2b2f8991c0b487fb7405cbf36a9174c74c5ac0b3100af79d7",
+      "repair_feedback": null,
+      "source_sha256": "2f781bd1d48adbd2b2f8991c0b487fb7405cbf36a9174c74c5ac0b3100af79d7",
+      "theorem_id": "synthetic_nat_add_zero"
+    },
+    {
+      "arm": "llm_lean_repair",
+      "candidate_id": "lean-repair-ea1eeae43bd49b52",
+      "evaluation": {
+        "arm": "llm_lean_repair",
+        "candidate_id": "lean-repair-ea1eeae43bd49b52",
+        "compile_passed": true,
+        "compiler_exit_code": 0,
+        "compiler_stderr": "",
+        "compiler_stdout": "synthetic evaluator accepted candidate",
+        "elapsed_seconds": 6e-06,
+        "source_sha256": "050a87764b672f10c5cfa206c25eb3afb440516ff0568fd98e1d54c01d3211e6",
+        "split": "valid",
+        "static_rejections": [],
+        "status": "compiled",
+        "theorem_id": "synthetic_nat_add_zero"
+      },
+      "input_tokens": 32,
+      "iteration": 1,
+      "lean_code": "by simpa using Nat.add_zero 3",
+      "metadata": {
+        "generation_policy": "bounded_lean_generate_verify_repair",
+        "lean_feedback": "compiler_diagnostics_and_static_policy",
+        "lean_feedback_sha256": "0ba68ee65f96f80f6928104d96f87ea0aef40269dce00726c9725124582b024a",
+        "model_identifier": "scripted-lean-repair-offline-provider",
+        "prior_candidate_id": "lean-repair-5e27ac2096eb7668",
+        "prompt_sha256": "afce1f437d120e8fe5569dfd06f50f70c5983393a590e0aaaed85d915a937195",
+        "raw_completion_sha256": "050a87764b672f10c5cfa206c25eb3afb440516ff0568fd98e1d54c01d3211e6",
+        "repair_iteration": 1,
+        "seed": 20260919
+      },
+      "output_tokens": 6,
+      "prompt": "Produce only a replacement Lean proof body for the frozen theorem below.\nDo not restate, edit, or weaken the theorem declaration.\nUse the independent Lean feedback to repair the previous proof body.\nDo not use sorry, admit, or axiom.\n\nIndependent evaluation feedback for the previous proof body:\n- Previous candidate ID: lean-repair-5e27ac2096eb7668\n- Evaluation status: failed_compile\n- Previous Lean proof body:\nby exact 0\n- Lean exit code: 1\n- Lean stderr:\nsynthetic Lean diagnostic: proof body did not typecheck\n\nFrozen theorem (Lean repair iteration 1):\nexample : (3 : Nat) + 0 = 3 :=\n",
+      "prompt_id": "phase_06_lean_repair_prompt_v1",
+      "prompt_sha256": "afce1f437d120e8fe5569dfd06f50f70c5983393a590e0aaaed85d915a937195",
+      "raw_completion": "by simpa using Nat.add_zero 3",
+      "raw_completion_sha256": "050a87764b672f10c5cfa206c25eb3afb440516ff0568fd98e1d54c01d3211e6",
+      "repair_feedback": {
+        "candidate_id": "lean-repair-5e27ac2096eb7668",
+        "compiler_exit_code": 1,
+        "compiler_stderr": "synthetic Lean diagnostic: proof body did not typecheck",
+        "compiler_stdout": "",
+        "prior_lean_code": "by exact 0",
+        "static_rejections": [],
+        "status": "failed_compile"
+      },
+      "source_sha256": "050a87764b672f10c5cfa206c25eb3afb440516ff0568fd98e1d54c01d3211e6",
+      "theorem_id": "synthetic_nat_add_zero"
+    }
+  ],
+  "generation_policy": {
+    "arm": "llm_lean_repair",
+    "development_split": "valid",
+    "formal_validity_decision": "independent_lean_compilation",
+    "lean_feedback_during_generation": "allowed_compiler_diagnostics_and_static_policy",
+    "max_repair_iterations": 2,
+    "test_split_locked": true,
+    "theorem_declaration_edits": "forbidden"
+  },
+  "metrics": {
+    "attempt_count": 3,
+    "compile_after_lean_repair": 1.0,
+    "compile_at_1": 0.5,
+    "max_recorded_iteration": 1,
+    "mean_repair_iterations_executed": 0.5,
+    "repair_budget_exhausted_theorem_count": 0,
+    "repaired_theorem_count": 1,
+    "theorem_count": 2
+  },
+  "pinned_toolchain": {
+    "benchmark_commit": "f0dcc8b59e630fba00ba9569ca6714700e0a8801",
+    "lean_toolchain": "leanprover-community/lean:3.42.1",
+    "mathlib_revision": "cb2b02fff213ed6f65bebd64446baac64137dcda"
+  },
+  "run_config": {
+    "max_repair_iterations": 1,
+    "model_identifier": "scripted-lean-repair-offline-provider",
+    "prompt_id": "phase_06_lean_repair_prompt_v1",
+    "run_id": "phase_06_synthetic_lean_repair_v1",
+    "seed": 20260919
+  },
+  "schema_version": 1,
+  "synthetic_demo": true
+}
