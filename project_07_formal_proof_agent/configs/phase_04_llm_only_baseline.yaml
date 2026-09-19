@@ -1,0 +1,43 @@
+schema_version: 1
+phase: "04"
+title: "Controlled LLM-only proof-generation baseline"
+
+benchmark:
+  repository: "openai/miniF2F"
+  frozen_branch: "v1"
+  benchmark_commit: "f0dcc8b59e630fba00ba9569ca6714700e0a8801"
+  development_split: valid
+  final_evaluation_split: test
+  test_split_locked: true
+
+baseline:
+  arm: llm_only
+  verification_feedback_during_generation: forbidden
+  tool_calls_during_generation: forbidden
+  repair_iterations: 0
+  evaluation_timing: post_generation_only
+  candidate_budget:
+    samples_per_theorem: 2
+  capture:
+    retain_prompt: true
+    retain_raw_completion: true
+    retain_source_sha256: true
+    retain_model_identifier: true
+    retain_seed: true
+    retain_token_counts: true
+
+evaluation:
+  interface: "phase_03_evaluation_harness"
+  primary_validator: independent_posthoc_lean_compilation
+  metrics:
+    - compile_at_1
+    - observed_pass_at_k
+  static_rejection:
+    prohibited_tokens:
+      - sorry
+      - admit
+      - axiom
+
+scope_note: >-
+  This phase establishes a tool-free generation baseline only. Its synthetic
+  smoke run is not a miniF2F score and is not evidence of LLM performance.

@@ -1,0 +1,188 @@
+{
+  "evaluation_results": [
+    {
+      "arm": "llm_only",
+      "candidate_id": "baseline-bb48b1a2056181c9",
+      "compile_passed": true,
+      "compiler_exit_code": 0,
+      "compiler_stderr": "",
+      "compiler_stdout": "synthetic evaluator accepted candidate",
+      "elapsed_seconds": 9e-06,
+      "source_sha256": "e90a75ee4b57d6e87420745c8246217b3ba8666343d955b6c5c08dc391e702bd",
+      "split": "valid",
+      "static_rejections": [],
+      "status": "compiled",
+      "theorem_id": "synthetic_nat_refl"
+    },
+    {
+      "arm": "llm_only",
+      "candidate_id": "baseline-78a5747451f9157d",
+      "compile_passed": false,
+      "compiler_exit_code": 1,
+      "compiler_stderr": "synthetic evaluator rejected candidate",
+      "compiler_stdout": "",
+      "elapsed_seconds": 5e-06,
+      "source_sha256": "2f781bd1d48adbd2b2f8991c0b487fb7405cbf36a9174c74c5ac0b3100af79d7",
+      "split": "valid",
+      "static_rejections": [],
+      "status": "failed_compile",
+      "theorem_id": "synthetic_nat_refl"
+    },
+    {
+      "arm": "llm_only",
+      "candidate_id": "baseline-f13cd57ae6237e52",
+      "compile_passed": false,
+      "compiler_exit_code": 1,
+      "compiler_stderr": "synthetic evaluator rejected candidate",
+      "compiler_stdout": "",
+      "elapsed_seconds": 4e-06,
+      "source_sha256": "2f781bd1d48adbd2b2f8991c0b487fb7405cbf36a9174c74c5ac0b3100af79d7",
+      "split": "valid",
+      "static_rejections": [],
+      "status": "failed_compile",
+      "theorem_id": "synthetic_nat_add_zero"
+    },
+    {
+      "arm": "llm_only",
+      "candidate_id": "baseline-1c12fc0ec190c2a3",
+      "compile_passed": true,
+      "compiler_exit_code": 0,
+      "compiler_stderr": "",
+      "compiler_stdout": "synthetic evaluator accepted candidate",
+      "elapsed_seconds": 3e-06,
+      "source_sha256": "050a87764b672f10c5cfa206c25eb3afb440516ff0568fd98e1d54c01d3211e6",
+      "split": "valid",
+      "static_rejections": [],
+      "status": "compiled",
+      "theorem_id": "synthetic_nat_add_zero"
+    }
+  ],
+  "generated_candidates": [
+    {
+      "arm": "llm_only",
+      "candidate_id": "baseline-bb48b1a2056181c9",
+      "input_tokens": 12,
+      "iteration": 0,
+      "lean_code": "by rfl",
+      "metadata": {
+        "baseline_arm": "llm_only",
+        "generation_feedback": "none",
+        "generation_policy": "tool_free_no_feedback",
+        "model_identifier": "scripted-offline-provider",
+        "prompt_sha256": "c9651b1599af889ab882eb5913ff1d370374cf969406763be1bb2d184e317279",
+        "raw_completion_sha256": "07414bc62774fe846652745e0ac194133428f2a4b61232c7c03f2b8c1b5fc6f4",
+        "sample_index": 0,
+        "seed": 20260919
+      },
+      "output_tokens": 4,
+      "prompt": "Produce only the Lean proof body for the frozen theorem below.\nDo not restate, edit, or weaken the theorem declaration.\nYou have no tools and will receive no feedback or repair suggestions.\nDo not use sorry, admit, or axiom.\n\nexample : (2 : Nat) = 2 :=\n",
+      "prompt_id": "phase_04_llm_only_prompt_v1",
+      "prompt_sha256": "c9651b1599af889ab882eb5913ff1d370374cf969406763be1bb2d184e317279",
+      "raw_completion": "```lean\nby rfl\n```",
+      "raw_completion_sha256": "07414bc62774fe846652745e0ac194133428f2a4b61232c7c03f2b8c1b5fc6f4",
+      "source_sha256": "e90a75ee4b57d6e87420745c8246217b3ba8666343d955b6c5c08dc391e702bd",
+      "theorem_id": "synthetic_nat_refl"
+    },
+    {
+      "arm": "llm_only",
+      "candidate_id": "baseline-78a5747451f9157d",
+      "input_tokens": 12,
+      "iteration": 0,
+      "lean_code": "by exact 0",
+      "metadata": {
+        "baseline_arm": "llm_only",
+        "generation_feedback": "none",
+        "generation_policy": "tool_free_no_feedback",
+        "model_identifier": "scripted-offline-provider",
+        "prompt_sha256": "c9651b1599af889ab882eb5913ff1d370374cf969406763be1bb2d184e317279",
+        "raw_completion_sha256": "2f781bd1d48adbd2b2f8991c0b487fb7405cbf36a9174c74c5ac0b3100af79d7",
+        "sample_index": 1,
+        "seed": 20260919
+      },
+      "output_tokens": 4,
+      "prompt": "Produce only the Lean proof body for the frozen theorem below.\nDo not restate, edit, or weaken the theorem declaration.\nYou have no tools and will receive no feedback or repair suggestions.\nDo not use sorry, admit, or axiom.\n\nexample : (2 : Nat) = 2 :=\n",
+      "prompt_id": "phase_04_llm_only_prompt_v1",
+      "prompt_sha256": "c9651b1599af889ab882eb5913ff1d370374cf969406763be1bb2d184e317279",
+      "raw_completion": "by exact 0",
+      "raw_completion_sha256": "2f781bd1d48adbd2b2f8991c0b487fb7405cbf36a9174c74c5ac0b3100af79d7",
+      "source_sha256": "2f781bd1d48adbd2b2f8991c0b487fb7405cbf36a9174c74c5ac0b3100af79d7",
+      "theorem_id": "synthetic_nat_refl"
+    },
+    {
+      "arm": "llm_only",
+      "candidate_id": "baseline-f13cd57ae6237e52",
+      "input_tokens": 12,
+      "iteration": 0,
+      "lean_code": "by exact 0",
+      "metadata": {
+        "baseline_arm": "llm_only",
+        "generation_feedback": "none",
+        "generation_policy": "tool_free_no_feedback",
+        "model_identifier": "scripted-offline-provider",
+        "prompt_sha256": "2fda2b212339226b402c017a40191092dbd37a47ada2f115d7495ea7670b63bf",
+        "raw_completion_sha256": "2f781bd1d48adbd2b2f8991c0b487fb7405cbf36a9174c74c5ac0b3100af79d7",
+        "sample_index": 0,
+        "seed": 20260919
+      },
+      "output_tokens": 4,
+      "prompt": "Produce only the Lean proof body for the frozen theorem below.\nDo not restate, edit, or weaken the theorem declaration.\nYou have no tools and will receive no feedback or repair suggestions.\nDo not use sorry, admit, or axiom.\n\nexample : (3 : Nat) + 0 = 3 :=\n",
+      "prompt_id": "phase_04_llm_only_prompt_v1",
+      "prompt_sha256": "2fda2b212339226b402c017a40191092dbd37a47ada2f115d7495ea7670b63bf",
+      "raw_completion": "by exact 0",
+      "raw_completion_sha256": "2f781bd1d48adbd2b2f8991c0b487fb7405cbf36a9174c74c5ac0b3100af79d7",
+      "source_sha256": "2f781bd1d48adbd2b2f8991c0b487fb7405cbf36a9174c74c5ac0b3100af79d7",
+      "theorem_id": "synthetic_nat_add_zero"
+    },
+    {
+      "arm": "llm_only",
+      "candidate_id": "baseline-1c12fc0ec190c2a3",
+      "input_tokens": 12,
+      "iteration": 0,
+      "lean_code": "by simpa using Nat.add_zero 3",
+      "metadata": {
+        "baseline_arm": "llm_only",
+        "generation_feedback": "none",
+        "generation_policy": "tool_free_no_feedback",
+        "model_identifier": "scripted-offline-provider",
+        "prompt_sha256": "2fda2b212339226b402c017a40191092dbd37a47ada2f115d7495ea7670b63bf",
+        "raw_completion_sha256": "050a87764b672f10c5cfa206c25eb3afb440516ff0568fd98e1d54c01d3211e6",
+        "sample_index": 1,
+        "seed": 20260919
+      },
+      "output_tokens": 4,
+      "prompt": "Produce only the Lean proof body for the frozen theorem below.\nDo not restate, edit, or weaken the theorem declaration.\nYou have no tools and will receive no feedback or repair suggestions.\nDo not use sorry, admit, or axiom.\n\nexample : (3 : Nat) + 0 = 3 :=\n",
+      "prompt_id": "phase_04_llm_only_prompt_v1",
+      "prompt_sha256": "2fda2b212339226b402c017a40191092dbd37a47ada2f115d7495ea7670b63bf",
+      "raw_completion": "by simpa using Nat.add_zero 3",
+      "raw_completion_sha256": "050a87764b672f10c5cfa206c25eb3afb440516ff0568fd98e1d54c01d3211e6",
+      "source_sha256": "050a87764b672f10c5cfa206c25eb3afb440516ff0568fd98e1d54c01d3211e6",
+      "theorem_id": "synthetic_nat_add_zero"
+    }
+  ],
+  "generation_completed_before_evaluation": true,
+  "generation_policy": {
+    "arm": "llm_only",
+    "evaluation_timing": "post_generation_only",
+    "repair_iterations": 0,
+    "tool_calls_during_generation": "forbidden",
+    "verification_feedback_during_generation": "forbidden"
+  },
+  "metrics": {
+    "candidate_count": 4,
+    "compile_at_1": 0.5,
+    "observed_pass_at_k": {
+      "1": 0.5,
+      "2": 1.0
+    },
+    "theorem_count": 2
+  },
+  "run_config": {
+    "model_identifier": "scripted-offline-provider",
+    "prompt_id": "phase_04_llm_only_prompt_v1",
+    "run_id": "phase_04_synthetic_baseline_v1",
+    "samples_per_theorem": 2,
+    "seed": 20260919
+  },
+  "schema_version": 1,
+  "synthetic_demo": true
+}
