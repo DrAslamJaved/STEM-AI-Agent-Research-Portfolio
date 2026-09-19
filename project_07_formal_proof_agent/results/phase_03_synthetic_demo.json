@@ -1,0 +1,100 @@
+{
+  "candidate_count": 3,
+  "candidates": [
+    {
+      "arm": "llm_only",
+      "candidate_id": "synthetic_llm_only_valid",
+      "iteration": 0,
+      "lean_code": "by rfl",
+      "metadata": {},
+      "prompt_id": "phase_03_synthetic",
+      "source_sha256": "e90a75ee4b57d6e87420745c8246217b3ba8666343d955b6c5c08dc391e702bd",
+      "theorem_id": "synthetic_nat_refl"
+    },
+    {
+      "arm": "llm_sympy",
+      "candidate_id": "synthetic_sympy_shortcut",
+      "iteration": 0,
+      "lean_code": "by sorry",
+      "metadata": {},
+      "prompt_id": "phase_03_synthetic",
+      "source_sha256": "0df1dbd6d94d802b213dac2d93c51066ff3142e2ff684825d4924c9c330e69da",
+      "theorem_id": "synthetic_nat_refl"
+    },
+    {
+      "arm": "llm_lean_repair",
+      "candidate_id": "synthetic_lean_repair_failure",
+      "iteration": 1,
+      "lean_code": "by exact 0",
+      "metadata": {},
+      "prompt_id": "phase_03_synthetic",
+      "source_sha256": "2f781bd1d48adbd2b2f8991c0b487fb7405cbf36a9174c74c5ac0b3100af79d7",
+      "theorem_id": "synthetic_nat_refl"
+    }
+  ],
+  "evaluation_mode": "development",
+  "results": [
+    {
+      "arm": "llm_only",
+      "candidate_id": "synthetic_llm_only_valid",
+      "compile_passed": true,
+      "compiler_exit_code": 0,
+      "compiler_stderr": "",
+      "compiler_stdout": "synthetic compiler accepted rfl",
+      "elapsed_seconds": 7e-06,
+      "source_sha256": "e90a75ee4b57d6e87420745c8246217b3ba8666343d955b6c5c08dc391e702bd",
+      "split": "valid",
+      "static_rejections": [],
+      "status": "compiled",
+      "theorem_id": "synthetic_nat_refl"
+    },
+    {
+      "arm": "llm_sympy",
+      "candidate_id": "synthetic_sympy_shortcut",
+      "compile_passed": false,
+      "compiler_exit_code": null,
+      "compiler_stderr": "compiler not invoked after static rejection",
+      "compiler_stdout": "",
+      "elapsed_seconds": 0.0,
+      "source_sha256": "0df1dbd6d94d802b213dac2d93c51066ff3142e2ff684825d4924c9c330e69da",
+      "split": "valid",
+      "static_rejections": [
+        "sorry"
+      ],
+      "status": "rejected_static",
+      "theorem_id": "synthetic_nat_refl"
+    },
+    {
+      "arm": "llm_lean_repair",
+      "candidate_id": "synthetic_lean_repair_failure",
+      "compile_passed": false,
+      "compiler_exit_code": 1,
+      "compiler_stderr": "synthetic compiler rejected candidate",
+      "compiler_stdout": "",
+      "elapsed_seconds": 5e-06,
+      "source_sha256": "2f781bd1d48adbd2b2f8991c0b487fb7405cbf36a9174c74c5ac0b3100af79d7",
+      "split": "valid",
+      "static_rejections": [],
+      "status": "failed_compile",
+      "theorem_id": "synthetic_nat_refl"
+    }
+  ],
+  "schema_version": 1,
+  "summary": {
+    "compiled": 1,
+    "failed_compile": 1,
+    "rejected_static": 1,
+    "total": 3
+  },
+  "synthetic_demo": true,
+  "task_count": 1,
+  "tasks": [
+    {
+      "declaration": "example : (1 : Nat) = 1 :=",
+      "imports": [],
+      "source": "synthetic_phase_03_demo",
+      "split": "valid",
+      "theorem_id": "synthetic_nat_refl"
+    }
+  ]
+}

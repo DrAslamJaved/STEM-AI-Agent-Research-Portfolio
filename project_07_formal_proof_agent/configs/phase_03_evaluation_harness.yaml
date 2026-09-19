@@ -1,0 +1,42 @@
+schema_version: 1
+phase: "03"
+title: "Reproducible evaluation harness"
+
+benchmark:
+  repository: "openai/miniF2F"
+  frozen_branch: "v1"
+  benchmark_commit: "f0dcc8b59e630fba00ba9569ca6714700e0a8801"
+  development_split: valid
+  final_evaluation_split: test
+  test_split_locked: true
+
+evaluation:
+  primary_validator: independent_posthoc_lean_compilation
+  execution_modes:
+    development: valid_only
+    final_evaluation: test_only_explicit
+  generation_arms:
+    - llm_only
+    - llm_sympy
+    - llm_lean_repair
+  candidate_capture:
+    require_candidate_id: true
+    require_prompt_id: true
+    require_source_sha256: true
+    retain_candidate_source: true
+  static_rejection:
+    prohibited_tokens:
+      - sorry
+      - admit
+      - axiom
+    preserve_task_declaration: true
+  result_capture:
+    retain_compiler_stdout: true
+    retain_compiler_stderr: true
+    retain_exit_code: true
+    retain_elapsed_seconds: true
+
+scope_note: >-
+  SymPy may support algebraic diagnostics and counterexample search, but Lean
+  compilation is the formal validity decision. Synthetic smoke evidence is not
+  a miniF2F result and must not be reported as model performance.
