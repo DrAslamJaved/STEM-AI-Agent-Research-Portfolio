@@ -1,0 +1,28 @@
+methods:
+  cross_fitted_aipw:
+    supported_estimands: [ATE]
+    nuisance_propensity_model: logistic_regression
+    nuisance_outcome_model: linear_regression
+    cross_fitted: true
+  dr_learner_forest:
+    supported_estimands: [CATE]
+    pseudo_outcome: cross_fitted_doubly_robust_score
+    final_stage_model: random_forest_regression
+    cross_fitted: true
+    generalized_causal_forest: false
+
+defaults:
+  confidence_level: 0.95
+  n_splits: 5
+  propensity_clip: [0.01, 0.99]
+  max_clipped_fraction: 0.10
+  n_estimators: 200
+  min_samples_leaf: 5
+  random_state: 0
+
+safety:
+  require_identified_estimand: true
+  reject_unapproved_adjustment_sets: true
+  require_cate_conditioning_variables: true
+  report_cate_pointwise_interval: false
+  require_human_review: true
