@@ -1,0 +1,22 @@
+suite:
+  checks:
+    - placebo_treatment
+    - random_common_cause
+    - stratified_subset
+  n_simulations: 20
+  random_state: 0
+
+thresholds:
+  subset_fraction: 0.80
+  max_relative_shift: 0.25
+  max_absolute_shift: 0.25
+  min_effect_scale: 0.10
+  max_failed_fraction: 0.10
+  max_placebo_p_value: 0.10
+  random_common_cause_scale: 1.0
+
+safety:
+  require_successful_baseline_estimate: true
+  require_identified_adjustment_set: true
+  pass_does_not_validate_causal_assumptions: true
+  require_human_review: true
