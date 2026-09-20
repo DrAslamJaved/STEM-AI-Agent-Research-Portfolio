@@ -1,0 +1,10 @@
+seeds: [202608, 202609, 202610]
+sample_sizes: [500, 1000, 5000]
+scenarios:
+  - randomized
+  - observed_confounding
+  - nonlinear
+  - heterogeneous
+  - hidden_confounding
+  - positivity_stress
+  - null
