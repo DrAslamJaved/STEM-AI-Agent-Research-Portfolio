@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=75", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "causal-audit-agent"
+version = "0.1.0"
+description = "Identification-aware causal inference and assumption-audit agent"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "numpy>=2.0",
+  "pandas>=2.2",
+  "networkx>=3.3",
+  "PyYAML>=6.0",
+  "scikit-learn>=1.5",
+]
+
+[project.optional-dependencies]
+causal = ["dowhy>=0.13", "econml>=0.16"]
+test = ["pytest>=8.3", "pytest-cov>=5.0", "hypothesis>=6.0"]
+
+[project.scripts]
+causal-audit = "causal_audit_agent.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"
+
+[tool.coverage.run]
+branch = true
+source = ["causal_audit_agent"]

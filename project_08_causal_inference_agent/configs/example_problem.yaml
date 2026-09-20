@@ -1,0 +1,12 @@
+question: What is the average effect of treatment T on outcome Y?
+question_type: causal
+treatment: T
+outcome: Y
+estimand: ATE
+population: eligible study population
+treatment_time: baseline
+outcome_time: follow_up
+candidate_confounders: [X1, X2]
+effect_modifiers: [X2]
+prohibited_adjustments: [M]
+graph_source: domain_expert
