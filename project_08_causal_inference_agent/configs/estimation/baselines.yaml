@@ -1,0 +1,20 @@
+methods:
+  difference_in_means:
+    requires_empty_adjustment_set: true
+    supported_estimands: [ATE, ATT]
+  g_computation:
+    outcome_model: linear_regression
+    supported_estimands: [ATE, ATT]
+  ipw:
+    propensity_model: logistic_regression
+    supported_estimands: [ATE, ATT]
+  aipw:
+    propensity_model: logistic_regression
+    outcome_model: linear_regression
+    supported_estimands: [ATE]
+
+inference:
+  confidence_level: 0.95
+  propensity_clip: [0.01, 0.99]
+  max_clipped_fraction: 0.10
+  random_state: 0
