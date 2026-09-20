@@ -1,0 +1,22 @@
+identifiable_backdoor:
+  estimand: ATE
+  effect_type: total
+  expected_status: IDENTIFIED
+  expected_adjustment_sets: [[X]]
+
+unobserved_confounding:
+  estimand: ATE
+  effect_type: total
+  expected_status: NON_IDENTIFIABLE
+  expected_reason: no_observed_backdoor_adjustment_set
+
+conditional_effect:
+  estimand: CATE
+  effect_type: total
+  conditioned_on: [V]
+  expected_status: IDENTIFIED
+
+unsupported_direct_effect:
+  estimand: ATE
+  effect_type: direct
+  expected_status: UNSUPPORTED_QUERY
