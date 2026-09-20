@@ -1,0 +1,21 @@
+treatment: T
+outcome: Y
+variables:
+  - {name: X1, role: confounder, observed: true, time_order: 0}
+  - {name: T, role: treatment, observed: true, time_order: 1}
+  - {name: M, role: mediator, observed: true, time_order: 2}
+  - {name: Y, role: outcome, observed: true, time_order: 3}
+edges:
+  - [X1, T]
+  - [X1, Y]
+  - [T, M]
+  - [M, Y]
+  - [T, Y]
+assumptions:
+  - consistency
+  - exchangeability
+  - positivity
+  - no_interference
+  - well_defined_intervention
+  - temporal_order
+proposed_adjustment_set: [X1]
