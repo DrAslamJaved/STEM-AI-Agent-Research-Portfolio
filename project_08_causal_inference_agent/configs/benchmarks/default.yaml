@@ -1,0 +1,13 @@
+ihdp:
+  treatment_column: t
+  outcome_column: yf
+  mu0_column: mu0
+  mu1_column: mu1
+  replication: 0
+lalonde:
+  treatment_column: treat
+  outcome_column: re78
+evaluation:
+  require_explicit_lalonde_reference_ate: true
+  reject_lalonde_pehe: true
+  aggregate_missing_metrics_separately: true
