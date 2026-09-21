@@ -1,0 +1,47 @@
+name: Project 08 CI
+
+on:
+  pull_request:
+    paths:
+      - "project_08_causal_inference_agent/**"
+      - ".github/workflows/project08-ci.yml"
+  push:
+    branches: [main]
+    paths:
+      - "project_08_causal_inference_agent/**"
+      - ".github/workflows/project08-ci.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: ${{ matrix.os }} / Python ${{ matrix.python-version }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ["3.11", "3.12"]
+    defaults:
+      run:
+        working-directory: project_08_causal_inference_agent
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: project_08_causal_inference_agent/pyproject.toml
+      - name: Install Project 08 and test dependencies
+        run: python -m pip install --upgrade pip && python -m pip install -e ".[test]"
+      - name: Run tests with branch coverage
+        run: >-
+          python -m pytest
+          --cov=causal_audit_agent
+          --cov-branch
+          --cov-report=term-missing
+          --cov-fail-under=98
