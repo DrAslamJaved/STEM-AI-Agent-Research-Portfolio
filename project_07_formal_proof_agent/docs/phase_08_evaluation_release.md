@@ -71,4 +71,6 @@ For a genuine locked study, place an approved non-synthetic manifest, its
 immutable task manifest, and captured attempt JSONL file in a protected results
 location, then call `run_phase_08_final_evaluation.py` with all three inputs.
 The runner verifies both SHA-256 digests before aggregation and refuses a
-synthetic manifest by design.
+synthetic manifest by design.  These checksums use canonical UTF-8 text bytes
+with LF line endings, so an unchanged task manifest has the same provenance
+digest in Windows CRLF and Linux LF worktrees.

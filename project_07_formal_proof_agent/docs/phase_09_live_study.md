@@ -20,10 +20,11 @@ that project directory.  It does not move or delete the historical Phase 02
 worktree, so failure in the new canonical runtime cannot destroy the working
 toolchain already available elsewhere.
 
-The repository also forces Project 07 text to LF on checkout and computes the
-Phase 07 Lean-source digest from canonical LF-normalized text.  This preserves
-the provenance link across Windows CRLF worktrees without treating line-ending
-conversion as a change to the formal statement.
+The repository also forces Project 07 text to LF on checkout and computes
+Phase 07 Lean-source and text-evidence digests from canonical LF-normalized
+bytes.  This preserves the provenance link across Windows CRLF worktrees
+without treating line-ending conversion as a change to a formal statement or
+frozen task manifest.
 
 ## Frozen task construction
 

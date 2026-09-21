@@ -528,9 +528,20 @@ def write_release_bundle(path: Path, bundle: Mapping[str, Any]) -> None:
 
 
 def sha256_file(path: Path) -> str:
-    """Return the SHA-256 checksum of an immutable evidence file."""
+    """Return a cross-platform SHA-256 checksum for UTF-8 text evidence.
 
-    return sha256(path.read_bytes()).hexdigest()
+    Task manifests and JSON/JSONL evidence are text records.  Git may
+    materialize an otherwise identical tracked record with CRLF on Windows and
+    LF on Linux, so a raw byte checksum would make a frozen task appear to
+    change across environments.  Hash canonical text bytes instead: convert
+    CRLF and legacy CR line endings to LF without mutating the source file.
+
+    This project writes newly generated evidence as LF-only UTF-8, while this
+    normalization preserves auditability for existing Windows worktrees.
+    """
+
+    canonical_bytes = path.read_bytes().replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+    return sha256(canonical_bytes).hexdigest()
 
 
 def render_release_report(bundle: Mapping[str, Any]) -> str:

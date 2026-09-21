@@ -30,7 +30,7 @@
     "candidate_records_sha256": "ac5d5a8d90b4c0779cfe7e9ea2c4658fab461858b8947c568d2a884791bc0887",
     "lean_toolchain": "leanprover-community/lean:3.42.1",
     "mathlib_revision": "cb2b02fff213ed6f65bebd64446baac64137dcda",
-    "task_manifest_sha256": "6af8cb5032e3255d5ec1add5adc31541a9751100604969d563459c3cfb600743"
+    "task_manifest_sha256": "9db215ae111f11236c95a3a25ecf1aa17ac7b84cd9ade7da14274e19d67c8705"
   },
   "run_id": "phase_08_synthetic_release_v1",
   "samples_per_theorem": 1,
