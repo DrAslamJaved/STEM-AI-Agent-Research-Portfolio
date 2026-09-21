@@ -56,6 +56,7 @@ class FinalAttempt:
     kind: str = "proof"
     static_rejections: tuple[str, ...] = ()
     elapsed_seconds: float = 0.0
+    generation_elapsed_seconds: float = 0.0
     input_tokens: int = 0
     output_tokens: int = 0
     estimated_cost_usd: float = 0.0
@@ -80,6 +81,8 @@ class FinalAttempt:
             raise ValueError(f"unsupported task kind: {self.kind}")
         if self.elapsed_seconds < 0:
             raise ValueError("elapsed_seconds must be non-negative")
+        if self.generation_elapsed_seconds < 0:
+            raise ValueError("generation_elapsed_seconds must be non-negative")
         if self.input_tokens < 0 or self.output_tokens < 0:
             raise ValueError("token counts must be non-negative")
         if self.estimated_cost_usd < 0:
@@ -123,6 +126,9 @@ class FinalAttempt:
             static_rejections=tuple(static_rejections),
             elapsed_seconds=float(
                 evaluation.get("elapsed_seconds", record.get("elapsed_seconds", 0.0))
+            ),
+            generation_elapsed_seconds=float(
+                record.get("generation_elapsed_seconds", candidate.get("generation_elapsed_seconds", 0.0))
             ),
             input_tokens=int(record.get("input_tokens", candidate.get("input_tokens", 0))),
             output_tokens=int(record.get("output_tokens", candidate.get("output_tokens", 0))),
@@ -352,9 +358,17 @@ def calculate_arm_metrics(
                 len(refutation_ids),
             ),
             "static_rejection_count": static_rejections,
-            "total_elapsed_seconds": round(sum(item.elapsed_seconds for item in arm_attempts), 6),
+            "total_compiler_seconds": round(sum(item.elapsed_seconds for item in arm_attempts), 6),
+            "total_generation_seconds": round(
+                sum(item.generation_elapsed_seconds for item in arm_attempts), 6
+            ),
+            "total_elapsed_seconds": round(
+                sum(item.elapsed_seconds + item.generation_elapsed_seconds for item in arm_attempts), 6
+            ),
             "mean_elapsed_seconds_per_attempt": round(
-                sum(item.elapsed_seconds for item in arm_attempts) / len(arm_attempts), 6
+                sum(item.elapsed_seconds + item.generation_elapsed_seconds for item in arm_attempts)
+                / len(arm_attempts),
+                6,
             ) if arm_attempts else 0.0,
             "input_token_count": sum(item.input_tokens for item in arm_attempts),
             "output_token_count": sum(item.output_tokens for item in arm_attempts),
@@ -500,14 +514,17 @@ def write_attempts_jsonl(path: Path, attempts: Sequence[FinalAttempt]) -> None:
 
     path.parent.mkdir(parents=True, exist_ok=True)
     text = "\n".join(json.dumps(item.to_record(), sort_keys=True) for item in attempts)
-    path.write_text(text + ("\n" if text else ""), encoding="utf-8")
+    # Hashes in the final manifest are over raw bytes.  Writing bytes prevents
+    # Windows text-mode newline conversion from invalidating a committed LF
+    # manifest in a clean checkout on another operating system.
+    path.write_bytes((text + ("\n" if text else "")).encode("utf-8"))
 
 
 def write_release_bundle(path: Path, bundle: Mapping[str, Any]) -> None:
     """Persist an auditable release bundle."""
 
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(bundle, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    path.write_bytes((json.dumps(bundle, indent=2, sort_keys=True) + "\n").encode("utf-8"))
 
 
 def sha256_file(path: Path) -> str:
@@ -567,4 +584,4 @@ def write_release_report(path: Path, bundle: Mapping[str, Any]) -> None:
     """Write the human-readable companion to the JSON evidence bundle."""
 
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(render_release_report(bundle), encoding="utf-8")
+    path.write_bytes(render_release_report(bundle).encode("utf-8"))

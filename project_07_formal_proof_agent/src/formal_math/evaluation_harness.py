@@ -32,6 +32,7 @@ class Task:
     split: str
     declaration: str
     imports: tuple[str, ...] = ()
+    preamble: str = ""
     source: str = "miniF2F"
 
     def __post_init__(self) -> None:
@@ -52,13 +53,29 @@ class Task:
             split=str(record["split"]),
             declaration=str(record["declaration"]),
             imports=tuple(imports),
+            preamble=str(record.get("preamble", "")),
             source=str(record.get("source", "miniF2F")),
         )
 
+    def render_context(self) -> str:
+        """Render immutable task material visible to a proof generator.
+
+        ``preamble`` permits a custom theorem suite to supply definitions while
+        preserving the rule that the theorem declaration itself cannot be
+        changed by a candidate.  Existing miniF2F tasks continue to use an
+        empty preamble.
+        """
+        import_block = "\n".join(f"import {module}" for module in self.imports)
+        blocks = [
+            block
+            for block in (import_block, self.preamble.strip(), self.declaration.strip())
+            if block
+        ]
+        return "\n\n".join(blocks)
+
     def render_source(self, lean_code: str) -> str:
         """Render a standalone Lean candidate without allowing theorem edits."""
-        import_block = "\n".join(f"import {module}" for module in self.imports)
-        blocks = [block for block in (import_block, self.declaration.strip(), lean_code.strip()) if block]
+        blocks = [block for block in (self.render_context(), lean_code.strip()) if block]
         return "\n\n".join(blocks) + "\n"
 
 

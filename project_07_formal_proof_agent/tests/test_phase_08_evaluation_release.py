@@ -215,6 +215,8 @@ class Phase08EvaluationReleaseTests(unittest.TestCase):
             report = report_path.read_text(encoding="utf-8")
             self.assertEqual(persisted, bundle)
             self.assertIn("Synthetic smoke report", report)
+            self.assertNotIn(b"\r\n", attempts_path.read_bytes())
+            self.assertNotIn(b"\r\n", bundle_path.read_bytes())
 
 
 if __name__ == "__main__":

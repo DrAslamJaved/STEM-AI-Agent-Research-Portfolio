@@ -31,8 +31,17 @@ FORBIDDEN_LEAN_TOKENS = ("sorry", "admit", "axiom")
 
 
 def sha256_file(path: Path) -> str:
-    """Return the SHA-256 digest of a file without altering it."""
-    return sha256(path.read_bytes()).hexdigest()
+    """Return the Phase 07 source digest using canonical text line endings.
+
+    The registered Lean source is portable ASCII, but Git may materialize its
+    text files with CRLF line endings on Windows.  Lean sees equivalent source
+    text in that case, so the provenance digest must identify the canonical
+    source rather than a checkout-specific byte representation.  This helper
+    is deliberately limited to Phase 07's text source and converts CRLF (and
+    legacy CR) to LF before hashing.
+    """
+    canonical_bytes = path.read_bytes().replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+    return sha256(canonical_bytes).hexdigest()
 
 
 def source_path(project_root: Path) -> Path:

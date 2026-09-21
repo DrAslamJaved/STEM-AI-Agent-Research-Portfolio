@@ -81,6 +81,17 @@ class Phase07FuzzyFormalizationTests(unittest.TestCase):
         self.assertTrue(source_is_ascii(self.lean_source))
         self.assertNotRegex(self.lean_source, r"(?m)^import\s")
 
+    def test_source_digest_is_stable_across_windows_line_endings(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            lf_path = Path(directory) / "source_lf.lean"
+            crlf_path = Path(directory) / "source_crlf.lean"
+            source_bytes = self.lean_source_path.read_bytes()
+            lf_path.write_bytes(source_bytes.replace(b"\r\n", b"\n").replace(b"\r", b"\n"))
+            crlf_path.write_bytes(lf_path.read_bytes().replace(b"\n", b"\r\n"))
+
+            self.assertEqual(sha256_file(lf_path), sha256_file(crlf_path))
+            self.assertEqual(sha256_file(lf_path), sha256_file(self.lean_source_path))
+
     def test_lean_source_has_no_prohibited_shortcuts(self) -> None:
         self.assertEqual(static_policy_violations(self.lean_source), ())
 

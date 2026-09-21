@@ -111,7 +111,9 @@ def main() -> None:
             "reviewer": "not_applicable_synthetic_fixture",
         },
     }
-    manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    manifest_path.write_bytes(
+        (json.dumps(manifest, indent=2, sort_keys=True) + "\n").encode("utf-8")
+    )
     bundle = build_release_bundle(manifest, attempts)
     write_release_bundle(bundle_path, bundle)
     write_release_report(report_path, bundle)
