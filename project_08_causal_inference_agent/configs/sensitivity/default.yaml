@@ -1,0 +1,10 @@
+analysis: linear_ovb
+null_value: 0.0
+reduce_fraction: 1.0
+robustness_threshold: 0.10
+confounding_scenarios:
+  - [0.01, 0.01]
+  - [0.05, 0.05]
+  - [0.10, 0.10]
+  - [0.20, 0.20]
+e_value_threshold: 2.0
