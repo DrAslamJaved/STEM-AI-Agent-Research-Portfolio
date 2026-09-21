@@ -19,6 +19,7 @@ from formal_math.evaluation_release import (  # noqa: E402
     calculate_arm_metrics,
     calculate_paired_comparisons,
     load_attempts_jsonl,
+    sha256_file,
     validate_final_attempts,
     validate_release_manifest,
     write_attempts_jsonl,
@@ -215,6 +216,18 @@ class Phase08EvaluationReleaseTests(unittest.TestCase):
             report = report_path.read_text(encoding="utf-8")
             self.assertEqual(persisted, bundle)
             self.assertIn("Synthetic smoke report", report)
+            self.assertNotIn(b"\r\n", attempts_path.read_bytes())
+            self.assertNotIn(b"\r\n", bundle_path.read_bytes())
+
+    def test_text_evidence_checksum_is_stable_across_windows_line_endings(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            lf_path = root / "manifest_lf.jsonl"
+            crlf_path = root / "manifest_crlf.jsonl"
+            lf_path.write_bytes(b'{"theorem_id":"example"}\n')
+            crlf_path.write_bytes(b'{"theorem_id":"example"}\r\n')
+
+            self.assertEqual(sha256_file(lf_path), sha256_file(crlf_path))
 
 
 if __name__ == "__main__":

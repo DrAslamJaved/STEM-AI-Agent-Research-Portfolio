@@ -8,6 +8,7 @@ build/
 dist/
 *.egg-info/
 runs/
+results/phase_09_real/
 results/generated/
 benchmarks/minif2f/upstream/
 # Phase 02 local benchmark checkout and build logs

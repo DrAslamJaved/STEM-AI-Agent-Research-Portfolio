@@ -32,3 +32,4 @@ jobs:
           python project_07_formal_proof_agent/scripts/run_phase_08_synthetic_release.py --project-root project_07_formal_proof_agent
           python project_07_formal_proof_agent/scripts/validate_phase_08_evaluation_release.py
           python -m compileall -q project_07_formal_proof_agent/src project_07_formal_proof_agent/scripts
+          git diff --exit-code

@@ -14,7 +14,9 @@
       "refutation_theorem_count": 1,
       "static_rejection_count": 0,
       "theorem_count": 3,
-      "total_elapsed_seconds": 0.0
+      "total_compiler_seconds": 0.0,
+      "total_elapsed_seconds": 0.0,
+      "total_generation_seconds": 0.0
     },
     "llm_only": {
       "attempt_count": 3,
@@ -30,7 +32,9 @@
       "refutation_theorem_count": 1,
       "static_rejection_count": 0,
       "theorem_count": 3,
-      "total_elapsed_seconds": 0.0
+      "total_compiler_seconds": 0.0,
+      "total_elapsed_seconds": 0.0,
+      "total_generation_seconds": 0.0
     },
     "llm_sympy": {
       "attempt_count": 3,
@@ -46,7 +50,9 @@
       "refutation_theorem_count": 1,
       "static_rejection_count": 0,
       "theorem_count": 3,
-      "total_elapsed_seconds": 0.0
+      "total_compiler_seconds": 0.0,
+      "total_elapsed_seconds": 0.0,
+      "total_generation_seconds": 0.0
     }
   },
   "attempts": [
@@ -55,6 +61,7 @@
       "candidate_id": "phase08-llm_only-synthetic_nat_refl-1-0",
       "elapsed_seconds": 0.0,
       "estimated_cost_usd": 0.0,
+      "generation_elapsed_seconds": 0.0,
       "human_intervention": false,
       "input_tokens": 0,
       "iteration": 0,
@@ -71,6 +78,7 @@
       "candidate_id": "phase08-llm_only-synthetic_nat_add_zero-1-0",
       "elapsed_seconds": 0.0,
       "estimated_cost_usd": 0.0,
+      "generation_elapsed_seconds": 0.0,
       "human_intervention": false,
       "input_tokens": 0,
       "iteration": 0,
@@ -87,6 +95,7 @@
       "candidate_id": "phase08-llm_only-synthetic_fuzzy_refutation-1-0",
       "elapsed_seconds": 0.0,
       "estimated_cost_usd": 0.0,
+      "generation_elapsed_seconds": 0.0,
       "human_intervention": false,
       "input_tokens": 0,
       "iteration": 0,
@@ -103,6 +112,7 @@
       "candidate_id": "phase08-llm_sympy-synthetic_nat_refl-1-0",
       "elapsed_seconds": 0.0,
       "estimated_cost_usd": 0.0,
+      "generation_elapsed_seconds": 0.0,
       "human_intervention": false,
       "input_tokens": 0,
       "iteration": 0,
@@ -119,6 +129,7 @@
       "candidate_id": "phase08-llm_sympy-synthetic_nat_add_zero-1-0",
       "elapsed_seconds": 0.0,
       "estimated_cost_usd": 0.0,
+      "generation_elapsed_seconds": 0.0,
       "human_intervention": false,
       "input_tokens": 0,
       "iteration": 0,
@@ -135,6 +146,7 @@
       "candidate_id": "phase08-llm_sympy-synthetic_fuzzy_refutation-1-0",
       "elapsed_seconds": 0.0,
       "estimated_cost_usd": 0.0,
+      "generation_elapsed_seconds": 0.0,
       "human_intervention": false,
       "input_tokens": 0,
       "iteration": 0,
@@ -151,6 +163,7 @@
       "candidate_id": "phase08-llm_lean_repair-synthetic_nat_refl-1-0",
       "elapsed_seconds": 0.0,
       "estimated_cost_usd": 0.0,
+      "generation_elapsed_seconds": 0.0,
       "human_intervention": false,
       "input_tokens": 0,
       "iteration": 0,
@@ -167,6 +180,7 @@
       "candidate_id": "phase08-llm_lean_repair-synthetic_nat_add_zero-1-0",
       "elapsed_seconds": 0.0,
       "estimated_cost_usd": 0.0,
+      "generation_elapsed_seconds": 0.0,
       "human_intervention": false,
       "input_tokens": 0,
       "iteration": 0,
@@ -183,6 +197,7 @@
       "candidate_id": "phase08-llm_lean_repair-synthetic_nat_add_zero-1-1",
       "elapsed_seconds": 0.0,
       "estimated_cost_usd": 0.0,
+      "generation_elapsed_seconds": 0.0,
       "human_intervention": false,
       "input_tokens": 0,
       "iteration": 1,
@@ -199,6 +214,7 @@
       "candidate_id": "phase08-llm_lean_repair-synthetic_fuzzy_refutation-1-0",
       "elapsed_seconds": 0.0,
       "estimated_cost_usd": 0.0,
+      "generation_elapsed_seconds": 0.0,
       "human_intervention": false,
       "input_tokens": 0,
       "iteration": 0,
@@ -214,7 +230,7 @@
   "evaluation_split": "test",
   "evidence_boundary": "Only independent Lean compilation establishes formal proof validity. SymPy evidence supports diagnostics and refutation search, not formal proof. Synthetic fixtures are workflow checks, never model-performance results.",
   "formal_validity_decision": "independent_lean_compilation",
-  "manifest_sha256": "fc88e49ed52e13a1ad47a7b129727a4a192278174e9d9d2041c18922af2b783b",
+  "manifest_sha256": "4ac9c5143c7d0506cbe43a621ae384583255370c7d5466c1d6db48d7b1f904a7",
   "paired_comparisons": {
     "llm_lean_repair": {
       "compile_after_allowed_workflow_delta_vs_llm_only": 0.0,
@@ -244,7 +260,7 @@
   "phase": "08",
   "provenance": {
     "benchmark_commit": "f0dcc8b59e630fba00ba9569ca6714700e0a8801",
-    "candidate_records_sha256": "099d24afaeb9efc216cf07213c7498b5a7f658dc893274fce6b3d43fb206466e",
+    "candidate_records_sha256": "ac5d5a8d90b4c0779cfe7e9ea2c4658fab461858b8947c568d2a884791bc0887",
     "lean_toolchain": "leanprover-community/lean:3.42.1",
     "mathlib_revision": "cb2b02fff213ed6f65bebd64446baac64137dcda",
     "task_manifest_sha256": "9db215ae111f11236c95a3a25ecf1aa17ac7b84cd9ade7da14274e19d67c8705"

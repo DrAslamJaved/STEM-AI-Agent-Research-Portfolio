@@ -1,0 +1,71 @@
+schema_version: 1
+phase: "09"
+title: "Real miniF2F benchmark execution and evidence capture"
+
+canonical_location:
+  project_root: "G:/Research/STEM/Micro1_STEM_Agent_Portfolio/project_07_formal_proof_agent"
+  legacy_phase_02_worktree: "G:/Research/STEM/Micro1_STEM_Agent_Portfolio_project07"
+  policy: >-
+    Clone and configure the pinned benchmark in the canonical project folder.
+    Do not move, overwrite, or delete the legacy worktree until the canonical
+    runtime has independently passed pre-flight validation.
+
+benchmark:
+  repository: openai/miniF2F
+  frozen_ref: v1
+  benchmark_commit: f0dcc8b59e630fba00ba9569ca6714700e0a8801
+  lean_source_root: lean/src
+  development_split: valid
+  final_split: test
+  expected_theorems_per_split: 244
+  custom_fuzzy_tasks: 4
+
+toolchain:
+  lean_toolchain: leanprover-community/lean:3.42.1
+  mathlib_revision: cb2b02fff213ed6f65bebd64446baac64137dcda
+  formal_validity_decision: independent_lean_compilation
+
+study_arms:
+  llm_only:
+    sympy_feedback: forbidden
+    lean_feedback: forbidden
+    repair_iterations: 0
+    evaluation_timing: after_closed_generation_batch
+  llm_sympy:
+    sympy_feedback: allowed_exact_diagnostics_and_counterexamples
+    lean_feedback: forbidden
+    repair_iterations: 0
+    evaluation_timing: after_closed_generation_batch
+  llm_lean_repair:
+    sympy_feedback: not_required
+    lean_feedback: allowed_independent_compiler_diagnostics
+    repair_iterations: 2
+    theorem_declaration_edits: forbidden
+
+controls:
+  same_task_manifest_for_every_arm: true
+  same_model_identifier_for_every_arm: true
+  same_initial_seed_schedule_for_every_arm: true
+  same_samples_per_theorem_for_every_arm: true
+  forbidden_proof_shortcuts:
+    - sorry
+    - admit
+    - axiom
+  test_split_requires_explicit_confirmation: true
+  human_review_required_before_release: true
+  synthetic_result_is_final_evidence: false
+
+live_provider:
+  implementation: OpenAI Responses API adapter
+  api_key_environment_variable: OPENAI_API_KEY
+  model_identifier: MUST_BE_PREREGISTERED_BY_USER
+  token_pricing: MUST_BE_ENTERED_FROM_CURRENT_PROVIDER_PRICE_SHEET
+  maximum_estimated_cost_usd: MUST_BE_APPROVED_BY_USER
+
+outputs:
+  runtime_directory: runs/phase_09/
+  generation_journal: generation_journal.jsonl
+  raw_candidates: candidate_attempts.jsonl
+  test_manifest: locked_evaluation_manifest.json
+  release_evidence: release_evidence.json
+  human_review: required_before_final_release
