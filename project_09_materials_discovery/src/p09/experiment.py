@@ -47,7 +47,7 @@ def load_task():
     from matbench.bench import MatbenchBenchmark
 
     benchmark = MatbenchBenchmark(autoload=False, subset=[TASK])
-    task = benchmark.tasks[0]
+    task = next(iter(benchmark.tasks))
     task.load()
     if task.metadata["input_type"] != "composition" or task.metadata["task_type"] != "regression":
         raise ValueError("Unexpected Matbench task type")
@@ -59,10 +59,10 @@ def run(task, folds: list[int], seeds: list[int], settings: Settings, target_mae
     rows, audits = [], []
     for fold_number in folds:
         fold = f"fold_{fold_number}"
-        if fold not in available:
-            raise ValueError(f"{fold} not in official folds: {available}")
-        train_inputs, train_targets = task.get_train_and_val_data(fold)
-        test_inputs, test_targets = task.get_test_data(fold, include_target=True)
+        if fold_number not in available:
+            raise ValueError(f"{fold_number} not in official folds: {available}")
+        train_inputs, train_targets = task.get_train_and_val_data(fold_number)
+        test_inputs, test_targets = task.get_test_data(fold_number, include_target=True)
         x_train, train_groups = features_and_groups(train_inputs)
         x_test, test_groups = features_and_groups(test_inputs)
         y_train = np.asarray(train_targets, dtype=float)

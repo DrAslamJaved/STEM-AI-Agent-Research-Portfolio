@@ -9,13 +9,13 @@ The first task is `matbench_expt_gap` (Matbench v0.1), a composition-input regre
 ## Install and run (PowerShell, from this directory)
 
 ```powershell
-py -3.12 -m venv .venv
+python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -e .
 .\.venv\Scripts\python.exe -m unittest discover -s tests -v
 .\.venv\Scripts\p09-experiment.exe --folds 0 --seeds 17 23 --budgets 200 400 800 1600 --target-mae 0.60 --output results\pilot.json
 ```
 
-On some Python environments Matbench's older dependencies may need a compatible environment. The first Matbench run downloads its dataset. No benchmark result is bundled here. For the complete prespecified outer-fold analysis use `--folds 0 1 2 3 4`; retain the other settings. Inspect the JSON for per-fold/per-seed metrics and `threshold_summary`. An absent threshold crossing is reported as `null`, never imputed.
+The PyPI `matbench==0.6` release requires SciPy 1.7.3, which is incompatible with Python 3.12. This project instead installs the official Matbench repository at the pinned source commit in `pyproject.toml`, whose dependency constraints support a modern SciPy; Git must be installed and GitHub reachable during installation. The first Matbench run downloads its dataset. No benchmark result is bundled here. For the complete prespecified outer-fold analysis use `--folds 0 1 2 3 4`; retain the other settings. Inspect the JSON for per-fold/per-seed metrics and `threshold_summary`. An absent threshold crossing is reported as `null`, never imputed.
 
 ### Design locks
 
