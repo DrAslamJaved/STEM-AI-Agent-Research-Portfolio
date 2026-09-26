@@ -9,7 +9,8 @@ import numpy as np
 
 
 def analyze(result: dict) -> dict:
-    rows = [r for r in result["checkpoints"] if r["model"] == "ensemble"]
+    rows = [r for r in result["checkpoints"] if r["model"] == "ensemble"
+            and r["policy"] in ("random", "uncertainty")]
     key = lambda r: (r["fold"], r["seed"], r["budget"])
     by_policy = {policy: {key(r): r for r in rows if r["policy"] == policy}
                  for policy in ("random", "uncertainty")}

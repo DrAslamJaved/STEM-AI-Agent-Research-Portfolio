@@ -8,6 +8,10 @@ import numpy as np
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 from sklearn.model_selection import GroupShuffleSplit
+from sklearn.metrics import pairwise_distances
+
+
+POLICIES = ("random", "uncertainty", "uncertainty_diversity")
 
 
 @dataclass(frozen=True)
@@ -71,9 +75,35 @@ def _pred(models: list, x: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
     return predictions.mean(axis=0), predictions.std(axis=0, ddof=1)
 
 
+def _percentile_ranks(values: np.ndarray) -> np.ndarray:
+    """Average ranks for ties, scaled to [0, 1]."""
+    values = np.asarray(values, dtype=float)
+    if not len(values):
+        return values
+    _, inverse, counts = np.unique(values, return_inverse=True, return_counts=True)
+    ends = np.cumsum(counts)
+    return ((ends - (counts + 1) / 2)[inverse] / max(len(values) - 1, 1))
+
+
+def diversity_scores(x_train: np.ndarray, selected: np.ndarray, remaining: np.ndarray,
+                     disagreement: np.ndarray) -> np.ndarray:
+    """Equal-weight rank of disagreement and nearest labelled composition distance.
+
+    Only the 118 element-fraction columns contribute to distance. This function
+    sees features and model disagreement; it never receives pool targets.
+    """
+    if x_train.shape[1] < 118:
+        raise ValueError("diversity acquisition requires 118 element-fraction columns")
+    if len(disagreement) != len(remaining):
+        raise ValueError("disagreement must match remaining pool")
+    nearest = pairwise_distances(x_train[remaining, :118], x_train[selected, :118]).min(axis=1)
+    return 0.5 * (_percentile_ranks(disagreement) + _percentile_ranks(nearest))
+
+
 def simulate(
     x_train: np.ndarray, y_train: np.ndarray, train_groups: np.ndarray,
     x_test: np.ndarray, y_test: np.ndarray, *, seed: int, settings: Settings,
+    include_diversity: bool = False,
 ) -> list[dict]:
     """Run paired policies. y_test is consulted only while computing checkpoint metrics."""
     x_train, x_test = np.asarray(x_train, float), np.asarray(x_test, float)
@@ -91,7 +121,9 @@ def simulate(
     rng = np.random.default_rng(seed)
     initial = rng.choice(pool, size=settings.initial, replace=False)
     output = []
-    for policy in ("random", "uncertainty"):
+    if include_diversity and x_train.shape[1] < 118:
+        raise ValueError("diversity acquisition requires 118 element-fraction columns")
+    for policy in POLICIES if include_diversity else POLICIES[:2]:
         selected = initial.copy()
         remaining = np.setdiff1d(pool, selected)
         policy_rng = np.random.default_rng(seed + 2048)
@@ -129,14 +161,17 @@ def simulate(
                 chosen = policy_rng.choice(remaining, size=batch, replace=False)
             else:
                 _, spread = _pred(ensemble, x_train[remaining])
+                score = (diversity_scores(x_train, selected, remaining, spread)
+                         if policy == "uncertainty_diversity" else spread)
                 tie_order = policy_rng.permutation(len(remaining))
-                chosen = remaining[tie_order[np.argsort(-spread[tie_order], kind="stable")[:batch]]]
+                chosen = remaining[tie_order[np.argsort(-score[tie_order], kind="stable")[:batch]]]
             selected = np.concatenate([selected, chosen])
             remaining = np.setdiff1d(remaining, chosen)
     return output
 
 
-def crossing_summary(rows: list[dict], target_mae: float) -> list[dict]:
+def crossing_summary(rows: list[dict], target_mae: float,
+                     policies: tuple[str, ...] = POLICIES[:2]) -> list[dict]:
     """First scheduled budget at or below the locked MAE, or null."""
     if not np.isfinite(target_mae) or target_mae <= 0:
         raise ValueError("target MAE must be positive and finite")
@@ -144,13 +179,18 @@ def crossing_summary(rows: list[dict], target_mae: float) -> list[dict]:
     summary = []
     for fold, seed in keys:
         cross = {}
-        for policy in ("random", "uncertainty"):
+        for policy in policies:
             eligible = sorted(r["budget"] for r in rows if r["fold"] == fold and r["seed"] == seed
                               and r["policy"] == policy and r["model"] == "ensemble"
                               and r["mae_ev"] <= target_mae)
             cross[policy] = eligible[0] if eligible else None
         saved = (cross["random"] - cross["uncertainty"]
                  if cross["random"] is not None and cross["uncertainty"] is not None else None)
-        summary.append({"fold": fold, "seed": seed, "first_budget": cross,
-                        "labels_saved_vs_random": saved})
+        entry = {"fold": fold, "seed": seed, "first_budget": cross,
+                 "labels_saved_vs_random": saved}
+        if "uncertainty_diversity" in policies:
+            hybrid = cross["uncertainty_diversity"]
+            entry["labels_saved_diversity_vs_random"] = (
+                cross["random"] - hybrid if cross["random"] is not None and hybrid is not None else None)
+        summary.append(entry)
     return summary
