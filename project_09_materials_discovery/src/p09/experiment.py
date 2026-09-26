@@ -9,7 +9,7 @@ from pathlib import Path
 
 import numpy as np
 
-from .core import Settings, crossing_summary, simulate
+from .core import POLICIES, Settings, crossing_summary, simulate
 
 
 TASK = "matbench_expt_gap"
@@ -61,7 +61,7 @@ def exclude_test_compositions(x_train, y_train, train_groups, test_groups):
 
 
 def run(task, folds: list[int], seeds: list[int], settings: Settings,
-        target_mae: float, split_mode: str = "official") -> dict:
+        target_mae: float, split_mode: str = "official", include_diversity: bool = False) -> dict:
     if split_mode not in ("official", "group_exclusive"):
         raise ValueError("Unknown split mode")
     available = list(task.folds)
@@ -89,7 +89,7 @@ def run(task, folds: list[int], seeds: list[int], settings: Settings,
                        "removed_training_records": removed})
         for seed in seeds:
             fold_rows = simulate(x_train, y_train, train_groups, x_test, y_test,
-                                 seed=seed, settings=settings)
+                                 seed=seed, settings=settings, include_diversity=include_diversity)
             rows.extend({"fold": fold, **r} for r in fold_rows)
     return {
         "task": TASK, "benchmark": "Matbench v0.1", "target_unit": "eV",
@@ -99,9 +99,12 @@ def run(task, folds: list[int], seeds: list[int], settings: Settings,
         "settings": {"folds": folds, "seeds": seeds, "budgets": settings.budgets,
                      "initial": settings.initial, "calibration_fraction": settings.calibration_fraction,
                      "members": settings.members, "trees": settings.trees, "alpha": settings.alpha,
-                     "target_mae_ev": target_mae},
+                     "target_mae_ev": target_mae, "include_diversity": include_diversity,
+                     "diversity_weight": 0.5 if include_diversity else None,
+                     "diversity_features": "first 118 element fractions" if include_diversity else None},
         "split_audits": audits, "checkpoints": rows,
-        "threshold_summary": crossing_summary(rows, target_mae),
+        "threshold_summary": crossing_summary(rows, target_mae,
+                                                POLICIES if include_diversity else POLICIES[:2]),
     }
 
 
@@ -112,6 +115,7 @@ def main() -> None:
     parser.add_argument("--budgets", nargs="+", type=int, default=[200, 400, 800, 1600])
     parser.add_argument("--target-mae", type=float, default=0.60)
     parser.add_argument("--split-mode", choices=["official", "group_exclusive"], default="official")
+    parser.add_argument("--include-diversity", action="store_true", help="include locked uncertainty plus composition-distance acquisition")
     parser.add_argument("--output", type=Path, default=Path("results/pilot.json"))
     args = parser.parse_args()
     if len(set(args.folds)) != len(args.folds) or len(set(args.seeds)) != len(args.seeds):
@@ -119,7 +123,8 @@ def main() -> None:
     settings = Settings(budgets=tuple(args.budgets), initial=args.budgets[0])
     if not np.isfinite(args.target_mae) or args.target_mae <= 0:
         parser.error("target MAE must be positive and finite")
-    result = run(load_task(), args.folds, args.seeds, settings, args.target_mae, args.split_mode)
+    result = run(load_task(), args.folds, args.seeds, settings, args.target_mae,
+                 args.split_mode, args.include_diversity)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, indent=2, allow_nan=False), encoding="utf-8")
     print(f"Saved {len(result['checkpoints'])} model checkpoints to {args.output}")

@@ -1,6 +1,6 @@
 # Project 09: Uncertainty-Aware Materials Discovery Agent
 
-## Phases 01–02: learning curves and composition-overlap robustness
+## Phases 01–03: learning curves, composition-overlap robustness and diversity
 
 **Question:** At a predeclared prediction-error threshold, does uncertainty sampling need fewer experimentally labelled compositions than random sampling?
 
@@ -27,10 +27,25 @@ The PyPI `matbench==0.6` release requires SciPy 1.7.3, which is incompatible wit
 
 The `group_exclusive` robustness mode removes training records with a reduced composition also in that fold's fixed official test set; it does not look at test labels. It is **not an official Matbench benchmark score** because the training data have changed. If filtering leaves too few records for a budget, the run fails explicitly; lower the budgets for a new separately labelled robustness protocol and disclose the change. Inspect JSON for per-fold/per-seed metrics and `threshold_summary`. An absent threshold crossing is reported as `null`, never imputed.
 
+### Phase 03: predeclared diversity comparison
+
+Use `--include-diversity` to run a third acquisition policy with identical folds, seeds, starting labels, calibration set and scheduled budgets. It assigns equal weight to percentile ranks of ensemble disagreement and Euclidean distance from each unlabelled composition to the nearest **currently labelled** composition, using only the 118 element-fraction features. Ties use the seeded ordering. The policy is batch based: distances are recomputed at each scheduled budget, not between acquisitions in one batch. These choices are fixed before viewing the test curves. The existing `p09-report` still reports the original two-policy comparison; the new `p09-diversity-report` requires matched checkpoints for all three policies.
+
+```powershell
+.\.venv\Scripts\p09-experiment.exe --folds 0 --seeds 17 23 --budgets 200 400 800 1600 --target-mae 0.60 --include-diversity --output results\phase03_pilot.json
+.\.venv\Scripts\p09-diversity-report.exe results\phase03_pilot.json --output results\phase03_pilot_report.md
+.\.venv\Scripts\p09-experiment.exe --folds 0 1 2 3 4 --seeds 17 23 --budgets 200 400 800 1600 --target-mae 0.60 --include-diversity --output results\phase03_official.json
+.\.venv\Scripts\p09-diversity-report.exe results\phase03_official.json --output results\phase03_official_report.md
+.\.venv\Scripts\p09-experiment.exe --folds 0 1 2 3 4 --seeds 17 23 --budgets 200 400 800 1600 --target-mae 0.60 --include-diversity --split-mode group_exclusive --output results\phase03_group_exclusive.json
+.\.venv\Scripts\p09-diversity-report.exe results\phase03_group_exclusive.json --output results\phase03_group_exclusive_report.md
+```
+
+The report averages repeated seeds within each fold, shows paired hybrid MAE gains against random and uncertainty sampling, and gives descriptive fold-bootstrap intervals only when at least three folds are present. It reports how often each policy meets the locked threshold; label savings are defined only where **both** paired policies reach it. Check all failed crossings and conditional coverage before claiming improved label efficiency. Pilot results alone do not support that claim.
+
 ### Design locks
 
 * Official five-fold Matbench split defines the outer test set. The inner calibration set is selected from training records by reduced-composition groups; no calibration record is queried during acquisition. The pool and test labels cannot influence selection.
-* At each seed/fold, both policies start with **the same** 200 randomly drawn labels and then each acquire to exactly the stated budgets. Selection uses highest bootstrap ensemble prediction spread; ties use a seeded randomized ordering. Random draws without replacement from the remaining pool.
+* At each seed/fold, all enabled policies start with **the same** 200 randomly drawn labels and then each acquire to exactly the stated budgets. Uncertainty selection uses highest bootstrap ensemble prediction spread; ties use a seeded randomized ordering. Random draws without replacement from the remaining pool.
 * Each checkpoint fits a property-mean model, one random forest, and an independently bootstrapped forest ensemble. It records MAE, RMSE, 90% interval coverage, interval mean width, and test count. Conformal residual quantiles come only from the fixed calibration set. Coverage is marginal under exchangeability, not a per-material guarantee.
 * The target `0.60 eV` is a **planning threshold**, not a claimed result or a literature benchmark. The first crossing is measured at the scheduled budgets only. Compare paired fold/seed crossings and report failures; do not select the target after seeing test curves.
 * The implementation audits overlapping reduced compositions between outer training and outer test, plus repeated reduced compositions inside training. Official splits remain untouched. Overlap can make a composition-only model look optimistic; disclose it and follow with a separate group-exclusive robustness analysis before claiming chemical generalization.
@@ -38,12 +53,12 @@ The `group_exclusive` robustness mode removes training records with a reduced co
 
 ## Files
 
-`src/p09/experiment.py` loads the official fold and writes the complete reproducibility record. `src/p09/core.py` implements fixed-budget evaluation without knowledge of test targets in the selection code. `src/p09/report.py` reports paired MAE gains and bootstrap intervals at the fold level (seeds averaged within fold), coverage and failures to meet the error threshold. `tests/` checks split disjointness, budget parity, interval quantiles, label independence and reporting behavior with synthetic data.
+`src/p09/experiment.py` loads the official fold and writes the complete reproducibility record. `src/p09/core.py` implements fixed-budget evaluation without knowledge of test targets in the selection code. `src/p09/report.py` reports the original paired comparison, while `src/p09/diversity_report.py` reports the three-policy comparison with fold-level intervals (seeds averaged within fold), coverage and failed crossings. `tests/` checks split disjointness, budget parity, interval quantiles, label independence and reporting behavior with synthetic data.
 
 ## Next research phases
 
 1. Run all five folds in both modes and review overlap, variance, interval coverage, and threshold failures.
-2. After inspecting results, predeclare and evaluate a diversity-aware acquisition policy under matched budgets.
+2. Compare Phase 03 diversity-aware acquisition under matched budgets; evaluate whether its threshold savings reproduce across folds and the group-exclusive analysis.
 3. If justified, move to one structure-input Matbench task for a crystal graph model, with an explicit compute budget and matched classical features.
 
 Source: Dunn et al., *npj Computational Materials* **6**, 138 (2020), DOI: [10.1038/s41524-020-00406-3](https://doi.org/10.1038/s41524-020-00406-3). Dataset and task metadata: [Materials Project Matbench](https://docs.materialsproject.org/services/ml-and-ai-applications/matbench), [Matbench source](https://github.com/materialsproject/matbench).
