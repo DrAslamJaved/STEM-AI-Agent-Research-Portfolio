@@ -17,6 +17,7 @@ dependencies = [
 
 [project.scripts]
 p09-experiment = "p09.experiment:main"
+p09-report = "p09.report:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

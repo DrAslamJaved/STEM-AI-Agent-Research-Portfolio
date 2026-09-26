@@ -1,6 +1,6 @@
 # Project 09: Uncertainty-Aware Materials Discovery Agent
 
-## Phase 01: reproducible learning-curve experiment
+## Phases 01–02: learning curves and composition-overlap robustness
 
 **Question:** At a predeclared prediction-error threshold, does uncertainty sampling need fewer experimentally labelled compositions than random sampling?
 
@@ -13,9 +13,19 @@ python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -e .
 .\.venv\Scripts\python.exe -m unittest discover -s tests -v
 .\.venv\Scripts\p09-experiment.exe --folds 0 --seeds 17 23 --budgets 200 400 800 1600 --target-mae 0.60 --output results\pilot.json
+.\.venv\Scripts\p09-report.exe results\pilot.json --output results\pilot_report.md
 ```
 
-The PyPI `matbench==0.6` release requires SciPy 1.7.3, which is incompatible with Python 3.12. This project instead installs the official Matbench repository at the pinned source commit in `pyproject.toml`, whose dependency constraints support a modern SciPy; Git must be installed and GitHub reachable during installation. The first Matbench run downloads its dataset. No benchmark result is bundled here. For the complete prespecified outer-fold analysis use `--folds 0 1 2 3 4`; retain the other settings. Inspect the JSON for per-fold/per-seed metrics and `threshold_summary`. An absent threshold crossing is reported as `null`, never imputed.
+The PyPI `matbench==0.6` release requires SciPy 1.7.3, which is incompatible with Python 3.12. This project installs the official Matbench repository at the pinned source commit in `pyproject.toml`; Git must be installed and GitHub reachable during installation. The first Matbench run downloads its dataset. No benchmark result is bundled here. For the complete prespecified outer-fold analysis run:
+
+```powershell
+.\.venv\Scripts\p09-experiment.exe --folds 0 1 2 3 4 --seeds 17 23 --budgets 200 400 800 1600 --target-mae 0.60 --output results\official.json
+.\.venv\Scripts\p09-report.exe results\official.json --output results\official_report.md
+.\.venv\Scripts\p09-experiment.exe --folds 0 1 2 3 4 --seeds 17 23 --budgets 200 400 800 1600 --target-mae 0.60 --split-mode group_exclusive --output results\group_exclusive.json
+.\.venv\Scripts\p09-report.exe results\group_exclusive.json --output results\group_exclusive_report.md
+```
+
+The `group_exclusive` robustness mode removes training records with a reduced composition also in that fold's fixed official test set; it does not look at test labels. It is **not an official Matbench benchmark score** because the training data have changed. If filtering leaves too few records for a budget, the run fails explicitly; lower the budgets for a new separately labelled robustness protocol and disclose the change. Inspect JSON for per-fold/per-seed metrics and `threshold_summary`. An absent threshold crossing is reported as `null`, never imputed.
 
 ### Design locks
 
@@ -28,12 +38,12 @@ The PyPI `matbench==0.6` release requires SciPy 1.7.3, which is incompatible wit
 
 ## Files
 
-`src/p09/experiment.py` loads the official fold and writes the complete reproducibility record. `src/p09/core.py` implements fixed-budget evaluation without knowledge of test targets in the selection code. `tests/` checks split disjointness, budget parity, interval quantiles and selection behavior with synthetic data.
+`src/p09/experiment.py` loads the official fold and writes the complete reproducibility record. `src/p09/core.py` implements fixed-budget evaluation without knowledge of test targets in the selection code. `src/p09/report.py` reports paired MAE gains and bootstrap intervals at the fold level (seeds averaged within fold), coverage and failures to meet the error threshold. `tests/` checks split disjointness, budget parity, interval quantiles, label independence and reporting behavior with synthetic data.
 
 ## Next research phases
 
-1. Run all five folds and review overlap, variance, interval coverage, and threshold failures.
-2. Add a group-exclusive robustness split and alternative acquisition (uncertainty plus diversity) under the same budget.
+1. Run all five folds in both modes and review overlap, variance, interval coverage, and threshold failures.
+2. After inspecting results, predeclare and evaluate a diversity-aware acquisition policy under matched budgets.
 3. If justified, move to one structure-input Matbench task for a crystal graph model, with an explicit compute budget and matched classical features.
 
 Source: Dunn et al., *npj Computational Materials* **6**, 138 (2020), DOI: [10.1038/s41524-020-00406-3](https://doi.org/10.1038/s41524-020-00406-3). Dataset and task metadata: [Materials Project Matbench](https://docs.materialsproject.org/services/ml-and-ai-applications/matbench), [Matbench source](https://github.com/materialsproject/matbench).

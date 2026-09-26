@@ -1,10 +1,12 @@
+import sys
+import types
 import unittest
 from unittest.mock import patch
 
 import numpy as np
 
 from p09.core import Settings
-from p09.experiment import run
+from p09.experiment import load_task, run
 
 
 class IntegerFoldTask:
@@ -22,6 +24,24 @@ class IntegerFoldTask:
 
 
 class AdapterTests(unittest.TestCase):
+    def test_loader_accepts_dict_values_tasks(self):
+        class FakeTask:
+            metadata = {"input_type": "composition", "task_type": "regression"}
+
+            def load(self):
+                self.loaded = True
+
+        task = FakeTask()
+
+        class FakeBenchmark:
+            def __init__(self, autoload, subset):
+                self.tasks = {"task": task}.values()
+
+        with patch.dict(sys.modules, {"matbench": types.ModuleType("matbench"),
+                                      "matbench.bench": types.SimpleNamespace(MatbenchBenchmark=FakeBenchmark)}):
+            self.assertIs(load_task(), task)
+        self.assertTrue(task.loaded)
+
     def test_official_fold_api_receives_integer(self):
         rng = np.random.default_rng(12)
         arrays = [(rng.normal(size=(80, 3)), np.arange(80).astype(str)),
