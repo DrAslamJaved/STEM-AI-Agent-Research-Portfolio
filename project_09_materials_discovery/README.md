@@ -1,6 +1,6 @@
 # Project 09: Uncertainty-Aware Materials Discovery Agent
 
-## Phases 01–03: learning curves, composition-overlap robustness and diversity
+## Phases 01–04: learning curves, composition diversity and evidence audit
 
 **Question:** At a predeclared prediction-error threshold, does uncertainty sampling need fewer experimentally labelled compositions than random sampling?
 
@@ -42,6 +42,16 @@ Use `--include-diversity` to run a third acquisition policy with identical folds
 
 The report averages repeated seeds within each fold, shows paired hybrid MAE gains against random and uncertainty sampling, and gives descriptive fold-bootstrap intervals only when at least three folds are present. It reports how often each policy meets the locked threshold; label savings are defined only where **both** paired policies reach it. Check all failed crossings and conditional coverage before claiming improved label efficiency. Pilot results alone do not support that claim.
 
+### Phase 04: evaluate the completed runs without retraining
+
+The completed five-fold Phase 03 experiment did **not** show label savings for the hybrid under the predeclared ensemble target. The [Phase 04 findings](docs/phase04_findings.md) retain this result and its input archive checksum. This diagnostic CLI checks checkpoint completeness, identical policy starts, cumulative acquisitions, calibration exclusion and saved crossings; it then compares the forest and ensemble while marking the forest threshold analysis exploratory. It detects when group-exclusive filtering removed zero records. Run it against the original JSON files:
+
+```powershell
+.\.venv\Scripts\python.exe -m p09.diagnostics results\phase03_official.json --robustness results\phase03_group_exclusive.json --output results\phase04_evidence_audit.md --summary-json results\phase04_evidence_audit.json
+```
+
+The audit uses only stored checkpoint summaries. It cannot estimate errors or interval coverage within material subgroups; those require a later prediction-level export and a new full run. Keep the original 0.60 eV ensemble target and the negative Phase 03 result visible rather than changing the target after seeing the curves.
+
 ### Design locks
 
 * Official five-fold Matbench split defines the outer test set. The inner calibration set is selected from training records by reduced-composition groups; no calibration record is queried during acquisition. The pool and test labels cannot influence selection.
@@ -53,12 +63,12 @@ The report averages repeated seeds within each fold, shows paired hybrid MAE gai
 
 ## Files
 
-`src/p09/experiment.py` loads the official fold and writes the complete reproducibility record. `src/p09/core.py` implements fixed-budget evaluation without knowledge of test targets in the selection code. `src/p09/report.py` reports the original paired comparison, while `src/p09/diversity_report.py` reports the three-policy comparison with fold-level intervals (seeds averaged within fold), coverage and failed crossings. `tests/` checks split disjointness, budget parity, interval quantiles, label independence and reporting behavior with synthetic data.
+`src/p09/experiment.py` loads the official fold and writes the complete reproducibility record. `src/p09/core.py` implements fixed-budget evaluation without knowledge of test targets in the selection code. `src/p09/report.py` reports the original paired comparison, while `src/p09/diversity_report.py` reports the three-policy comparison with fold-level intervals (seeds averaged within fold), coverage and failed crossings. `src/p09/diagnostics.py` audits saved runs and reports model-specific exploratory checks. `tests/` checks split disjointness, budget parity, interval quantiles, label independence and reporting behavior with synthetic data.
 
 ## Next research phases
 
-1. Run all five folds in both modes and review overlap, variance, interval coverage, and threshold failures.
-2. Compare Phase 03 diversity-aware acquisition under matched budgets; evaluate whether its threshold savings reproduce across folds and the group-exclusive analysis.
+1. Preserve the Phase 03 negative result and inspect the Phase 04 evidence audit, including exploratory single-forest outcomes.
+2. Add prediction-level diagnostics for per-material errors and conditional coverage in a later phase, with an explicit repeat-run compute budget.
 3. If justified, move to one structure-input Matbench task for a crystal graph model, with an explicit compute budget and matched classical features.
 
 Source: Dunn et al., *npj Computational Materials* **6**, 138 (2020), DOI: [10.1038/s41524-020-00406-3](https://doi.org/10.1038/s41524-020-00406-3). Dataset and task metadata: [Materials Project Matbench](https://docs.materialsproject.org/services/ml-and-ai-applications/matbench), [Matbench source](https://github.com/materialsproject/matbench).
