@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "p09-materials-discovery"
+version = "0.1.0"
+description = "Uncertainty-aware active learning on Matbench experimental band gaps"
+requires-python = ">=3.10"
+dependencies = [
+  "matbench @ git+https://github.com/materialsproject/matbench.git@936176db18ca4cd7b38cbd957c017a5bac770c6b",
+  "matminer>=0.10.1",
+  "numpy>=1.24",
+  "scikit-learn>=1.2",
+  "pymatgen==2025.6.14",
+]
+
+[project.scripts]
+p09-experiment = "p09.experiment:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
