@@ -21,6 +21,7 @@ p09-report = "p09.report:main"
 p09-diversity-report = "p09.diversity_report:main"
 p09-diagnostics = "p09.diagnostics:main"
 p09-conditional-report = "p09.conditional_report:main"
+p09-normalized-report = "p09.normalized_report:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

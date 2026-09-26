@@ -63,7 +63,7 @@ def exclude_test_compositions(x_train, y_train, train_groups, test_groups):
 
 def run(task, folds: list[int], seeds: list[int], settings: Settings,
         target_mae: float, split_mode: str = "official", include_diversity: bool = False,
-        include_predictions: bool = False) -> dict:
+        include_predictions: bool = False, include_normalized_conformal: bool = False) -> dict:
     if split_mode not in ("official", "group_exclusive"):
         raise ValueError("Unknown split mode")
     available = list(task.folds)
@@ -93,7 +93,8 @@ def run(task, folds: list[int], seeds: list[int], settings: Settings,
             local_predictions = [] if include_predictions else None
             fold_rows = simulate(x_train, y_train, train_groups, x_test, y_test,
                                  seed=seed, settings=settings, include_diversity=include_diversity,
-                                 prediction_sink=local_predictions)
+                                 prediction_sink=local_predictions,
+                                 include_normalized_conformal=include_normalized_conformal)
             rows.extend({"fold": fold, **r} for r in fold_rows)
             if local_predictions is not None:
                 prediction_rows.extend({"fold": fold, **r} for r in local_predictions)
@@ -107,7 +108,9 @@ def run(task, folds: list[int], seeds: list[int], settings: Settings,
                      "members": settings.members, "trees": settings.trees, "alpha": settings.alpha,
                      "target_mae_ev": target_mae, "include_diversity": include_diversity,
                      "diversity_weight": 0.5 if include_diversity else None,
-                     "diversity_features": "first 118 element fractions" if include_diversity else None},
+                     "diversity_features": "first 118 element fractions" if include_diversity else None,
+                     "normalized_conformal": include_normalized_conformal,
+                     "normalized_spread_floor_quantile": 0.10 if include_normalized_conformal else None},
         "split_audits": audits, "checkpoints": rows,
         "threshold_summary": crossing_summary(rows, target_mae,
                                                 POLICIES if include_diversity else POLICIES[:2]),
@@ -128,6 +131,8 @@ def main() -> None:
     parser.add_argument("--output", type=Path, default=Path("results/pilot.json"))
     parser.add_argument("--predictions-output", type=Path,
                         help="write per-material evaluation records separately from checkpoints")
+    parser.add_argument("--include-normalized-conformal", action="store_true",
+                        help="evaluate split-conformal intervals scaled by ensemble disagreement")
     args = parser.parse_args()
     if len(set(args.folds)) != len(args.folds) or len(set(args.seeds)) != len(args.seeds):
         parser.error("folds and seeds must not contain duplicates")
@@ -137,7 +142,8 @@ def main() -> None:
     if args.predictions_output and args.predictions_output.resolve() == args.output.resolve():
         parser.error("predictions output must differ from checkpoints output")
     result = run(load_task(), args.folds, args.seeds, settings, args.target_mae,
-                 args.split_mode, args.include_diversity, args.predictions_output is not None)
+                 args.split_mode, args.include_diversity, args.predictions_output is not None,
+                 args.include_normalized_conformal)
     prediction_rows = result.pop("prediction_rows", None)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     checkpoint_text = json.dumps(result, indent=2, allow_nan=False)

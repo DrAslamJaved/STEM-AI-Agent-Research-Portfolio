@@ -1,6 +1,6 @@
 # Project 09: Uncertainty-Aware Materials Discovery Agent
 
-## Phases 01–05: learning curves, diversity, evidence audit and conditional diagnostics
+## Phases 01–06: learning curves, diversity and uncertainty calibration
 
 **Question:** At a predeclared prediction-error threshold, does uncertainty sampling need fewer experimentally labelled compositions than random sampling?
 
@@ -63,6 +63,23 @@ Re-run the **official** five-fold comparison with `--predictions-output` to expo
 
 The conditional report compares coverage in the lowest and highest thirds of predicted ensemble disagreement, computes a descriptive rank correlation between disagreement and absolute error, and reports coverage by fixed element-count strata (one, two, three or more) at the final budget. It withholds an element-count stratum unless every fold/seed has at least 20 test rows there. These subgroup checks are **exploratory**, because Phase 03 results were already seen. Coverage close to 0.90 overall does not imply coverage close to 0.90 in each subgroup. No subgroup analysis changes which labels are acquired.
 
+### Phase 06: normalized conformal intervals
+
+Phase 05 showed that ensemble disagreement tracks absolute error (descriptive Spearman correlations 0.60–0.79), yet fixed-width split-conformal intervals covered only 0.75–0.80 of the highest-disagreement third across the Phase 03 budgets. Phase 06 evaluates an additional, fixed uncertainty interval that scales its half-width by ensemble disagreement. It uses calibration scores
+
+\[
+\frac{|y_i-\hat y_i|}{\max(s_i,\; q_{0.10}(s_{\mathrm{cal}}))},
+\]
+
+where \(s_i\) is ensemble disagreement and the 10th-percentile floor and finite-sample conformal score quantile use the fixed calibration partition only. The original constant-width interval remains in the output for direct comparison. Acquisition, folds, labels, models, and error threshold are unchanged.
+
+```powershell
+.\.venv\Scripts\python.exe -m p09.experiment --folds 0 1 2 3 4 --seeds 17 23 --include-diversity --include-normalized-conformal --output results\phase06_official.json --predictions-output results\phase06_predictions.json
+.\.venv\Scripts\python.exe -m p09.normalized_report results\phase06_predictions.json --checkpoints results\phase06_official.json --output results\phase06_normalized_report.md
+```
+
+Compare scaled coverage and interval width together, particularly in the high-disagreement third. The Phase 06 comparison is an uncertainty-calibration study after inspecting Phase 05; it does not alter the locked Phase 03 label-efficiency conclusion.
+
 ### Design locks
 
 * Official five-fold Matbench split defines the outer test set. The inner calibration set is selected from training records by reduced-composition groups; no calibration record is queried during acquisition. The pool and test labels cannot influence selection.
@@ -74,12 +91,12 @@ The conditional report compares coverage in the lowest and highest thirds of pre
 
 ## Files
 
-`src/p09/experiment.py` loads the official fold and writes the complete reproducibility record. `src/p09/core.py` implements fixed-budget evaluation without knowledge of test targets in the selection code. `src/p09/report.py` reports the original paired comparison, while `src/p09/diversity_report.py` reports the three-policy comparison with fold-level intervals (seeds averaged within fold), coverage and failed crossings. `src/p09/diagnostics.py` audits saved runs and reports model-specific exploratory checks. `src/p09/conditional_report.py` checks optional prediction-level records and summarizes conditional diagnostics. `tests/` checks split disjointness, budget parity, interval quantiles, label independence and reporting behavior with synthetic data.
+`src/p09/experiment.py` loads the official fold and writes the complete reproducibility record. `src/p09/core.py` implements fixed-budget evaluation without knowledge of test targets in the selection code. `src/p09/report.py` reports the original paired comparison, while `src/p09/diversity_report.py` reports the three-policy comparison with fold-level intervals (seeds averaged within fold), coverage and failed crossings. `src/p09/diagnostics.py` audits saved runs and reports model-specific exploratory checks. `src/p09/conditional_report.py` checks optional prediction-level records, and `src/p09/normalized_report.py` compares fixed and disagreement-scaled conformal intervals. `tests/` checks split disjointness, budget parity, interval quantiles, label independence and reporting behavior with synthetic data.
 
 ## Next research phases
 
 1. Preserve the Phase 03 negative result and inspect the Phase 04 evidence audit, including exploratory single-forest outcomes.
-2. Review Phase 05 prediction-level diagnostics for per-material error and conditional coverage, keeping all subgroup findings exploratory.
+2. Evaluate the Phase 06 disagreement-scaled interval, including coverage and width in high-disagreement materials.
 3. If justified, move to one structure-input Matbench task for a crystal graph model, with an explicit compute budget and matched classical features.
 
 Source: Dunn et al., *npj Computational Materials* **6**, 138 (2020), DOI: [10.1038/s41524-020-00406-3](https://doi.org/10.1038/s41524-020-00406-3). Dataset and task metadata: [Materials Project Matbench](https://docs.materialsproject.org/services/ml-and-ai-applications/matbench), [Matbench source](https://github.com/materialsproject/matbench).

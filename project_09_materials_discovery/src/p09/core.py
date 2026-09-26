@@ -47,6 +47,27 @@ def conformal_radius(residuals: np.ndarray, alpha: float) -> float:
     return float(np.partition(errors, rank - 1)[rank - 1])
 
 
+def normalized_conformal_half_width(
+    residuals: np.ndarray, calibration_spread: np.ndarray, test_spread: np.ndarray, alpha: float,
+) -> tuple[np.ndarray, float, float]:
+    """Split-conformal half-widths scaled by ensemble disagreement.
+
+    The calibration 10th-percentile spread is a predeclared positive floor. It
+    prevents near-zero disagreement from producing a degenerate interval.
+    """
+    calibration_spread = np.asarray(calibration_spread, dtype=float)
+    test_spread = np.asarray(test_spread, dtype=float)
+    if (calibration_spread.ndim != 1 or test_spread.ndim != 1
+            or len(calibration_spread) != len(residuals)
+            or np.any(calibration_spread < 0) or np.any(test_spread < 0)
+            or not np.all(np.isfinite(calibration_spread)) or not np.all(np.isfinite(test_spread))):
+        raise ValueError("spread arrays must be finite nonnegative 1-D arrays")
+    floor = max(float(np.quantile(calibration_spread, 0.10)), 1e-12)
+    score_radius = conformal_radius(np.asarray(residuals, dtype=float) /
+                                    np.maximum(calibration_spread, floor), alpha)
+    return score_radius * np.maximum(test_spread, floor), score_radius, floor
+
+
 def make_partition(groups: np.ndarray, n: int, seed: int, fraction: float) -> tuple[np.ndarray, np.ndarray]:
     """Keep equivalent compositions together when reserving calibration data."""
     groups = np.asarray(groups)
@@ -105,6 +126,7 @@ def simulate(
     x_test: np.ndarray, y_test: np.ndarray, *, seed: int, settings: Settings,
     include_diversity: bool = False,
     prediction_sink: list[dict] | None = None,
+    include_normalized_conformal: bool = False,
 ) -> list[dict]:
     """Run paired policies. y_test is consulted only while computing checkpoint metrics."""
     x_train, x_test = np.asarray(x_train, float), np.asarray(x_test, float)
@@ -133,9 +155,14 @@ def simulate(
         for step, budget in enumerate(settings.budgets):
             assert len(selected) == budget
             single, ensemble = _fit(x_train, y_train, selected, seed + step, settings)
-            center_cal, _ = _pred(ensemble, x_train[cal])
-            radius = conformal_radius(np.abs(y_train[cal] - center_cal), settings.alpha)
+            center_cal, spread_cal = _pred(ensemble, x_train[cal])
+            residuals_cal = np.abs(y_train[cal] - center_cal)
+            radius = conformal_radius(residuals_cal, settings.alpha)
             center_test, spread_test = _pred(ensemble, x_test)
+            normalized_half_width = score_radius = spread_floor = None
+            if include_normalized_conformal:
+                normalized_half_width, score_radius, spread_floor = normalized_conformal_half_width(
+                    residuals_cal, spread_cal, spread_test, settings.alpha)
             if prediction_sink is not None:
                 error = np.abs(y_test - center_test)
                 n_elements = np.count_nonzero(x_test[:, :118], axis=1)
@@ -146,6 +173,9 @@ def simulate(
                     "absolute_error_ev": float(error[i]),
                     "disagreement_ev": float(spread_test[i]),
                     "covered_90": bool(error[i] <= radius),
+                    **({"normalized_covered_90": bool(error[i] <= normalized_half_width[i]),
+                        "normalized_interval_width_ev": float(2 * normalized_half_width[i])}
+                       if include_normalized_conformal else {}),
                 } for i in range(len(y_test)))
             predictions = {
                 "mean": np.full(len(y_test), float(np.mean(y_train[selected]))),
@@ -166,6 +196,12 @@ def simulate(
                         "mean_disagreement_ev": float(np.mean(spread_test)),
                         "selected_train_positions": selected.tolist(),
                         "calibration_train_positions": cal.tolist(),
+                        **({"normalized_coverage_90": float(np.mean(np.abs(y_test - prediction)
+                                                                     <= normalized_half_width)),
+                            "normalized_interval_width_ev": float(np.mean(2 * normalized_half_width)),
+                            "normalized_score_radius": float(score_radius),
+                            "normalized_spread_floor_ev": float(spread_floor)}
+                           if include_normalized_conformal else {}),
                     })
                 output.append(row)
             if step + 1 == len(settings.budgets):
