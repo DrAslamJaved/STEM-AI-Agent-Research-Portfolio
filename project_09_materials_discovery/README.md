@@ -1,6 +1,6 @@
 # Project 09: Uncertainty-Aware Materials Discovery Agent
 
-## Phases 01–06: learning curves, diversity and uncertainty calibration
+## Phases 01–07: learning curves, uncertainty calibration and structure graphs
 
 **Question:** At a predeclared prediction-error threshold, does uncertainty sampling need fewer experimentally labelled compositions than random sampling?
 
@@ -80,6 +80,21 @@ where \(s_i\) is ensemble disagreement and the 10th-percentile floor and finite-
 
 Compare scaled coverage and interval width together, particularly in the high-disagreement third. The Phase 06 comparison is an uncertainty-calibration study after inspecting Phase 05; it does not alter the locked Phase 03 label-efficiency conclusion.
 
+### Phase 07: structure task and crystal-graph foundation
+
+`matbench_expt_gap` provides compositions but no crystal structures, so a graph neural network was not justified there. Phase 07 moves the graph comparison to `matbench_dielectric`, a structure-input regression task with 4,764 records and a unitless dielectric target. It defines two matched inputs for the later model comparison:
+
+* A transparent 129-column structure descriptor: 118 atomic-number fractions, site count, density, volume per atom, lattice lengths and angles, and atomic-number mean and standard deviation.
+* A periodic crystal graph with atomic-number nodes and directed neighbour edges. Edges use a fixed 5.0 Å radius, retain at most 12 nearest neighbours per site, and carry intersite distance.
+
+Run the audit before training a graph model. It samples structures from the official fold without recording targets and checks graph and descriptor construction on both training and test partitions.
+
+```powershell
+.\.venv\Scripts\python.exe -m p09.structure_task --fold 0 --limit 64 --output results\phase07_structure_audit.json
+```
+
+The graph construction is deterministic: periodic neighbours are sorted by distance, site index and periodic image before the 12-neighbour cap. The audit is a data-contract check, not a model score. Phase 08 will define the CPU compute budget and compare the descriptor forest with a graph network on the same official folds.
+
 ### Design locks
 
 * Official five-fold Matbench split defines the outer test set. The inner calibration set is selected from training records by reduced-composition groups; no calibration record is queried during acquisition. The pool and test labels cannot influence selection.
@@ -91,12 +106,12 @@ Compare scaled coverage and interval width together, particularly in the high-di
 
 ## Files
 
-`src/p09/experiment.py` loads the official fold and writes the complete reproducibility record. `src/p09/core.py` implements fixed-budget evaluation without knowledge of test targets in the selection code. `src/p09/report.py` reports the original paired comparison, while `src/p09/diversity_report.py` reports the three-policy comparison with fold-level intervals (seeds averaged within fold), coverage and failed crossings. `src/p09/diagnostics.py` audits saved runs and reports model-specific exploratory checks. `src/p09/conditional_report.py` checks optional prediction-level records, and `src/p09/normalized_report.py` compares fixed and disagreement-scaled conformal intervals. `tests/` checks split disjointness, budget parity, interval quantiles, label independence and reporting behavior with synthetic data.
+`src/p09/experiment.py` loads the official fold and writes the complete reproducibility record. `src/p09/core.py` implements fixed-budget evaluation without knowledge of test targets in the selection code. `src/p09/report.py` reports the original paired comparison, while `src/p09/diversity_report.py` reports the three-policy comparison with fold-level intervals (seeds averaged within fold), coverage and failed crossings. `src/p09/diagnostics.py` audits saved runs and reports model-specific exploratory checks. `src/p09/conditional_report.py` checks optional prediction-level records, and `src/p09/normalized_report.py` compares fixed and disagreement-scaled conformal intervals. `src/p09/structure_graph.py` creates graph and descriptor inputs from periodic structures; `src/p09/structure_task.py` audits their Matbench adapter. `tests/` checks split disjointness, budget parity, interval quantiles, label independence and reporting behavior with synthetic data.
 
 ## Next research phases
 
 1. Preserve the Phase 03 negative result and inspect the Phase 04 evidence audit, including exploratory single-forest outcomes.
-2. Evaluate the Phase 06 disagreement-scaled interval, including coverage and width in high-disagreement materials.
-3. If justified, move to one structure-input Matbench task for a crystal graph model, with an explicit compute budget and matched classical features.
+2. Use the Phase 07 data contract to prepare the fixed-budget descriptor-versus-graph model comparison.
+3. Train and assess the graph model on the official `matbench_dielectric` folds, including uncertainty calibration on the selected model.
 
 Source: Dunn et al., *npj Computational Materials* **6**, 138 (2020), DOI: [10.1038/s41524-020-00406-3](https://doi.org/10.1038/s41524-020-00406-3). Dataset and task metadata: [Materials Project Matbench](https://docs.materialsproject.org/services/ml-and-ai-applications/matbench), [Matbench source](https://github.com/materialsproject/matbench).
