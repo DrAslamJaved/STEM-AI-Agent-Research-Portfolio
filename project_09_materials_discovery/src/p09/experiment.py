@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from datetime import datetime, timezone
 from importlib.metadata import version
@@ -61,11 +62,12 @@ def exclude_test_compositions(x_train, y_train, train_groups, test_groups):
 
 
 def run(task, folds: list[int], seeds: list[int], settings: Settings,
-        target_mae: float, split_mode: str = "official", include_diversity: bool = False) -> dict:
+        target_mae: float, split_mode: str = "official", include_diversity: bool = False,
+        include_predictions: bool = False) -> dict:
     if split_mode not in ("official", "group_exclusive"):
         raise ValueError("Unknown split mode")
     available = list(task.folds)
-    rows, audits = [], []
+    rows, audits, prediction_rows = [], [], []
     for fold_number in folds:
         fold = f"fold_{fold_number}"
         if fold_number not in available:
@@ -88,10 +90,14 @@ def run(task, folds: list[int], seeds: list[int], settings: Settings,
                        "original_overlapping_test_records": int(sum(g in overlap for g in test_groups)),
                        "removed_training_records": removed})
         for seed in seeds:
+            local_predictions = [] if include_predictions else None
             fold_rows = simulate(x_train, y_train, train_groups, x_test, y_test,
-                                 seed=seed, settings=settings, include_diversity=include_diversity)
+                                 seed=seed, settings=settings, include_diversity=include_diversity,
+                                 prediction_sink=local_predictions)
             rows.extend({"fold": fold, **r} for r in fold_rows)
-    return {
+            if local_predictions is not None:
+                prediction_rows.extend({"fold": fold, **r} for r in local_predictions)
+    result = {
         "task": TASK, "benchmark": "Matbench v0.1", "target_unit": "eV",
         "split_mode": split_mode,
         "generated_utc": datetime.now(timezone.utc).isoformat(),
@@ -106,6 +112,9 @@ def run(task, folds: list[int], seeds: list[int], settings: Settings,
         "threshold_summary": crossing_summary(rows, target_mae,
                                                 POLICIES if include_diversity else POLICIES[:2]),
     }
+    if include_predictions:
+        result["prediction_rows"] = prediction_rows
+    return result
 
 
 def main() -> None:
@@ -117,17 +126,30 @@ def main() -> None:
     parser.add_argument("--split-mode", choices=["official", "group_exclusive"], default="official")
     parser.add_argument("--include-diversity", action="store_true", help="include locked uncertainty plus composition-distance acquisition")
     parser.add_argument("--output", type=Path, default=Path("results/pilot.json"))
+    parser.add_argument("--predictions-output", type=Path,
+                        help="write per-material evaluation records separately from checkpoints")
     args = parser.parse_args()
     if len(set(args.folds)) != len(args.folds) or len(set(args.seeds)) != len(args.seeds):
         parser.error("folds and seeds must not contain duplicates")
     settings = Settings(budgets=tuple(args.budgets), initial=args.budgets[0])
     if not np.isfinite(args.target_mae) or args.target_mae <= 0:
         parser.error("target MAE must be positive and finite")
+    if args.predictions_output and args.predictions_output.resolve() == args.output.resolve():
+        parser.error("predictions output must differ from checkpoints output")
     result = run(load_task(), args.folds, args.seeds, settings, args.target_mae,
-                 args.split_mode, args.include_diversity)
+                 args.split_mode, args.include_diversity, args.predictions_output is not None)
+    prediction_rows = result.pop("prediction_rows", None)
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(json.dumps(result, indent=2, allow_nan=False), encoding="utf-8")
+    checkpoint_text = json.dumps(result, indent=2, allow_nan=False)
+    args.output.write_text(checkpoint_text, encoding="utf-8")
     print(f"Saved {len(result['checkpoints'])} model checkpoints to {args.output}")
+    if args.predictions_output is not None:
+        payload = {"task": TASK, "split_mode": args.split_mode,
+                   "checkpoint_sha256": hashlib.sha256(args.output.read_bytes()).hexdigest(),
+                   "records": prediction_rows}
+        args.predictions_output.parent.mkdir(parents=True, exist_ok=True)
+        args.predictions_output.write_text(json.dumps(payload, allow_nan=False), encoding="utf-8")
+        print(f"Saved {len(prediction_rows)} per-material evaluation records to {args.predictions_output}")
 
 
 if __name__ == "__main__":
