@@ -104,6 +104,7 @@ def simulate(
     x_train: np.ndarray, y_train: np.ndarray, train_groups: np.ndarray,
     x_test: np.ndarray, y_test: np.ndarray, *, seed: int, settings: Settings,
     include_diversity: bool = False,
+    prediction_sink: list[dict] | None = None,
 ) -> list[dict]:
     """Run paired policies. y_test is consulted only while computing checkpoint metrics."""
     x_train, x_test = np.asarray(x_train, float), np.asarray(x_test, float)
@@ -123,6 +124,8 @@ def simulate(
     output = []
     if include_diversity and x_train.shape[1] < 118:
         raise ValueError("diversity acquisition requires 118 element-fraction columns")
+    if prediction_sink is not None and x_test.shape[1] < 118:
+        raise ValueError("prediction audit requires 118 element-fraction columns")
     for policy in POLICIES if include_diversity else POLICIES[:2]:
         selected = initial.copy()
         remaining = np.setdiff1d(pool, selected)
@@ -133,6 +136,17 @@ def simulate(
             center_cal, _ = _pred(ensemble, x_train[cal])
             radius = conformal_radius(np.abs(y_train[cal] - center_cal), settings.alpha)
             center_test, spread_test = _pred(ensemble, x_test)
+            if prediction_sink is not None:
+                error = np.abs(y_test - center_test)
+                n_elements = np.count_nonzero(x_test[:, :118], axis=1)
+                prediction_sink.extend({
+                    "seed": int(seed), "policy": policy, "budget": int(budget),
+                    "test_position": int(i), "element_count": int(n_elements[i]),
+                    "predicted_ev": float(center_test[i]),
+                    "absolute_error_ev": float(error[i]),
+                    "disagreement_ev": float(spread_test[i]),
+                    "covered_90": bool(error[i] <= radius),
+                } for i in range(len(y_test)))
             predictions = {
                 "mean": np.full(len(y_test), float(np.mean(y_train[selected]))),
                 "forest": single.predict(x_test),

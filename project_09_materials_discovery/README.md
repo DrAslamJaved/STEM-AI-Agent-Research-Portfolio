@@ -1,6 +1,6 @@
 # Project 09: Uncertainty-Aware Materials Discovery Agent
 
-## Phases 01–04: learning curves, composition diversity and evidence audit
+## Phases 01–05: learning curves, diversity, evidence audit and conditional diagnostics
 
 **Question:** At a predeclared prediction-error threshold, does uncertainty sampling need fewer experimentally labelled compositions than random sampling?
 
@@ -52,6 +52,17 @@ The completed five-fold Phase 03 experiment did **not** show label savings for t
 
 The audit uses only stored checkpoint summaries. It cannot estimate errors or interval coverage within material subgroups; those require a later prediction-level export and a new full run. Keep the original 0.60 eV ensemble target and the negative Phase 03 result visible rather than changing the target after seeing the curves.
 
+### Phase 05: optional per-material diagnostics
+
+Re-run the **official** five-fold comparison with `--predictions-output` to export per-material ensemble evaluation records in a separate JSON file. This takes approximately one additional full experiment run; the new file contains a row for every test material, policy, budget, fold and seed. It records absolute error, model disagreement, nominal 90% interval inclusion and the number of constituent elements. It excludes raw test targets and formula strings. The usual checkpoint JSON and its predeclared primary conclusion remain separate. The report refuses prediction records whose stored checkpoint SHA-256 differs from the actual checkpoint JSON, and verifies that their aggregated MAE and coverage agree with each saved checkpoint.
+
+```powershell
+.\.venv\Scripts\python.exe -m p09.experiment --folds 0 1 2 3 4 --seeds 17 23 --include-diversity --output results\phase05_official.json --predictions-output results\phase05_predictions.json
+.\.venv\Scripts\python.exe -m p09.conditional_report results\phase05_predictions.json --checkpoints results\phase05_official.json --output results\phase05_conditional_report.md
+```
+
+The conditional report compares coverage in the lowest and highest thirds of predicted ensemble disagreement, computes a descriptive rank correlation between disagreement and absolute error, and reports coverage by fixed element-count strata (one, two, three or more) at the final budget. It withholds an element-count stratum unless every fold/seed has at least 20 test rows there. These subgroup checks are **exploratory**, because Phase 03 results were already seen. Coverage close to 0.90 overall does not imply coverage close to 0.90 in each subgroup. No subgroup analysis changes which labels are acquired.
+
 ### Design locks
 
 * Official five-fold Matbench split defines the outer test set. The inner calibration set is selected from training records by reduced-composition groups; no calibration record is queried during acquisition. The pool and test labels cannot influence selection.
@@ -63,12 +74,12 @@ The audit uses only stored checkpoint summaries. It cannot estimate errors or in
 
 ## Files
 
-`src/p09/experiment.py` loads the official fold and writes the complete reproducibility record. `src/p09/core.py` implements fixed-budget evaluation without knowledge of test targets in the selection code. `src/p09/report.py` reports the original paired comparison, while `src/p09/diversity_report.py` reports the three-policy comparison with fold-level intervals (seeds averaged within fold), coverage and failed crossings. `src/p09/diagnostics.py` audits saved runs and reports model-specific exploratory checks. `tests/` checks split disjointness, budget parity, interval quantiles, label independence and reporting behavior with synthetic data.
+`src/p09/experiment.py` loads the official fold and writes the complete reproducibility record. `src/p09/core.py` implements fixed-budget evaluation without knowledge of test targets in the selection code. `src/p09/report.py` reports the original paired comparison, while `src/p09/diversity_report.py` reports the three-policy comparison with fold-level intervals (seeds averaged within fold), coverage and failed crossings. `src/p09/diagnostics.py` audits saved runs and reports model-specific exploratory checks. `src/p09/conditional_report.py` checks optional prediction-level records and summarizes conditional diagnostics. `tests/` checks split disjointness, budget parity, interval quantiles, label independence and reporting behavior with synthetic data.
 
 ## Next research phases
 
 1. Preserve the Phase 03 negative result and inspect the Phase 04 evidence audit, including exploratory single-forest outcomes.
-2. Add prediction-level diagnostics for per-material errors and conditional coverage in a later phase, with an explicit repeat-run compute budget.
+2. Review Phase 05 prediction-level diagnostics for per-material error and conditional coverage, keeping all subgroup findings exploratory.
 3. If justified, move to one structure-input Matbench task for a crystal graph model, with an explicit compute budget and matched classical features.
 
 Source: Dunn et al., *npj Computational Materials* **6**, 138 (2020), DOI: [10.1038/s41524-020-00406-3](https://doi.org/10.1038/s41524-020-00406-3). Dataset and task metadata: [Materials Project Matbench](https://docs.materialsproject.org/services/ml-and-ai-applications/matbench), [Matbench source](https://github.com/materialsproject/matbench).
