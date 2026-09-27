@@ -1,6 +1,6 @@
 # Project 09: Uncertainty-Aware Materials Discovery Agent
 
-## Phases 01–07: learning curves, uncertainty calibration and structure graphs
+## Phases 01–08: learning curves, uncertainty calibration and structure graphs
 
 **Question:** At a predeclared prediction-error threshold, does uncertainty sampling need fewer experimentally labelled compositions than random sampling?
 
@@ -94,6 +94,24 @@ Run the audit before training a graph model. It samples structures from the offi
 ```
 
 The graph construction is deterministic: periodic neighbours are sorted by distance, site index and periodic image before the 12-neighbour cap. The audit is a data-contract check, not a model score. Phase 08 will define the CPU compute budget and compare the descriptor forest with a graph network on the same official folds.
+
+### Phase 08: fixed CPU descriptor-versus-graph comparison
+
+Phase 08 compares the Phase 07 descriptor random forest with a native PyTorch periodic message-passing model on identical official `matbench_dielectric` folds. PyTorch is an optional dependency, and PyTorch Geometric is not required. The graph protocol, model sizes and 40-epoch CPU budget are locked in the [Phase 08 protocol](docs/phase08_structure_model_protocol.md). The graph trainer uses one CPU thread and deterministic PyTorch algorithms; changing the thread count fails explicitly. First run the single-fold pilot; it is not a general performance claim.
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install -e ".[graph]"
+.\.venv\Scripts\python.exe -m unittest discover -s tests -v
+.\.venv\Scripts\python.exe -m p09.structure_experiment --folds 0 --seed 17 --output results\phase08_pilot.json
+```
+
+For the prespecified complete comparison, use all official folds with the same fixed settings:
+
+```powershell
+.\.venv\Scripts\python.exe -m p09.structure_experiment --folds 0 1 2 3 4 --seed 17 --output results\phase08_official.json
+```
+
+The output contains only per-fold MAE and RMSE. Phase 08 does not modify the Phase 03 active-learning conclusion and does not estimate graph-model uncertainty; those are separate later phases.
 
 ### Design locks
 
