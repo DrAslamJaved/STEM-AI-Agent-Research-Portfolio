@@ -1,6 +1,6 @@
 # Project 09: Uncertainty-Aware Materials Discovery Agent
 
-## Phases 01–08: learning curves, uncertainty calibration and structure graphs
+## Phases 01–09: learning curves, uncertainty calibration, structure graphs and evidence synthesis
 
 **Question:** At a predeclared prediction-error threshold, does uncertainty sampling need fewer experimentally labelled compositions than random sampling?
 
@@ -113,6 +113,33 @@ For the prespecified complete comparison, use all official folds with the same f
 
 The output contains only per-fold MAE and RMSE. Phase 08 does not modify the Phase 03 active-learning conclusion and does not estimate graph-model uncertainty; those are separate later phases.
 
+### Phase 09: evidence synthesis and portfolio release
+
+Phase 09 consolidates completed evidence without retraining or changing any
+decision rule. It verifies SHA-256 digests of supplied JSON files, revalidates
+the Phase 03 primary active-learning result and Phase 08 deterministic
+structure-model comparison, and can also include the optional Phase 05/06
+prediction-level diagnostics. The [Phase 09 protocol](docs/phase09_evidence_synthesis_protocol.md)
+keeps predeclared and exploratory claims separate.
+
+```powershell
+.\.venv\Scripts\python.exe -m p09.synthesis `
+  --phase03 results\phase03_official.json `
+  --phase08 results\phase08_official_deterministic.json `
+  --phase05-checkpoints results\phase05_official.json `
+  --phase05-predictions results\phase05_predictions.json `
+  --phase06-checkpoints results\phase06_official.json `
+  --phase06-predictions results\phase06_predictions.json `
+  --output results\phase09_evidence_synthesis.md `
+  --manifest results\phase09_evidence_manifest.json
+```
+
+The synthesis and manifest are ignored review artifacts. Phase 09 does not
+claim laboratory discovery: the Phase 03 active-learning result remains
+negative when no paired label savings are observed, and a graph model that does
+not outperform the descriptor baseline does not justify graph-UQ or
+graph-acquisition claims.
+
 ### Design locks
 
 * Official five-fold Matbench split defines the outer test set. The inner calibration set is selected from training records by reduced-composition groups; no calibration record is queried during acquisition. The pool and test labels cannot influence selection.
@@ -126,10 +153,18 @@ The output contains only per-fold MAE and RMSE. Phase 08 does not modify the Pha
 
 `src/p09/experiment.py` loads the official fold and writes the complete reproducibility record. `src/p09/core.py` implements fixed-budget evaluation without knowledge of test targets in the selection code. `src/p09/report.py` reports the original paired comparison, while `src/p09/diversity_report.py` reports the three-policy comparison with fold-level intervals (seeds averaged within fold), coverage and failed crossings. `src/p09/diagnostics.py` audits saved runs and reports model-specific exploratory checks. `src/p09/conditional_report.py` checks optional prediction-level records, and `src/p09/normalized_report.py` compares fixed and disagreement-scaled conformal intervals. `src/p09/structure_graph.py` creates graph and descriptor inputs from periodic structures; `src/p09/structure_task.py` audits their Matbench adapter. `tests/` checks split disjointness, budget parity, interval quantiles, label independence and reporting behavior with synthetic data.
 
-## Next research phases
+## Release status and future research
 
-1. Preserve the Phase 03 negative result and inspect the Phase 04 evidence audit, including exploratory single-forest outcomes.
-2. Use the Phase 07 data contract to prepare the fixed-budget descriptor-versus-graph model comparison.
-3. Train and assess the graph model on the official `matbench_dielectric` folds, including uncertainty calibration on the selected model.
+The [phase index](PROJECT_PHASE_INDEX.md) records the completed evidence chain.
+Phase 09 is the release boundary: it retains the Phase 03 negative
+label-efficiency result, separates Phase 05/06 exploratory diagnostics from
+that conclusion, and records the Phase 08 graph-model result without claiming
+graph-model superiority.
+
+Future work should begin only with a new preregistered protocol—for example, a
+stronger graph architecture selected without outer-test tuning, a fresh
+uncertainty-calibration evaluation, and an acquisition policy whose comparison
+criteria are locked before evaluation. It must not reinterpret existing
+retrospective results as laboratory discovery.
 
 Source: Dunn et al., *npj Computational Materials* **6**, 138 (2020), DOI: [10.1038/s41524-020-00406-3](https://doi.org/10.1038/s41524-020-00406-3). Dataset and task metadata: [Materials Project Matbench](https://docs.materialsproject.org/services/ml-and-ai-applications/matbench), [Matbench source](https://github.com/materialsproject/matbench).

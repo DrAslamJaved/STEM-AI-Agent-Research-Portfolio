@@ -29,6 +29,7 @@ p09-conditional-report = "p09.conditional_report:main"
 p09-normalized-report = "p09.normalized_report:main"
 p09-structure-audit = "p09.structure_task:main"
 p09-structure-experiment = "p09.structure_experiment:main"
+p09-synthesis = "p09.synthesis:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
