@@ -290,15 +290,40 @@ def execute(source_root: Path, output: Path) -> None:
     print(output)
 
 
+def resolve_source_root(argument: str | None) -> Path:
+    """Resolve the frozen Phase 10R source root from CLI or environment.
+
+    Precedence is ``--source-root`` first, then the ``PHASE_10R_SOURCE_ROOT``
+    environment variable.  No machine-specific default path is baked into the
+    code: the raw Davis source is large and provenance-bound, so the operator
+    must point explicitly at the frozen location recorded in
+    ``docs/phase_10r_refrozen_external_dti_protocol.md``.  ``load_raw`` still
+    hashes that source and checks it against the retained manifest, so an
+    unexpected or substituted tree is rejected regardless of this path.
+    """
+    candidate = argument or os.environ.get("PHASE_10R_SOURCE_ROOT")
+    if not candidate:
+        raise SystemExit(
+            "Phase 10R needs the frozen source root. Pass --source-root PATH or set "
+            "PHASE_10R_SOURCE_ROOT to the directory that contains "
+            f"{RAW_RELATIVE.as_posix()} (source commit {SOURCE_COMMIT})."
+        )
+    return Path(candidate)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--execute", action="store_true", help="run the approved Phase 10R study")
-    parser.add_argument("--source-root", default=r"G:\Research\STEM\Project10_v02_clean")
+    parser.add_argument(
+        "--source-root",
+        default=None,
+        help="frozen Phase 10R source root; falls back to the PHASE_10R_SOURCE_ROOT environment variable",
+    )
     parser.add_argument("--output", default="results/phase_10r_external_dti.json")
     args = parser.parse_args()
     if not args.execute:
         raise SystemExit("Refusing Phase 10R execution without --execute.")
-    execute(Path(args.source_root), Path(args.output))
+    execute(resolve_source_root(args.source_root), Path(args.output))
 
 
 if __name__ == "__main__":

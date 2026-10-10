@@ -1,0 +1,29 @@
+# Fully pinned dependency closure for reproducible Project 01 installs.
+#
+# These are the exact versions used for the frozen Phase 10R study
+# (mirrors results/phase_10r_environment_freeze.txt). Install the project
+# against these pins to reproduce the recorded experimental results:
+#
+#     python -m pip install -c constraints.txt ".[test]"
+#
+# pyproject.toml holds the permissive version *ranges* a normal install may
+# use; this file holds the single resolved point in that space that produced
+# the archived results. Regenerate with `pip freeze` only alongside a new,
+# separately approved experiment freeze -- do not edit by hand.
+
+cloudpickle==3.1.2
+colorama==0.4.6
+coverage==7.16.2
+hypothesis==6.168.0
+iniconfig==2.3.0
+joblib==1.6.0
+numpy==1.26.4
+packaging==26.3
+pluggy==1.6.0
+Pygments==2.21.0
+pytest==9.1.1
+pytest-cov==7.1.0
+scikit-learn==1.6.1
+scipy==1.14.1
+sortedcontainers==2.4.0
+threadpoolctl==3.7.0
